@@ -29,6 +29,8 @@ end
 def create_new_user duser = nil
   duser ||= Hash.new
 
+  require_lib_site
+
   nows = Time.now.to_i.to_s(36)
 
   udata = {

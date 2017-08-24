@@ -13,7 +13,10 @@ class Site
   # ---------------------------------------------------------------------
   def partial relpath
     relpath.end_with?('.erb') || relpath << '.erb'
-    fullpath = "#{route.relative_path}/#{relpath}"
+    fullpath = relpath
+    File.exists?(fullpath) || begin
+      fullpath = "#{route.relative_path}/#{relpath}"
+    end
     File.exists?(fullpath) || begin
       fullpath = "#{route.relative_path}/partial/#{relpath}"
     end

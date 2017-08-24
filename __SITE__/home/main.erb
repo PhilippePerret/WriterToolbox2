@@ -17,6 +17,6 @@
 
 <p><a href="user/profil">Profil d'utilisateur</a></p>
 
-<p><%= user.identified? ? lien_signout : lien.signin %></p>
+<p><%= lien.outils(titre: 'outils') %></p>
 
 <%= footer(:home) %>

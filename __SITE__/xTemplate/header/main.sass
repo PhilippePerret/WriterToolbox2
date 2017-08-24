@@ -3,19 +3,54 @@ section#header
   background-color  : white
   border-radius     : 1em 1em 0 0
 
-  h1
-    padding           : 0.2em
-    padding-bottom    : 1em
+  // La barre des boutons
+  div#top_buttons
+    position        : absolute
+    margin-left     : 26em
     a
-      padding       : 0em 1em
-      color         : $darkTextColor
-      border        : 2px solid
-      border-radius : 0.5em
+      font-size     : 13.7pt
+      margin-left   : 2em
+      font-variant  : small-caps
+
+  h1
+    position          : relative
+    display           : inline-block // sinon passe au-dessus de liens
+    color             : $darkTextColor
+    border            : 2px solid
+    border-radius     : 0.5em
+    a
       display       : inline-block
-    // Pour la page d'accueil
-    &.home
-      padding           : 1.3em
-      a
-        padding           : 0.4em 1em
-        border-radius     : 1em
-    margin            : 0
+      color         : #7f869e
+      font-variant  : small-caps
+
+  // Pour une page quelconque
+  &.regular
+    h1
+      padding           : 0.2em
+      padding-bottom    : 1em
+      padding           : 0em 1em
+      margin            : 0.2em 0 2em 0.2em
+    div#top_buttons
+      margin-top        : 1.3em
+
+  // Pour une petite entête
+  &.small
+    padding-bottom      : 2em
+    h1
+      font-size         : 0.8em
+      margin            : 8px
+      padding           : 3px 23px
+      border-radius     : 1em
+    div#top_buttons
+      margin-left       : 14em
+      margin-top        : 0.7em
+
+  // Pour la page d'accueil
+  &.home
+    h1
+      padding           : 0.8em
+      margin            : 1.4em 0 2em 2em
+      border-radius     : 1em
+
+    div#top_buttons
+      margin-top      : 5.4em

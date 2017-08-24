@@ -1,0 +1,11 @@
+<%
+=begin
+
+  Les boutons du bandeau supérieur
+
+=end
+%>
+<div id="top_buttons">
+  <%= user.identified? ? lien_signout(titre:'se déconnecter') : lien.signin(titre:'s’identifier') %>
+  <%= user.identified? ? lien.profil(titre:'votre profil') : lien.signup(titre:'s’inscrire') %>
+</div>

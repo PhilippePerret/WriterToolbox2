@@ -10,7 +10,8 @@ class Site
 
     def signup params = nil
       params ||= {}
-      "<a href='user/signup' class=\"#{params[:class]}>#{params[:label] || 'S’inscrire'}</a>"
+      params[:titre] ||= params[:label] || 'S’inscrire'
+      "<a href='user/signup' class=\"#{params[:class]}\">#{params[:titre]}</a>"
     end
 
     def signin params = nil
@@ -21,7 +22,7 @@ class Site
 
     def profil params = nil
       params ||= Hash.new
-      params[:titre] ||= "profil"
+      params[:titre] ||= 'profil'
       "<a href=\"user/profil\" class=\"#{params[:class]}\">#{params[:titre]}</a>"
     end
 
