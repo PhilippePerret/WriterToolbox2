@@ -1,5 +1,9 @@
 # encoding: UTF-8
+=begin
 
+  Gestion de la déconnection de l'user
+  
+=end
 class User
 
   # Cette méthode ne sert qu'ici

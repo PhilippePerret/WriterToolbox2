@@ -39,9 +39,6 @@ class Site
     footer
     header
     head
-    # Reset certains valeurs. Si elles se multiplient, on pourra
-    # imaginer une méthode, plutôt
-    # site.session['flash'] && site.session['flash'] = nil
   end
 
   def head_titre

@@ -31,10 +31,8 @@ def redirect_to cible, hmessage = nil
   hmessage && begin
     hmessage.is_a?(String) && hmessage = [hmessage, :notice]
     site.session['flash'] = hmessage.to_json
-    debug "-> redirect_to / site.session['flash'] = #{site.session['flash']}"
   end
   cible.is_a?(Array) && cible = cible.join('/')
-  site.session['pour_voir'] = "POURVOIR"
   puts site.cgi.header('status'=>'REDIRECT', 'location'=>"http://#{site.url}/#{cible}")
 end
 

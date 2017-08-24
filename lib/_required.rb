@@ -26,6 +26,3 @@ site.load_configuration # cf. in lib/site/config.rb
 
 # Reconnection de l'user s'il était connecté
 User.reconnect
-
-debug "site.session['pour_voir'] = #{site.session['pour_voir'].inspect}"
-debug "site.session['flash'] = #{site.session['flash'].inspect}"
