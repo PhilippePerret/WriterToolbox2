@@ -7,6 +7,12 @@ Les routes sont calculées dans le module `./lib/site/route.rb`.
 
 La redirection est gérée par la méthode global `redirect_to` qui reçoit deux arguments :
 
+```ruby
+
+redirect_to <cible>[, <data message>]
+
+```
+
 * La cible de la redirection. Cf. [Définition de la redirection](#route_redirect_definition),
 * Le message optionnel de redirection. Cf. [Définition du message de redirection](#route_redirect_message).
 

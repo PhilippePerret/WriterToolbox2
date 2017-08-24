@@ -20,11 +20,17 @@ class Site
 
     # Retourne tous les messages qui peuvent être affichés, ceux du chargement
     # courant ainsi que celui enregistré en session dans la propriété 'flash'
+    #
+    # (1) cf. N0001
+    # https://github.com/PhilippePerret/WriterToolbox2/wiki/NI#n0001
     def all_messages
-      if site.session['flash']
-        sess_mess, typmess = JSON.parse(site.session['flash'])
-        self.send(typmess=='error' ? :error : :notice, sess_mess)
+      if site.session['flash'] # (1)
+        site.session['next_flash'] = site.session['flash']
         site.session['flash'] = nil
+      elsif site.session['next_flash'] # (1)
+        sess_mess, typmess = JSON.parse(site.session['next_flash'])
+        self.send(typmess=='error' ? :error : :notice, sess_mess)
+        site.session['next_flash'] = nil
       end
       return messages
     end

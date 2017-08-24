@@ -22,20 +22,12 @@ class Site
       @site ||= site
     end
 
-    def to_str
-      if objet && method
-        "#{objet}/#{method}"
-      else
-        'home'
-      end
-    end
-
     # ---------------------------------------------------------------------
     #   DÉFINITION DE L'URL
     # ---------------------------------------------------------------------
 
     def objet
-      @objet ||= param(:__o)
+      @objet ||= param(:__o) || 'home'
     end
     def method
       @method ||= param(:__m).nil_if_empty
@@ -49,20 +41,28 @@ class Site
     # ---------------------------------------------------------------------
     def load
       !@loaded  || return
-      objet     || return
       File.exist?(solid_path) || return
-      r = "#{objet}"
-      method && r << "/#{method}"
-      debug "Chargement de la route : #{r.inspect}"
-      site.load_folder(r)
+      debug "Chargement de la route : #{short_route}"
+      site.load_folder(short_route)
       @loaded = true
     end
 
     # ---------------------------------------------------------------------
     #   PATH
     # ---------------------------------------------------------------------
+
+    # Par exemple 'user/profil' ou 'home'
+    def short_route
+      @short_route ||= begin
+        sr = objet
+        method && sr << "/#{method}"
+        sr
+      end
+    end
+    alias :to_str :short_route
+
     def solid_path
-      @solid_path ||= "./__SITE__/#{objet}/#{method}"
+      @solid_path ||= "./__SITE__/#{short_route}"
     end
     alias :relative_path :solid_path
 

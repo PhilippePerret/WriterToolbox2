@@ -18,9 +18,11 @@ class User
 class << self
 
   def check_login dlogin
-    debug "-> User::check_login(#{dlogin.inspect})"
 
     login_data_ok?(dlogin) || return
+
+    # TODO On peut rediriger l'utilisateur en fonction de
+    # ses préférences.
 
   end
 
@@ -53,7 +55,6 @@ class << self
 
     # On peut logguer l'user et lui souhaiter la bienvenue
     User.get(res[:id]).login
-
     __notice "Soyez #{user.f_la} bienvenu#{user.f_e}, #{user.pseudo} !"
 
   rescue Exception => e

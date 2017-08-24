@@ -39,6 +39,9 @@ class Site
     footer
     header
     head
+    # Reset certains valeurs. Si elles se multiplient, on pourra
+    # imaginer une méthode, plutôt
+    # site.session['flash'] && site.session['flash'] = nil
   end
 
   def head_titre
@@ -48,8 +51,8 @@ class Site
   # ---------------------------------------------------------------------
   #     PARTIES DE LA PAGE
   # ---------------------------------------------------------------------
-  def head          ; @head     ||= load_template('head')           end
   def body          ; @body     ||= load_main(route.to_str)         end
+  def head          ; @head     ||= load_template('head')           end
   def header(v=nil) ; @header   ||= load_template('header',v)       end
   def footer(v=nil) ; @footer   ||= load_template('footer',v)       end
   def lmargin(v=nil); @lmargin  ||= load_template('left_margin',v)  end

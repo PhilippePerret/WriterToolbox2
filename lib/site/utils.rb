@@ -30,9 +30,15 @@ class Site
   # Charge n'importe quel fichier main.erb qui se trouve dans
   # __SITE__/<relpath>/
   #
+  # (1) Rare cas où il n'existe pas de page main.erb dans le dossier,
+  #     lorsque par exemple on doit être tout de suite redirigé vers
+  #     autre chose, comme c'est le cas pour la déconnection.
+  #
   def load_main relpath, options = nil
     begin
-      deserb("./__SITE__/#{relpath}/main.erb")
+      fullpath = "./__SITE__/#{relpath}/main.erb"
+      File.exist?(fullpath) || return # (1)
+      deserb(fullpath)
     rescue Exception => e
       debug "PROBLÈME AVEC LA VUE : #{relpath}"
       raise e
