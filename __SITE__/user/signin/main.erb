@@ -1,0 +1,23 @@
+<%
+=begin
+
+  Page principale permettant à l'user de s'identifier
+
+=end
+
+check_for_operation
+
+param(:user) || param(:user, {})
+%>
+<%= header %>
+
+<%=
+  if user.identified?
+    partial('bienvenue')
+  else
+    partial('form')
+  end
+%>
+
+<%= right_margin %>
+<%= footer %>

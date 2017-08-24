@@ -1,0 +1,27 @@
+<%
+=begin
+
+  La page principale de l'inscription d'un user
+
+=end
+
+# On exécute si nécessaire l'opération
+operation_if_needed
+
+%>
+<%= header %>
+
+<h2>S’inscrire sur le site</h2>
+
+<%=
+
+  if user.identified?
+    partial('partial/confirmation')
+  else
+    partial('partial/form')
+  end
+
+%>
+
+<%= right_margin %>
+<%= footer %>

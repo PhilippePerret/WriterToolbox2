@@ -1,0 +1,32 @@
+<%
+=begin
+
+  Formulaire pour s'identifier
+
+=end
+%>
+<h2>S’identifier</h2>
+
+<form id="signin_form" class="w40pc" action="user/signin" method="POST">
+
+  <input type="hidden" name="operation" value="signin">
+  <input type="hidden" name="FORMID" value="<%= Form.unique_id %>">
+
+  <div>
+    <label>Votre mail</label>
+    <span class="field">
+      <input type="text" name="user[mail]" id="user_mail" value="<%= param(:user)[:mail] %>">
+    </span>
+  </div>
+
+  <div>
+    <label>Votre mot de passe</label>
+    <span class="field">
+      <input type="password" name="user[password]" id="user_password" value="">
+    </span>
+  </div>
+
+  <div class="buttons">
+    <input type="submit" class="main" value="OK">
+  </div>
+</form>

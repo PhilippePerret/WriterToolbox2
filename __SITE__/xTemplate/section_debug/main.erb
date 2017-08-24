@@ -1,0 +1,15 @@
+<%
+=begin
+
+  Section de débug
+  ----------------
+=end
+%>
+<section id="debug">
+Objet   : <%= site.route.objet    || '- non défini  -' %>
+Method  : <%= site.route.method   || '- non définie -' %>
+ID      : <%= site.route.objet_id || '- non défini  -' %>
+(QS     : <%= ENV['QUERY_STRING'] %>)
+
+<%= Debug.output %>
+</section>

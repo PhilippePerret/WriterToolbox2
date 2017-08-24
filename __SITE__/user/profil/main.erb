@@ -1,0 +1,19 @@
+<%
+=begin
+
+  Pour voir le profil de l'utilisateur
+
+=end
+%>
+<%= header(:small) %>
+<%= left_margin %>
+
+<%=
+  if user.identified?
+    partial('partial/profil')
+  else
+    partial('partial/no-profil')
+  end
+%>
+
+<%= footer(:small) %>

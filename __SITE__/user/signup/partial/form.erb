@@ -1,0 +1,75 @@
+<%
+=begin
+
+  Formulaire d'inscription
+
+=end
+param(:user) || param(:user, {})
+
+%>
+<form id="signup_form" class="w40pc" action="user/signup" method="POST">
+
+  <input type="hidden" name="operation" value="signup">
+  <input type="hidden" name="FORMID" value="<%= Form.unique_id %>">
+  <div>
+    <label>Votre pseudo <span>(lettres, chiffres, '_' et '-', 40 signes maximum)</span></label>
+    <span class="field">
+      <input type="text" class="medium" name="user[pseudo]" id="user_pseudo" value="<%= param(:user)[:pseudo] %>">
+    </span>
+  </div>
+
+  <div>
+    <label>Votre patronyme <span>(prénom et nom)</span></label>
+    <span class="field">
+      <input type="text" name="user[patronyme]" id="user_patronyme" value="<%= param(:user)[:patronyme] %>">
+    </span>
+  </div>
+
+  <div>
+    <label>Sexe</label>
+    <span class="field">
+      <%= menu_sexe %>
+    </span>
+  </div>
+
+
+  <div>
+    <label>Votre mail <span>(255 signes maximum)</span></label>
+    <span class="field">
+      <input type="text" name="user[mail]" id="user_mail" value="<%= param(:user)[:mail] %>">
+    </span>
+  </div>
+
+  <div>
+    <label>Confirmation de votre mail</label>
+    <span class="field">
+      <input type="text" name="user[mail_confirmation]" id="user_mail_confirmation" value="<%= param(:user)[:mail_confirmation] %>">
+    </span>
+  </div>
+
+  <div>
+    <label>Votre mot de passe <span>(40 signes maximum)</span></label>
+    <span class="field">
+      <input type="text" name="user[password]" id="user_password" value="<%= param(:user)[:password] %>">
+    </span>
+  </div>
+
+  <div>
+    <label>Confirmation de votre mot de passe</label>
+    <span class="field">
+      <input type="text" name="user[password_confirmation]" id="user_password_confirmation" value="<%= param(:user)[:password_confirmation] %>">
+    </span>
+  </div>
+
+  <div>
+    <label>Combien de jours compte une année bisextile ?</label>
+    <span class="field">
+      <input type="text" class="short" name="user[captcha]" id="user_captcha" value="<%= param(:user)[:captcha] %>"> jours
+    </span>
+  </div>
+
+  <div class="buttons">
+    <input type="button" class="left" value="Renoncer">
+    <input type="submit" name="soumettre" class="main" value="S’inscrire">
+  </div>
+</form>

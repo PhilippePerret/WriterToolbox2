@@ -1,0 +1,17 @@
+<%
+=begin
+
+  Mail de confirmation du mail par l'user
+
+=end
+def create_ticket_conf_mail_et_retourne_lien
+  ticket_id = create_ticket_validation_mail(user.id)
+  "<a href=\"http://#{configuration.url_online}?tckid=#{ticket_id}\">Confirmer la validité du mail #{user.mail}</a>"
+end
+
+%>
+<p>Bonjour <%= user.pseudo %>,</p>
+<p>Merci de bien vouloir confirmer votre adresse-mail en cliquant sur le lien ci-dessous :</p>
+<p><%= create_ticket_conf_mail_et_retourne_lien %></p>
+<p class="small">Si vous n'avez pas sollicité d'inscription au site <%= configuration.titre %>, il vous suffit d'ignorer ce message.</p>
+<p>Bien à vous,</p>

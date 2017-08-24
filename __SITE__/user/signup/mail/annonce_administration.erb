@@ -1,0 +1,13 @@
+<%
+=begin
+
+  Mail d'annonce de la nouvelle inscription à l'administration.
+
+=end
+%>
+<p>Phil, je t'informe d'une nouvelle inscription sur <%= configuration.titre %>.</p>
+<pre>
+  User   : #<%= user.id %>
+  Pseudo : <%= user.pseudo %>
+  Mail   : <%= user.mail %>
+</pre>

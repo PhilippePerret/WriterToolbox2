@@ -1,0 +1,74 @@
+form
+  border          : 1px solid $darkTextColor
+  border-radius   : 1em
+  padding         : 2em 1em 1em 1em
+  font-family     : inherit
+  font-size       : inherit
+
+  &.w40pc
+    width     : 45%
+    min-width : 20em
+  &.w50pc
+    width     : 55%
+    min-width : 45%
+  &.w75pc
+    width     : 80%
+    min-width : 60%
+
+  > div
+
+    margin-bottom   : 0.5em
+
+    // Pour le label du champ
+    > label
+      display         : block
+      font-size       : 0.9em
+      color           : #707070
+      vertical-align  : top
+      > span
+        font-size       : 0.765em
+        opacity         : 0.5
+        &:hover
+          opacity       : 1
+
+    // Pour les champs de saisie
+    > span.field
+      display         : block
+      vertical-align  : top
+      // border          : 1px dashed green
+
+      input[type="text"], textarea, input[type="password"]
+        width             : 98%
+        background-color  : #DCFFC2
+        color             : #006B00
+        border            : 0
+        padding           : 2px 10px
+
+      // Commun à tous les champs
+      input[type="text"], input[type="password"], textarea, select, select option
+        font-size     : inherit
+        font-family   : inherit
+        &.medium
+          width       : 50%
+        &.short
+          width       : 50px
+          text-align  : center
+
+    &.buttons
+      padding-top      : 1.5em
+      text-align      : right
+
+      // Le bouton principal pour soumettre le formulaire
+      input[type="submit"], input[type="button"]
+        padding         : 0.5em 1em
+        font-size       : inherit
+        font-family     : Arial, Helvetica
+        &.main
+          color             : white
+          background-color  : #090
+          letter-spacing    : 3.5px
+        &.left
+          float             : left
+          font-size         : 0.7em
+          margin-top        : 1em
+          letter-spacing    : 0.8px

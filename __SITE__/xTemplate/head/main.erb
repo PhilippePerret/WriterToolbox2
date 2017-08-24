@@ -1,0 +1,17 @@
+<%
+=begin
+
+    La balise HEAD du site
+    ----------------------
+
+    C'est ici que sont définis tous les CSS et autres JS à charger.
+
+    Note : le bind est `site`
+
+=end
+%>
+<base href="http://<%= url %>/" />
+<meta charset="utf-8">
+<title><%= head_titre %></title>
+<link rel="stylesheet" href="./css/all.css">
+<%= local_links_stylesheet %>
