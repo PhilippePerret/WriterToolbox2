@@ -2,7 +2,7 @@
 =begin
 
   Gestion de la déconnection de l'user
-  
+
 =end
 class User
 

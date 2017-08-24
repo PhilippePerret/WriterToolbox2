@@ -31,8 +31,7 @@ class << self
 
     # Barrière de limite de tentatives
     site.session['tentatives_login'] ||= 0
-    debug "site.session['tentatives_login'] = #{site.session['tentatives_login']}"
-    if site.session['tentatives_login'].to_i > 50
+    if site.session['tentatives_login'].to_i > 25
       redirect_to 'home', ["Vous avez dépassé votre quotat de tentatives de connexions.", :error]
     else
       site.session['tentatives_login'] += 1
