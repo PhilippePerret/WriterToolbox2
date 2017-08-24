@@ -4,11 +4,18 @@ section#header
   border-radius     : 1em 1em 0 0
 
   h1
-    padding           : 1.3em
-    margin            : 0
+    padding           : 0.2em
+    padding-bottom    : 1em
     a
+      padding       : 0em 1em
       color         : $darkTextColor
-      padding       : 0.4em 1em
       border        : 2px solid
-      border-radius : 1em
+      border-radius : 0.5em
       display       : inline-block
+    // Pour la page d'accueil
+    &.home
+      padding           : 1.3em
+      a
+        padding           : 0.4em 1em
+        border-radius     : 1em
+    margin            : 0
