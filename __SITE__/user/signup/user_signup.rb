@@ -15,13 +15,24 @@ class User
     # ------------------------
     # Noter qu'il faut le faire avant l'envoi des messages, car les mails
     # s'en servent pour construire les messages.
-    user.login
+    self.login
 
     # Envoi des mails
     # ---------------
     send_mail_confirmation_inscription
     send_mail_pour_confirmation_mail
     send_mail_information_administration
+
+    # Inscription pour le programme UN AN UN SCRIPT
+    # ---------------------------------------------
+    # Si c'est une inscription pour le programme UN AN UN SCRIPT d'un
+    # visiteur qui n'était pas encore inscrit, on le redirige vers le
+    # formulaire qui va lui permettre de payer le programme pour
+    # finaliser son inscription
+    if site.session['uaus_signup'] && site.session['uaus_signup'] == '1'
+      mess = "Inscription au site réussie.<br>N'oubliez pas de confirmer votre mail."
+      redirect_to "unanunscript/signup", mess
+    end
 
   end
 

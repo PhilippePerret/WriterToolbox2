@@ -2,7 +2,7 @@
 class Site
 
   def bouton_signup params = nil
-    "<a href=\"uaus/signup\">S’inscrire au programme</a>"
+    "<a href=\"unanunscript/signup\">S’inscrire au programme</a>"
   end
 
 end#/Site

@@ -2,6 +2,8 @@
 
 * À l'inscription, traiter le cas ou session['uaus_signup'] est '1', cela signifie qu'il faut rediriger l'user vers le formulaire uaus/signup. Idem pour le signin.
 
+* Dès que l'objet d'une route est 'admin', il faut rejeter la requête si ça n'est pas un administrateur.
+
 L'idée de cette refonte du site du BOA est de modulariser au maximum les choses en les isolant. Plutôt que d'aller chercher les choses à droite et à gauche, au point de ne plus savoir ce qui est chargé, chaque page/section utilise ses propres outils, et chaque opération est isolée.
 
 Par exemple, l'inscription n'est plus une sous-partie de la classe `User`, c'est une opération à part. C'est une *fonction*, au sens de la programmation *fonctionnelle*.

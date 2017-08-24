@@ -22,12 +22,7 @@ class << self
     u = get(site.session['user_id'].to_i)
     sessid_in_db = site.db.select(:hot, 'users', {id: u.id}, ['session_id'])
     sessid_in_db = sessid_in_db[0][:session_id]
-    if sessid_in_db == site.session.session_id
-      debug "L'ID de session correspond => Je reconnecte l'user ##{u.id}"
-      u.login
-    else
-      debug "ID de session incorrect (#{site.session.session_id}/#{sessid_in_db})… Je ne fais rien"
-    end
+    sessid_in_db == site.session.session_id && u.login
   end
 
 end # << self

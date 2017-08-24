@@ -27,12 +27,27 @@ end
 # Crée un utilisateur dans la base de donnée à partir de +duser+ si
 # fourni et retourne toutes les données.
 def create_new_user duser = nil
-  duser ||= Hash.new
 
   require_lib_site
 
+  udata = get_data_for_new_user(duser)
+
+  # === CRÉATION ===
+  udata[:id] = site.db.insert(:hot, 'users', udata)
+
+  return udata.merge(password: password)
+end
+
+# Envoyer au moins le mot de passe car il ne sera pas renvoyé (c'est le
+# mot de passe crypté qui le sera)
+# 
+def get_data_for_new_user duser = nil
+  duser ||= Hash.new
+
   nows = Time.now.to_i.to_s(36)
 
+  # ATTENTION ! NE PAS AJOUTER D'AUTRES DONNÉES, CAR ELLES SERVENT
+  # À ÊTRE ENREGISTRÉES DANS LA BDD
   udata = {
     pseudo:     duser[:pseudo]    || "NewUser#{nows}",
     patronyme:  duser[:patronyme] || "NewU Ser#{nows}",
@@ -46,8 +61,5 @@ def create_new_user duser = nil
   password  = duser[:password] || 'monmotdepasse'
   udata[:cpassword] = Digest::MD5.hexdigest("#{password}#{udata[:mail]}#{udata[:salt]}")
 
-  # === CRÉATION ===
-  udata[:id] = site.db.insert(:hot, 'users', udata)
-
-  return udata.merge(password: password)
+  return udata
 end

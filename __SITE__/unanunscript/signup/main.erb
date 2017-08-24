@@ -8,15 +8,18 @@
 
 =end
 %>
-<h2>Inscription au programme UN AN UN SCRIPT/UN ROMAN</h2>
-
-<%=
-  if user.identified?
-    partial('form')
+<% if user.identified? %>
+  <%=
+    header          +
+    partial('form') +
+    right_margin    +
+    footer
+  %>
+<%
   else
     session['uaus_signup'] = '1'
     mess = "Vous devez au préalable vous inscrire au site lui-même."
     mess << "<br>Si vous êtes déjà inscrit, merci de vous identifier."
-    redirect_to 'user/signup', mess
+    redirect_to( 'user/signup', mess )
   end
 %>

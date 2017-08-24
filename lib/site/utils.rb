@@ -120,11 +120,22 @@ class Site
       all_sass.each { |src| self.all_css << SassSite.send(meth, src) }
     end
   end
+
   # Tous les fichiers CSS qu'il faut ajouter à la page
   def all_css
-    @all_css ||= []
+    @all_css ||= ['./css/all.css']
   end
+
+  def all_javascript
+    @all_javascript ||= []
+  end
+
+  def all_meta
+    @all_meta ||= ['charset="utf-8"']
+  end
+
   def folder_load_javascript solid_path
     nil
   end
+
 end
