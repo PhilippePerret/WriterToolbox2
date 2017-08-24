@@ -1,0 +1,22 @@
+<%
+=begin
+
+  Formulaire d'inscription au programme UN AN UN SCRIPT
+
+  Si l'user n'est pas encore inscrit au site, il faut l'envoyer au formulaire
+  d'inscription puis le faire revenir ici.
+
+=end
+%>
+<h2>Inscription au programme UN AN UN SCRIPT/UN ROMAN</h2>
+
+<%=
+  if user.identified?
+    partial('form')
+  else
+    session['uaus_signup'] = '1'
+    mess = "Vous devez au préalable vous inscrire au site lui-même."
+    mess << "<br>Si vous êtes déjà inscrit, merci de vous identifier."
+    redirect_to 'user/signup', mess
+  end
+%>

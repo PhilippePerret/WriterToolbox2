@@ -1,25 +1,6 @@
+* Ajouter un lien "mot de passe oublié"
 
-* Mettre en place la gestion des mails - poursuivre les tests
-* Poursuivre le test de l'inscription
-
-* RÉFLÉCHIR À ÇA :
-
-  En général, le résultat d'une opération amène sur une autre page. Par exemple, lorsqu'on s'inscrit, on aboutit sur la page de confirmation de l'inscription.
-  Pour le moment, c'est une fois que l'opération a réussi qu'on est redirigé vers la page.
-  Or, il pourrait être plus simple de rediriger directement vers l'autre page où serait effectuée l'opération
-  Par exemple pour l'instant l'inscription se passe ainsi :
-    - l'user arrive sur le formulaire (user/signup)
-    - il soumet le formulaire qui est traité dans user/signup
-    - si son inscription est valide, il est redirigé vers user/confirm_signup
-  Au lieu de ça, on pourrait avoir :
-    - l'user arrive sur le formulaire (user/signup)
-    - lorsqu'il soumet le formulaire, il est dirigé vers user/create
-    - Si ça réussit, on affiche la page en question (user/create/main.erb)
-    - Si ça échoue, on le redirige vers user/signup
-  OUAIS… Mais pour ce cas précis, c'est dans user/signup qu'il faut afficher
-  la confirmation de l'inscription, selon le principe que toutes les choses qui
-  concernent la même chose se trouvent au même endroit.
-
+* À l'inscription, traiter le cas ou session['uaus_signup'] est '1', cela signifie qu'il faut rediriger l'user vers le formulaire uaus/signup. Idem pour le signin.
 
 L'idée de cette refonte du site du BOA est de modulariser au maximum les choses en les isolant. Plutôt que d'aller chercher les choses à droite et à gauche, au point de ne plus savoir ce qui est chargé, chaque page/section utilise ses propres outils, et chaque opération est isolée.
 
