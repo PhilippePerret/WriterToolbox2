@@ -6,14 +6,14 @@ class User
   # -------------------------------
   # L'user vient de payer le programme, on lui crée son programme.
   # Attention : ici, "créer" son programme, c'est son programme UAUS en
-  # général, pas spécialement son UUProgram qui est l'instance du 
+  # général, pas spécialement son UUProgram qui est l'instance du
   # programme informatique qui gère son programme UAUS.
   #
   # @param {Hash} options
   #               options.paiement Si défini, c'est le montant
   #               à enregistrer dans la base. Une facture est alors
   #               aussi produite pour l'utilisateur.
-  #               
+  #
   def create_program options = nil
     options ||= Hash.new
 
@@ -37,15 +37,17 @@ class User
     prog.set(projet_id: projet_id)
 
   end
-  
+
   # Retourne true si c'est une vrai requête après le paiement
   # du programme, et pas seulement un rigolo qui "force" l'adresse
   # sans avoir rien payé.
   # Noter qu'on ne peut pas vérifier le paiement, puisque ce paiement
   # va justement être enregistré ici.
   def is_valid_request?
-   
-    
+
+    return  site.session['uaus_signup'] &&
+            site.session['uaus_signup'] == site.session.session_id &&
+            user.get(:session_id) == site.session['uaus_signup']
   end
 
   # Enregistre le paiement de l'user si nécessaire.
@@ -56,6 +58,6 @@ class User
       })
   end
   def send_facture facture
-    
+
   end
 end

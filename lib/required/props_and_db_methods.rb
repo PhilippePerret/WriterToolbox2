@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 =begin rdoc
-  
+
   Ce module contient les méthodes comme `set` qui permettent d'enregistrer
   des données dans la base de données (update).
   Pour les utiliser, il faut que la classe définisse :
@@ -15,6 +15,26 @@ module PropsAndDbMethods
     site.db.update(db_name, db_table, hdata, {id: self.id})
     dispatch hdata
   end
+
+  def get keys
+    only_one_key = keys.is_a?(String) || keys.is_a?(Symbol)
+    only_one_key && keys = [keys]
+    knowns        = Hash.new
+    unknown_keys  = Array.new
+    keys.each do |key|
+      if val = instance_variable_get("@#{key}")
+        knowns.merge!(key => val)
+      else
+        unknown_keys << key
+      end
+    end
+    unknown_keys.empty? || begin
+      knowns.merge!(site.db.select(db_name, db_table, {id: self.id}, unknown_keys).first)
+    end
+    dispatch knowns
+    only_one_key ? knowns.values.first : knowns
+  end
+
 
   def dispatch hdata
     hdata.each { |k, v| instance_variable_set("@#{k}", v) }

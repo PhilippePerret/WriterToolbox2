@@ -7,7 +7,7 @@ require_support_db_for_test
 
 feature "Inscription au programme UN AN UN SCRIPT" do
 
-  scenario 'Un visiteur quelconque peut s’inscrire au programme' do
+  scenario '=> Un visiteur quelconque peut s’inscrire au programme' do
 
     start_time = Time.now.to_i
 
@@ -83,7 +83,9 @@ feature "Inscription au programme UN AN UN SCRIPT" do
 
     # Le paiement a dû être enregistré dans la table des paiements
     # (détruire la table des paiements en début de test)
-    res = site.db.select(:cold, 'paiements', "objet_id = '1UN1SCRIPT' AND user_id = #{newU.id} AND created_at > #{start_time}")
+    whereclause = "objet_id = '1UN1SCRIPT' AND user_id = #{newU.id} AND created_at > #{start_time}"
+    puts "WHERE CLAUSE : #{whereclause}"
+    res = site.db.select(:cold, 'paiements', whereclause)
     res = res.first
     expect(res).not_to eq nil
     expect(res[:montant]).to eq Uaus.tarif
@@ -106,9 +108,19 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     )
     success 'l’administrateur a reçu un mail annonçant l’inscription'
 
-    failure 'Un nouveau programme est créé avec les bonnes données'
+    hprogram = site.db.select(:unan, :programs, {auteur_id: newU.id}).first
+    expect(hprogram).not_to eq nil
+    expect(hprogram[:created_at]).to be > start_time
+    success 'Un nouveau programme est créé avec les bonnes données'
 
-    failure 'Un nouveau projet est créé, avec les bonnes données'
+    hprojet = site.db.select(:unan, :projets, {auteur_id: newU.id}).first
+    expect(hprojet).not_to eq nil
+    expect(hprojet[:create_at]).to be > start_time
+    success 'Un nouveau projet est créé, avec les bonnes données'
+
+    expect(hprojet[:program_id]).to eq hprogram[:id]
+    expect(hprogram[:projet_id]).to eq hprojet[:id]
+    success 'le programme et le projet sont liés'
 
     failure 'Le nouveau programme est annoncé en page d’accueil'
   end

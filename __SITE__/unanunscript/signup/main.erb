@@ -8,8 +8,8 @@
 
 =end
 %>
-<% 
-  if user.identified? && site.route.objet_id == 1 
+<%
+  if user.identified? && site.route.objet_id == 1
 
     #
     # Quand le paiement a été exécuté avec succès
@@ -45,7 +45,7 @@
     # On l'envoie au formulaire d'inscription et il reviendra
     # ici dès qu'il se sera inscrit.
     #
-    session['uaus_signup'] = '1'
+    session['uaus_signup'] = session.session_id
     mess = "Vous devez au préalable vous inscrire au site lui-même."
     mess << "<br>Si vous êtes déjà inscrit, merci de vous identifier."
     redirect_to( 'user/signup', mess )
