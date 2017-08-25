@@ -46,7 +46,6 @@ class Site
     def load
       !@loaded  || return
       File.exist?(solid_path) || return
-      # debug "Chargement de la route : #{short_route}"
       site.load_folder(short_route)
       @loaded = true
     end

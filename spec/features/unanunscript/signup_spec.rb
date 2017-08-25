@@ -60,7 +60,7 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     res = site.db.select(:hot, 'users', {mail: duser[:mail]}).first
     newU = User.new(res)
 
-    # sleep 2 # pour voir un peu
+    # sleep 4 # pour voir un peu
     expect(page).to have_link('se déconnecter')
     success "le visiteur ##{newU.id} (#{newU.pseudo}/#{newU.mail}) s’inscrit avec succès au site"
 
@@ -79,7 +79,6 @@ feature "Inscription au programme UN AN UN SCRIPT" do
 
     expect(page).to have_tag('h2', text: 'Inscription réussie !')
     expect(page).to have_content("vous êtes maintenant inscrite au programme")
-
 
     # Le paiement a dû être enregistré dans la table des paiements
     # (détruire la table des paiements en début de test)
@@ -121,6 +120,10 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     expect(hprojet[:program_id]).to eq hprogram[:id]
     expect(hprogram[:projet_id]).to eq hprojet[:id]
     success 'le programme et le projet sont liés'
+
+    expect(page).to have_content("ID Programme : ##{program_id}")
+    expect(page).to have_content("ID Projet : ##{projet_id}")
+    success 'la page indique les identifiants des programmes et projet'
 
     failure 'Le nouveau programme est annoncé en page d’accueil'
   end

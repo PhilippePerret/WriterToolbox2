@@ -90,6 +90,15 @@ class Site
 
   # Charge les fichiers du dossier, à commencer par le fichier main.rb
   def folder_load_ruby solid_path
+    # On regarde au préalable si le dossier principal contient un sous-dossier
+    # de path '_lib/_required' qu'il faut toujours charger
+    route.objet && begin
+      objet_required_folder = "./__SITE__/#{route.objet}/_lib/_required"
+      File.exist?( objet_required_folder ) && begin
+        debug "* Je requiert le dossier #{objet_required_folder}"
+        require_folder( objet_required_folder )
+      end
+    end
     Dir["#{solid_path}/**/*.rb"].each{|m| require m}
   end
   def folder_load_css relpath

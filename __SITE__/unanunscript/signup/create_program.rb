@@ -15,39 +15,50 @@ class User
   #               aussi produite pour l'utilisateur.
   #
   def create_program options = nil
+    debug "-> create_program"
     options ||= Hash.new
 
     # Ici, on doit s'assurer que ce n'est pas un user inscrit
     # qui utilise simplement l'adresse pour créer son programme
     # sans payer.
-    is_valid_request? || return
+    is_valid_request? || begin
+      debug "========= PROBLÈME =========="
+      debug "Requête non valide => Abandon de la création du programme UN AN UN SCRIPT"
+      debug "Pour info : site.session['uaus_signup'] = #{site.session['uaus_signup'].inspect}"
+      debug "site.session.session_id = #{site.session.session_id.inspect}"
+      debug "user.get(:session_id) = #{user.get(:session_id)}"
+      debug "=============================="
+      return
+    end
 
     # On crée l'enregistrement du paiement si nécessaire
     options[:paiement] && enregistre_paiement(options[:paiement])
 
     # On crée le programme pour l'auteur(e)
-    program_id = UUProgram.create_program_for(self, options)
+    @program_id = UUProgram.create_program_for(self, options)
 
     # On crée le projet pour l'auteur(e)
-    options.merge!(program_id: program_id)
-    projet_id = UUProjet.create_projet_for(self, options)
+    options.merge!(program_id: @program_id)
+    @projet_id = UUProjet.create_projet_for(self, options)
 
     # On met le projet_id du programme
-    prog = UUProgram.new(program_id)
-    prog.set(projet_id: projet_id)
+    prog = UUProgram.new(@program_id)
+    prog.set(projet_id: @projet_id)
 
+    debug "<- create_program"
   end
 
   # Retourne true si c'est une vrai requête après le paiement
   # du programme, et pas seulement un rigolo qui "force" l'adresse
   # sans avoir rien payé.
-  # Noter qu'on ne peut pas vérifier le paiement, puisque ce paiement
+  # Noter qu'on ne peut pas vérifier avec le paiement, puisque ce paiement
   # va justement être enregistré ici.
   def is_valid_request?
-
-    return  site.session['uaus_signup'] &&
-            site.session['uaus_signup'] == site.session.session_id &&
-            user.get(:session_id) == site.session['uaus_signup']
+    site.session['uaus_signup'] || raise
+    site.session['uaus_signup'] == site.session.session_id || raise
+    return user.get(:session_id) == site.session['uaus_signup']
+  rescue Exception => e
+    false
   end
 
   # Enregistre le paiement de l'user si nécessaire.

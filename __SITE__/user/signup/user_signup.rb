@@ -29,7 +29,7 @@ class User
     # visiteur qui n'était pas encore inscrit, on le redirige vers le
     # formulaire qui va lui permettre de payer le programme pour
     # finaliser son inscription
-    if site.session['uaus_signup'] && site.session['uaus_signup'] == '1'
+    if site.session['uaus_signup'] && site.session['uaus_signup'] == site.session.session_id
       mess = "Inscription au site réussie.<br>N'oubliez pas de confirmer votre mail."
       redirect_to "unanunscript/signup", mess
     end

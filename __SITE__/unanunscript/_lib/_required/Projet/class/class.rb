@@ -22,7 +22,7 @@ class << self
       program_id: options[:program_id],
       titre:      nil,
       resume:     nil,
-      specs:      '00000000'
+      specs:      '10000000'
     }
 
     pid = site.db.insert(:unan, 'projets', data_projet)

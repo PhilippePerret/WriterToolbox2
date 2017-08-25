@@ -25,7 +25,7 @@ class << self
       projet_id:    nil,
       rythme:       5,
       current_pday: 1,
-      options:      '000000000000',
+      options:      '100000000000',
       points:       0,
       retards:      nil,
       pauses:       nil
