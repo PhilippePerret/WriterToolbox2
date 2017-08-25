@@ -8,7 +8,14 @@
 
 =end
 %>
-<% if user.identified? %>
+<% if user.identified? && site.route.objet_id == 1 %>
+  <%=
+    header          +
+    partial('paiement_ok') +
+    right_margin    +
+    footer
+  %>
+<% elsif user.identified? %>
   <%=
     header          +
     partial('form') +

@@ -1,7 +1,6 @@
 # encoding: UTF-8
 class User
 
-  # 
   def login
     site.session['user_id'] = id
     site.session['date_last_connexion'] = Time.now.to_i

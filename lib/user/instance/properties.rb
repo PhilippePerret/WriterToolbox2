@@ -2,6 +2,7 @@
 class User
 
   attr_reader :id, :mail
+  # attr_reader :options # dans options.rb
 
   def pseudo
     @pseudo ||= "Ernest"

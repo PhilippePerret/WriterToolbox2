@@ -18,10 +18,32 @@ class String
   # +ibit+ Indice du bit à modifier
   # +valbit+ Valeur à donner au bit +ibit+ (0-start)
   #
-  def set_bit ibit, valbit
-    opts = self.split('')
-    opts[ibit] = valbit
-    opts.collect{|e| e.to_i}.join('')
+  # @param {Fixnum} dec
+  #                 Index dans le string (0-start)
+  # @param {Fixnum} val
+  #                 Nouvelle valeur à lui donner, en base 10
+  # @param {Fixnum} base
+  #                 Base dans laquelle écrire le bit (10 par défaut)
+  #
+  # @return {String}
+  #         Le nouveau string forgé, à la longueur minimum voulue.
+  #
+  def set_bit dec, val, base = nil
+    str = self.ljust(dec + 1, '0')
+    str[dec] = val.to_s(base || 10)
+    return str
+  end
+
+  # Retourne le "bit" à +dec+ dans self
+  # @param {Fixnum} dec
+  #                 Offset dans la chaine
+  # @param {Fixnum} base
+  #                 Optionnellement, la base du bit (de 2 à 36)
+  #
+  # @return {Fixnum} bit
+  #                  La valeur du bit dans la base donnée ou 10
+  def get_bit dec, base = nil
+    self[dec].to_i(base||10)
   end
 
   # Par exemple, lorsqu'un argument de fonction peut être
@@ -48,7 +70,7 @@ class String
     t[0] = t[0].upcase
     return t
   end
-  
+
   # ---------------------------------------------------------------------
 
   # Pour "épurer" le string, c'est-à-dire :

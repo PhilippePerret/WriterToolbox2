@@ -301,10 +301,38 @@ describe 'Site.db' do
     end
     context 'avec une where-clause définie par autre chose qu’un string ou un hash' do
       it 'produit une erreur' do
-        [nil, true, [1,2,3]].each do |badwhere|
+        [true, [1,2,3]].each do |badwhere|
           expect{site.db.update(:hot, 'tickets', {code: "true"}, badwhere)}.to raise_error("Il faut fournir soit un String soit un Hash comme clause WHERE…")
         end
       end
+    end
+  end
+
+
+  describe '#count' do
+    it 'répond' do
+      expect(site.db).to respond_to :count
+    end
+    it 'compte le nombre d’éléments dans une table' do
+      pending "Implémenter le comptage (avec et sans clause where de formes différentes)"
+    end
+  end
+
+  describe '#delete' do
+    it 'répond' do
+      expect(site.db).to respond_to :delete
+    end
+    it 'supprime ce qu’on veut d’une table' do
+      pending 'Implémenter le test de la destruction des données'
+    end
+  end
+
+  describe '#treat_where_clause' do
+    it 'répond' do
+      expect(site.db).to respond_to :treat_where_clause
+    end
+    it 'fonctionne correctement' do
+      pending "Tester toutes les possibilités"
     end
   end
 end

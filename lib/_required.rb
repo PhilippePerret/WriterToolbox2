@@ -26,3 +26,9 @@ site.load_configuration # cf. in lib/site/config.rb
 
 # Reconnection de l'user s'il était connecté
 User.reconnect
+
+# Exécution du ticket si nécessaire
+param(:tckid) && begin
+  require_folder('./lib/procedure/ticket')
+  Ticket.exec(param(:tckid))
+end

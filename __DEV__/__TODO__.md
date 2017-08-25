@@ -1,6 +1,9 @@
-* Ajouter un lien "mot de passe oublié"
+* Retravailler la where_clause de site/db#count et généraliser la méthode de traitement de cette where clause pour ne pas recommencer à chaque fois.
 
-* À l'inscription, traiter le cas ou session['uaus_signup'] est '1', cela signifie qu'il faut rediriger l'user vers le formulaire uaus/signup. Idem pour le signin.
+* On pourrait imaginer un module qui contienne/définisse toutes les opérations ticket, par exemple User#confirm_mail afin de ne pas avoir une méthode qui ne serve qu'une seule fois.
+  * => Mettre en place la gestion des tickets
+
+* Ajouter un lien "mot de passe oublié"
 
 * Dès que l'objet d'une route est 'admin', il faut rejeter la requête si ça n'est pas un administrateur.
 

@@ -45,12 +45,14 @@ class << self
     umail != nil || raise('Comment vous reconnaitre, sans votre mail ?…')
     upwd  != nil || raise('Comment vous reconnaitre, sans votre mot de passe ?…')
 
-    res = site.db.select(:hot, 'users', {mail: umail}, [:id, :mail, :cpassword, :salt])
+    res = site.db.select(:hot, 'users', {mail: umail}, [:id, :mail, :cpassword, :salt, :options])
     res = res.first
 
     res != nil || raise("Aucun utilisateur du site ne possède cet email…")
 
     password_valide?(res.merge(password: upwd)) || raise("Je ne vous reconnais pas…")
+
+    mail_confirmed?(res[:options]) || raise("Vous devez confirmer votre mail pour poursuivre.")
 
     # On peut logguer l'user et lui souhaiter la bienvenue
     User.get(res[:id]).login
@@ -73,6 +75,11 @@ class << self
     require 'digest/md5'
     tested_pwd = Digest::MD5.hexdigest("#{duser[:password]}#{duser[:mail]}#{duser[:salt]}")
     return duser[:cpassword] == tested_pwd
+  end
+
+  # Retourne true si le mail a été confirmé
+  def mail_confirmed? options
+    options.get_bit(2) == 1
   end
 
   # Plus tard, des options permettront à l'user de choisir sa redirection

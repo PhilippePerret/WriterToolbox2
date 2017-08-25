@@ -71,7 +71,8 @@ class Site
     # Exécute le statement préparé avec les valeurs +values+ et
     # @return {Array} Le résultat
     def exec_statement statement, values
-      statement.execute(*values).map{|row|row}
+      res = statement.execute(*values)
+      res ? res.map{|row|row} : nil
     end
     alias :execute_statement :exec_statement
 
@@ -169,7 +170,22 @@ class Site
         colsints  << "#{k} = ?"
         values    << v
       end
+
+      wclause, values = treat_where_clause(where_clause, values)
+
+      colsints = colsints.join(', ')
+      statement = client.prepare("UPDATE #{db_table} SET #{colsints}#{wclause}")
+      res = statement.execute(*values)
+      res.map{|row|row} if res
+    end
+
+    # @param {String|Hash} where_clause
+    #                       Définition initiale de la clause WHERE
+    # @return {Array} [where_clause, values]
+    def treat_where_clause where_clause, values
       case where_clause
+      when NilClass
+        return ['', values]
       when String
         wclause = where_clause
       when Hash
@@ -182,16 +198,30 @@ class Site
       else
         raise "Il faut fournir soit un String soit un Hash comme clause WHERE…"
       end
-      colsints = colsints.join(', ')
-      statement = client.prepare("UPDATE #{db_table} SET #{colsints} WHERE #{wclause}")
-      res = statement.execute(*values)
-      res.map{|row|row} if res
+      return [" WHERE #{wclause}", values]
     end
 
-    def count db_name, db_table
+    def delete db_name, db_table, where_clause = nil
+      wclause, values = treat_where_clause( where_clause, [] )
+      request = "DELETE FROM #{db_table}#{wclause};"
+      debug "Request : #{request}"
       use_database db_name
-      res = client.query("SELECT COUNT(*) FROM #{db_table};")
-      res.first.values.first
+      if values.empty?
+        client.query(request)
+      else
+        exec_statement( prepare(request), values )
+      end
+    end
+
+    def count db_name, db_table, where_clause = nil
+      wclause, values = treat_where_clause(where_clause, [])
+      request = "SELECT COUNT(*) FROM #{db_table}#{wclause};"
+      use_database db_name
+      if values.empty?
+        client.query(request)
+      else
+        exec_statement( prepare(request), values )
+      end.first.values.first
     end
 
     def db_bases_prefix

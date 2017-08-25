@@ -33,7 +33,11 @@ class Site
       @method ||= param(:__m).nil_if_empty
     end
     def objet_id
-      @objet_id ||= param(:__i).nil_if_empty
+      @objet_id ||= begin
+        oid = param(:__i).nil_if_empty
+        oid.numeric? && oid = oid.to_i
+        oid
+      end
     end
 
     # ---------------------------------------------------------------------
@@ -42,7 +46,7 @@ class Site
     def load
       !@loaded  || return
       File.exist?(solid_path) || return
-      debug "Chargement de la route : #{short_route}"
+      # debug "Chargement de la route : #{short_route}"
       site.load_folder(short_route)
       @loaded = true
     end
@@ -54,7 +58,7 @@ class Site
     # Par exemple 'user/profil' ou 'home'
     def short_route
       @short_route ||= begin
-        sr = objet
+        sr = "#{objet}" # sinon, passage par référence avec '<<' ci-dessous
         method && sr << "/#{method}"
         sr
       end

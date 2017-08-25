@@ -1,74 +1,60 @@
 <%
-=begin
-
-  Formulaire d'inscription au programme UAUS
-  C'est un simple envoi au paiement paypal.
-
-=end
-
-site.all_meta      << 'http-equiv="X-UA-Compatible" content="IE=edge"'
-site.all_javascript << 'https://www.paypalobjects.com/api/checkout.js'
 
 env_mod = :sandbox # pour le moment
 montant = '0.01'
+
 %>
-<h2>S’inscrire au programme UN AN UN SCRIPT</h2>
+<!DOCTYPE html>
 
-<%=
-if param(:operation) == 'uaus_signup'
-  debug "Inscription demandée"
-end
-%>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+</head>
 
-<div id="paypal-button-container"></div>
+<body>
+    <div id="paypal-button-container"></div>
 
-<script type="text/javascript">
+    <script>
+        paypal.Button.render({
 
-function exec_paypal() {
-  paypal.Button.render({
+            env: '<%= env_mod == :sandbox ? 'sandbox' : 'production' %>',
 
-    env: <%= env_mod == :sandbox ? 'sandbox' : 'production' %>,
+            // PayPal Client IDs - replace with your own
+            // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+            client: {
+                sandbox:    'AVD1tNbTllItceD9EQHGU6OjosHCl8H6ieEuxlfvPIAd4MizmAbcXc9JaX424GlHOG5MQsAHearTbjd7',
+                production: 'AZk-aOh_NSK4FW4KsT8yYsNMt025NiyF638PF79-zuSrbkPyGTYuRJGhyAptKQJAuGPAXZkxcpVKwrjl'
+            },
 
-    // PayPal Client IDs - replace with your own
-    // Create a PayPal app: https://developer.paypal.com/developer/applications/create
-    client: {
-        sandbox:    'AkuWUSRU-LKPQGbkHp1E8CrwkR2cAwiPbK6CWSc4fkpEYAIcb5wepjrM',
-        production: 'AYhLJ1TCqLmZb5FTJ9Y-i7c2Asu-AUPS659.GRfIsfvuB40KL5o0SLK5'
-    },
+            // Show the buyer a 'Pay Now' button in the checkout flow
+            commit: true,
 
-    // Show the buyer a 'Pay Now' button in the checkout flow
-    commit: true,
+            // payment() is called when the button is clicked
+            payment: function(data, actions) {
 
-    // payment() is called when the button is clicked
-    payment: function(data, actions) {
+                // Make a call to the REST api to create the payment
+                return actions.payment.create({
+                    payment: {
+                        transactions: [
+                            {
+                                amount: { total: '<%= montant %>', currency: 'EUR' }
+                            }
+                        ]
+                    }
+                });
+            },
 
-      // Make a call to the REST api to create the payment
-      return actions.payment.create({
-        payment: {
-          transactions: [
-            { amount: { total: '<%= montant %>', currency: 'EUR' } }
-          ]
-        }
-      });
-    },
+            // Called when the buyer approves the payment
+            onAuthorize: function(data, actions) {
+                // Make a call to the REST api to execute the payment
+                return actions.payment.execute()
+                .then(function() {
+                  // Paiement accepté => Redirection
+                  window.location.href = 'unanunscript/signup/1'
+                });
+            }
 
-    // onAuthorize() is called when the buyer approves the payment
-    onAuthorize: function(data, actions) {
-      // Make a call to the REST api to execute the payment
-      return actions.payment.execute().then(function() {
-          window.alert('Payment Complete!');
-      });
-    }
+        }, '#paypal-button-container');
 
-  }, '#paypal-button-container');
-}
-let timer = setInterval(
-function() {
-  if ( 'complete' === document.readyState) {
-    clearInterval(timer)
-    // ======= LA PAGE EST PRÊTE ========
-    exec_paypal()
-  }
-}, 100)
-
-</script>
+    </script>
+</body>

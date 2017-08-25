@@ -67,6 +67,12 @@ require 'mysql2'
 #
 # ---------------------------------------------------------------------
 
+# Vidage de la table des tickets
+def truncate_table_tickets
+  site.db.use_database(:hot)
+  site.db.execute('TRUNCATE TABLE tickets')
+end
+
 # Détruit tous les users, sauf les administrateurs (de 1 à 50) et met
 # le prochain ID à 51.
 # Détruit également toutes les tables qui peuvent être associées

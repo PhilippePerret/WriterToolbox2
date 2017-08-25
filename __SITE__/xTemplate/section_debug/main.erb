@@ -4,12 +4,17 @@
   Section de débug
   ----------------
 =end
+oid =
+  if site.route.objet_id
+    "#{site.route.objet_id} (#{site.route.objet_id.class})"
+  else
+    '- non défini -'
+  end
 %>
 <section id="debug">
-Objet   : <%= site.route.objet    || '- non défini  -' %>
-Method  : <%= site.route.method   || '- non définie -' %>
-ID      : <%= site.route.objet_id || '- non défini  -' %>
-(QS     : <%= ENV['QUERY_STRING'] %>)
+site.route.objet    : <%= site.route.objet    || '- non défini  -' %>
+site.route.method   : <%= site.route.method   || '- non définie -' %>
+site.route.objet_id : <%= oid %>
 
 <%= Debug.output %>
 </section>
