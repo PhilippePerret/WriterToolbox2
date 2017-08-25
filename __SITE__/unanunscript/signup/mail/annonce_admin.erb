@@ -1,0 +1,16 @@
+<%
+=begin
+
+  Mail d'annonce d'une nouvelle inscription au programme
+  pour Phil
+
+=end
+%>
+<p>Phil, je t'informe d'une nouvelle inscription au programme :</p>
+<pre>
+    Pseudo  : <%= user.pseudo %>
+    Mail    : <%= user.mail %>
+    ID      : #<%= user.pseudo %>
+    Date    : <%= Time.now.strftime('%d %m %Y - %H:%M') %>
+</pre>
+<p>Rien n'est à faire, c'est juste un mail d'information.</p>

@@ -8,7 +8,18 @@
 
 =end
 %>
-<% if user.identified? && site.route.objet_id == 1 %>
+<% 
+  if user.identified? && site.route.objet_id == 1 
+
+    #
+    # Quand le paiement a été exécuté avec succès
+    #
+    # L'user a payé le programme, on le crée.
+    # Noter que l'avantage de le faire ici est qu'on pourra
+    # reprendre les valeurs du programme pour le message de
+    # confirmation.
+    user.create_program(paiement: param(:montant).to_f)
+  %>
   <%=
     header          +
     partial('paiement_ok') +
@@ -17,13 +28,23 @@
   %>
 <% elsif user.identified? %>
   <%=
+    #
+    # Quand l'utilisateur est inscrit au site
+    # (ou vient de s'inscrire)
+    #
     header          +
+    "<h2>S’inscrire au programme UN AN UN SCRIPT</h2>" +
     partial('form') +
     right_margin    +
     footer
   %>
 <%
   else
+    #
+    # Quand l'user n'est pas encore inscrit au site
+    # On l'envoie au formulaire d'inscription et il reviendra
+    # ici dès qu'il se sera inscrit.
+    #
     session['uaus_signup'] = '1'
     mess = "Vous devez au préalable vous inscrire au site lui-même."
     mess << "<br>Si vous êtes déjà inscrit, merci de vous identifier."

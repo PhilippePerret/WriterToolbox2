@@ -50,7 +50,7 @@ montant = '0.01'
                 return actions.payment.execute()
                 .then(function() {
                   // Paiement accepté => Redirection
-                  window.location.href = 'unanunscript/signup/1'
+                  window.location.href = 'unanunscript/signup/1?montant=<%= montant %>'
                 });
             }
 

@@ -1,16 +1,20 @@
+=begin
 
-require_lib_site
-require_lib_uaus
+  Ce test permet de tester manuelle l'inscription au programme UN AN UN SCRIPT
 
+  Il inscrit un nouvel utilisateur (une) puis s'arrête au bouton de paiement
+  de paypal, pour essayer manuellement le paiement.
+
+  L'opération est réussie si on revient sur une page de confirmation de
+  l'inscription.
+
+=end
 require_support_integration
 require_support_db_for_test
 
 feature "Inscription au programme UN AN UN SCRIPT" do
 
   scenario 'Un visiteur quelconque peut s’inscrire au programme' do
-
-    start_time = Time.now.to_i
-
     success_tab('  ')
 
     visit home_page
@@ -56,13 +60,9 @@ feature "Inscription au programme UN AN UN SCRIPT" do
       click_button "S’inscrire"
     end
 
-
-    res = site.db.select(:hot, 'users', {mail: duser[:mail]}).first
-    newU = User.new(res)
-
     # sleep 2 # pour voir un peu
     expect(page).to have_link('se déconnecter')
-    success "le visiteur ##{newU.id} (#{newU.pseudo}/#{newU.mail}) s’inscrit avec succès au site"
+    success 'le visiteur s’inscrit avec succès au site'
 
     expect(page).to have_tag('h2', text: 'S’inscrire au programme UN AN UN SCRIPT')
     expect(page).to have_selector('div#paypal-button-container')
@@ -70,47 +70,13 @@ feature "Inscription au programme UN AN UN SCRIPT" do
 
     # ICI, je ne sais pas comment gérer le clic sur le bouton de paiement,
     # puisqu'il se trouve sur une frame qui n'est même pas accessible. Donc,
-    # j'essayerai manuellement cette partie là, avec un script juste pour ça,
-    # qui m'amène jusqu'ici avec un nouvel user.
-    # Pour le moment, je simule la réussite du paiement en visitant l'adresse
-    # 'unanunscript/signup/1'
+    # je dois essayer manuellement cette partie là.
 
-    visit "http://#{site.url}/unanunscript/signup/1"
+    10.times do |i|
+      puts "TESTER MANUELLEMENT LE PAIEMENT AU PROGRAMME UN AN UN SCRIPT (#{i}/10)"
+      sleep 60
+    end
 
-    expect(page).to have_tag('h2', text: 'Inscription réussie !')
-    expect(page).to have_content("vous êtes maintenant inscrite au programme")
-
-
-    # Le paiement a dû être enregistré dans la table des paiements
-    # (détruire la table des paiements en début de test)
-    res = site.db.select(:cold, 'paiements', "objet_id = '1UN1SCRIPT' AND user_id = #{newU.id} AND created_at > #{start_time}")
-    res = res.first
-    expect(res).not_to eq nil
-    expect(res[:montant]).to eq Uaus.tarif
-    success 'Le paiement a été enregistré dans la base de données'
-
-    expect(newU).to have_mail(
-      subject:    'Inscription au programme UN AN UN SCRIPT',
-      sent_after: start_time,
-      message: [
-        newU.pseudo, "J’ai le plaisir de vous confirmer votre inscription au programme UN AN UN SCRIPT",
-        '<a href="http://www.laboiteaoutilsdelauteur.fr/unanunscript/aide">Aide du programme UN AN UN SCRIPT</a>'
-      ]
-    )
-    success 'la visiteuse a reçu un mail lui confirmant son inscription'
-
-    expect(phil).to have_mail(
-      subject:      'Nouvelle inscription au programme UN AN UN SCRIPT',
-      sent_after:   start_time,
-      message:      [newU.pseudo, newU.mail, "##{newU.id}"]
-    )
-    success 'l’administrateur a reçu un mail annonçant l’inscription'
-
-    failure 'Un nouveau programme est créé avec les bonnes données'
-
-    failure 'Un nouveau projet est créé, avec les bonnes données'
-
-    failure 'Le nouveau programme est annoncé en page d’accueil'
   end
 
 end

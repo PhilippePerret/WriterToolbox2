@@ -33,4 +33,7 @@ class ::NilClass
     true
   end
 
+  def numeric?
+    false 
+  end
 end

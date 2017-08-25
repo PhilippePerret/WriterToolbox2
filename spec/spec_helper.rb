@@ -36,6 +36,10 @@ RSpec.configure do |config|
     require './lib/_required'
   end
 
+  def require_lib_uaus
+    require_folder './__SITE__/unanunscript/_lib/_required' # => class Uaus
+  end
+
   def require_support_integration
     require_folder './spec/support/integration'
   end
