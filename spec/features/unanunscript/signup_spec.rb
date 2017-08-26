@@ -136,7 +136,12 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     expect(page).to have_content("ID Projet : ##{hprojet[:id]}")
     success 'la page indique les identifiants des programmes et projet'
 
-    failure 'Le nouveau programme est annoncé en page d’accueil'
+    failure "#{newU.pseudo} arrive sur une page correcte"
+    
+    visit home_page
+    expect(page).to have_content("#{newU.pseudo} commence le programme UN AN UN SCRIPT")
+    success 'Le nouveau programme est annoncé en page d’accueil'
+
   end
 
 end

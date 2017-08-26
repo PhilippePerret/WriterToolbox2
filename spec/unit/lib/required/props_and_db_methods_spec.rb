@@ -32,6 +32,25 @@ describe PropsAndDbMethods do
     site.db.insert(:hot, 'tickets', hdata)
   end
 
+  #   #insert
+  describe '#insert' do
+
+    let(:ticket) { @ticket ||= Ticket.new(@tid) }
+
+    it 'répond' do
+      expect(ticket).to respond_to :insert
+    end
+    it 'insert la donnée dans la base et la table définies' do
+      start_time = Time.now.to_i - 1
+      # =========> TEST <=========
+      ticket.insert({id: "gggg", code: "MonCodeG", user_id: 7})
+      # ============ VÉRIFICATION =============
+      res = site.db.select(:hot, 'tickets', "created_at > #{start_time}").first
+      expect(res).not_to eq nil
+      expect(res[:user_id]).to eq 7
+      expect(res[:id]).to eq 'gggg'
+    end
+  end
   #     #set
   describe '#set' do
 
