@@ -72,7 +72,7 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     # puisqu'il se trouve sur une frame qui n'est même pas accessible. Donc,
     # je dois essayer manuellement cette partie là.
 
-    10.times do |i|
+    5.times do |i|
       puts "TESTER MANUELLEMENT LE PAIEMENT AU PROGRAMME UN AN UN SCRIPT (#{i}/10)"
       sleep 60
     end

@@ -2,6 +2,10 @@
 #
 class User
 
+  # {Paiement} Le paiement pour le programme UAUS
+  # Le mail de confirmation en a besoin pour construire la facture.
+  attr_reader :last_paiement
+
   # Création du programme de l'user
   # -------------------------------
   # L'user vient de payer le programme, on lui crée son programme.
@@ -21,7 +25,7 @@ class User
     # Ici, on doit s'assurer que ce n'est pas un user inscrit
     # qui utilise simplement l'adresse pour créer son programme
     # sans payer.
-    is_valid_request? || begin
+    is_valid_request?(options) || begin
       debug "========= PROBLÈME =========="
       debug "Requête non valide => Abandon de la création du programme UN AN UN SCRIPT"
       debug "Pour info : site.session['uaus_signup'] = #{site.session['uaus_signup'].inspect}"
@@ -53,22 +57,35 @@ class User
   # sans avoir rien payé.
   # Noter qu'on ne peut pas vérifier avec le paiement, puisque ce paiement
   # va justement être enregistré ici.
-  def is_valid_request?
-    site.session['uaus_signup'] || raise
-    site.session['uaus_signup'] == site.session.session_id || raise
+  def is_valid_request? options = nil
+    if options && options[:paiement]
+      opaie = options[:paiement]
+      opaie[:state]  == 'approved' || raise('Le state du paiement devrait être "approved"')
+      opaie[:status] == 'VERIFIED' || raise('Le status du paiement devrait être "VERIFIED"')
+      opaie[:status] == 'VERIFIED' || raise('Le status du paiement devrait être "VERIFIED"')
+      opaie[:montant][:spec] == opaie[:montant][:total] || begin
+        raise("Le montant n'est pas cohérent entre celui fixé et celui payé…")
+      end
+    end
+    site.session['uaus_signup'] || raise('Un variable session devrait exister.')
+    site.session['uaus_signup'] == site.session.session_id || begin
+      raise('La variable session ne correspond pas.')
+    end
     return user.get(:session_id) == site.session['uaus_signup']
   rescue Exception => e
+    debug e
     false
   end
 
   # Enregistre le paiement de l'user si nécessaire.
-  def enregistre_paiement montant
-      site.db.insert(:cold, 'paiements', {
-        objet_id: '1UN1SCRIPT', user_id: self.id,
-        montant: montant
-      })
-  end
-  def send_facture facture
-
+  #
+  # @param {Hash} paiement
+  #               Les données du paiement, telles que renvoyées par PayPal
+  #               Cf. le module `main.rb` au même niveau que ce fichier
+  #               sont composées.
+  def enregistre_paiement paiement
+    ipaiement = Paiement.new(paiement.merge(user_id: self.id, objet: '1UN1SCRIPT'))
+    ipaiement.save
+    @last_paiement = ipaiement # Pour le mail
   end
 end

@@ -1,6 +1,9 @@
 <%
 
-env_mod = :sandbox # pour le moment
+# Pour le moment, on le met ici
+env_mod = site.offline? ? :sandbox : :production
+
+# TODO IL FAUT DÉFINIR LE MONTANT AUTREMENT
 montant = '0.01'
 
 %>
@@ -31,30 +34,36 @@ montant = '0.01'
 
             // payment() is called when the button is clicked
             payment: function(data, actions) {
-
                 // Make a call to the REST api to create the payment
-                return actions.payment.create({
-                    payment: {
-                        transactions: [
-                            {
-                                amount: { total: '<%= montant %>', currency: 'EUR' }
-                            }
-                        ]
-                    }
-                });
+                let tr = {amount: { total: '<%= montant %>', currency: 'EUR' }}
+                return actions.payment.create({payment: { transactions: [tr] }});
             },
 
             // Called when the buyer approves the payment
             onAuthorize: function(data, actions) {
                 // Make a call to the REST api to execute the payment
                 return actions.payment.execute()
-                .then(function() {
+                .then(function(payment) {
                   // Paiement accepté => Redirection
-                  window.location.href = 'unanunscript/signup/1?montant=<%= montant %>'
+                  let qs = new Array();
+                  let arr = ['id','cart','state'], owner;
+                  arr.forEach((p)=>{qs.push(p+'='+payment[p])});
+                  arr=['status'], owner=payment.payer;
+                  arr.forEach((p)=>{qs.push(p+'='+owner[p])});
+                  arr=['email','first_name','last_name','payer_id'];
+                  owner=payment.payer.payer_info;
+                  arr.forEach((p)=>{qs.push('auteur_'+p+'='+owner[p])});
+                  arr=['id'];let trans0=payment.transactions[0];
+                  owner=trans0.related_resources[0].sale;
+                  arr.forEach((p)=>{qs.push('montant_'+p+'='+owner[p])});
+                  arr=['total','currency','aid'];
+                  owner=trans0.related_resources[0].sale.amount;
+                  arr.forEach((p)=>{qs.push('montant_'+p+'='+owner[p])});
+                  qs = '&' + qs.join('&')
+                  window.location.href = 'unanunscript/signup/1?montant=<%= montant %>' + qs ;
                 });
             }
 
         }, '#paypal-button-container');
-
     </script>
 </body>

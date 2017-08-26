@@ -18,9 +18,11 @@
     # Noter que l'avantage de le faire ici est qu'on pourra
     # reprendre les valeurs du programme pour le message de
     # confirmation.
-    user.create_program(paiement: param(:montant).to_f)
   %>
   <%=
+    # ========> CRÉATION DU PROGRAMME <=================
+              Unan.on_paiement_ok() # cf. main.rb
+    # ==================================================
     header          +
     partial('paiement_ok') +
     right_margin    +
