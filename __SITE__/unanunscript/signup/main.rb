@@ -1,8 +1,9 @@
 # encoding: UTF-8
 class Unan
+class << self
 
   # Appelé quand on revient du paiement
-  def self.on_paiement_ok
+  def on_paiement_ok
     # ========> CRÉATION DU PROGRAMME <=================
     dpaiement = {
       auteur: {
@@ -21,8 +22,39 @@ class Unan
         monnaie:  param(:montant_currency)
       }
     }
-    user.create_program(paiement: dpaiement)
+
+    if user.create_program(paiement: dpaiement)
+
+      send_mail_new_program_to_user(user)
+      send_mail_new_program_to_admin
+
+    end
     # ==================================================
   end
 
-end
+  def send_mail_new_program_to_user user
+    debug "-> send_mail_new_program_to_user"
+    user.is_a?(User) || user = User.get(user)
+    user.send_mail({
+      subject: "Inscription au programme UN AN UN SCRIPT",
+      message: deserb(File.join(thisfolder, 'mail', 'confirm_et_facture_user.erb')), 
+      formated: true
+    })
+  end
+
+  def send_mail_new_program_to_admin
+    debug "-> send_mail_new_program_to_admin"
+    site.admin.send_mail({
+      subject: "Nouvelle inscription au programme UN AN UN SCRIPT",
+      message: deserb(File.join(thisfolder, 'mail', 'annonce_admin.erb')), 
+      formated: true
+    })
+
+    
+  end
+
+  def thisfolder
+    @thisfolder ||= File.dirname(__FILE__)
+  end
+end #/ << self
+end #/ Unan

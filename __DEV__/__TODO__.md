@@ -1,5 +1,7 @@
 * Définir l'aspect du bouton PayPal
 
+* Régler le prix du programme en fonction du fait que l'user est abonné ou non.
+
 * On pourrait imaginer un module qui contienne/définisse toutes les opérations ticket, par exemple User#confirm_mail afin de ne pas avoir une méthode qui ne serve qu'une seule fois.
   * => Mettre en place la gestion des tickets
 

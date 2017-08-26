@@ -31,7 +31,7 @@ class User
       debug "site.session.session_id = #{site.session.session_id.inspect}"
       debug "user.get(:session_id) = #{user.get(:session_id)}"
       debug "=============================="
-      return
+      return false
     end
 
     # On crée l'enregistrement du paiement si nécessaire
@@ -48,6 +48,7 @@ class User
     prog = UUProgram.new(@program_id)
     prog.set(projet_id: @projet_id)
 
+    return true
   end
 
   # Retourne true si c'est une vrai requête après le paiement
@@ -59,7 +60,6 @@ class User
     if options && options[:paiement]
       opaie = options[:paiement]
       opaie[:state]  == 'approved' || raise('Le state du paiement devrait être "approved"')
-      opaie[:status] == 'VERIFIED' || raise('Le status du paiement devrait être "VERIFIED"')
       opaie[:status] == 'VERIFIED' || raise('Le status du paiement devrait être "VERIFIED"')
       opaie[:montant][:spec] == opaie[:montant][:total] || begin
         raise("Le montant n'est pas cohérent entre celui fixé et celui payé…")

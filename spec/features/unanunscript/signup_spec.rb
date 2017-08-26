@@ -4,8 +4,12 @@ require_lib_uaus
 
 require_support_integration
 require_support_db_for_test
+require_support_mails_for_test
 
 feature "Inscription au programme UN AN UN SCRIPT" do
+  before(:all) do
+    remove_mails
+  end
 
   scenario '=> Un visiteur quelconque peut s’inscrire au programme' do
 
@@ -74,16 +78,23 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     # qui m'amène jusqu'ici avec un nouvel user.
     # Pour le moment, je simule la réussite du paiement en visitant l'adresse
     # 'unanunscript/signup/1'
+    prenom, nom = newU.get(:patronyme).split(' ')
 
-    visit "http://#{site.url}/unanunscript/signup/1"
+    visit "http://#{site.url}/unanunscript/signup/1?"+
+    'state=approved&status=VERIFIED&montant=19.8&montant_total=19.8' +
+    '&montant_id=HFJDHS678S76S&montant_currency=EUR' +
+    "&auteur_first_name=#{prenom}&auteur_last_name=#{nom}&auteur_email=#{newU.mail}" +
+    '&id=Pay-ABCDEFGH&cart=HF7D68D65S'
+
 
     expect(page).to have_tag('h2', text: 'Inscription réussie !')
     expect(page).to have_content("vous êtes maintenant inscrite au programme")
 
+    sleep 5 # pour voir un peu la page d'arrivée
+
     # Le paiement a dû être enregistré dans la table des paiements
     # (détruire la table des paiements en début de test)
     whereclause = "objet_id = '1UN1SCRIPT' AND user_id = #{newU.id} AND created_at > #{start_time}"
-    puts "WHERE CLAUSE : #{whereclause}"
     res = site.db.select(:cold, 'paiements', whereclause)
     res = res.first
     expect(res).not_to eq nil
@@ -114,15 +125,15 @@ feature "Inscription au programme UN AN UN SCRIPT" do
 
     hprojet = site.db.select(:unan, :projets, {auteur_id: newU.id}).first
     expect(hprojet).not_to eq nil
-    expect(hprojet[:create_at]).to be > start_time
+    expect(hprojet[:created_at]).to be > start_time
     success 'Un nouveau projet est créé, avec les bonnes données'
 
     expect(hprojet[:program_id]).to eq hprogram[:id]
     expect(hprogram[:projet_id]).to eq hprojet[:id]
     success 'le programme et le projet sont liés'
 
-    expect(page).to have_content("ID Programme : ##{program_id}")
-    expect(page).to have_content("ID Projet : ##{projet_id}")
+    expect(page).to have_content("ID Programme : ##{hprogram[:id]}")
+    expect(page).to have_content("ID Projet : ##{hprojet[:id]}")
     success 'la page indique les identifiants des programmes et projet'
 
     failure 'Le nouveau programme est annoncé en page d’accueil'

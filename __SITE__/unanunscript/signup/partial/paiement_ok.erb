@@ -7,19 +7,9 @@
 
 <p>Bravo à vous, <%= user.pseudo %>, vous êtes maintenant inscrit<%= user.f_e %> au programme UN AN UN SCRIPT&nbsp;!</p>
 
-<p>ID Programme : #<%= user.program_id %></p>
-<p>ID Projet : #<%= user.projet_id %></p>
+<p>Bon courage pour ce programme !</p>
 
-<p>Bon courage pour votre programme !</p>
-<%
-=begin
-
-TODO Ici, plein de choses à faire, comme lui envoyer des mails de
-confirmation et le manuel.
-
-TODO Enregistrement du paiement dans la base
-TODO Création d'un program dans la base
-TODO Création d'un projet dans la base
-
-=end
-%>
+<p style="font-size:0.75em">
+  <div>Informations sur le programme</div>
+  <div>ID Programme : #<%= user.program_id %> | ID Projet : #<%= user.projet_id %></div>
+</p>

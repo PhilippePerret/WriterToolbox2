@@ -39,7 +39,8 @@ class MailMatcher
       props: Hash.new,
       count: 0
     }
-    is_almost_found = false
+    is_almost_found       = false
+    has_bad_destinataire  = false
 
     # Boucle sur toutes les propriétés à checker
     hmatch.each do |pro, exp|
@@ -69,8 +70,15 @@ class MailMatcher
       rescue Exception => e
         # On passe ici si la propriété courante ne matche pas. Ça exclue
         # le message, mais on poursuit quand même.
-        bad_props[:props].merge!(prop => expected)
-        bad_props[:count] += 1
+        if prop == :to
+          # Si le message diffère par le destinataire, il ne peut pas
+          # être considéré comme "presque bon". On le retire purement
+          # et simplement.
+          has_bad_destinataire = true
+        else
+          bad_props[:props].merge!(prop => expected)
+          bad_props[:count] += 1
+        end
       else
         # On passe ici quand la propriété courante matche. Le message, si
         # finalement il n'est pas retenu à cause d'autre propriété que
@@ -85,6 +93,11 @@ class MailMatcher
       # Le message est bon à garder
       MailMatcher.sup_almost_found(self) # pour supprimer de "presque"
       return true # Pour indiquer que le message est valide
+    elsif has_bad_destinataire
+      # Si ça n'est pas le bon destinataire, on le retire, tout
+      # simplement
+      MailMatcher.sup_almost_found(self)
+      return false # pour indiquer que le message n'est pas valide
     else
       # Le message n'est pas bon à garder, on liste ce qui ne va pas chez
       # lui.
