@@ -89,13 +89,9 @@ describe Updates do
         annonce: 0
       })
       # ========= VÉRIFICATION ===========
-      res = site.db.select(:hot, 'updates', "created_at > #{start_time}")
+      res = site.db.select(:cold, 'updates', "created_at > #{start_time}").first
       expect(res).not_to be nil
       expect(res[:message]).to eq mess
-    end
-    it 'ajoute une actualité et l’affiche en page d’accueil si annonce = 1' do
-      pending
-      
     end
   end
 
