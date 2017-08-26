@@ -19,7 +19,6 @@ class User
   #               aussi produite pour l'utilisateur.
   #
   def create_program options = nil
-    debug "-> create_program"
     options ||= Hash.new
 
     # Ici, on doit s'assurer que ce n'est pas un user inscrit
@@ -49,7 +48,6 @@ class User
     prog = UUProgram.new(@program_id)
     prog.set(projet_id: @projet_id)
 
-    debug "<- create_program"
   end
 
   # Retourne true si c'est une vrai requête après le paiement
@@ -84,6 +82,7 @@ class User
   #               Cf. le module `main.rb` au même niveau que ce fichier
   #               sont composées.
   def enregistre_paiement paiement
+    require './lib/utils/paiement'
     ipaiement = Paiement.new(paiement.merge(user_id: self.id, objet: '1UN1SCRIPT'))
     ipaiement.save
     @last_paiement = ipaiement # Pour le mail

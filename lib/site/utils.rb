@@ -95,7 +95,6 @@ class Site
     route.objet && begin
       objet_required_folder = "./__SITE__/#{route.objet}/_lib/_required"
       File.exist?( objet_required_folder ) && begin
-        debug "* Je requiert le dossier #{objet_required_folder}"
         require_folder( objet_required_folder )
       end
     end

@@ -20,15 +20,17 @@ class << self
   def create_program_for user, options = nil
     options ||= Hash.new
 
+    # Données du programme à créer
     data_program = {
-      auteur_id:    user.id,
-      projet_id:    nil,
-      rythme:       5,
-      current_pday: 1,
-      options:      '100000000000',
-      points:       0,
-      retards:      nil,
-      pauses:       nil
+      auteur_id:            user.id,
+      projet_id:            nil,
+      rythme:               5,
+      current_pday:         1,
+      current_pday_start:   Time.now.to_i,
+      options:              '100000000000',
+      points:               0,
+      retards:              nil,
+      pauses:               nil
     }
 
     pid = site.db.insert(:unan, 'programs', data_program)

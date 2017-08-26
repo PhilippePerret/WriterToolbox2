@@ -30,7 +30,7 @@ class User
     # formulaire qui va lui permettre de payer le programme pour
     # finaliser son inscription
     if site.session['uaus_signup'] && site.session['uaus_signup'] == site.session.session_id
-      mess = "Inscription au site réussie.<br>N'oubliez pas de confirmer votre mail."
+      mess = "Inscription au site réussie.<br><span class='red'>N'oubliez pas de confirmer votre mail.</span>"
       redirect_to "unanunscript/signup", mess
     end
 

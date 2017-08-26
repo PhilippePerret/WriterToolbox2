@@ -1,4 +1,4 @@
-* Retravailler la where_clause de site/db#count et généraliser la méthode de traitement de cette where clause pour ne pas recommencer à chaque fois.
+* Définir l'aspect du bouton PayPal
 
 * On pourrait imaginer un module qui contienne/définisse toutes les opérations ticket, par exemple User#confirm_mail afin de ne pas avoir une méthode qui ne serve qu'une seule fois.
   * => Mettre en place la gestion des tickets
