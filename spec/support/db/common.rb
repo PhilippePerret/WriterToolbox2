@@ -60,6 +60,7 @@ require 'mysql2'
 #
 # ---------------------------------------------------------------------
 
+require_lib_site
 
 # ---------------------------------------------------------------------
 #
@@ -67,10 +68,15 @@ require 'mysql2'
 #
 # ---------------------------------------------------------------------
 
+# Vidage de la table des actualités
+def truncate_table_updates
+  site.db.use_database(:cold)
+  site.db.execute('TRUNCATE TABLE updates;')
+end
 # Vidage de la table des tickets
 def truncate_table_tickets
   site.db.use_database(:hot)
-  site.db.execute('TRUNCATE TABLE tickets')
+  site.db.execute('TRUNCATE TABLE tickets;')
 end
 
 # Détruit tous les users, sauf les administrateurs (de 1 à 50) et met

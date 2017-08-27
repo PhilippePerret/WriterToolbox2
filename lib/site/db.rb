@@ -54,9 +54,10 @@ class Site
           begin
             res = client.query(request, {symbolized_keys: true})
             res.each { |row| all_res.last << row } if res
+          rescue Mysql2::Error => e
+            raise Mysql2::Error.new("PROBLÈME AVEC LA REQUÊTE : `#{request}` : #{e.message}")
           rescue Exception => e
-            debug "PROBLÈME AVEC LA REQUÊTE : `#{request}`"
-            raise e
+            raise Error.new("PROBLÈME AVEC LA REQUÊTE : `#{request}` : #{e.message}")
           end
         end
       end
