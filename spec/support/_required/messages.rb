@@ -14,11 +14,12 @@ def success message
 end
 
 # Pour définir la tabulation avec le message de success
+# Par défaut, elle est composée de deux espaces
 def success_tab value = nil
   if value
     @success_tab = value
   else
-    @success_tab || ''
+    @success_tab || '  '
   end
 end
 

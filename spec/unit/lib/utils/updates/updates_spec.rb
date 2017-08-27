@@ -33,7 +33,7 @@ describe Updates do
         message: "Un message correct",
         type:     :unan,
         route:    'unan/home',
-        annonce:  2 
+        annonce:  2
        }
       end
       it 'retourne true' do
@@ -70,8 +70,8 @@ describe Updates do
       it 'retourne false si la propriété d’annonce n’est pas fournie ou est invalide' do
         data.delete(:annonce)
         expect(Updates.data_valides?(data)).to be false
-        expect(Updates.data_valides?(data.merge(annonce: 5))).to be false 
-        expect(Updates.data_valides?(data.merge(annonce: 'oui'))).to be false 
+        expect(Updates.data_valides?(data.merge(annonce: 5))).to be false
+        expect(Updates.data_valides?(data.merge(annonce: 'oui'))).to be false
       end
     end
   end
@@ -80,7 +80,7 @@ describe Updates do
       expect(Updates).to respond_to :add
     end
     it 'permet d’ajouter une actualité' do
-      start_time = Time.now.to_i - 1 
+      start_time = Time.now.to_i - 1
       mess = "Marion est coquine le #{Time.now.strftime('%d %m %Y %H:%M')}"
       # =======> TEST <============
       Updates.add({
@@ -98,7 +98,7 @@ describe Updates do
 end
 
 describe 'Instance de Updates' do
-  
+
   let(:update) { @update ||= Updates.new }
 
   describe '#set' do
@@ -109,7 +109,7 @@ describe 'Instance de Updates' do
   describe '#get' do
     it 'répond' do
       expect(update).to respond_to :get
-    end 
+    end
   end
   describe '#base_n_table' do
     it 'répond' do
