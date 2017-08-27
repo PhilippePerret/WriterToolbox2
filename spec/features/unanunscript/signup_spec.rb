@@ -106,10 +106,11 @@ feature "Inscription au programme UN AN UN SCRIPT" do
       sent_after: start_time,
       message: [
         newU.pseudo, "J’ai le plaisir de vous confirmer votre inscription au programme UN AN UN SCRIPT",
-        '<a href="http://www.laboiteaoutilsdelauteur.fr/unanunscript/aide">Aide du programme UN AN UN SCRIPT</a>'
+        '<a href="http://www.laboiteaoutilsdelauteur.fr/unanunscript/aide">Aide du programme UN AN UN SCRIPT</a>',
+        'Votre facture'
       ]
     )
-    success 'la visiteuse a reçu un mail lui confirmant son inscription'
+    success 'la visiteuse a reçu un mail lui confirmant son inscription (avec facture)'
 
     expect(phil).to have_mail(
       subject:      'Nouvelle inscription au programme UN AN UN SCRIPT',
@@ -119,7 +120,7 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     success 'l’administrateur a reçu un mail annonçant l’inscription'
 
     hprogram = site.db.select(:unan, :programs, {auteur_id: newU.id}).first
-    expect(hprogram).not_to eq nil
+    # expect(hprogram).not_to eq nil
     expect(hprogram[:created_at]).to be > start_time
     success 'Un nouveau programme est créé avec les bonnes données'
 
@@ -137,7 +138,7 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     success 'la page indique les identifiants des programmes et projet'
 
     failure "#{newU.pseudo} arrive sur une page correcte"
-    
+
     visit home_page
     expect(page).to have_content("#{newU.pseudo} commence le programme UN AN UN SCRIPT")
     success 'Le nouveau programme est annoncé en page d’accueil'

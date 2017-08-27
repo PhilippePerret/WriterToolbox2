@@ -11,11 +11,14 @@
 =end
 module PropsAndDbMethods
 
-  def insert hdata
-    site.db.insert(db_name, db_table, hdata)
+  def insert hdata, set_id = nil
+    # Lire note N0001 dans props_and_db_methods.md
+    new_id = site.db.insert(db_name, db_table, hdata)
+    set_id && @id = new_id
     dispatch hdata
+    return new_id
   end
-  
+
   def set hdata
     site.db.update(db_name, db_table, hdata, {id: self.id})
     dispatch hdata

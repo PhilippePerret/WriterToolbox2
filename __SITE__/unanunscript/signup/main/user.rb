@@ -34,19 +34,24 @@ class User
       return false
     end
 
-    # On crée l'enregistrement du paiement si nécessaire
-    options[:paiement] && enregistre_paiement(options[:paiement])
-
     # On crée le programme pour l'auteur(e)
-    @program_id = UUProgram.create_program_for(self, options)
+    @program_id = Unan::UUProgram.create_program_for(self, options)
 
     # On crée le projet pour l'auteur(e)
     options.merge!(program_id: @program_id)
-    @projet_id = UUProjet.create_projet_for(self, options)
+    @projet_id = Unan::UUProjet.create_projet_for(self, options)
 
     # On met le projet_id du programme
-    prog = UUProgram.new(@program_id)
+    prog = Unan::UUProgram.new(@program_id)
     prog.set(projet_id: @projet_id)
+
+    # On crée l'enregistrement du paiement si nécessaire
+    options[:paiement] && begin
+      # Définition de l'objet du paiement, pour la facture
+      hpaie = options[:paiement]
+      hpaie.merge!(objet: "Programme UN AN UN SCRIPT ##{@program_id}")
+      enregistre_paiement(hpaie)
+    end
 
     return true
   end
@@ -83,7 +88,7 @@ class User
   #               sont composées.
   def enregistre_paiement paiement
     require './lib/utils/paiement'
-    ipaiement = Paiement.new(paiement.merge(user_id: self.id, objet: '1UN1SCRIPT'))
+    ipaiement = Paiement.new(paiement.merge(user_id: self.id, objet_id: '1UN1SCRIPT'))
     ipaiement.save
     @last_paiement = ipaiement # Pour le mail
   end

@@ -98,7 +98,7 @@ class MailMatcher
           s   = nbkeys > 1 ? 's' : ''
           les = nbkeys > 1 ? 'les' : 'la'
           nombre_almost += 1
-          "\n\n 📩 \e[32mPresque valide : #{dfound[:instance].subject} \n\e[32m    Propriété#{s} valide#{s} : #{dfound[:keys].pretty_join}\n\e[31m    MAIS échoue sur :#{dfound[:raison_echec]}."
+          "\n\n \e[32m#{nombre_almost}. 📩 Presque valide : #{dfound[:instance].subject} \n\e[32m    Propriété#{s} valide#{s} : #{dfound[:keys].pretty_join}\n\e[31m    MAIS échoue sur :#{dfound[:raison_echec]}."
         end.join(', ')
       s     = nombre_almost > 1 ? 's' : ''
       sont  = nombre_almost > 1 ? 'sont' : 'est'

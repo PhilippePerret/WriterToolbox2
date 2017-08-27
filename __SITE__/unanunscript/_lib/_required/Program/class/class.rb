@@ -3,8 +3,8 @@
 class Unan
   class UUProgram
 
-    extend  PropsAndBdMethods
-    include PropsAndBdMethods
+    extend  PropsAndDbMethods
+    include PropsAndDbMethods
 
     # ---------------------------------------------------------------------
     #

@@ -34,16 +34,12 @@ class Paiement
   end
 
   def save
-    @id = site.db.insert(
-      db_name,
-      db_table,
-      {
-        objet_id:   data[:objet],
-        user_id:    data[:user_id],
-        facture:    facture_id,
-        montant:    data[:montant][:total]
-      }
-    )
+    @id = insert({
+      objet_id:   data[:objet_id],
+      user_id:    data[:user_id],
+      facture:    facture_id,
+      montant:    data[:montant][:total]
+      })
   end
 
   # Produit la facture pour le paiement courant

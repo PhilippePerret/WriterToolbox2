@@ -1,3 +1,5 @@
+* Ajouter l'ID du programme dans la facture UN AN UN SCRIPT
+
 * Définir l'aspect du bouton PayPal
 
 * Régler le prix du programme en fonction du fait que l'user est abonné ou non.
