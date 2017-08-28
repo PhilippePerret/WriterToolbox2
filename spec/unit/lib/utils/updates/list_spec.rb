@@ -3,27 +3,6 @@ require_support_db_for_test
 
 require './__SITE__/home/_lib/_required/updates.rb'
 
-class Fixnum
-  def jours
-    return self * 3600 * 24
-  end
-  def semaines
-    return self.jours * 7
-  end
-  def mois
-    return self.jours * 30
-  end
-  def annee
-    return self.jours * 365
-  end
-  alias :an :annee
-  alias :annees :annee
-  alias :ans :annee
-end
-
-NOW = Time.now.to_i
-JOUR = JOURS = 3600*24
-
 def create_update hdata = nil
   hdata ||= Hash.new
   hdata[:created_at]  ||= NOW

@@ -12,8 +12,8 @@ env_mod = site.offline? ? :sandbox : :production
 # ---------------------------------------------------------------------
 %>
 <div id="indication_tarif">
-  <p>Veuillez cliquer ci-dessous pour procéder au paiement du programme UN AN UN SCRIPT.</p>
-  <p>Ce programme vous coûtera <%= tarif_et_explication %></p>
+  <div>Pour pouvoir procéder au paiement de votre programme UN AN UN SCRIPT (*), merci de cliquer sur le bouton ci-dessous.<div class="tiny">(*) avec un compte PayPal ou par carte.</div></div>
+  <div>Ce programme vous coûtera <%= tarif_et_explication %></div>
 </div>
 <%
 # ---------------------------------------------------------------------
@@ -30,7 +30,9 @@ env_mod = site.offline? ? :sandbox : :production
 </head>
 
 <body>
+  <center>
     <div id="paypal-button-container" style="width:320px;"></div>
+  </center>
 
     <script>
         paypal.Button.render({

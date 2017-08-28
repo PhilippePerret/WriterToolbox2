@@ -1,11 +1,7 @@
 
-* Définir l'aspect du bouton PayPal
-* Régler le prix du programme en fonction du fait que l'user est abonné ou non.
-  Tester :
+* Tester le message afficher dans le formulaire UN AN UN SCRIPT en fonction du fait que l'user est déjà abonné au site ou non (cela doit se faire dans signup/Suscriber_spec et signup/signup_spec)
 
-* Tester l'abonnement (suscriber?) en sachant qu'un inscrit au programme compte deux ans d'abonnement au site.
-
-* Finir le test `spec/features/unanunscript/signup_spec.rb` quand les actualités seront implémentées.
+* Ajouter "Par où commencer ?" dans la page de paiement OK et parler du bureau et de l'aide qu'on peut télécharger.
 
 * On pourrait imaginer un module qui contienne/définisse toutes les opérations ticket, par exemple User#confirm_mail afin de ne pas avoir une méthode qui ne serve qu'une seule fois.
   * => Mettre en place la gestion des tickets
