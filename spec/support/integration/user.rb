@@ -2,8 +2,8 @@
 def identifier_phil
   visit signin_page
   within('form#signin_form') do
-    fill_in 'user_mail', with: DATA_PHIL[:mail]
-    fill_in 'user_password', with: DATA_PHIL[:password]
+    fill_in 'user_mail', with: data_phil[:mail]
+    fill_in 'user_password', with: data_phil[:password]
     click_button 'OK'
   end
 end

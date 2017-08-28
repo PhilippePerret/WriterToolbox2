@@ -98,7 +98,7 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     res = site.db.select(:cold, 'paiements', whereclause)
     res = res.first
     expect(res).not_to eq nil
-    expect(res[:montant]).to eq Uaus.tarif
+    expect(res[:montant]).to eq Unan.tarif
     success 'Le paiement a été enregistré dans la base de données'
 
     expect(newU).to have_mail(
@@ -137,9 +137,10 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     expect(page).to have_content("ID Projet : ##{hprojet[:id]}")
     success 'la page indique les identifiants des programmes et projet'
 
-    failure "#{newU.pseudo} arrive sur une page correcte"
+    success "#{newU.pseudo} arrive sur une page correcte"
 
     visit home_page
+    shot 'accueil-apres-signup-unan'
     expect(page).to have_content("#{newU.pseudo} commence le programme UN AN UN SCRIPT")
     success 'Le nouveau programme est annoncé en page d’accueil'
 

@@ -28,6 +28,10 @@ site.configure do |s|
   # ne sont pas définis.
   s.main_mail = 'phil@laboiteaoutilsdelauteur.fr'
 
+  # Tarif abonnement
+  # ----------------
+  s.tarif =  6.90
+
   # Identifiant Facebook et Twitter
   # -----------------------
   s.facebook  = 'laboiteaoutilsdelauteur'

@@ -1,5 +1,5 @@
 # encoding: UTF-8
-class Uaus
+class Unan
 class << self
 
   # Tarif complet du programme

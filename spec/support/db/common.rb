@@ -73,6 +73,11 @@ def truncate_table_updates
   site.db.use_database(:cold)
   site.db.execute('TRUNCATE TABLE updates;')
 end
+# Vidage de la table des PAIEMENTS
+def truncate_table_paiements
+  site.db.use_database(:cold)
+  site.db.execute('TRUNCATE TABLE paiements;')
+end
 # Vidage de la table des tickets
 def truncate_table_tickets
   site.db.use_database(:hot)

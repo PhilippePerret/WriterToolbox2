@@ -27,6 +27,7 @@ class Unan
 
         send_mail_new_program_to_user(user)
         send_mail_new_program_to_admin
+        annonce_new_program
 
       end
       # ==================================================
@@ -46,6 +47,19 @@ class Unan
         subject: "Nouvelle inscription au programme UN AN UN SCRIPT",
         message: deserb(File.join(thisfolder, 'mail', 'annonce_admin.erb')),
         formated: true
+      })
+    end
+
+    # Annonce du nouveau programme, notamment sur la page
+    # d'accueil.
+    #
+    def annonce_new_program
+      require './lib/utils/updates'
+      Updates.add({
+        message: "<strong>#{user.pseudo}</strong> commence le programme UN AN UN SCRIPT.",
+        route: 'unan/home',
+        type: 'unan',
+        options: '10000000'
       })
     end
 

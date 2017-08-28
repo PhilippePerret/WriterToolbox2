@@ -31,16 +31,19 @@ def create_new_user duser = nil
   require_lib_site
 
   udata = get_data_for_new_user(duser)
+  # Noter que :password a été ajouté à udata. Il faut
+  # retirer cette propriété qui n'est pas enregistrée
+  passw = udata.delete(:password)
 
   # === CRÉATION ===
   udata[:id] = site.db.insert(:hot, 'users', udata)
 
-  return udata.merge(password: password)
+  return udata.merge!(password: passw)
 end
 
 # Envoyer au moins le mot de passe car il ne sera pas renvoyé (c'est le
 # mot de passe crypté qui le sera)
-# 
+#
 def get_data_for_new_user duser = nil
   duser ||= Hash.new
 

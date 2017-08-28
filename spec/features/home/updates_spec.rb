@@ -2,6 +2,7 @@
 require_support_integration
 require_support_db_for_test
 
+
 feature "Présence des dernières actualités sur la page d'accueil" do
   scenario "=> Un visiteur se rendant sur la page d'accueil trouve les dernières actualités" do
     # ======== PRÉPARATION ==========
@@ -9,10 +10,10 @@ feature "Présence des dernières actualités sur la page d'accueil" do
     # On enregistre des dernières actualités pour les voir
     now = Time.now.to_i
     JOUR = 3600*24
-    yesterday   = now - JOUR
-    a_year_ago  = now - 365*JOUR
-    a_month_ago = now - 31*JOUR
-    a_week_ago  = now - 7*JOUR
+    yesterday   = now - 1.jour
+    a_year_ago  = now - 365.jours
+    a_month_ago = now - 1.mois
+    a_week_ago  = now - 1.semaine
 
     @liste_updates = {
 
@@ -24,9 +25,9 @@ feature "Présence des dernières actualités sur la page d'accueil" do
       6 => {id: 6, message: 'Une actualisation Narration',       type: 'narration', route: 'narration/home', options: '10000000', created_at: a_month_ago},
       7 => {id: 7, message: 'Autre actualisation Narration',     type: 'narration', route: 'narration/home', options: '10000000', created_at: a_month_ago},
       8 => {id: 8, message: '3e actualisation Narration',        type: 'narration', route: 'narration/comment_page', options: '10000000', created_at: a_month_ago},
-      4 => {id: 4, message: 'On ne doit pas voir celle-ci',      type: 'unan', route: 'unan/home', options: '00000000', created_at: now - 12*JOUR},
-      5 => {id: 5, message: 'On ne doit pas voir celle-là', type: 'forum', route: 'unan/home', options: '00000000', created_at: now - 96*JOUR},
-      10 => {id: 10, message: 'On ne doit pas voir celle-là (#10)', type: 'forum', route: 'unan/home', options: '00000000', created_at: a_year_ago + JOUR}
+      4 => {id: 4, message: 'On ne doit pas voir celle-ci',      type: 'unan', route: 'unan/home', options: '00000000', created_at: now - 12.jours},
+      5 => {id: 5, message: 'On ne doit pas voir celle-là', type: 'forum', route: 'unan/home', options: '00000000', created_at: now - 96.jours},
+      10 => {id: 10, message: 'On ne doit pas voir celle-là (#10)', type: 'forum', route: 'unan/home', options: '00000000', created_at: a_year_ago + 1.jour}
 
     }
     @liste_updates.each do |uid, hupdate|

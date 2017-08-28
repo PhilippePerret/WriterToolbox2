@@ -1,8 +1,9 @@
-* Ajouter l'ID du programme dans la facture UN AN UN SCRIPT
 
 * Définir l'aspect du bouton PayPal
-
 * Régler le prix du programme en fonction du fait que l'user est abonné ou non.
+  Tester :
+
+* Tester l'abonnement (suscriber?) en sachant qu'un inscrit au programme compte deux ans d'abonnement au site.
 
 * Finir le test `spec/features/unanunscript/signup_spec.rb` quand les actualités seront implémentées.
 

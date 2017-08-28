@@ -3,9 +3,6 @@
 # Pour le moment, on le met ici
 env_mod = site.offline? ? :sandbox : :production
 
-# TODO IL FAUT DÉFINIR LE MONTANT AUTREMENT
-montant = '0.01'
-
 %>
 <%
 # ---------------------------------------------------------------------
@@ -14,7 +11,10 @@ montant = '0.01'
 #
 # ---------------------------------------------------------------------
 %>
-
+<div id="indication_tarif">
+  <p>Veuillez cliquer ci-dessous pour procéder au paiement du programme UN AN UN SCRIPT.</p>
+  <p>Ce programme vous coûtera <%= tarif_et_explication %></p>
+</div>
 <%
 # ---------------------------------------------------------------------
 #
@@ -30,12 +30,22 @@ montant = '0.01'
 </head>
 
 <body>
-    <div id="paypal-button-container"></div>
+    <div id="paypal-button-container" style="width:320px;"></div>
 
     <script>
         paypal.Button.render({
 
             env: '<%= env_mod == :sandbox ? 'sandbox' : 'production' %>',
+
+            locale: 'fr_FR',
+
+            style: {
+              size: 'responsive', // prend la taille du conteneur
+              color: 'gold',
+              shape: 'rect',
+              fundingicons: true,
+              label: 'buynow', branding:true ///'checkout'
+          },
 
             // PayPal Client IDs - replace with your own
             // Create a PayPal app: https://developer.paypal.com/developer/applications/create
