@@ -1,4 +1,8 @@
+=begin
 
+  Test d'un user inscrit mais pas abonné au site
+
+=end
 require_lib_site
 require_lib_uaus
 
@@ -7,18 +11,14 @@ require_support_db_for_test
 require_support_paiements
 require_support_mails_for_test
 
-feature "Inscription au programme UN AN UN SCRIPT (par un user déjà abonné)" do
+feature "Inscription au programme UN AN UN SCRIPT par un user inscrit mais pas abonné" do
   before(:all) do
-    # On fait de l'user un abonné au site
+    # On fait de l'user un inscrit au site mais pas un abonné
     @duser = create_new_user(mail_confirmed: true)
-    add_paiement(@duser[:id], {
-      user_id: @duser[:id], objet_id: 'ABONNEMENT', created_at: NOW - 12.jours,
-      facture: 'PAY-45CJFJKKDKL77', montant: site.configuration.tarif
-      })
   end
   scenario 'Un visiteur abonné peut s’inscrire au programme (en payant moins cher)' do
 
-    montant_suscriber = Unan.tarif - site.configuration.tarif
+    montant_suscriber = Unan.tarif
 
     start_time = Time.now.to_i
 
@@ -31,8 +31,8 @@ feature "Inscription au programme UN AN UN SCRIPT (par un user déjà abonné)" 
     end
 
     u = User.get(@duser[:id])
-    expect(u).to be_suscribed
-    success 'le visiteur est bien un visiteur abonné'
+    expect(u).not_to be_suscribed
+    success 'le visiteur n’est pas un abonné'
 
     click_link 'outils', match: :first
     expect(page).to have_tag('h2', text: 'Outils d’écriture')
@@ -42,7 +42,7 @@ feature "Inscription au programme UN AN UN SCRIPT (par un user déjà abonné)" 
     expect(page).to have_link('S’inscrire au programme')
     click_link 'S’inscrire au programme', match: :first
 
-    expect(page).to have_tag('div#indication_tarif > div', text: /vous bénéficiez d’un an d’abonnement supplémentaire/)
+    expect(page).to have_tag('div#indication_tarif > div', text: /compris : deux ans d’abonnement complet au site/)
     expect(page).to have_tag('span', with:{id:'tarif_unan'}, text: "#{montant_suscriber} €")
     success 'la page du formulaire présente le bon texte et le bon tarif pour un abonné'
 
