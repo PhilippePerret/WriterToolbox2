@@ -17,7 +17,7 @@ class User
   def projet_id
     @projet_id ||= begin
       # On prend le projet actif
-      r = site.db.select(:unan, 'projets', "auteur_id = #{id} AND SUBSTRING(options,1,1) = '1'", [:id])
+      r = site.db.select(:unan, 'projets', "auteur_id = #{id} AND SUBSTRING(specs,1,1) = '1'", [:id])
       r.first[:id]
     end
   end

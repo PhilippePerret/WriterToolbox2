@@ -61,6 +61,10 @@ class Updates
       # choses au bout.
       wclause = wclause.join(' AND ')
 
+      params[:sort_by] && begin
+        wclause << " ORDER BY #{params[:sort_by]}"
+      end
+
       params[:limit] && begin
         wclause << " LIMIT #{params[:limit]}"
       end

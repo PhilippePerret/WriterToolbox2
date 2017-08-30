@@ -2,15 +2,6 @@ require_lib_site
 require_support_db_for_test
 
 describe 'Statut de l’user' do
-  def add_paiement u, dpaiement
-    dpaiement[:objet_id] ||= 'ABONNEMENT'
-    dpaiement.merge!(user_id: u.id)
-    dpaiement[:montant]  ||= (dpaiement[:objet_id] == '1AN1SCRIPT' ? 19.8 : 6.90)
-    dpaiement[:facture]  ||= "ABVDGFH#{Time.now.to_i.to_s(36)}"[0..31]
-    site.db.insert(:cold,'paiements',dpaiement)
-    @nuser.instance_variable_set('@is_suscribed', nil)
-    @nuser.instance_variable_set('@is_unanunscript', nil)
-  end
   before(:all) do
     truncate_table_paiements
     @dataU = create_new_user

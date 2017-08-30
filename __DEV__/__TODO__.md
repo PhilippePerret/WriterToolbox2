@@ -1,5 +1,27 @@
+* Ne prendre que les dix dernières actualisations
 
-* Tester le message afficher dans le formulaire UN AN UN SCRIPT en fonction du fait que l'user est déjà abonné au site ou non (cela doit se faire dans signup/Suscriber_spec et signup/signup_spec)
+* Poursuivre l'affinement du test signup_spec.rb
+* Poursuivre l'affinement du test de l'inscript UAUS pour un abonné
+
+* La page unanunscript/signup/1 doit toujours pouvoir être atteinte, mais si le paiement est déjà enregistré pour l'user courant, on lui présente simplement le page de confirmation d'inscription.
+
+* Mettre en place (et tester) le traitement des fichiers
+  - fichier ERB
+  On passe par trois niveaux :
+  1. Fichiers balisés original (ERB, Kramdown, Autre ?)
+     Si pas à jour, le fichier dynamique doit être reproduit
+  2. Fichier dynamique (ne contient plus que les <% %> ou #{...}, à voir) qui devront être remplacés par les valeurs courantes (et notamment le pseudo, ou les féminines).
+  3. Code final, envoyé au navigateur pour l'utilisateur.
+
+  Voir aussi qu'il y a les cas des textes qu'on ne peut pas encore lire, soit parce que l'user n'a pas le niveau suffisant soit parce que le texte n'est pas encore lisible, comme certaines pages de cours. Donc, avant la transformation, il y a peut-être une vérification à faire.
+  1. On demande le fichier
+  => Filtre en fonction du développement du fichier et du niveau de l'user
+  Si OK suite, sinon, texte type pour dire lecture impossible.
+  2. Production du fichier dynamique s'il n'est pas à jour.
+  3. Production du code final en fonction de l'user.
+  NON : c'est à gérer avant, dans l'application Narration.
+
+* Tester le message affiché dans le formulaire UN AN UN SCRIPT en fonction du fait que l'user est déjà abonné au site ou non (cela doit se faire dans signup/Suscriber_spec et signup/signup_spec)
 
 * Ajouter "Par où commencer ?" dans la page de paiement OK et parler du bureau et de l'aide qu'on peut télécharger.
 

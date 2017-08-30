@@ -34,6 +34,7 @@ class Updates
                           list({
                             created_after:  Time.now.to_i - 365*24*3600, 
                             displayable:    true, 
+                            sort_by:        'created_at DESC',
                             group_by_type:  true,
                             limit:          10
                           })

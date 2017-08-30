@@ -14,20 +14,33 @@
     #
     # Quand le paiement a été exécuté avec succès
     #
-    # L'user a payé le programme, on le crée.
-    # Noter que l'avantage de le faire ici est qu'on pourra
-    # reprendre les valeurs du programme pour le message de
-    # confirmation.
+    # L'user a payé le programme, on crée ce programme.
+  %>
+  <% 
+    if user.unanunscript?
+      # Quand l'utilisateur repasse par ici, par exemple en
+      # utilisant le bouton retour de son navigateur, et donc
+      # que son programme a déjà été créé.
+      # dans ce cas, on lui affiche simplement la page de confirmation,
+      # où il peut trouver les liens qu'il cherche peut-être
+      debug "-> User inscrit repassant par la page unanunscript/signup/1"
+    else
+      # ========> CRÉATION DU PROGRAMME <=================
+      # L'user vient de payer son programme. On le crée, ainsi
+      # que son projet, on enregistre le paiement.
+      Unan.on_paiement_ok() # cf. main.rb
+    end
   %>
   <%=
-    # ========> CRÉATION DU PROGRAMME <=================
-              Unan.on_paiement_ok() # cf. main.rb
     # ==================================================
-    header          +
-    partial('paiement_ok') +
-    right_margin    +
-    footer
-  %>
+    # Noter qu'on passe ici aussi bien quand on vient de créer
+    # le programme que lorsque l'auteur revient à cette page
+    # de confirmation et qu'il ne faut pas recréer sa donnée.
+      header          +
+      partial('paiement_ok') +
+      right_margin    +
+      footer
+    %>
 <% elsif user.identified? %>
   <%=
     #
@@ -35,6 +48,11 @@
     # (ou vient de s'inscrire), il peut aller au formulaire PayPal pour
     # payer le programme UN AN UN SCRIPT
     #
+
+    session['uaus_signup'] = session.session_id
+      # Cette variable session est surtout utile quand l'user doit s'inscrire,
+      # ici, elle sert juste à offrir un verrou de plus au programme, rien de
+      # plus.
     header          +
     "<h2>S’inscrire au programme UN AN UN SCRIPT</h2>" +
     partial('form') +

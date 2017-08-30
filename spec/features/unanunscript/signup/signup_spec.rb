@@ -72,6 +72,10 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     expect(page).to have_selector('div#paypal-button-container')
     success 'le visiteur est retourné au formulaire d’inscription au programme'
 
+    expect(page).to have_tag('span', with:{id:'tarif_unan'}, text: '19.8 €')
+    expect(page).to have_tag('div#indication_tarif > div', text: /compris : deux ans d’abonnement complet au site/)
+    success 'Il trouve un message de paiement correct pour un non abonné, avec le bon tarif'
+
     # ICI, je ne sais pas comment gérer le clic sur le bouton de paiement,
     # puisqu'il se trouve sur une frame qui n'est même pas accessible. Donc,
     # j'essayerai manuellement cette partie là, avec un script juste pour ça,
@@ -87,14 +91,21 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     '&id=Pay-ABCDEFGH&cart=HF7D68D65S'
 
 
+    success 'La page de confirmation d’inscription contient…'
     expect(page).to have_tag('h2', text: 'Inscription réussie !')
+    success '… le bon titre'
     expect(page).to have_content("vous êtes maintenant inscrite au programme")
+    success '… la confirmation de l’inscription'
 
-    sleep 5 # pour voir un peu la page d'arrivée
+    expect(page).to have_tag('a', with:{href: 'unanunscript/bureau'}, text: 'le bureau de votre programme')
+    success '… un lien pour rejoindre le bureau'
+    expect(page).to have_tag('a', with:{href:'unanunscript/aide'}, text: 'l’aide du programme')
+    success '… un lien pour rejoindre l’aide du programmme'
+
 
     # Le paiement a dû être enregistré dans la table des paiements
     # (détruire la table des paiements en début de test)
-    whereclause = "objet_id = '1UN1SCRIPT' AND user_id = #{newU.id} AND created_at > #{start_time}"
+    whereclause = "objet_id = '1AN1SCRIPT' AND user_id = #{newU.id} AND created_at > #{start_time}"
     res = site.db.select(:cold, 'paiements', whereclause)
     res = res.first
     expect(res).not_to eq nil
@@ -143,6 +154,20 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     shot 'accueil-apres-signup-unan'
     expect(page).to have_content("#{newU.pseudo} commence le programme UN AN UN SCRIPT")
     success 'Le nouveau programme est annoncé en page d’accueil'
+
+    visit "http://#{site.url}/unanunscript/signup/1"
+    expect(page).to have_tag('h2', text: 'Inscription réussie !')
+    success 'l’auteur peut rejoindre à nouveau la page de confirmation'
+
+    click_link 'le bureau de votre programme'
+    expect(page).to have_tag('h2', text: 'Bureau de votre programme UN AN UN SCRIPT')
+    success 'depuis la page de confirmation il peut rejoindre son bureau'
+
+    visit "http://#{site.url}/unanunscript/signup/1"
+    expect(page).to have_tag('h2', text: 'Inscription réussie !')
+    click_link 'l’aide du programme'
+    expect(page).to have_tag('h2', text: 'Aide du programme UN AN UN SCRIPT')
+    success 'depuis la page de confirmation il peut rejoindre l’aide du programme'
 
   end
 

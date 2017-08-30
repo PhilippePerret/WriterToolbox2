@@ -21,6 +21,7 @@ class User
   def create_program options = nil
     options ||= Hash.new
 
+    debug "-> User#create_program(options=#{options.inspect})"
     # Ici, on doit s'assurer que ce n'est pas un user inscrit
     # qui utilise simplement l'adresse pour créer son programme
     # sans payer.
@@ -87,8 +88,9 @@ class User
   #               Cf. le module `main.rb` au même niveau que ce fichier
   #               sont composées.
   def enregistre_paiement paiement
+    debug "-> enregistre_paiement(#{paiement.inspect})"
     require './lib/utils/paiement'
-    ipaiement = Paiement.new(paiement.merge(user_id: self.id, objet_id: '1UN1SCRIPT'))
+    ipaiement = Paiement.new(paiement.merge(user_id: self.id, objet_id: '1AN1SCRIPT'))
     ipaiement.save
     @last_paiement = ipaiement # Pour le mail
   end

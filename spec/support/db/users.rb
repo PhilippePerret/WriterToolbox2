@@ -44,8 +44,13 @@ end
 # Envoyer au moins le mot de passe car il ne sera pas renvoyé (c'est le
 # mot de passe crypté qui le sera)
 #
+# Ajouter mail_confirmed: true à +duser+ pour faire un user qui a confirmé
+# son email.
+#
 def get_data_for_new_user duser = nil
   duser ||= Hash.new
+
+  mail_is_conf = duser[:mail_confirmed]
 
   nows = Time.now.to_i.to_s(36)
 
@@ -56,13 +61,13 @@ def get_data_for_new_user duser = nil
     patronyme:  duser[:patronyme] || "NewU Ser#{nows}",
     sexe:       duser[:sexe]      || 'F',
     mail:       duser[:mail]      || "new.user.#{nows}@mail.com",
-    options:    duser[:options]   || '0000000000',
+    options:    duser[:options]   || "00#{mail_is_conf ? '1' : '0'}0000000",
     salt:       duser[:salt]      || 'dusel',
+    password:   duser[:password]  || 'motdepasse', # sera retiré
     cpassword:  nil
   }
   require 'digest/md5'
-  password  = duser[:password] || 'monmotdepasse'
-  udata[:cpassword] = Digest::MD5.hexdigest("#{password}#{udata[:mail]}#{udata[:salt]}")
+  udata[:cpassword] = Digest::MD5.hexdigest("#{udata[:password]}#{udata[:mail]}#{udata[:salt]}")
 
   return udata
 end

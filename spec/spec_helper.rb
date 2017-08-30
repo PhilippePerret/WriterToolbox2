@@ -53,6 +53,10 @@ RSpec.configure do |config|
   end
   alias :require_support_mail_for_test :require_support_mails_for_test
 
+  def require_support_paiements
+    require_folder './spec/support/paiements'
+  end
+  
   # Pour les tests have_tag etc.
   config.include RSpecHtmlMatchers
 
