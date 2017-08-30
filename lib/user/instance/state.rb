@@ -29,7 +29,6 @@ class User
     identified? || ( return false )
     if @is_unanunscript === nil
       @is_unanunscript = is_auteur_unanunscript?
-      debug "@is_unanunscript = #{@is_unanunscript.inspect}"
     end
     @is_unanunscript
   end

@@ -5,6 +5,7 @@ require_lib_uaus
 require_support_integration
 require_support_db_for_test
 require_support_paiements
+require_support_mails_for_test
 
 feature "Inscription au programme UN AN UN SCRIPT" do
   before(:all) do
@@ -17,8 +18,10 @@ feature "Inscription au programme UN AN UN SCRIPT" do
   end
   scenario 'Un visiteur abonné peut s’inscrire au programme (en payant moins cher)' do
 
+    montant_suscriber = Unan.tarif - site.configuration.tarif
+
     start_time = Time.now.to_i
-    
+
     visit home_page
     click_link('s’identifier')
     within('form#signin_form') do
@@ -26,6 +29,11 @@ feature "Inscription au programme UN AN UN SCRIPT" do
       fill_in 'user_password', with: @duser[:password]
       click_button 'OK'
     end
+
+    u = User.get(@duser[:id])
+    expect(u).to be_suscribed
+    success 'le visiteur est bien un visiteur abonné'
+
     click_link 'outils', match: :first
     expect(page).to have_tag('h2', text: 'Outils d’écriture')
     expect(page).to have_tag('a', with:{href:'unanunscript/home'}, text: 'Le programme UN AN UN SCRIPT')
@@ -35,7 +43,7 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     click_link 'S’inscrire au programme', match: :first
 
     expect(page).to have_tag('div#indication_tarif > div', text: /vous bénéficiez d’un an d’abonnement supplémentaire/)
-    expect(page).to have_tag('span', with:{id:'tarif_unan'}, text: '12.9 €')
+    expect(page).to have_tag('span', with:{id:'tarif_unan'}, text: "#{montant_suscriber} €")
     success 'la page du formulaire présente le bon texte et le bon tarif pour un abonné'
 
     # Comme pour l'inscription normal, on ne peut pas (enfin… JE ne sais pas)
@@ -48,7 +56,7 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     prenom, nom = newU.get(:patronyme).split(' ')
 
     visit "http://#{site.url}/unanunscript/signup/1?"+
-    'state=approved&status=VERIFIED&montant=19.8&montant_total=19.8' +
+    "state=approved&status=VERIFIED&montant=#{montant_suscriber}&montant_total=#{montant_suscriber}" +
     '&montant_id=HFJDHS678S76S&montant_currency=EUR' +
     "&auteur_first_name=#{prenom}&auteur_last_name=#{nom}&auteur_email=#{newU.mail}" +
     '&id=Pay-ABCDEFGH&cart=HF7D68D65S'
@@ -67,8 +75,8 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     res = site.db.select(:cold, 'paiements', whereclause)
     res = res.first
     expect(res).not_to eq nil
-    expect(res[:montant]).to eq Unan.tarif - site.configuration.tarif
-    success 'Le paiement a été enregistré dans la base de données'
+    expect(res[:montant]).to eq montant_suscriber
+    success 'Le paiement a été enregistré dans la base de données avec un montant valide'
 
     expect(newU).to have_mail(
       subject:    'Inscription au programme UN AN UN SCRIPT',
@@ -102,11 +110,17 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     expect(hprogram[:projet_id]).to eq hprojet[:id]
     success 'le programme et le projet sont liés'
 
+
+    success "#{newU.pseudo} arrive sur une page contenant…"
+
     expect(page).to have_content("ID Programme : ##{hprogram[:id]}")
     expect(page).to have_content("ID Projet : ##{hprojet[:id]}")
-    success 'la page indique les identifiants des programmes et projet'
-
-    success "#{newU.pseudo} arrive sur une page correcte"
+    success '… les identifiants des programmes et projet'
+    expect(page).to have_tag('a', with:{href:'unanunscript/aide'}, text: "l’aide du programme")
+    success '… un lien vers l’aide du programme'
+    expect(page).to have_tag('a', with:{href:'unanunscript/bureau'}, text: "le bureau de votre programme")
+    success '… un lien vers le bureau de l’auteur pour son programme'
+    success 'Donc une page de confirmation valide (testée plus profondément dans le test d’une inscription par un user quelconque)'
 
     visit home_page
     shot 'accueil-apres-signup-unan'
