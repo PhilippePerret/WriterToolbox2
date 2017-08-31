@@ -1,9 +1,9 @@
-* Ne prendre que les dix dernières actualisations
+* Mettre en place et tester la fonction qui permet d'enregistrer des valeurs dans une base de données
+* Mettre en place et tester la partie coup de projecteur
+  - partie admin
+  - partie home
 
-* Poursuivre l'affinement du test signup_spec.rb
-* Poursuivre l'affinement du test de l'inscript UAUS pour un abonné
-
-* La page unanunscript/signup/1 doit toujours pouvoir être atteinte, mais si le paiement est déjà enregistré pour l'user courant, on lui présente simplement le page de confirmation d'inscription.
+* Mettre en place et tester l'accueil
 
 * Mettre en place (et tester) le traitement des fichiers
   - fichier ERB

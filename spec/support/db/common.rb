@@ -74,6 +74,11 @@ def truncate_table_updates
   site.db.execute('TRUNCATE TABLE updates;')
 end
 
+def truncate_table_variables user_id # ou 0 pour le site
+  site.db.use_database(:users_tables)
+  site.db.execute("TRUNCATE TABLE variables_#{user_id}")
+end
+
 # Vidage de la table des tickets
 def truncate_table_tickets
   site.db.use_database(:hot)

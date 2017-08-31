@@ -1,0 +1,51 @@
+<%=
+=begin
+  Formulaire d'édition du coup de projecteur
+=end
+
+param(:spotlight) ||= param(:spotlight, Hash.new)
+%>
+<form class="w50pc" action="admin/spotlight" method="POST">
+  <input type="hidden" name="operation" value="save_spotlight">
+
+  <div>
+    <label for="spotlight_text_before"></label>
+    <span class="field">
+      <input type="text" id="spotlight_text_before" name="spotlight[text_before]" value="<%= param(:spotlight)[:text_before] %>">
+    </span>
+  </div>
+
+  <div>
+    <label for="spotlight_objet">Objet</label>
+    <span class="field">
+      <input type="text" name="spotlight[objet]" id="spotlight_objet" value="<%= param(:spotlight)[:objet] %>">
+    </span>
+  </div>
+
+  <div>
+    <label for="spotlight_route">Route</label>
+    <span class="field">
+      <input type="text" name="spotlight[route]" id="spotlight_route" value="<%= param(:spotlight)[:route]%> ">
+    </span>
+  </div>
+
+  <div>
+    <label for="spotlight_text_after"></label>
+    <span class="field">
+      <input type="text" id="spotlight_text_after" name="spotlight[text_after]" value="<%= param(:spotlight)[:text_after] %>">
+    </span>
+  </div>
+
+  <div class="buttons">
+    <input type="submit" value="Enregistrer">
+  </div>
+</form>
+
+<div id="apercu">
+  <!-- Pour avoir un aperçu du résultat -->
+  <section id="home_spotlight">
+    <div id="spotlight_before_objet"></div>
+    <div id="spotlight_objet"></div>
+    <div id="spotlight_after_objet"></div>
+  </section>
+</div>
