@@ -4,6 +4,9 @@
   à un visiteur quelconque
 
 =end
+
+require_support_integration
+
 feature "Page d'accueil" do
   scenario "Un visiteur quelconque trouve une page valide" do
     visit home_page
@@ -24,10 +27,10 @@ feature "Page d'accueil" do
     success 'donc un entête valide.'
 
     success 'le visiteur trouve un incipit contenant…'
-    expect(page).to have_tag('div', with:{id: 'incipit'}) do
-      with_tag( 'img', with:{id: 'medaillon_phil_accueil'})
+    expect(page).to have_tag('section', with:{id: 'incipit'}) do
+      with_tag( 'img', with:{src: './img/phil-medaillon.png'})
       success '… le médaillon de Phil'
-      with_tag('a', with:{href: 'site/phil'}, text: 'Philippe Perret')
+      with_tag('a', with:{href: 'site/phil'}, text: 'philippe perret')
       success '… un lien conduisant au profil de Phil'
       with_tag('a', with:{href: 'site/charte'}, text: /charte/)
       success '… un lien conduisant à la charte du site'
@@ -42,14 +45,17 @@ feature "Page d'accueil" do
     end
     success 'le visiteur trouve une section avec le coup de projecteur sur Narration et un lien y conduisant'
 
+    expect(page).to have_tag('section', with:{id:'suscribe'}) do
+      with_tag('a', with:{href:'user/suscribe'}, text: 'S’ABONNER')
+    end
+    success 'le visiteur trouve un cadre d’abonnement avec un lien pour s’abonner au site'
+
+
     expect(page).to have_tag('fieldset', with:{id: 'last_updates'})
     success 'le visiteur trouve un fieldset avec les dernières actualités'
 
     expect(page).to have_tag('section', with:{id: 'last_post'})
     success 'le visiteur trouve une section contenant le dernier article de blog'
-
-    expect(page).to have_tag('a', with:{href:'user/suscribe'}, text: 's’abonner')
-    success 'le visiteur trouve un lien pour s’abonner au site'
 
     success 'le visiteur trouve un pied de page avec…'
     expect(page).to have_tag('section', with:{id:'footer'}) do

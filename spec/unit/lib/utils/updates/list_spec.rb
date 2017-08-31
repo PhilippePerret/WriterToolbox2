@@ -46,7 +46,7 @@ describe Updates do
       8 => {id: 8, message: "À ne pas afficher", type: 'unan', created_at: NOW-2.semaines, options: '000000'},
       9 => {id: 9, message: "Autre non affichée", type: 'narration', created_at: NOW-4.semaines, options: '000000'},
       12 => {id: 12, message:"Trop vieille", type: 'site', created_at: NOW - 1.an - 1.jours, options: '110000'},
-      13 => {id: 13, message:"Trop vieille avec route", type: 'forum', route:'unan/home', created_at: NOW - 1.an - 2.semaines, options: '110000'}
+      13 => {id: 13, message:"Trop vieille avec route", type: 'forum', route:'unanunscript/home', created_at: NOW - 1.an - 2.semaines, options: '110000'}
     }
 
     create_updates @data_updates

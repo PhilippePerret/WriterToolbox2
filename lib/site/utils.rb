@@ -52,10 +52,13 @@ class Site
   # des templates ./__SITE__/xTemplate/<relpath>/
   #
   def load_template relpath, version = nil
+    debug "-> load_template(#{relpath}, #{version})"
     version ||= :full
     version = version == :full ? '' : "-#{version}"
     load_folder "xTemplate/#{relpath}"
     temp_path = "./__SITE__/xTemplate/#{relpath}/main#{version}.erb"
+    debug("temp_path = #{temp_path.inspect}")
+    debug("temp existe ? #{File.exist?(temp_path)}")
     File.exist?(temp_path) ? deserb(temp_path) : ''
   end
 

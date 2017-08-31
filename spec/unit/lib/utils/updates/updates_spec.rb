@@ -32,7 +32,7 @@ describe Updates do
        @data = {
         message: "Un message correct",
         type:     :unan,
-        route:    'unan/home',
+        route:    'unanunscript/home',
         annonce:  2
        }
       end
@@ -50,7 +50,7 @@ describe Updates do
         @data = {
           message: "Un message pour les actualités",
           type:    :unan,
-          route:   'unan/home',
+          route:   'unanunscript/home',
           annonce: 1
         }
       end

@@ -15,9 +15,9 @@ describe Updates do
     end
     it 'contient un lien si contient une route' do
       date = Time.now
-      u = Updates.new(message: "Actualité avec route", route: 'unan/home', created_at: date.to_i)
+      u = Updates.new(message: "Actualité avec route", route: 'unanunscript/home', created_at: date.to_i)
       res = u.as_li
-      expect(res).to have_tag('a', with: {href: 'unan/home', class: 'update'})
+      expect(res).to have_tag('a', with: {href: 'unanunscript/home', class: 'update'})
       expect(res).to have_tag('span', with: {class: 'date'}, text: date.strftime('%d %m %Y'))
     end
   end

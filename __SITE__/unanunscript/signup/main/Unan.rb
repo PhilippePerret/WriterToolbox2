@@ -57,7 +57,7 @@ class Unan
       require './lib/utils/updates'
       Updates.add({
         message: "<strong>#{user.pseudo}</strong> commence le programme UN AN UN SCRIPT.",
-        route: 'unan/home',
+        route: 'unanunscript/home',
         type: 'unan',
         options: '10000000'
       })

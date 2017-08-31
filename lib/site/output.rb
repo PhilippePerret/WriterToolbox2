@@ -52,8 +52,8 @@ class Site
   def head          ; @head     ||= load_template('head')           end
   def header(v=nil) ; @header   ||= load_template('header',v)       end
   def footer(v=nil) ; @footer   ||= load_template('footer',v)       end
-  def lmargin(v=nil); @lmargin  ||= load_template('left_margin',v)  end
-  def rmargin(v=nil); @rmargin  ||= load_template('right_margin',v) end
+  def lmargin(v=nil); @lmargin  ||= load_template('lmargin',v)      end
+  def rmargin(v=nil); @rmargin  ||= load_template('rmargin',v)      end
 
   alias :left_margin  :lmargin
   alias :right_margin :rmargin
