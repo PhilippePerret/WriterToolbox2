@@ -15,8 +15,15 @@ class Site
     phil_linked = '<a href="site/phil" class="patronyme">philippe perret</a>'
     charte_linked = '<a href="site/charte">la Charte</a>'
     c << '<img src="./img/phil-medaillon.png" id="medaillon_phil" />'
-    c << "<div>Conçu par #{phil_linked}, ce site est entièrement dévolu à l'élaboration des histoires (cf. #{charte_linked}).</div>"
-    
+    c << "<div>Site conçu par #{phil_linked} entièrement dévolu à l'élaboration des histoires sous toutes leurs formes (cf.&nbsp;#{charte_linked}).</div>"
+
     "<section id=\"incipit\">#{c}</section>"
   end
-end
+
+  # Retourne le code HTML de la section pour voir le début du
+  # dernier article de blog du site.
+  def section_last_post
+    require './__SITE__/blog/_lib/module/home'
+    Blog.home_extract
+  end
+end # /Site

@@ -1,7 +1,8 @@
-* Test de la redirection vers une erreur quand on n'est pas admin est qu'on cherche à rejoindre l'administration
-* Mettre en place et tester la partie coup de projecteur
-  - partie admin
-  - partie home
+* Mettre en place le blog et le tester
+* Mettre en place l'abonnement (comme le programme UN AN UN SCRIPT dont on peut reprendre le formulaire)
+* Écrire mon CV (site/phil/main.erb)
+* Écrire la partie charte du site (site/charte/main.erb)
+* Style : mettre un repère comme --------v------- sous les liens "boite", "outils" et "auteur" pour qu'on comprenne mieux que ce sont des liens principaux
 * Mettre en place et tester l'accueil
 
 * Mettre en place (et tester) le traitement des fichiers

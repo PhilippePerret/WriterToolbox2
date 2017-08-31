@@ -1,10 +1,14 @@
+fieldset
+  legend
+    color   : #999
+
 // L'incipit du site
 section#incipit
   float           : right
   font-size       : 13pt
   border-bottom   : 1px solid white
   display         : inline-block
-  width           : 412px
+  width           : 460px
   text-align      : justify
   padding         : 1em 2em 1em 1em
   img
@@ -39,8 +43,6 @@ fieldset#last_updates
   font-size   : 13pt
   display     : inline-block
   width       : 22em
-  legend
-    color       : #999
   div.titre
     font-weight   : bold
   ul.updates
@@ -51,3 +53,14 @@ fieldset#last_updates
         margin-right    : 0.5em
         font-size       : 10pt
         color           : #555
+
+
+fieldset#last_article
+  font-size   : 0.85em
+  text-align  : justify
+  h3, div, p, a
+    display   : inline !important
+    margin    : 0
+    color     : inherit !important
+  h3:after
+    content   : " - "
