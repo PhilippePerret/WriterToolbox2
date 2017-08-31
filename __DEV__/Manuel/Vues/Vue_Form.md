@@ -1,5 +1,18 @@
 # Vue - Les formulaires
 
+## Requérir le support de formulaire {#vue_require_support_form}
+
+Selon le principe du chargement minimum, il faut requérir le support de librairie pour bénéficier des quelques outils utiles :
+
+```html
+<%
+  require_form_support
+%>
+<form ...>
+
+
+```
+
 ## Construction type d'un formulaire {#vue_form_building_type}
 
 ```html
@@ -59,18 +72,6 @@ On peut appliquer les classes suivantes à tous les champs de saisie (text, sele
 ```
 
 
-## Requérir le support de formulaire {#vue_require_support_form}
-
-Selon le principe du chargement minimum, il faut requérir le support de librairie pour bénéficier des quelques outils utiles :
-
-```html
-<%
-  require_form_support
-%>
-<form ...>
-
-
-```
 
 ## Gérer le non rechargement à l'aide d'un FORMID {#vue_form_gerer_non_rechargement}
 

@@ -5,3 +5,5 @@
 * Supprimer la colonne `annonce` dans la table :cold.updates (et la supprimer dans la définition de la table).
 
 * Mettre la taille de la colonne `options` de la table :cold.updates à 16 (elle est à 32).
+
+* Définir le coup de projecteur (rejoindre la section administration prévue à cet effet).

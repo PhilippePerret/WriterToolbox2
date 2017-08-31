@@ -16,6 +16,10 @@ def signup_page
   "#{base_url}/user/signup"
 end
 
+def admin_page
+  "#{base_url}/admin"
+end
+
 def base_url
   url = offline? ? 'localhost/WriterToolbox2' : 'www.laboiteaoutilsdelauteur.fr'
   "http://#{url}"

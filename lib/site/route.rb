@@ -45,6 +45,10 @@ class Site
     # ---------------------------------------------------------------------
     def load
       !@loaded  || return
+      # Pour toutes les routes qui commencent par "admin", il faut impérativement
+      # que l'user soit un administrateur. Dans le cas contraire, on le redirige
+      # vers une page de redirection.
+      objet == 'admin' && !user.admin? && redirect_to('site/unauthorized_page')
       File.exist?(solid_path) || return
       site.load_folder(short_route)
       @loaded = true

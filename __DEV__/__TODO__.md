@@ -1,8 +1,7 @@
-* Mettre en place et tester la fonction qui permet d'enregistrer des valeurs dans une base de données
+* Test de la redirection vers une erreur quand on n'est pas admin est qu'on cherche à rejoindre l'administration
 * Mettre en place et tester la partie coup de projecteur
   - partie admin
   - partie home
-
 * Mettre en place et tester l'accueil
 
 * Mettre en place (et tester) le traitement des fichiers

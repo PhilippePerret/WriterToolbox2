@@ -33,9 +33,12 @@ feature "Page d'accueil" do
       success '… un lien conduisant à la charte du site'
     end
 
-    # TODO Mettre le coup de projecteur à la collection narration
+    site.set_var('spotlight_objet', 'collection Narration')
+    site.set_var('spotlight_after_text', 'les cours de narration en ligne de Philippe Perret')
+    site.set_var('spotlight_route', 'narration:home')
     expect(page).to have_tag('section', with:{id: 'home_spotlight'}) do
       with_tag('a', with: {href: 'narration/home'}, text: 'collection Narration')
+      with_tag('div', text: 'les cours de narration en ligne de Philippe Perret')
     end
     success 'le visiteur trouve une section avec le coup de projecteur sur Narration et un lien y conduisant'
 

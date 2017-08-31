@@ -12,7 +12,7 @@ class Site
       @titre_in_logo ||= begin
         "<h1 class=\"#{pour}\">" +
         "La " +
-        "<a href=\"\" title=\"Retour à l’accueil\">Boite</a>" + # accueil
+        "<a href=\"\" title=\"Retour à l’accueil\">boite</a>" + # accueil
         " à " +
         "<a href=\"outils\" title=\"Liste des outils\">outils</a>" +
         " de l’" +

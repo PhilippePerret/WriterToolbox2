@@ -1,0 +1,20 @@
+<% 
+
+=begin
+
+  Page vers laquelle est redirigé l'utilisateur lorsqu'il essaie
+  d'atteindre une page inaccessible pour lui. Par exemple une page
+  d'administration alors qu'il n'est pas administrateur.
+  
+=end
+%>
+<%= header %>
+
+<h2>Vous avez été redirigé<%= user.f_e %></h2>
+
+<p>
+<%= user.identified? ? "#{user.pseudo}, vous" : "Vous" %> n’êtes pas autorisé<%= user.f_e %> à rejoindre la page demandée, désolé.
+</p>
+
+<%= right_margin %>
+<%= footer %>

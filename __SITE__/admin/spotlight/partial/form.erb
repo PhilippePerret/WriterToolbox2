@@ -1,43 +1,47 @@
-<%=
+<%
 =begin
   Formulaire d'édition du coup de projecteur
 =end
 
-param(:spotlight) ||= param(:spotlight, Hash.new)
+require_form_support
+
+param(:operation) == 'save_spotlight' && Spotlight.save
+
+param(:spotlight) || param(:spotlight, Hash.new)
 %>
-<form class="w50pc" action="admin/spotlight" method="POST">
+<form id="spotlight_form" class="w50pc" action="admin/spotlight" method="POST">
   <input type="hidden" name="operation" value="save_spotlight">
 
   <div>
-    <label for="spotlight_text_before"></label>
+    <label for="spotlight_text_before">Texte à afficher avant l'objet <span>(p.e. “Découvrez en avant-première…”)</span></label>
     <span class="field">
       <input type="text" id="spotlight_text_before" name="spotlight[text_before]" value="<%= param(:spotlight)[:text_before] %>">
     </span>
   </div>
 
   <div>
-    <label for="spotlight_objet">Objet</label>
+    <label for="spotlight_objet">L'objet sous les projecteurs <span>(p.e. “la collection Narration”)</span></label>
     <span class="field">
       <input type="text" name="spotlight[objet]" id="spotlight_objet" value="<%= param(:spotlight)[:objet] %>">
     </span>
   </div>
 
   <div>
-    <label for="spotlight_route">Route</label>
+    <label for="spotlight_route">Route pour rejoindre l’objet <span>(p.e. 'narration/home')</span></label>
     <span class="field">
       <input type="text" name="spotlight[route]" id="spotlight_route" value="<%= param(:spotlight)[:route]%> ">
     </span>
   </div>
 
   <div>
-    <label for="spotlight_text_after"></label>
+    <label for="spotlight_text_after">Texte après l’objet sous les projecteurs <span>(p.e. “et n'hésitez pas à vous abonner !”)</span></label>
     <span class="field">
       <input type="text" id="spotlight_text_after" name="spotlight[text_after]" value="<%= param(:spotlight)[:text_after] %>">
     </span>
   </div>
 
   <div class="buttons">
-    <input type="submit" value="Enregistrer">
+    <input type="submit" class="main" value="Actualiser">
   </div>
 </form>
 

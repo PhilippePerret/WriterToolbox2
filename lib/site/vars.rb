@@ -39,7 +39,7 @@ class Site
   end
   def var_real_value_of str_value, type
     case type
-    when 0 then str_value
+    when 0 then str_value.force_encoding('utf-8')
     when 1 then str_value.to_i
     when 2 then str_value.to_i
     when 3 then str_value.to_f
