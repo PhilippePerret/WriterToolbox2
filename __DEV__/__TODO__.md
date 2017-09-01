@@ -1,4 +1,6 @@
 * Mettre en place le blog et le tester
+
+* Retirer le cadre autour du logo quand il est réduit
 * Mettre en place l'abonnement (comme le programme UN AN UN SCRIPT dont on peut reprendre le formulaire)
 * Écrire mon CV (site/phil/main.erb)
 * Écrire la partie charte du site (site/charte/main.erb)

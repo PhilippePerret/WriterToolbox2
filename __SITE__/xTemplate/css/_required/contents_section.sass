@@ -21,3 +21,44 @@ body
     // Tous les paragraphes ou les pseudo-paragraphes
     p, div.p
       text-align    : justify
+
+    // Pour un span contenant un lien pour l'édition de la page
+    // courant
+    span.span_edit_link
+      font-size     : 11pt !important
+      float         : right
+      a
+        color : orange
+        opacity : 0.4
+        &:hover
+          opacity : 1
+
+    // Pour tous les liens de pages précédentes et suivantes
+    div.liens_next_previous_pages
+      position    : relative
+      height      : 30px
+      font-size   : 13pt
+      width       : 100%
+      text-align  : center
+      margin      : 1em 3em
+      &.top
+        border-bottom   : 1px solid #CCC
+        margin-bottom   : 2em
+        span
+          bottom          : 0px
+      &.bottom
+        border-top      : 1px solid #CCC
+        margin-top      : 3em
+      span
+        &.lien_next_page
+          position    : absolute
+          right       : 0
+        &.lien_prev_page
+          position    : absolute
+          left        : 0
+        a
+          color       : orange
+          font-size   : 22pt
+          opacity     : 0.5
+          &:hover
+            opacity     : 1
