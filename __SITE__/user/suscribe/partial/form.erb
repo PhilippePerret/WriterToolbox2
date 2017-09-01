@@ -1,0 +1,98 @@
+
+<%
+
+# Pour le moment, on le met ici
+env_mod = site.offline? ? :sandbox : :production
+
+%>
+<%
+# ---------------------------------------------------------------------
+#
+#   INDICATION DU PRIX QUE DOIT PAYER L'USER
+#
+# ---------------------------------------------------------------------
+%>
+<div id="indication_tarif">
+  <div>Pour pouvoir procéder à votre abonnement (*), et ainsi soutenir le site (un grand merci à vous&nbsp;! :-)), merci de cliquer sur le bouton ci-dessous.<div class="tiny">(*) avec un compte PayPal ou par carte.</div></div>
+  <div>
+    Pour rappel, l'abonnement au site coûte <span class="tarif"><%= site.configuration.tarif %>&nbsp;€</span> et offre un an d’accès complet.</div>
+</div>
+<%
+# ---------------------------------------------------------------------
+#
+#     CI-DESSOUS : LE FORMULAIRE GÉNÉRÉ PAR PAYPAL.checkout.js
+#
+# ---------------------------------------------------------------------
+%>
+<!DOCTYPE html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+</head>
+
+<body>
+  <center>
+    <div id="paypal-button-container" style="width:320px;"></div>
+  </center>
+
+    <script>
+        paypal.Button.render({ 
+
+            env: '<%= env_mod == :sandbox ? 'sandbox' : 'production' %>',
+
+            locale: 'fr_FR',
+
+            style: {
+              size: 'responsive', // prend la taille du conteneur
+              color: 'gold',
+              shape: 'rect',
+              fundingicons: true,
+              label: 'buynow', branding:true ///'checkout'
+          },
+
+            // PayPal Client IDs - replace with your own
+            // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+            client: {
+                sandbox:    'AVD1tNbTllItceD9EQHGU6OjosHCl8H6ieEuxlfvPIAd4MizmAbcXc9JaX424GlHOG5MQsAHearTbjd7',
+                production: 'AZk-aOh_NSK4FW4KsT8yYsNMt025NiyF638PF79-zuSrbkPyGTYuRJGhyAptKQJAuGPAXZkxcpVKwrjl'
+            },
+
+            // Show the buyer a 'Pay Now' button in the checkout flow
+            commit: true,
+
+            // payment() is called when the button is clicked
+            payment: function(data, actions) {
+                // Make a call to the REST api to create the payment
+                let tr = {amount: { total: '<%= montant %>', currency: 'EUR' }}
+                return actions.payment.create({payment: { transactions: [tr] }});
+            },
+
+            // Called when the buyer approves the payment
+            onAuthorize: function(data, actions) {
+                // Make a call to the REST api to execute the payment
+                return actions.payment.execute()
+                .then(function(payment) {
+                  // Paiement accepté => Redirection
+                  let qs = new Array();
+                  let arr = ['id','cart','state'], owner;
+                  arr.forEach((p)=>{qs.push(p+'='+payment[p])});
+                  arr=['status'], owner=payment.payer;
+                  arr.forEach((p)=>{qs.push(p+'='+owner[p])});
+                  arr=['email','first_name','last_name','payer_id'];
+                  owner=payment.payer.payer_info;
+                  arr.forEach((p)=>{qs.push('auteur_'+p+'='+owner[p])});
+                  arr=['id'];let trans0=payment.transactions[0];
+                  owner=trans0.related_resources[0].sale;
+                  arr.forEach((p)=>{qs.push('montant_'+p+'='+owner[p])});
+                  arr=['total','currency','aid'];
+                  owner=trans0.related_resources[0].sale.amount;
+                  arr.forEach((p)=>{qs.push('montant_'+p+'='+owner[p])});
+                  qs = '&' + qs.join('&')
+                  window.location.href = 'user/suscribe/1?montant=<%= montant %>' + qs ;
+                });
+            }
+
+        }, '#paypal-button-container');
+    </script>
+</body>

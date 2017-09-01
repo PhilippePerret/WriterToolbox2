@@ -1,15 +1,74 @@
-<% 
-  # Page d'abonnement au site
+<%
+=begin
+
+  Formulaire d'abonnement au site
+
+  Si l'user n'est pas encore inscrit au site, il faut l'envoyer au formulaire
+  d'inscription puis le faire revenir ici.
+
+=end
 %>
-<%= header %>
-<%= right_margin %>
+<%
+  if user.identified? && site.route.objet_id == 1
 
-<h2>Soutenir le site</h2>
+    #
+    # Quand le paiement a été exécuté avec succès
+    #
+    # L'user a payé son abonnement.
+  %>
+  <% 
+    if user.suscribed?
+      # Quand l'utilisateur repasse par ici, par exemple en
+      # utilisant le bouton retour de son navigateur, et donc
+      # que son abonnement a déjà été pris en compte, 
+      # dans ce cas, on lui affiche simplement la page de confirmation,
+      # où il peut trouver les liens qu'il cherche peut-être
+      debug "-> User inscrit repassant par la page user/signup/1"
+    else
+      # ========> CRÉATION DE L'ABONNEMENT <=================
+      # L'user vient de payer son abonnement sur paypal.
+      # On enregistre le paiement.
+      User.on_paiement_ok() # cf. main.rb
+    end
+  %>
+  <%=
+    # ==================================================
+    # Noter qu'on passe ici aussi bien quand on vient de valider 
+    # l'abonnement que lorsque l'auteur revient à cette page
+    # de confirmation et qu'il ne faut pas recréer sa donnée.
+      header          +
+      partial('paiement_ok') +
+      right_margin    +
+      footer
+    %>
+<% elsif user.identified? %>
+  <%=
+    #
+    # Quand l'utilisateur est inscrit au site
+    # (ou vient de s'inscrire), il peut aller au formulaire PayPal pour
+    # payer l'abonnement 
+    #
 
-
-<form id="suscribe_form" action="user/suscribe" method="POST">
-  
-  <input type="hidden" name="operation" id="operation" value="proceed_suscribe" />
-
-</form>
-<%= footer %>
+    session['user_suscribing'] = session.session_id
+      # Cette variable session est surtout utile quand l'user doit s'inscrire,
+      # ici, elle sert juste à offrir un verrou de plus au programme, rien de
+      # plus.
+    header          +
+    "<h2>Soutenir le site</h2>" + 
+    partial('form') +
+    right_margin    +
+    footer
+  %>
+<%
+  else
+    #
+    # Quand l'user n'est pas encore inscrit au site
+    # On l'envoie au formulaire d'inscription et il reviendra
+    # ici dès qu'il se sera inscrit.
+    #
+    session['user_suscribing'] = session.session_id
+    mess = "Vous devez au préalable vous inscrire au site lui-même."
+    mess << "<br>Si vous êtes déjà inscrit, merci de vous identifier."
+    redirect_to( 'user/signup', mess )
+  end
+%>
