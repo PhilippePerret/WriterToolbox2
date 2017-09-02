@@ -1,13 +1,6 @@
-
-* Écrire mon CV (site/phil/main.erb)
-* Tester les méthodes liens
-  - en envoyant rien en argument (=> titre par défaut)
-  - en envoyant un string comme seul argument (=> titre)
-  - en envoyant un hash définissant le titre
-  - en envoyant un hash définissant d'autres argument
 * Écrire la partie charte du site (site/charte/main.erb)
 * [BLOG] Implémenter et tester la rédaction/modification d'articles (admin/blog)
-  (pour ça, il faut mettre en place la lecture de `op`, qui définit l'opération - par exemple "op=edit" pour éditer l'article spécifié dans `site.route.objet_id`)
+  (pour ça, il faut mettre en place la prise en compte de `op`, qui définit l'opération - par exemple "op=edit" pour éditer l'article spécifié dans `site.route.objet_id`)
   - S'assurer qu'un utilisateur lambda ne puisse pas atteindre cette partie
   - Faire des images (pas forcément en rapport avec l'article) pour le mettre entre le titre et l'article (soit de façon automatique soit en dur, à voir - de toute façon, si l'article est édité, on peut toujours le faire en l'enregistrant).
 

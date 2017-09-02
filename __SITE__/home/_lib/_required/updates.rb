@@ -10,7 +10,7 @@ class Updates
   class << self
 
     def section_last_updates
-      c = '<fieldset id="last_updates">'
+      c = '<fieldset id="last_updates" class="light">'
       c << '<legend>Dernières actualités</legend>'
       last_updates.each do |type, databytype|
         c << "<div class=\"titre\">#{TYPES[type][:hname]}</div>"
