@@ -6,12 +6,12 @@ require_support_integration
 require_support_db_for_test
 require_support_mails_for_test
 
-feature "Inscription au programme UN AN UN SCRIPT" do
+feature "Abonnement au site" do
   before(:all) do
     remove_mails
   end
 
-  scenario '=> Un visiteur quelconque peut s’inscrire au programme' do
+  scenario '=> Un visiteur quelconque peut s’abonner' do
 
     start_time = Time.now.to_i
 
@@ -64,7 +64,7 @@ feature "Inscription au programme UN AN UN SCRIPT" do
 
     tarif = site.configuration.tarif
 
-    expect(page).to have_tag('span', with:{id:'tarif_unan'}, text: "#{tarif} €")
+    expect(page).to have_tag('span', with:{class:'tarif'}, text: "#{tarif} €")
     expect(page).to have_tag('div#indication_tarif > div', text: /offre un an d’accès complet/)
     success 'Il trouve un message de paiement correct, avec le bon tarif'
 
@@ -84,18 +84,6 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     '&id=Pay-ABCDEFGH&cart=HF7D68D65S'
 
 
-    success 'La page de confirmation d’abonnement contient…'
-    expect(page).to have_tag('h2', text: 'Merci de votre soutien !')
-    success '… le bon titre'
-    expect(page).to have_content("vous êtes maintenant abonnée au site")
-    success '… la confirmation de l’inscription'
-
-    expect(page).to have_tag('a', with:{href: 'user/profil'}, text: 'votre profil')
-    success '… un lien pour rejoindre son profil'
-    expect(page).to have_tag('a', with:{href:'site/aide'}, text: 'l’aide du site')
-    success '… un lien pour rejoindre l’aide du site'
-
-
     # Le paiement a dû être enregistré dans la table des paiements
     # (détruire la table des paiements en début de test)
     whereclause = "objet_id = 'ABONNEMENT' AND user_id = #{newU.id} AND created_at > #{start_time}"
@@ -103,31 +91,60 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     res = res.first
     expect(res).not_to eq nil
     expect(res[:montant]).to eq tarif
-    success 'Le paiement a été enregistré dans la base de données'
+    success 'Le paiement a été enregistré dans la base de données avec un montant valide'
+
+    expect(newU).to have_mail(
+      subject:    'Confirmation de votre abonnement',
+      sent_after: start_time,
+      message: [
+        newU.pseudo, "Nous avons le plaisir de vous confirmer votre abonnement",
+        site.configuration.titre,
+        'la facture de votre paiement'
+      ]
+    )
+    success 'la visiteuse a reçu un mail lui confirmant son abonnement (avec facture)'
 
     expect(phil).to have_mail(
-      subject:      'Nouvel abonnement au site',
+      subject:      'Nouvel abonnement',
       sent_after:   start_time,
       message:      [newU.pseudo, newU.mail, "##{newU.id}"]
     )
-    success 'l’administrateur a reçu un mail annonçant l’inscription'
+    success 'l’administrateur a reçu un mail annonçant l’abonnement'
+
+
+    success "#{newU.pseudo} arrive sur une page contenant…"
+    expect(page).to have_tag('h2', text: 'Merci de votre soutien !')
+    expect(page).to have_content("vous êtes maintenant abonnée pour un an au site")
+    success '… le message de confirmation'
+    expect(page).to have_tag('section#contents') do
+      with_tag('a', with:{href:'site/aide'}, text: 'aide du site')
+    end
+    success '… un lien vers l’aide du site'
+    expect(page).to have_tag('a', with:{href:'user/profil'}, text: "votre profil")
+    success '… un lien vers son profil'
+    success 'Donc une page de confirmation valide (testée plus profondément dans le test d’une inscription par un user quelconque)'
 
     visit home_page
-    shot 'accueil-apres-signup-unan'
-    expect(page).to have_content("#{newU.pseudo} s’abonne au site")
+    shot 'accueil-apres-suscribe-unan'
+    expect(page).to have_content("Nouvelle abonnée : #{newU.pseudo}. Merci à elle !")
     success 'Le nouvel abonnement est annoncé en page d’accueil'
 
+    # ---------------------------------------------------------------------
+    #   SUPPLÉMENT POUR VÉRIFIER LES LIENS
+    # ---------------------------------------------------------------------
+
     visit "http://#{site.url}/user/suscribe/1"
-    expect(page).to have_tag('h2', text: 'Merci de votre soutien !')
+    expect(page).to have_tag('h2', text: /Merci de votre soutien/)
     success 'l’auteur peut rejoindre à nouveau la page de confirmation'
 
-    click_link 'votre profil'
+    click_link('votre profil', match: :first)
     expect(page).to have_tag('h2', text: 'Votre profil')
     success 'depuis la page de confirmation il peut rejoindre son profil'
 
     visit "http://#{site.url}/user/suscribe/1"
-    expect(page).to have_tag('h2', text: 'Merci de votre soutien !')
-    click_link 'l’aide du site'
+    expect(page).to have_tag('h2', text: /Merci de votre soutien/)
+    expect(page).to have_tag('a',with:{href:'site/aide'}, text:'aide du site')
+    click_link 'aide du site'
     expect(page).to have_tag('h2', text: 'Aide du site')
     success 'depuis la page de confirmation il peut rejoindre l’aide du site'
 

@@ -17,60 +17,32 @@ feature "Inscription au programme UN AN UN SCRIPT" do
   scenario 'Un visiteur quelconque peut s’inscrire au programme' do
     success_tab('  ')
 
+    montant_suscription = site.configuration.tarif
+
+    start_time = Time.now.to_i
+
     visit home_page
-    expect(page).to have_link('outils')
-    success 'le visiteur trouve un lien vers les outils'
-
-    click_link 'outils'
-    expect(page).to have_tag('h2', text: 'Outils d’écriture')
-    expect(page).to have_link('Le programme UN AN UN SCRIPT')
-    success 'le visiteur trouve la page des outils et un lien vers le programme'
-
-    click_link 'Le programme UN AN UN SCRIPT'
-    expect(page).to have_tag('h2', text: 'Le programme UN AN UN SCRIPT')
-    expect(page).to have_link('S’inscrire au programme')
-    success 'le visiteur trouve un lien pour s’inscrire au programme'
-
-    click_link('S’inscrire au programme', match: :first)
-    expect(page).to have_tag('h2', 'S’inscrire sur le site')
-    expect(page).to have_selector('form#signup_form')
-    expect(page).to have_tag('div.notice', text: /Vous devez au préalable vous inscrire au site lui-même/)
-
-    # Remplissage du formulaire
-    password = 'unanmotdepasse'
-    duser = get_data_for_new_user(password: password)
-    duser.merge!(captcha: '366', password: password)
-
-    within('form#signup_form') do
-      [
-        :pseudo, :patronyme, :mail, :password, :sexe, :captcha
-      ].each do |key|
-        case key
-        when :mail, :password
-          fill_in "user_#{key}_confirmation", with: duser[key]
-          fill_in "user_#{key}", with: duser[key]
-        when :sexe
-          within('select#user_sexe') do
-            find("option[value=\"#{duser[:sexe]}\"]").click
-          end
-        else
-          fill_in "user_#{key}", with: duser[key]
-        end
-      end
-      click_button "S’inscrire"
+    click_link('s’identifier', match: :first)
+    within('form#signin_form') do
+      fill_in 'user_mail', with: @duser[:mail]
+      fill_in 'user_password', with: @duser[:password]
+      click_button 'OK'
     end
 
-    # sleep 2 # pour voir un peu
-    expect(page).to have_link('se déconnecter')
-    success 'le visiteur s’inscrit avec succès au site'
+    u = User.get(@duser[:id])
+    expect(u).not_to be_suscribed
+    success 'le visiteur n’est pas encore abonné'
 
-    expect(page).to have_tag('h2', text: 'S’inscrire au programme UN AN UN SCRIPT')
-    expect(page).to have_selector('div#paypal-button-container')
-    success 'le visiteur est retourné au formulaire d’inscription au programme'
+    click_link 's’abonner', match: :first
 
-    # ICI, je ne sais pas comment gérer le clic sur le bouton de paiement,
-    # puisqu'il se trouve sur une frame qui n'est même pas accessible. Donc,
-    # je dois essayer manuellement cette partie là.
+    expect(page).to have_tag('div#indication_tarif > div', text: /offre un an d’accès complet/)
+    expect(page).to have_tag('span', with:{class:'tarif'}, text: "#{montant_suscription} €")
+    success 'la page du formulaire présente le bon texte et le bon tarif pour un abonné'
+
+    # Comme pour l'inscription normal, on ne peut pas (enfin… JE ne sais pas)
+    # comment activer le formulaire PayPal pour simuler toute la procédure,
+    # donc je dois retourner au site un lien comme celui que doit retourner
+    # paypal, avec toutes les informations.
 
     5.times do |i|
       puts "TESTER MANUELLEMENT LE PAIEMENT AU PROGRAMME UN AN UN SCRIPT (#{i}/10)"

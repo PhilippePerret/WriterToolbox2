@@ -23,15 +23,20 @@ class User
     send_mail_pour_confirmation_mail
     send_mail_information_administration
 
-    # Inscription pour le programme UN AN UN SCRIPT
-    # ---------------------------------------------
-    # Si c'est une inscription pour le programme UN AN UN SCRIPT d'un
-    # visiteur qui n'était pas encore inscrit, on le redirige vers le
-    # formulaire qui va lui permettre de payer le programme pour
-    # finaliser son inscription
     if site.session['uaus_signup'] && site.session['uaus_signup'] == site.session.session_id
+      # Inscription pour le programme UN AN UN SCRIPT
+      # ---------------------------------------------
+      # Si c'est une inscription pour le programme UN AN UN SCRIPT d'un
+      # visiteur qui n'était pas encore inscrit, on le redirige vers le
+      # formulaire qui va lui permettre de payer le programme pour
+      # finaliser son inscription
       mess = "Inscription au site réussie.<br><span class='red'>N'oubliez pas de confirmer votre mail.</span>"
       redirect_to "unanunscript/signup", mess
+    elsif site.session['user_suscribing']
+      # Abonnement au site
+      # ------------------
+      mess = "Inscription au site réussie.<br><span class='red'>N'oubliez pas de confirmer votre mail.</span>"
+      redirect_to "user/suscribe", mess
     end
 
   end
