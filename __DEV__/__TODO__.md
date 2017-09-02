@@ -1,5 +1,10 @@
-* Mettre en place l'abonnement (comme le programme UN AN UN SCRIPT dont on peut reprendre le formulaire)
+
 * Écrire mon CV (site/phil/main.erb)
+* Tester les méthodes liens
+  - en envoyant rien en argument (=> titre par défaut)
+  - en envoyant un string comme seul argument (=> titre)
+  - en envoyant un hash définissant le titre
+  - en envoyant un hash définissant d'autres argument
 * Écrire la partie charte du site (site/charte/main.erb)
 * [BLOG] Implémenter et tester la rédaction/modification d'articles (admin/blog)
   (pour ça, il faut mettre en place la lecture de `op`, qui définit l'opération - par exemple "op=edit" pour éditer l'article spécifié dans `site.route.objet_id`)

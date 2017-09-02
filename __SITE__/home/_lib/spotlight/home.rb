@@ -25,7 +25,7 @@ class Spotlight
         end
       end
       c != '' || ( return '' )
-      "<section id=\"home_spotlight\">#{c}</section>"
+      "<section id=\"home_spotlight\" class=\"light\">#{c}</section>"
     end
   end #/ << self
 end #/Spotlight

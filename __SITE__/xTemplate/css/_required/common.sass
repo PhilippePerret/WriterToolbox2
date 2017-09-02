@@ -14,3 +14,18 @@
   font-size   : 0.85em
 .tiny
   font-size   : 0.7em
+
+span.oeuvre
+  color       : #434343
+  font-family : "Times New Roman", Times, "Liberation Serif", FreeSerif, serif
+  font-size   : 1.16em
+  letter-spacing  : 2.6px
+  &:before, &:after
+    content   : "•"
+
+// Pour les éléments un peu transparent qui s'éclaircissent au passage
+// de la souris
+.light
+  opacity : 0.4
+  &:hover
+    opacity : 1

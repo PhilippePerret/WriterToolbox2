@@ -7,17 +7,7 @@ class Site
     c = String.new
     c << "<div><strong>Soutenez le site</strong> pour qu'il continue de vous proposer un contenu de qualité (pour #{site.configuration.tarif} €/an)</div>"
     c << "<center><a href=\"user/suscribe\">S’ABONNER</a></center>"
-    "<section id=\"suscribe\">#{c}</section>"
-  end
-
-  def incipit
-    c = String.new
-    phil_linked = '<a href="site/phil" class="patronyme">philippe perret</a>'
-    charte_linked = '<a href="site/charte">la Charte</a>'
-    c << '<img src="./img/phil-medaillon.png" id="medaillon_phil" />'
-    c << "<div>Site conçu par #{phil_linked} entièrement dévolu à l'élaboration des histoires sous toutes leurs formes (cf.&nbsp;#{charte_linked}).</div>"
-
-    "<section id=\"incipit\">#{c}</section>"
+    "<section id=\"suscribe\" class=\"light\">#{c}</section>"
   end
 
   # Retourne le code HTML de la section pour voir le début du

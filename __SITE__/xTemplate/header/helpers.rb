@@ -6,20 +6,29 @@
 =end
 class Site
 
-
-    def titre_in_logo pour = nil # :home pour la page d'accueil
-      pour ||= ''
-      @titre_in_logo ||= begin
-        "<h1 class=\"#{pour}\">" +
-        "La " +
-        "<a href=\"\" title=\"Retour à l’accueil\">boite</a>" + # accueil
-        " à " +
-        "<a href=\"outils\" title=\"Liste des outils\">outils</a>" +
-        " de l’" +
-        "<a href=\"user/profil\" title=\"Votre profil\">auteur</a>" +
-        '</h1>'
-      end
+  def titre_in_logo pour = nil # :home pour la page d'accueil
+    pour ||= ''
+    @titre_in_logo ||= begin
+      "<h1 class=\"#{pour}\">" +
+      "la " +
+      "<a href=\"\" title=\"Retour à l’accueil\">boite</a>" + # accueil
+      " à " +
+      "<a href=\"outils\" title=\"Liste des outils\">outils</a>" +
+      " de l’" +
+      "<a href=\"user/profil\" title=\"Votre profil\">auteur</a>" +
+      '</h1>'
     end
+  end
+
+  def incipit
+    c = String.new
+    phil_linked = '<a href="site/phil" class="patronyme">philippe perret</a>'
+    charte_linked = '<a href="site/charte">la Charte</a>'
+    c << '<img src="./img/phil-medaillon.png" id="medaillon_phil" />'
+    c << "<div>Site conçu par #{phil_linked} entièrement dévolu à l'élaboration des histoires sous toutes leurs formes (cf.&nbsp;#{charte_linked}).</div>"
+
+    "<section id=\"incipit\" class=\"light\">#{c}</section>"
+  end
 
   def logo
     partial("#{thisfolder}/partial/logo")

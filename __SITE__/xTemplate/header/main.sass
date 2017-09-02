@@ -12,14 +12,19 @@ section#header
       margin-left   : 2em
       font-variant  : small-caps
 
+  // Le titre du site
   h1
     position          : relative
     display           : inline-block // sinon passe au-dessus de liens
     color             : $darkTextColor
+    font-variant      : small-caps
     a
       display       : inline-block
       color         : #7f869e
       font-variant  : small-caps
+      border-style  : solid
+      border-color  : orange
+      // padding-bottom  : 6px
 
   // Pour une page quelconque
   &.regular
@@ -28,6 +33,8 @@ section#header
       padding-bottom    : 1em
       padding           : 0em 1em
       margin            : 0.2em 0 2em 0.2em
+      a
+        border-width      : 0 0 2px 0
     div#top_buttons
       margin-top        : 1.3em
 
@@ -38,6 +45,8 @@ section#header
       font-size         : 0.8em
       margin            : 8px
       padding           : 3px 23px
+      a
+        border-width      : 0 0 1px 0
     div#top_buttons
       margin-left       : 14em
       margin-top        : 0.7em
@@ -51,6 +60,9 @@ section#header
       padding           : 0.8em
       margin            : 1.4em 0 2em 2em
       border-radius     : 1em
+
+      a
+        border-width  : 0 0 7px 0
 
     div#top_buttons
       margin-top      : 5.4em
