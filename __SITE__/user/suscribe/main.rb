@@ -20,6 +20,8 @@ class User
 
       envoyer_mail_information_to_admin
 
+      annonce_accueil
+
     end
 
     # Enregistrer le paiement de l'abonnement
@@ -32,34 +34,56 @@ class User
 
     # Envoyer le mail au nouvel abonné
     def envoyer_mail_confirmation_to_user
-      
+      user.send_mail({
+        subject:   "Confirmation de votre abonnement",
+        message:   deserb(File.join(thisfolder,'mail','confirmation_user')),
+        formated:  true
+      })
     end
 
     # Envoyer le mail à l'administration
     def envoyer_mail_information_to_admin
-      
+      site.admin.send_mail({
+        subject:  "Nouvel abonnement",
+        message:  deserb(File.join(thisfolder,'mail','annonce_admin')),
+        formated: true
+      })
+    end
+
+    def annonce_accueil
+      m = String.new
+      m << (user.femme? ? 'Nouvelle' : 'Nouvel')
+      m << ' '
+      m << "abonné#{user.f_e}&nbsp;: <strong>#{user.pseudo}</strong>. Merci à #{user.f_elle}&nbsp;!"
+
+      require './lib/utils/updates'
+      Updates.add({
+        message:  m,
+        type:    'site',
+        options: '10000000'
+      })
     end
 
     # Récupérer les données du paiement transmis par l'url
     def data_paiement
-      @data_paiement ||=
+      data_paiement ||=
         begin
           {
             auteur: {
-              prenom: param(:auteur_first_name),
-              nom:    param(:auteur_last_name),
-              mail:   param(:auteur_email)
-            },
+            prenom: param(:auteur_first_name),
+            nom:    param(:auteur_last_name),
+            mail:   param(:auteur_email)
+          },
             id:               param(:id),
             cart:             param(:cart),
             state:            param(:state),    # doit être 'approved'
             status:           param(:status),   # doit être 'VERIFIED'
             montant: {
-              id:       param(:montant_id),
-              spec:     param(:montant).to_f, # le montant que j'ai fixé
-              total:    param(:montant_total).to_f,
-              monnaie:  param(:montant_currency)
-            }
+            id:       param(:montant_id),
+            spec:     param(:montant).to_f, # le montant que j'ai fixé
+            total:    param(:montant_total).to_f,
+            monnaie:  param(:montant_currency)
+          }
           }
         end
     end
@@ -87,5 +111,8 @@ class User
       false
     end
 
+    def thisfolder
+      @thisfolder ||= File.dirname(__FILE__)
+    end
   end #<< self
 end #/User

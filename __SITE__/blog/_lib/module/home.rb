@@ -1,5 +1,5 @@
 # encoding: utf-8
-# 
+#
 # Le module chargé seul pour fournir l'extrait de l'accueil
 #
 class Blog
@@ -20,7 +20,7 @@ class Blog
     # mis en gras
     # Note : ce sont les styles qui feront que les div et les p seront affichés en ligne
     def extrait
-      @extrait ||= 
+      @extrait ||=
         begin
           extract =
             if File.exist?(article_md_path)
@@ -32,7 +32,6 @@ class Blog
             end
           extract = extract[0..270]
           rindex  = extract.rindex(' ')
-          debug "rindex = #{rindex}"
           extract[0..rindex]
         end
     end
@@ -44,7 +43,7 @@ class Blog
       @article_erb_path ||= File.join(article_folder, "#{article_affixe}.erb")
     end
     def article_affixe
-      @article_affixe ||= "#{last_article_id.to_s.rjust(4,'0')}" 
+      @article_affixe ||= "#{last_article_id.to_s.rjust(4,'0')}"
     end
     def last_article_id
       @last_article_id ||=

@@ -8,6 +8,7 @@ def param p,v=nil,f=nil; site.param(p,v,f) end
 # appelle `deserb`, on peut utiliser une méthode comme `thisfolder` définie
 # par `File.dirname(__FILE__)`
 def deserb path
+  path.end_with?('.erb') || path << '.erb'
   if File.exist?(path)
     ERB.new(File.read(path).force_encoding('utf-8')).result(site.bind)
   else

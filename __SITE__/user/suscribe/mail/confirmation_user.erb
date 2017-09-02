@@ -1,0 +1,12 @@
+<%
+
+
+# Mail de confirmation de l'abonnement de l'utilisateur, avec
+# une facture de paiement jointe.
+
+%>
+<p><%= user.pseudo %>,</p>
+<p>Nous avons le plaisir de vous confirmer votre abonnement sur <%= site.configuration.titre %>.</p>
+<p>Veuillez trouver, ci-joint, la facture de votre paiement.</p>
+<%= User.last_paiement.facture %>
+<p>Un grand merci à vous pour votre soutien&nbsp;!</p>

@@ -53,7 +53,7 @@ feature "Abonnement par un user déjà inscrit" do
     '&montant_id=HFJDHS678S76S&montant_currency=EUR' +
     "&auteur_first_name=#{prenom}&auteur_last_name=#{nom}&auteur_email=#{newU.mail}" +
     '&id=Pay-ABCDEFGH&cart=HF7D68D65S'
-    
+
     # Le paiement a dû être enregistré dans la table des paiements
     # (détruire la table des paiements en début de test)
     whereclause = "objet_id = 'ABONNEMENT' AND user_id = #{newU.id} AND created_at > #{start_time}"
@@ -64,28 +64,32 @@ feature "Abonnement par un user déjà inscrit" do
     success 'Le paiement a été enregistré dans la base de données avec un montant valide'
 
     expect(newU).to have_mail(
-      subject:    'Abonnement complet d’un an',
+      subject:    'Confirmation de votre abonnement',
       sent_after: start_time,
       message: [
-        newU.pseudo, "J’ai le plaisir de vous confirmer votre abonnement d'un an à #{site.configuration.name}",
-        'Votre facture'
+        newU.pseudo, "Nous avons le plaisir de vous confirmer votre abonnement",
+        site.configuration.titre,
+        'la facture de votre paiement'
       ]
     )
     success 'la visiteuse a reçu un mail lui confirmant son abonnement (avec facture)'
 
     expect(phil).to have_mail(
-      subject:      'Nouvel abonnement au BOA',
+      subject:      'Nouvel abonnement',
       sent_after:   start_time,
       message:      [newU.pseudo, newU.mail, "##{newU.id}"]
     )
     success 'l’administrateur a reçu un mail annonçant l’abonnement'
 
 
+
     success "#{newU.pseudo} arrive sur une page contenant…"
     expect(page).to have_tag('h2', text: 'Merci de votre soutien !')
     expect(page).to have_content("vous êtes maintenant abonnée pour un an au site")
     success '… le message de confirmation'
-    expect(page).to have_tag('a', with:{href:'site/aide'})
+    expect(page).to have_tag('section#contents') do
+      with_tag('a', with:{href:'site/aide'}, text: 'aide du site')
+    end
     success '… un lien vers l’aide du site'
     expect(page).to have_tag('a', with:{href:'user/profil'}, text: "votre profil")
     success '… un lien vers son profil'
@@ -93,7 +97,7 @@ feature "Abonnement par un user déjà inscrit" do
 
     visit home_page
     shot 'accueil-apres-suscribe-unan'
-    expect(page).to have_content("#{newU.pseudo} s’abonne au site.")
+    expect(page).to have_content("Nouvelle abonnée : #{newU.pseudo}. Merci à elle !")
     success 'Le nouvel abonnement est annoncé en page d’accueil'
 
   end

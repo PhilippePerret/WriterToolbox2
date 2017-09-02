@@ -38,7 +38,6 @@
     # de confirmation et qu'il ne faut pas recréer sa donnée.
       header          +
       partial('paiement_ok') +
-      right_margin    +
       footer
     %>
 <% elsif user.identified? %>
@@ -56,7 +55,6 @@
     header          +
     "<h2>Soutenir le site</h2>" + 
     partial('form') +
-    right_margin    +
     footer
   %>
 <%
