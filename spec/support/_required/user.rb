@@ -1,11 +1,17 @@
 
 
 def phil
-  @phil ||= User.get(1)
+  @phil ||= begin
+    defined?(User) || require_lib_site
+    User.get(1)
+  end
 end
 
 def marion
-  @marion ||= User.get(3)
+  @marion ||= begin
+    defined?(User) || require_lib_site
+    User.get(3)
+  end
 end
 
 

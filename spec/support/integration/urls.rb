@@ -20,6 +20,9 @@ def admin_page
   "#{base_url}/admin"
 end
 
+def narration_page
+  "#{base_url}/narration"
+end
 def base_url
   url = offline? ? 'localhost/WriterToolbox2' : 'www.laboiteaoutilsdelauteur.fr'
   "http://#{url}"

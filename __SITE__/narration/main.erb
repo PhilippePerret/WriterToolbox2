@@ -1,0 +1,19 @@
+<% 
+
+# Accueil de la collection Narration
+
+%>
+<%= header %>
+<%= right_margin %>
+
+<h2><%= Narration.lien_admin_if_admin %>La collection Narration</h2>
+
+<p id="presentation_simple" class="light">La collection Narration est un ensemble d'ouvrages consacrés à l'art d'élaborer et d'écrire une histoire, pour tous les types de support, film, roman, BD, série, etc.</p>
+
+<p><a href="narration/livres">Tous les livres</a> – <a href="narration/presentation">État du développement de la collection</a></p>
+
+<h3>Toutes les tables des matières</h3>
+
+<%= Narration.menu_livres %>
+
+<%= footer %>

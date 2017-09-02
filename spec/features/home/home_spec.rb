@@ -14,7 +14,7 @@ feature "Page d'accueil" do
     # ========= PRÉPARATION ============
     site.set_var('spotlight_objet', 'collection Narration')
     site.set_var('spotlight_text_after', 'les cours de narration en ligne de Philippe Perret')
-    site.set_var('spotlight_route', 'narration/home')
+    site.set_var('spotlight_route', 'narration')
 
 
     # ============> TEST <============
@@ -46,7 +46,7 @@ feature "Page d'accueil" do
     end
 
     expect(page).to have_tag('section', with:{id: 'home_spotlight'}) do
-      with_tag('a', with: {href: 'narration/home'}, text: 'collection Narration')
+      with_tag('a', with: {href: 'narration'}, text: 'collection Narration')
       with_tag('div', text: 'les cours de narration en ligne de Philippe Perret')
     end
     success 'le visiteur trouve une section avec le coup de projecteur sur Narration et un lien y conduisant'
