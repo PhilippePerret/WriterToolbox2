@@ -1,0 +1,112 @@
+---
+:decoupe: '3.4'
+:Acte_I:
+  :description: 'Présentation du quotidien du personnage dans sa petite ville de l’Iowa.
+    Ses amis, sa santé, sa fille. L’attaque cardiaque de son frère bouscule son quotidien,
+    ravive les souvenirs et les vieilles déchirures et, se sentant près à faire le
+    grand saut lui aussi, Alvin décide de se réconcilier avec son frère. '
+  :time: 0
+  :duree: 1350
+:incdec:
+  :description: Alvin Straight apprend l’attaque cardiaque de son frère Lyle.
+  :explication: Incident déclencheur très clair qui bouscule la vie du protagoniste,
+    et va le pousser à partir.
+  :time: 740
+  :duree: 10
+:decobj:
+  :description: Alvin annonce à sa fille Lyle qu’il va aller voir son frère Lyle.
+  :notes: C’est une déclaration explicite de l’objectif, à peu près au milieu de l’exposition.
+  :time: 890
+  :duree: 20
+:pivot1:
+  :description: Alvin explique à sa fille Rosie qu’il doit faire ce voyage (pour rejoindre
+    son frère), et qu’il doit le faire seul. Il lui demande de regarder le ciel, plein
+    d’étoiles.
+  :explication: Cette scène joue parfaitement son rôle de pivot en rappelant clairement
+    l’objectif d’Alvin. Le caractère de sa réalisation, profondément émouvant, renforce
+    encore cette fonction.
+  :time: 1260
+:Acte_II:
+  :description: L’acte II commence avec le départ d’Alvin, et l’on peut considérer
+    qu’il s’achève avant la dernière ligne droite.
+  :notes: La fin de l’acte II (donc également le début du dénouement) n’est pas très
+    nette. Plusieurs options s’offrent à l’interprétation.
+  :time: 1350
+  :duree: 3330
+:cdv:
+  :description: Alvin disserte sur la vieillesse.
+  :explication: 'On peut considérer que c’est une clé de voute pour deux raisons :
+    la première, c’est que la scène se situe au milieu exact du film (mais c’est une
+    mauvaise raison), la seconde, c’est qu’on peut voir dans ce thème le thème moteur
+    du film, puisque c’est bien la vieillesse qui a pousser le personnage à agir.
+    Cependant, il est difficile d’affirmer avec force, à cause de son caractère peut-être
+    trop “quotidien”, à cause du fait également qu’elle ne donne pas une nouvelle
+    direction au film, de la fonction de cette scène.'
+  :notes: Dans le scénario, c’est la scène où Alvin explique à Crystal que les liens
+    familiaux sont une force indestructible (comme le fagot de brindilles) qui occupe
+    le centre exact (page 60 sur 121).
+  :time: 3040
+  :duree: 75
+:cdvalt:
+  :description: Il se met à pleuvoir. Alvin s’abrite sous une grange.
+  :explication: 'On pourrait voir la clé de voute dans cette scène. Elle en a le caractère
+    en tout cas (en portant une forte charge symbolique diffuse). Cependant, comme
+    les autres possibilités, elle ne change pas suffisamment le caractère ou la nature
+    de l’histoire pour enterriner sa fonction. '
+  :time: 2820
+  :duree: 100
+:pivot2:
+  :description: Les JUMEAUX parviennent à réparer le tracteur d’Alvin.
+  :explication: Je considère cette scène comme le pivot II dans le sens où c’est cette
+    scène, cette action, qui va permettre à Alvin de reprendre la route pour faire
+    sa dernière ligne droite (Dénouement). On pourrait cependant considérer la structure
+    autrement (cf. pivot II alternatif).
+  :time: 4625
+  :duree: 60
+:pivot2alt:
+  :description: Scène d’adieu. Après avoir été immobilisé pendant plusieurs jours,
+    Alvin va pouvoir reprendre la route. Il fait ses adieux à son hôte.
+  :explication: 'Cette scène, suivie par le départ d’Alvin, a vraiment le caractère
+    d’un pivot 2, annonçant, par ces adieux, le départ d’Alvin pour sa dernière ligne
+    droite. Cela entrainerait donc un dénouement qui débuterait à : 1:21:50, avec
+    le départ d’Alvin au petit matin.'
+  :time: 4860
+  :duree: 50
+:crise:
+  :description: Alors qu’il est tout proche, au beau milieu d’un bois, sur une petite
+    route où ne passe personne, devant une montée douce, le tracteur d’Alvin tombe
+    en panne.
+  :explication: 'Cette scène a vraiment le caractère d’une crise : on pense qu’Alvin
+    va bêtement manquer son objectif, si près du but. Rappelons que l’objectif n’est
+    pas de rejoindre la demeure de son frère, mais de rejoindre la demeure de son
+    frère <u>avant que la mort ne les séparent</u>. Donc, cette scène remplit sa fonction
+    dans le sens où on peut se dire : même s’il arrive, il arrivera trop tard (ce
+    qui est subtilement joué dans le climax). '
+  :time: 5730
+  :duree: 40
+:Acte_III:
+  :description: Alvin repart sur la route pour sa derrière ligne droite, celle qui
+    va le conduire chez son frère.
+  :explication: On pourrait voir le dénouement commencer plus tôt, par exemple avec
+    la scène des deux jumeaux (placée juste après un ciel étoilé, à 1:17:05) ou plus
+    tard avec le départ effectif d’Alvin (1:21:50).
+  :time: 4680
+  :duree: 1460
+:climax:
+  :description: Alvin arrive enfin chez son frère. Il appelle, mais personne ne répond…
+    Puis enfin, la porte s’ouvre sur Lyle, avec un déambulateur. Alvin a réussi.
+  :explication: 'C’est bien le climax, le lieu de la réponse dramatique fondamentale
+    : oui, Alvin a réussi, il est parvenu à venir chez son frère avant que la mort
+    ne les sépare.'
+  :notes: À noter comment le suspense sur la réalisation ou l’échec de l’objectif
+    est subtilement joué entre le moment où Alvin appelle son frère et le moment où
+    le frère apparait. Ce suspense contient en lui l’essence de la fonction d’un climax.
+  :time: 5900
+:desinence:
+  :description: "(suite de la scène précédente) Lyle invite Alvin à s’assoir. Et il
+    s’émeut aux larmes que son frère Alvin soit venu jusqu’ici sur un tracteur-tondeuse."
+  :explication: En disant à son frère de s’assoir, Lyle engage la désinence, la réconciliation
+    des deux frères. Réconciliation qui prend toute sa force lorsque Lyle s’émeut
+    qu’Alvin soit venu en tracteur.
+  :time: 6000
+  :duree: 140

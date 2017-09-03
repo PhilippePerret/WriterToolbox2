@@ -1,0 +1,61 @@
+---
+:decoupe: 5
+:incdec:
+  :time: '21:00'
+  :description: |
+    personnage:Monica procède à l’initialisation de personnage:David.
+  :explication: |
+    C’est à cause de cette action que David va vouloir être aimé de sa
+    mère. Pour reprendre une idée du film, à partir de maintenant, “ce
+    n’est plus un jeu”.
+
+:cdv:
+  :time: '1:14:00'
+  :description: |
+    On revoit pour la première fois le personnage:|professeur Hobby|
+    qui a conçu David. On vient lui annoncer qu'ils ont retrouvé la trace
+    de David, à la Foire à la chair.
+
+:crise:
+  :description: David est prisonnier sous la mer, face à une Fée Bleue figée.
+
+:climax:
+  :description: Dialogue entre David et la Fée Bleue
+  :notes: |
+    La MOT[209|Réponse Dramatique Fondamentale] est positive puisque la
+    Fée Bleue accède finalement à la requête de David, mais cette
+    réponse se fait seulement en rêve, dans une autre dimension, un autre
+    monde.
+
+:tiers:
+  :time: '44:00'
+  :description: |
+    Séparation de Monica et David. Monica dit à David qu’elle ne pourra
+    jamais l’aimer.
+
+:deuxtiers:
+  :time: '1:28:00'
+  :description: |
+    Brouille entre personnage:|Gigolo Joe| et David. Gigolo
+    Joe tente de faire comprendre à David qu’il aura beau faire tout son
+    possible, il ne pourra jamais se faire aimer de Monica. Il n’est qu’un
+    robot. David, dans le déni, réagit très mal.
+
+:un5ie:
+  :time: '28:00'
+  :description: |
+    Annonce du retour de personnage:|Martin Swinton|, le fils naturel
+    de Monica.
+
+:deux5ie:
+  :time: '50:00'
+  :description: personnage:Monica abandonne personnage:David dans la forêt.
+
+:trois5ie:
+  :time: '1:16:00'
+  :description: |
+    personnage:David part à la recherche de la personnage:|Fée Bleue|.
+
+:quatre5ie:
+  :time: '2:13:00'
+  :description: Bond dans le futur. Rêve de la mort.

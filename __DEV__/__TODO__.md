@@ -1,11 +1,13 @@
+* [NARRATION - gros morceau] Implémenter et tester l'affichage d'une page de Narration (#138)
+
+* Implémenter l'édition d'une table des matières de livre narration
+  Le lien est "admin/narration/<id livre>?op=edit_tdm"
+
 * Écrire la partie charte du site (site/charte/main.erb)
 * [BLOG] Implémenter et tester la rédaction/modification d'articles (admin/blog)
   (pour ça, il faut mettre en place la prise en compte de `op`, qui définit l'opération - par exemple "op=edit" pour éditer l'article spécifié dans `site.route.objet_id`)
   - S'assurer qu'un utilisateur lambda ne puisse pas atteindre cette partie
   - Faire des images (pas forcément en rapport avec l'article) pour le mettre entre le titre et l'article (soit de façon automatique soit en dur, à voir - de toute façon, si l'article est édité, on peut toujours le faire en l'enregistrant).
-
-* Style : mettre un repère comme --------v------- sous les liens "boite", "outils" et "auteur" pour qu'on comprenne mieux que ce sont des liens principaux
-* Mettre en place et tester l'accueil
 
 * Mettre en place (et tester) le traitement des fichiers
   - fichier ERB

@@ -1,0 +1,13 @@
+---
+1:
+  :id: 1
+  :question: Jack sauvera-t-il Rose du naufrage ?
+  :reponse: Oui, et doublement.
+  :description: |-
+    Cette question, diffuse jusque-là, est clairement posée dans la scène où Jack tire Rose à l'écart pour faire comprendre que tout ce qu'il veut, c'est la sauver — tout en disant le contraire : Rose : “It's not up to you to save me, Jack.” Jack : “You're right. Only you can do that.” — (scène 97 du script).
+    Il est intéressant de noter à quel point le dialogue est précis : jamais Jack ne prétend vouloir vivre sa vie avec elle. Il n'est pas question de “vie ensemble”, de grande histoire d'amour. Et pour cause.
+    Tout ce qu'il dit, c'est “I can't turn away without knowing that you're going to be alright.” Et c'est exactement ce qu'il fera, lorsque, après lui avoir fait promettre de ne jamais, jamais, abandonner, il se laisse emmener par la mort.
+  :intensite: 4
+  :relatifs:
+  - :type: :objectif
+    :id: 1

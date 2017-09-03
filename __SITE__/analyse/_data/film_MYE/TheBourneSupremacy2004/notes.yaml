@@ -1,0 +1,42 @@
+---
+  1:
+    :libelle: Résumé de l'histoire
+    :description: |
+      Jason Bourne se réveille en sueur, il vient de revivre le cauchemar décousu de sa dernière mission. Il parle avec sa femme (ou son amie), et on comprend qu'il a perdu la mémoire. Il est en quête de son identité.
+      Au même moment, une opération est menée — par Pamela Landy —, pour récupérer les dossiers “Neski”. Un homme de main des russes fait foirer l'opération, tue les deux hommes et vole les dossiers Neski et l'argent de l'échange.
+      Il met l'opération sur le compte de Jason Bourne en laissant ses empreintes.
+      Pamela Landy se met alors à sa recherche, essaie de le coincer.
+      Pendant ce temps, le tueur de la mafia russe vient en Inde pour descendre Jason. C'est sa femme (copine) qu'il tue. Jason quitte l'Inde (on pense que c'est pour se venger).
+      Tout en recherchant qui il était, et ce qu'il a fait, Jason se fait poursuivre par la CIA qui le pense responsable du carnage de l'opération. Sa vie est constamment mise en jeu.
+      Quand la mafia russe découvre que Jason est toujours en vie, elle renvoie son tueur.
+      Le chef du projet Dreadstone à la CIA se révèle être un agent double travaillant pour le mafieu russe. Jason le démasque, le chef se suicide.
+      Pamela comprend alors que Jason n'a rien à voir avec l'opération.
+      Le tueur tente de se débarrasser de Jason (poursuite dans Moscou, à pied puis en voiture). Jason se débarrasse de l'homme (mais il ne se venge pas : il ne le tue pas — il l'amoche seulement pour l'empêcher de se faire tuer).
+      Le mafieu russe est arrêté. Tout rentre dans l'ordre.
+      Lors d'un dernier coup de fil à Pamela Landy, la femme apprend à Jason son véritable nom et d'où il vient (fin de sa quête).
+    :id: 1
+  2:
+    :libelle: Victimisation
+    :description: |
+      Dès le départ, le personnage est transformé en victime : 1) victime d'amnésie, 2) on le fait passer pour le responsable du meurtre de 2 agents de la CIA (ou plutôt : 1 agent et 1 espion russe), 3) on tue sa petite amie.
+    :note: |
+      la victimisation par le 2 est d'autant plus forte qu'elle fonction en ironie dramatique : Jason n'est pas encore informé de cette injustice (il le sera après s'être fait arrêter par la police italienne, à Napples : il leur échappe en piratant le téléphone du policier, et peut entendre Pamela Landy l'accuser de l'opération).
+    :id: 2
+  3:
+    :libelle: Crise (structure)
+    :description: |
+      À Moscou, lorsque la police poursuit Bourne, ainsi que le tueur de la mafia
+      russe. Poursuite spectaculaire en voiture, on se demande comment Jason va s'en sortir.
+    :id:  3
+  4:
+    :libelle: 'Espace d''implication'
+    :description: 'La première scène : sans que ce soit dit, quand Jason parle avec sa copine (Marie ?), on comprend qu''il est à la recherche de son identité, qu''il est amnésique. Cela nous sera confirmé lorsque Marie, seule (Jason court sur la plage), consultera son carnet : on termine par l''inscription (en gros) : “Who was I ?” (qui étais-je ?).'
+    :id: 4
+  5:
+    :libelle: 'Un discours à lui-même'
+    :description: 'La scène intéressante, vers la fin, où Jason va trouver la fille du couple Neski pour lui expliquer que sa mère n''a pas tué son père, que c''est lui qui a fait croire à ça. Très joli jeu de procuration, lorsque Jason dit que lorsque des êtres chers disparaissent, on a envie de savoir pourquoi (c''est à lui-même qu''il peut adresser ses mots — Marie, son amie, assassinée en Inde sans qu''il ait pu comprendre pourquoi — amnésie)'
+    :id: 5
+  6:
+    :libelle: 'Une idée contre un numéro de chambre'
+    :description: 'Lorsque Jason veut découvrir la chambre d''hôtel de Pamela Landy : il s''approche du guichet de l''hôtel en appelant Pamela dans sa chambre (comment a-t-il eu son numéro ? Peut-être avant). Il arrive au guichet et demande au guichetier d''appeler Pamela. Le guichetier s''exécute (ce qui permet à Jason de voir le n° de la chambre), mais le téléphone de Pamela sonne occupé. Bingo. Jason a pu avoir le numéro de la chambre, sans se faire “voir” (juste une petite incohérence sur le fait que Pamela ne se soit pas inquiétée plus que ça de ce coup de fil…)'
+    :id: 6

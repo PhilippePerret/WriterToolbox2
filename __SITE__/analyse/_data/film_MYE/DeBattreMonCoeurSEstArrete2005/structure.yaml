@@ -1,0 +1,91 @@
+---
+:decoupe: '3.4'
+:Acte_I:
+  :description: Présentation de Tomas Seyr, recouvreur de dette dans le milieu de
+    l’immobilier, présenté comme une mafia. Son père, dans l’immobilier lui aussi,
+    et sa mère décédée, pianiste concertiste. La mal de vivre du personnage, qui va
+    le conduire à vouloir changer son parcours.
+  :time: 0
+  :duree: 1480
+:incdec:
+  :description: En passant devant le théâtre, Tomas aperçoit monsieur Fox, l’agent
+    de sa mère pianiste. Fox l’invite à venir passer une audition chez lui.
+  :explication: C’est cette rencontre qui va rappeler à Tomas ses rêves de musique
+    oubliés, sa mère, et toute cette part qu’il a amputé de sa vie et de sa personnalité.
+  :time: 830
+  :duree: 290
+:decobj:
+  :description: Après avoir écouté les  cassettes d’enregistrement de sa mère retrouvées,
+    Tomas ressort ses vieilles partitions et se met au piano.
+  :time: 1200
+  :duree: 110
+:pivot1:
+  :description: Après avoir pris une claque de la part du prof de musique (qui l’a
+    pris de haut),  Tomas voit Jean-Pierre, un tromboniste asiatique, venir lui proposer
+    une de ses amies pianiste, Miao Lin, pour l’aider à se préparer. Tomas prend sa
+    carte.
+  :explication: Après avoir compris que ça ne serait pas aussi simple, Tomas comprend
+    qu’il va devoir se faire aider pour retrouver son niveau.
+  :notes: À noter que cette femme, en plus d’être le mentor de l’intrigue concernant
+    l’objectif principal (l’audition), deviendra également la femme de Tomas (intrigue
+    amoureuse, à peine esquissée dans le film).
+  :time: 1450
+  :duree: 40
+:cdv:
+  :description: Tomas déclare sa flamme à Aline, la femme de son collègue. Ils font
+    l’amour.
+  :explication: C’est surtout en écoutant les auteurs parler de leur film qu’on peut
+    enterriner le caractère de clé de voute de cette scène. Elle inaugure le changement
+    de comportement de Tomas, et principalement avec les femmes, dont il commence
+    à se rapprocher, de façon humaine.
+  :notes: 'C’est aussi la clé de voute puisqu’après elle, les rapports de Tomas à
+    son travail vont changer : les prermiers problèmes (un retard pour commencer),
+    puis les choses vont aller en empirant.'
+  :time: 2900
+  :duree: 150
+:pivot2:
+  :description: Tomas fait sa dernière répétition avant l’audition. Sa prof le félicite
+    et lui donne les dernières recommandations.
+  :time: 4530
+  :duree: 100
+:crise:
+  :description: Au lieu de bien se reposer comme lui avait conseillé sa prof, Tomas
+    doit passer la nuit dehors pour régler une affaire.
+  :notes: 'C’est une crise (étonnamment longue) dont le personnage ne sortira pas
+    : il échouera à son premier objectif.'
+  :time: 4700
+  :duree: 310
+:Acte_III:
+  :description: L’audition ratée, mais le choix de ne pas revenir en arrière, en mettant
+    un terme aux pulsions de mort.
+  :time: 4660
+  :duree: 1220
+:climax:
+  :description: 'Alors qu’il a la possibilité de venger l’assassinat de son père par
+    le mafieux russe, Tomas renonce au dernier moment à l’exécuter. Il a la force
+    de faire le bon choix, il a retrouvé son humanité. '
+  :explication: C’est le vrai climax du film, dans le sens où l’objectif principal
+    du personnage était de retrouver son humanité perdue, de retrouver sa dignité.
+    La réponse est donnée dans cette scène où il fait le bon choix.
+  :time: 5625
+  :duree: 160
+:climaxalt:
+  :description: Tomas vient passer son audition avec Fox. Il échoue lamentablement.
+  :explication: 'Je le considère comme le climax alternatif, bien que ce soit la résolution
+    (négative) de l’objectif le mieux déclaré du film, car l’objectif non concret
+    du personnage est plus important que cet objectif de passage. '
+  :time: 5050
+  :duree: 210
+:desinence:
+  :description: Tomas se rend au concert de sa prof, devenue sa femme, et se laisse
+    transcender par la beauté de la musique.
+  :time: 5790
+  :duree: 110
+:tiers:
+  :description: Tomas prend rendez-vous pour son audition de piano.
+  :time: 1930
+  :duree: 80
+:deuxtiers:
+  :description: Tomas cale sur le passage qui le verra échouer plus tard lors de l’audition.
+  :time: 3955
+  :duree: 25

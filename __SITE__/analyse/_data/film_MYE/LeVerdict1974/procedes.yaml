@@ -1,0 +1,15 @@
+---
+1:
+  :id: 1
+  :libelle: La veuve Léoni ignore que son fils est coupable
+  :description: La veuve Léoni ignore que son fils est vraiment coupable, elle croit
+    le connaître, le croit incapable de meurtre. Nous, spectateurs, savons rapidement
+    qu'il a commis ce meurtre. Le personnage l'apprendra après la résolution de son
+    objectif et une réponse dramatique positive
+  :famille: irdr
+2:
+  :id: 2
+  :libelle: Le juge ignore que sa femme est morte
+  :description: Lorsqu'il convainc les jurés de voter l'acquittement du fils Léoni,
+    Le juge ne sait pas que sa femme est déjà morte.
+  :famille: irdr

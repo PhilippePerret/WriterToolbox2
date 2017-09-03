@@ -1,0 +1,42 @@
+---
+:decoupe: '3.4'
+:incdec:
+  :description: Rachel accepte de prendre Franck Farmer comme garde du corps
+  :explication: C'est là que la mission de Franck Farmer commence véritablement. À
+    noter que c'est surtout Rachel qui joue le refus de l'appel.
+  :time: 600
+:pivot1:
+  :description: On doit avouer à Rachel les menaces qui pèsent sur elle
+  :time: 1955
+:cdv:
+  :description: Rachel et Franck couchent ensemble
+  :time: 3280
+:pivot2:
+  :description: Foster, le chien du père de Franck, annonce la présence du tueur.
+  :time: 5400
+:climax:
+  :description: Franck abat le tueur
+  :notes: 6 mn 30 avant la fin du film
+  :time: 6780
+  :duree: 0
+:devpart2:
+  :description: 'Changement de décor : Miami. Concert exceptionnel de Rachel Marrun.'
+  :time: 3540
+:tiers:
+  :description: Le concert de Rachel dégénère.
+  :time: 2220
+  :duree: 70
+:deuxtiers:
+  :description: 'Rachel accepte toutes les conditions de Franck. Changement de décor :
+    nature enneigée. Retraite chez le père de Franck.'
+  :time: 4455
+:incdecalt:
+  :description: L'incident déclencheur concernant Rachel précède le film (les lettres
+    de menace et surtout l'attentat). Il est suggéré plus que montré dans la scène
+    de concert où la poupée explose.
+  :time: -1
+:pivot1alt:
+  :description: Franck Farmer regarde, subjugué, le clip de Rachel (intrigue amoureuse)
+  :time: 1760
+  :duree: 30
+:id: TheBodyguard

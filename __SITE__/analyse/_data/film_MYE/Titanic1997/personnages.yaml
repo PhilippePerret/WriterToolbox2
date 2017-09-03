@@ -1,0 +1,27 @@
+---
+1:
+  :pseudo: Rose
+  :nom: DeWitt Bukater
+  :prenom: Rose
+  :sexe: F
+  :fct_perso: prota
+  :description: Rose DeWitt Bukater est une jeune femme de l'aristocratie anglaise
+    au seuil de sa vie d'adulte. Elle se trouve à un moment décisif de sa vie, au
+    sortir de l'adolescence, sur le point de se marier contre son gré à un homme qui
+    la dégoûte, et elle regarde, impuissante, sa vie se diriger droit vers le naufrage.
+  :id: 1
+2:
+  :pseudo: Jack
+  :nom: Dawson
+  :prenom: Jack
+  :sexe: H
+  :fct_perso: ment
+  :role: Jack joue le rôle du sauveur et du mentor. C'est lui qui permettra à Rose
+    d'éviter le naufrage, en l'initiant à la liberté, à l'audace, au courage.
+  :description: Jack est un talentueux — mais inconnu — artiste sans le sou, un peu
+    voyou, qui part aux états-unis tenter sa chance après avoir fait ses armes à Paris.
+    Il s'éprend de Rose qu'il voudra sauver du naufrage.
+  :relatifs:
+  - :type: :objectif
+    :id: 1
+  :id: 2

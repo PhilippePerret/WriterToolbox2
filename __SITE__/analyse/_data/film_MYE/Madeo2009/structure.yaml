@@ -1,0 +1,34 @@
+---
+:decoupe: '3.4'
+:incdec:
+  :description: |
+    Le fils se fait arrêter par la police pour le meurtre de la jeune
+    Ah-Jeong.
+  :time: 1440
+  :duree: 60
+:pivot1:
+  :description: Les flics font signer ses aveux à Do-joon (le fils).
+  :explication: |
+    C'est cette signature des aveux qui va conduire la mère à devoir tout
+    faire pour sauver son fils de la prison. On bascule bien, avec ce premier
+    pivot, dans le développement.
+  :time: 1585
+  :duree: 315
+:Acte_II:
+  :description: |
+    La mère va tout faire pour sauver son fils de la prison.
+  :time: 1900
+:cdv:
+  :description: |
+    Jin-tae, l'ami de Do-joon, fait comprendre à la mère que jamais la
+    justice ni la police ne sortiront Do-joon de prison. Il la met
+    également sur la piste à fouiller.
+  :explication: |
+    Cette scène fait basculer le film dans une nouvelle partie où la mère
+    va devoir sauver elle-même son fils, sans l'aide de personne.
+  :time: 3815
+  :duree: 165
+:devpart2:
+  :description: |
+    La mère va tout faire pour obtenir la vérité, sans l'aide de personne.
+  :time: 3980

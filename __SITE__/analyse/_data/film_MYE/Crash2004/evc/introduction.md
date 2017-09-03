@@ -1,0 +1,1 @@
+Nous allons maintenant lister un certain nombre d'MOT[186|évènemenciers] qui peuvent servir d'illustration pour savoir ce qu'est un évènemencier de personnage, un évènemencier-brin, un scénier ou encore un évènemencier de relation entre personnages.

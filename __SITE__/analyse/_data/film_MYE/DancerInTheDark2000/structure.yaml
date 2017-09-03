@@ -1,0 +1,94 @@
+---
+:Acte_I:
+  :description: Présentation de <personnage>Selma Jezkova</personnage>, jeune mère
+    célibataire tchèque, dans un coin perdu des États-Unis, travaillant pour payer
+    une opération des yeux à son fils Gene.
+  :notes: Noter comment sont subtilement traitées toutes les dimensions du personnage
+    dans cette partie (dimension privée, familiale, professionnelle, amicale, amoureuse,
+    santé)
+  :time: 0
+  :duree: 1950
+:incdec:
+  :description: |-
+    Avant le film (dimension H/P),<personnage>Selma</personnage> apprend que son fils <personnage>Gene</personnage> souffre de la même maladie que lui, et deviendra aveugle. C’est ce qui la conduit à prendre la décision de partir aux États-Unis pour le faire opérer.
+    Nous ne l’apprenons (dimension S) qu’à la fin de l’exposition.
+  :time: 1290
+  :duree: 10
+:decobj:
+  :description: 'C’est au même moment où nous sommes informés de l’incident déclencheur
+    qu’est déclaré l’objectif : Selma est venue aux États-Unis pour payer une opération
+    des yeux à son fils Gene.'
+  :time: 1290
+  :duree: 10
+:pivot1:
+  :description: Selma n’y voit plus. Elle doit renoncer à aller en vélo à l’usine.
+  :explication: 'Cet évènement remplit parfaitement sa fonction de pivot, en offrant
+    un point de non retour évident : devenu aveugle, on se demande comment Selma pourra
+    bien remplir sa mission.'
+  :time: 1910
+:Acte_II:
+  :description: 'L’entrée dans le développement est marqué nettement par l’intervention
+    de Cathy : elle s’étonne (et s’inquiète) du fait que Selma a pris deux boites
+    d’épingles et a demandé à travailler de nuit.'
+  :explication: Habituellement, le développement s’amorce par la première action concrète
+    du personnage. Ici, puisque le personnage est déjà en action (il œuvre depuis
+    l’ouverture du film pour réaliser son objectif), Lars Von Trier double cet effort
+    pour créer l’effet d’entrée dans le développement.
+  :notes: 'Un auteur moins subtilet moins soucieux de forme aurait joué la progression
+    : d’abord la double boite d’épingles puis plus tard le travail de nuit (ou inversement).
+    Noter comment ici les deux éléments s’enchainent, créant véritablement le début
+    du développement. '
+  :time: 1950
+  :duree: 3970
+:cdv:
+  :description: Selma doit tuer Bill Houston pour récupérer ses économies.
+  :explication: 'Cette clé de voûte remplit parfaitement son rôle : rien ne pourra
+    plus être comme avant, et le film va changer profondément de caractère ; on passe
+    de la vie d’une ouvrière dans un coin reculé des États-Unis au monde la justice,
+    incarcération, procès et exécution.'
+  :notes: Cette clé de voûte est particulièrement longue.
+  :time: 3615
+  :duree: 510
+:pivot2:
+  :description: Selma Jezkova est condamnée à mort.
+  :notes: C’est également un point de non retour pour le personnage, même si le sursis
+    peut toujours être espéré.
+  :time: 5875
+  :duree: 10
+:crise:
+  :description: Selma apprend que ses économies ont été “détournées” pour payer son
+    avocat.
+  :explication: C’est une MOT[199|crise] profonde parce qu’elle compromet de façon
+    intense l’opération des yeux de Gene. Le personnage s’effondre, voyant la réalisation
+    de son objectif s’éloigner.
+  :time: 6660
+  :duree: 120
+:Acte_III:
+  :description: Transfert de Selma au pénitencier d’état dans l’attente de sa pendaison.
+    C’est le sacrifice ultime de Selma qui ne fera rien pour éviter la pendaison,
+    pour sauver son fils Gene.
+  :time: 5920
+  :duree: 1940
+:climax:
+  :description: 'C’est dans cette scène que Selma apprendra qu’elle a atteint son
+    objectif. (2:06:30) Réponse dramatique fondamentale : Cathy vient annoncer à Selma
+    que l’opération de Gene a réussi, et qu’elle a bien eu raison d’écouter son cœur.'
+  :notes: 'Noter comment le suspense est magnifiquement joué dans cette scène, à l’aide
+    de la cagoule. Alorsqu’on se demande si Selma va mourir avant de savoir si elle
+    a atteint son objectif (ce qui serait terrible), elle refuse d’enfiler la cagoule.
+    C’est contre le règlement, l’exécutant doit passer un coup de fil pour demander
+    si c’est autorisé (l’auteur joue le temps). Cathy en profite pour venir trouver
+    Selma sur la mezzanine et lui annoncer la grande nouvelle. '
+  :time: 7440
+  :duree: 165
+:desinence:
+  :description: Exécution de Selma, les lunettes de Gene entre les mains.
+  :time: 7605
+:tiers:
+  :description: Bill feint de quitter la caravane pour voir où Selma range ses économies.
+  :time: 2640
+  :duree: 60
+:deuxtiers:
+  :description: Long procès de Selma (presque aussi long que le meurtre lui-même).
+  :time: 5140
+  :duree: 500

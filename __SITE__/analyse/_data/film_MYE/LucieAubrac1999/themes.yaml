@@ -1,0 +1,29 @@
+---
+1:
+  :libelle: La résistance
+  :nature_theme: :concret
+  :id: 1
+2:
+  :libelle: L'occupation pendant la seconde guerre mondiale
+  :nature_theme: :concret
+  :id: 2
+3:
+  :libelle: La prison, la torture
+  :nature_theme: :concret
+  :id: 3
+4:
+  :libelle: L'amour
+  :nature_theme: :both
+  :id: 4
+5:
+  :libelle: La clandestinité
+  :nature_theme: :abstrait
+  :id: 5
+6:
+  :libelle: La générosité et l'abnégation dans le malheur
+  :nature_theme: :both
+  :id: 6
+7:
+  :libelle: Le sadisme
+  :nature_theme: :both
+  :id: 7

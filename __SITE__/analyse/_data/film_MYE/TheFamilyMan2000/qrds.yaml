@@ -1,0 +1,13 @@
+---
+1:
+  :id: 1
+  :question: Jack Campbell va-t-il pouvoir retrouver sa vie passée ?
+  :reponse: Oui, provisoirement, mais il fera tout pour retourner dans la vie qu'il
+    a découverte. Donc la réponse est finalement “Non”.
+  :description: Lorsque Jack Campbell, qui pense avoir tout dans sa vie, succès et
+    argent, est propulsé dans une vie parallèle où il est devenu simple vendeur de
+    pneu au détail, son unique but sera de retrouver sa “vraie” vie.
+  :intensite: 4
+  :relatifs:
+  - :type: :objectif
+    :id: 1

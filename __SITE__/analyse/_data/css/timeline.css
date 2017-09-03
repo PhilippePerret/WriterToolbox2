@@ -1,0 +1,111 @@
+/* ---------------------------------------------------------------------
+  TIMELINE DES SCÈNES
+--------------------------------------------------------------------- */
+div.timeline_scenes {
+  height:240px;
+  position:relative;
+}
+/* Ne pas afficher les crayons */
+div.timeline_scenes img.tmlk {
+  display:none;
+}
+div.timeline_scenes div.timeline {
+  /* width: défini par le programme */
+  background-color:#CCC;
+  height:31px;
+  margin-top:160px;
+  position:relative;
+}
+div.timeline_scenes div.timeline > div.sc {
+  position:absolute;
+  height:30px;
+}
+div.timeline_scenes div.timeline > div.sc > div.tit {
+  font-size: 9pt;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform: rotate(-45deg);
+  transform-origin: -12px -8px 0;
+  white-space: nowrap;
+  width: 200px;
+}
+
+/* Pour faire apparaitre la fiche */
+div.timeline_scenes div.timeline > div.sc > div.fiche_scene {
+  top:16px;
+}
+div.timeline_scenes div.timeline > div.sc:hover,
+div.timeline_scenes div.timeline > div.sc.selected {
+  background-color:#00F !important;
+}
+div.timeline_scenes div.timeline > div.mark_partie {
+  position:absolute;
+  top: -20px;
+  height:60px;
+  width:2px;
+  background-color:red;
+}
+/* Le voile rouge pour les exergues */
+div.timeline_scenes div.red_voile {
+  position:absolute;
+  display:none;
+  opacity:0.4;
+  background-color:#F55;
+  border-width:0 1px;
+  border-color:red;
+  border-style:1px solid;
+  height:168px;
+  top:-120px;
+  z-index:-1;
+}
+
+/* ---------------------------------------------------------------------
+  LES TIMELINES DE CHAQUE OBJET
+ ---------------------------------------------------------------------*/
+/*
+  Le div container contenant la timeline et la position de l'objet sur la timeline
+*/
+div.intl {
+  /* Note : la largeur est définir par LISTING_TIMELINE_WIDTH */
+  position:relative;
+  height: 10px;
+  background-color:#efefef;
+  margin: 20px 0;
+}
+/* Dans la liste des caractéristiques d'un personnage, la timeline doit être
+   plus étroite et ne pas montrer les temps */
+div.cars div.intl {
+  height: 5px !important;
+}
+div.cars div.intl div.hlg {
+  display:none; !important;
+}
+
+div.intl div.hlg {
+  position:absolute !important;
+  font-size:x-small;
+  padding:0 3px !important;
+  background-color:transparent !important;
+  color:black !important;
+}
+div.intl div.hlg.start { right: -60px; }
+div.intl div.hlg.end { right:-120px;}
+div.intl div.hlg.end:before{ content:"à ";}
+
+/* Le bloc posé sur la timeline */
+div.o_intl {
+  position:absolute;
+  height:calc(100%);
+  background-color:gold;
+}
+
+/* L'indication d'une fonction-clé quand c'est un brin */
+div.o_intl div.tl_kfunction {
+  position:absolute;
+  color:red;
+  top:-10px;
+  height:20px;
+  border-left:1px solid red;
+  font-size:8pt;
+  white-space:nowrap;
+}

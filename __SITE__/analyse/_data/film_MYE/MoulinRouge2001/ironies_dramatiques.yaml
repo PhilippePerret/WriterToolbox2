@@ -1,0 +1,402 @@
+---
+1:
+  :libelle: L’issue fatale
+  :description: |
+    Le spectateur connaît dès les premières minutes du film l’issue de
+    l’histoire
+  :victime: les personnages, en particulier Christian et Satine
+  :auteur: le narrateur
+  :produit: Du suspense
+  :id: 1
+2:
+  :libelle: Rendez-vous simultanés
+  :description: |
+    Durant le numéro de Satine, Lautrec affirme à Christian qu’il lui
+    a obtenu un rendez-vous en tête-à-tête avec la courtisane. Au même
+    moment, à quelques mètres seulement, Zidler fait exactement la même
+    promesse au Duc
+  :victime: Lautrec, Christian, le Duc et Zidler
+  :auteur: Le sort
+  :produit: Du suspense et de la perspective d'humour
+  :id: 2
+3:
+  :libelle: Le mouchoir sous le nez
+  :description: |
+    Un peu plus tard, Zidler parle du Duc à Satine et il lui montre de
+    loin. Il lui explique que Lautrec est en train d’agiter un mouchoir
+    sous le nez de ce fameux Duc. Le temps que Satine localise sa “cible”,
+    Lautrec s’est déplacé et agite un mouchoir sous le nez… de Christian
+  :victime: Zidler et Satine
+  :auteur: Le sort
+  :produit: De l'humour
+  :id: 3
+4:
+  :libelle: Quiproquo
+  :description: |
+    C’est donc Christian et non le Duc que Satine invite à danser. Il
+    lui parle d’une lecture de poésie et elle croit qu’il parle de sexe
+    (ironie double)
+  :victime: Satine et Christian
+  :auteur: Christian et Satine
+  :produit: De l'humour
+  :id: 4
+5:
+  :libelle: Confusion de personnage
+  :description: |
+    Zidler surveille la scène de loin et croit voir Satine danser avec
+    le Duc
+  :victime: Zidler qui ignore jusqu’à l’existence de Christian
+  :auteur: Christian
+  :produit: Du suspense
+  :id: 5
+6:
+  :libelle: Zidler ment au public
+  :description: |
+    Quant Satine a un malaise à la fin de son numéro, Zidler parvient
+    à faire croire au public que cela fait partie du spectacle
+  :victime: Les clients du Moulin Rouge
+  :auteur: Zidler
+  :produit: Du suspense, de la perspective de conflit
+  :id: 6
+7:
+  :libelle: Satine gravement malade
+  :description: |
+    En coulisses, Satine revient à elle, elle est prise d’une violente
+    quinte de toux et crache du sang. Marie (sa confidente) comprend
+    immédiatement que la jeune femme est gravement malade. Satine, en
+    toute bonne foi, met l’incident sur le compte de son corset trop serré
+  :victime: Satine
+  :auteur: La maladie et Marie qui garde le silence
+  :produit: |
+    Du “renforcement de vérité” par les efforts des personnages
+    à la nier
+  :id: 7
+8:
+  :libelle: Le rêve de Satine
+  :description: |
+    Un peu plus tard, Satine se confie à Marie : son seul désir, c’est
+    de devenir une grande actrice et de quitter l’univers sordide du
+    cabaret. Elle compte sur le spectacle de Lautrec, et donc sur
+    l’investissement du Duc, pour réaliser son rêve
+  :victime: Le Duc
+  :auteur:  Satine
+  :id: 8
+9:
+  :libelle: Un étrange préliminaire
+  :description: |
+    Quand Christian rejoint Satine dans son boudoir, il
+    essaie de déclamer sa prose. Elle n’y voit qu’un étrange
+    préliminaire et l’invite à faire l’amour (ironie double)
+  :victime: Satine et Christian
+  :auteur:  Christian et Satine
+  :produit: De l'humour
+  :id: 9
+10:
+  :libelle:     Tendres voyeurs
+  :description: |
+    Lautrec et ses amis observent la scène à l’insu des jeunes gens
+  :victime: Christian et Satine
+  :auteur:  Les Enfants de la Révolution
+  :produit: De l'humour, de la tendresse pour les personnages
+  :id: 10
+11:
+  :libelle:     Mille statagèmes
+  :description: |
+    Le Duc, qui avait rendez-vous, rejoint Satine dans le boudoir
+    Christian est caché derrière les jupes de la jeune femme. Satine
+    est obligée d’inventer mille stratagèmes pour éconduire son riche
+    prétendant
+  :victime: Le Duc
+  :auteur:  Christian et Satine
+  :produit: De l'humour et du suspense
+  :id: 11
+12:
+  :libelle:     Confusion de personnages et observateur caché
+  :description: |
+    Zidler surveille le boudoir à l’aide d’une longue vue, il suit la
+    bonne marche de ses affaires. Il est persuadé que Satine se trouve
+    dans les bras du Duc alors qu’elle s’est évanouie dans ceux de
+    Christian
+  :victime: Zidler/Christian et Satine
+  :auteur:  L'évanouissement de Satine/Zidler
+  :produit: De l'humour
+  :id: 12
+14:
+  :libelle: Le mensonge de Christian et Satine
+  :description: |
+    Le Duc retourne dans le boudoir et trouve Christian et Satine enlacés
+    Ces derniers lui font croire qu’ils sont en pleine répétition
+    Lautrec et ses comparses font irruption dans la pièce pour corroborer
+    leurs dires
+  :victime: Le Duc
+  :auteur:  Satine, Christian, Lautrec et compagnie
+  :produit: De l'humour, du suspense (comment le Duc va-t-il réagir ?)
+  :id: 14
+15:
+  :libelle: Zidler joue le jeu
+  :description: |
+    Zidler rejoint les autres personnages dans le boudoir. Il ne connaît
+    pas Christian, ne comprend rien à la situation, il joue néanmoins
+    le jeu vis-à-vis du Duc
+  :victime: Le Duc et Zidler
+  :auteur: Satine, Christian, Lautrec et compagnie
+  :produit: De l'humour, de la sympathie pour le personnage
+  :id: 15
+16:
+  :libelle: Histoire improvisée
+  :description: |
+    Christian “pitche” le futur spectacle devant le Duc. Il improvise
+    totalement l’histoire, transposant sa propre rencontre avec Satine
+    et tournant en ridicule son rival par la même occasion
+  :victime: Le Duc et Zidler
+  :auteur: Christian, secondé par Satine et Lautrec
+  :produit: De l'humour
+  :id: 16
+17:
+  :libelle: Pensées communes
+  :description: |
+    Christian et Satine, chacun dans leur chambre, pensent l’un à l’autre,
+    totalement sous le choc de leur rencontre. Christian nage dans le
+    bonheur alors que Satine est effondrée : une courtisane ne peut pas
+    se permettre de tomber amoureuse, et encore moins d’un jeune poète
+    sans le sou
+  :victime: Christian et Satine
+  :auteur:  L’amour
+  :produit: De l'émotion
+  :id: 17
+18:
+  :libelle: Un amour condamné
+  :description: |
+    Christian et Satine deviennent amants en secret. Le public est
+    triste et heureux à la fois puisqu’il sait que cet amour est
+    condamné
+  :victime: Tous les autres personnages, excepté Lautrec
+  :auteur:  Les amants
+  :produit: De la tristesse
+  :id: 18
+19:
+  :libelle: Jalousie cachée
+  :description: |
+    Toulouse envie les deux jeunes amoureux. Il voudrait être Christian,
+    voire même le posséder
+  :victime: Christian
+  :auteur:  Lautrec
+  :produit: De l'émotion pour le personnage
+  :id: 19
+20:
+  :libelle: Des tractations secrètes
+  :description: |
+    Pendant ce temps, Zidler et le Duc signent un contrat. En échange
+    de son investissement, le Duc exige d’obtenir les faveurs de
+    Satine exclusivement, faute de quoi il prendra possession du Moulin
+    Rouge
+  :victime: Satine et, par extension, Christian
+  :auteur: Le Duc et Zidler
+  :produit: Du suspense (comment les choses vont-elles tourner ?)
+  :id: 20
+21:
+  :libelle: Mensonge de Satine et Christian sur leurs rendez-vous
+  :description: |
+    Les répétitions du spectacle débutent. Christian et Satine font
+    croire au Duc qu’ils ne se voient que pour élaborer la mise en
+    scène
+  :victime: Le Duc
+  :auteur:  Christian et Satine
+  :produit: De l'humour
+  :id: 21
+22:
+  :libelle: Une simple petite aventure
+  :description: |
+    Zidler découvre la liaison de Satine et Christian et ordonne à
+    Satine d’y mettre fin. Elle lui fait croire que ce n’est qu’une
+    petite aventure à ses yeux
+  :victime: Zidler
+  :auteur:  Satine
+  :produit: De la sympathie pour les personnages
+  :id: 22
+23:
+  :libelle: Le malaise de Satine
+  :description: |
+    Satine a un malaise, son entourage commence à prendre conscience de
+    son état de santé
+  :victime: Satine
+  :auteur:  La maladie
+  :produit: De l'émotion, de la perspective de conflit
+  :id: 23
+24:
+  :libelle: Christian rongé par la jalousie
+  :description: |
+    Christian, qui attend en vain sa maîtresse, est rongé par
+    la jalousie
+  :victime: Christian
+  :auteur:  L'absence de Satine
+  :produit: De l'émotion
+  :id: 24
+25:
+  :libelle: Une fausse virginité
+  :description: |
+    Le Duc est furieux que Satine ne soit pas venue à leur rendez-vous
+    Zidler calme le jeu en inventant un énorme (et ridicule) mensonge :
+    il prétend que Satine est partie se confesser, qu’elle veut se refaire
+    une virginité pour le Duc
+  :victime: Le Duc
+  :auteur:  Zidler
+  :produit: De l'humour
+  :id: 25
+26:
+  :libelle: Omission volontaire
+  :description: |
+    Zidler découvre que Satine est condamnée. Cependant, il refuse que
+    la jeune femme ne soit avertie afin que le spectacle ne soit pas
+    compromis
+  :victime: Satine
+  :auteur:  Zidler
+  :produit: De l'émotion (négative) et de la perspective de conflit
+  :id: 26
+27:
+  :libelle: Satine incapable de rompre
+  :description: |
+    Satine essaie d’obéir à Zidler et de rompre avec Christian. C’est
+    au-dessus de ses forces, le jeune homme parvient à la retenir
+  :victime: La raison de Satine
+  :auteur:  Le cœur de Satine
+  :produit: De l'émotion
+  :id: 27
+28:
+  :libelle: La chanson secrète
+  :description: |
+    Christian écrit une chanson pour Satine, “Come what may”, et l’inclut
+    dans la revue. C’est un code secret entre les deux amants. Chaque fois
+    qu’ils l’interprètent en public, ils font un pied de nez à leurs
+    adversaires
+  :victime: Le Duc et Zidler
+  :auteur:  Les amants
+  :produit: De l'émotion
+  :id: 28
+29:
+  :libelle: Diner en tête-à-tête
+  :description: |
+    Le Duc finit par comprendre la supercherie et menace de suspendre
+    son investissement. Satine lui propose un dîner en tête-à-tête
+    afin de calmer le jeu
+  :victime: Le Duc
+  :auteur:  Satine
+  :id: 29
+30:
+  :libelle: Faire tuer Christian
+  :description: |
+    Satine s’est dérobée une fois encore, le Duc avertit Zidler qu’il
+    fera tuer Christian s’il n’obtient pas ce qu’il désire
+  :victime: Christian et, par extension, Satine
+  :auteur:  Le Duc
+  :produit: De la perspective de conflit, du suspense
+  :id: 30
+31:
+  :libelle: Le projet de fuite
+  :description: Christian et Satine projettent de s’enfuir
+  :victime: Les autres personnages à l’exception de Chocolat
+  :auteur:  Les amants
+  :id: 31
+32:
+  :libelle: La mort de Satine annoncée
+  :description: |
+    Zidler révèle à Satine qu’elle va mourir, espérant ainsi la retenir
+    Il la prévient également de la menace qui pèse sur Christian et la
+    pousse à rompre, à éloigner son amant pour le protéger
+  :victime: Christian
+  :auteur:  Zidler, et Satine, contrainte et forcée
+  :produit: De l'émotion, du suspense
+  :id: 32
+33:
+  :libelle: Rupture de Satine et Christian
+  :description: |
+    Satine rompt avec Christian, elle lui fait croire qu’elle a choisi
+    le Duc et son argent
+  :victime: Christian
+  :auteur:  Satine
+  :produit: De l'émotion très forte
+  :id: 33
+34:
+  :libelle: Sentiments cachés
+  :description: |
+    Toulouse Lautrec n’est pas dupe de toute cette mise en scène. Sous
+    ses dehors de clown, c’est un être sensible qui sait lire dans le
+    cœur des gens. Il pousse Christian à se réconcilier avec Satine
+    alors qu’il est amoureux du jeune homme
+  :victime: Christian
+  :auteur:  Lautrec
+  :produit: De la sympathie pour le personnage
+  :id: 34
+35:
+  :libelle: Christian ignore qu'on veut le tuer
+  :description: |
+    Christian retourne au Moulin Rouge. Il ignore que le Duc veut le faire
+    tuer
+  :victime: Christian
+  :auteur: Le Duc et son sbire
+  :produit: Du suspense, perspective de conflit
+  :id: 35
+36:
+  :libelle: Ignorance
+  :description: |
+    Christian et le Duc sont les seuls à ignorer que Satine est mourante
+  :victime: Christian et leDuc
+  :auteur:  L’omerta qui règne sur cette information
+  :produit: De l'émotion
+  :id: 36
+37:
+  :libelle: La menace sur Christian
+  :description: |
+    Sur scène, le spectacle bat son plein alors qu’en coulisses Satine
+    et Christian se disputent. Durant leur altercation, l’homme de main
+    du Duc et Toulouse cherchent Christian, l’un pour le tuer et l’autre
+    pour le protéger
+  :victime: Christian
+  :auteur: Le tueur et Lautrec
+  :produit: Du suspense
+  :id: 37
+38:
+  :libelle: Le public croit au spectacle
+  :description: |
+    Christian et Satine poursuivent leur dispute sur scène. Le public
+    croit que cela fait partie du spectacle
+  :victime: Les spectateurs de la revue
+  :auteur: Zidler
+  :produit: De l'humour
+  :id: 38
+39:
+  :libelle: Une bataille perdue d'avance
+  :description: |
+    Les amants se réconcilient et se jurent un amour éternel. Zidler et
+    toute la troupe se rangent à leurs côtés. Le Duc est vaincu. Tout
+    le monde est conscient que malgré cette victoire, la bataille contre
+    la maladie est perdue d’avance. Tout le monde, sauf Christian
+  :victime: Christian
+  :auteur:  Tous les personnages
+  :produit: De l'émotion
+  :id: 39
+40:
+  :libelle: Les spectateurs ignorent tout de la tragédie
+  :description: |
+    Le rideau tombe, le public est conquis, “Spectacular Spectacular”
+    est un triomphe. Soudain, derrière la rideau, Satine s’effondre et
+    meurt dans les bras de Christian
+  :victime: Les spectateurs de la revue et le Duc
+  :auteur:  Satine
+  :id: 40
+41:
+  :libelle: Le Choix des chansons
+  :description: |
+    Une autre ironie dramatique mérite d’être signalée, elle concerne
+    le film tout entier. Il s’agit du <em>choix des chansons</em>
+    Rappelons que le film est une comédie musicale. Bien que l’histoire
+    se déroule en 1899, les auteurs ont choisi de faire interpréter aux
+    personnages des morceaux qui datent de la fin du vingtième siècle
+    Ils créent ainsi une complicité avec les spectateurs, un accord
+    tacite. Les personnages expriment leurs sentiments à travers des
+    chansons qui sont pour la plupart rattachées au propre vécu du
+    public. L’identification et l’empathie de l’audience avec les amants
+    est ainsi renforcée. Les choix musicaux sont un clin d’œil direct
+    des auteurs au public, un secret qu’ils partagent à l’insu des
+    personnages eux-mêmes…
+  :id: 41

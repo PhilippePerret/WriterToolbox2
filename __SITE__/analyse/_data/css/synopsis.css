@@ -1,0 +1,15 @@
+/* Styles concernant le synopsis complet */
+div.synopsis_complet {
+  margin-left: 2em;
+  width:760px;
+}
+
+div.synopsis_complet > div.syn {
+  margin-bottom:6px;
+  text-align:justify;
+  font-size:17.6pt;
+}
+
+div.synopsis_complet div.syn div.owner {
+  display: none ;
+}

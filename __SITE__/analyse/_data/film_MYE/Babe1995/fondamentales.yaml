@@ -1,0 +1,22 @@
+---
+:personnage_fondamental:
+  :nom: Babe
+  :description: Un petit cochon naïf mais courageux et généreux.
+:question_fondamentale:
+  :intitule: Babe finira-t-il, comme tous ses congénères, en jambon de Noël ?
+  :objf: |-
+    <b>Devenir “cochon de berger” (= chien de berger)</b>. C'est seulement en parvenant à devenir cochon de berger que Babe a une chance d'échapper à sa condition, à son destin.
+    On ne peut pas rêver objectif plus original, et plus métaphorique…
+:opposition_fondamentale:
+  :description: 'Un cochon est destiné à finir en jambon, ben oui… Par
+    rapport à l’objectif : un cochon, par nature, ne peut pas devenir “cochon de berger”. '
+  :intitule: Sa nature de cochon…
+:reponse_fondamentale:
+  :intitule: 'Positive : Babe, en parvenant à remporter le concours de dressage, échappera
+    à son destin funeste (fumesque…).'
+:concept_fondamental:
+  :description: |
+    Une métaphore du destin individuel, de la prédestination, qui peut
+    être vaincu lorsque l'on parvient à échapper aux préjugés et à la
+    force des traditions. Un film qui dit en quelque sorte “Deviens qui tu
+    es, quelles que soient tes prédispositions.”

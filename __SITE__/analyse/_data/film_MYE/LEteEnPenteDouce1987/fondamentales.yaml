@@ -1,0 +1,20 @@
+---
+:personnage_fondamental:
+  :nom: Leheurt
+  :prenom: Stéphane
+:question_fondamentale:
+  :intitule: Stéphane Leheurt, alias “Fane”, parviendra-t-il à se construire la nouvelle
+    vie dont il rêve ?   Fane finira-t-il par vendre la maison de sa mère ?
+  :objf: Monter un café-restaurant et devenir auteur de polars.
+:opposition_fondamentale:
+  :description: 'Cette opposition porte un seul nom : la bêtise humaine. Bêtise qui
+    s''exprime à l''intérieur du personnage (sa naïvité, ses incompétences) et à l''extérieur
+    du personnage (l''hostilité des gens du village, la cupidité du garagiste, etc.)'
+  :antagoniste: Le personnage lui-même, et le garagiste
+:reponse_fondamentale:
+  :intitule: 'Négative : une nouvelle fois, Fane devra renoncer et abandonner son
+    bien pour trois fois rien.'
+:concept_fondamental:
+  :description: Illustrer la bêtise humaine de façon cruellement vraie, mais avec
+    une tendresse profonde pour ses personnages (aucun d'eux n'est véritablement détestable),
+    et à l'intérieur d'un “vrai” récit, parfaitement structuré, quasi hollywoodien.

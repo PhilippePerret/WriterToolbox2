@@ -1,0 +1,130 @@
+/**
+  * Styles pour la structure d'un élément quelconque (un brin p.e.)
+  */
+
+/* Le conteneur principal */
+div.structure {
+  position:relative;
+  height:10px;
+}
+/* Le div d'une scène */
+div.structure div.kscene {
+  position:absolute;
+  height:10px;
+  background-color:#99F;
+}
+div.structure div.kscene:hover {
+  background-color:blue;
+}
+
+/*
+ * Styles pour la structure du film
+ */
+
+div#film_structure, div.paradigme_field {
+  width: 1200px; /* doit correspondre à Film::WIDTH_FOR_FILM */
+  position:relative;
+  border:4px solid grey;
+  background-color:#f0f0f0;
+  padding:5em 0 1em;
+  margin-bottom: 1em;
+}
+
+/* Quand la scène est dans la zone */
+div#film_structure.plan .sc.inzone {
+  background-color: green !important;
+}
+/* Quand la scène est hors zone */
+div#film_structure.plan .sc.outzone {
+  background-color: red !important;
+}
+
+div.paradigme_field_film div.explications_decalages {
+  padding:0 4em;
+}
+
+.plan .stt_acte .hlg {
+    right: 0;
+    top: 0;
+}
+div.paradigme_field div.cdv span.hlg.start {
+  left:-76px;
+}
+div.paradigme_field div.cdv span.hlg.end {
+  right:-76px;
+}
+
+.plan .sc {
+  position: absolute;
+  height:16px;
+  background-color:blue;
+  border-left:1px solid white;
+}
+.kpoint {
+
+}
+
+.kpoint span.kpt_content {
+  position:absolute;
+  white-space:nowrap;
+  display:none;
+  top:-28px;
+  padding:4px;
+  z-index:10;
+  background-color:white;
+}
+.kpoint:hover span.kpt_content {display:block;}
+
+.kpoint span.kpoint_titre {
+  position: absolute;
+  display:block;
+  white-space: nowrap;
+  top: -34px;
+  font-family: Arial;
+}
+.plan .hlg {
+  position:absolute;
+  background-color:#c0c0c0;
+  top: -16px;
+}
+
+.plan div.time_mark_pfa {
+	position:			absolute;
+	top: 					24px;
+	height: 			84px;
+	border-left: 	1px solid;
+}
+.plan div.time_mark_pfa .hlg {
+	position:						absolute ;
+  background-color: 	#60CF60 ;
+	top: 								0 ;
+}
+
+.plan .stt_acte .hlg {
+  background-color:black !important;
+}
+/* Quand c'est la QDF/RDF */
+div#film_structure.plan .sc.qdf, div#film_structure.plan .sc.rdf {
+  top:28px;
+}
+div#film_structure.plan .sc.qdf .kpoint_titre, 
+div#film_structure.plan .sc.rdf .kpoint_titre {
+  top:-2px !important;
+  left:-34px;
+}
+
+
+/* Le div de l'acte, pour le plan/paradigme + la Map */
+div.stt_acte {
+  position:absolute;
+  top:0;
+  height:calc(100%);
+  border-right:1px solid #A6A6A6;
+  border-left:1px solid #A6A6A6;
+  text-align:center;
+  color: #A6A6A6;
+}
+/* Nom de l'acte */
+div.stt_acte span.name {
+
+}

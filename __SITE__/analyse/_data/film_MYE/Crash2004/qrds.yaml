@@ -1,0 +1,420 @@
+---
+0:
+  :id: 0
+  :question: Qui est le gosse retouvé mort ?
+  :reponse: C'est Peter Waters, le braqueur de voiture, frère du lieutenant Graham.
+  :installation_time: 305
+  :resolution_time: 5140
+  :intensite: 0
+1:
+  :id: 1
+  :question: Quel rapport Graham entretient-il avec le “gosse” tué ?
+  :reponse: C'est son frère, qu'il devait retrouver.
+  :d_installation: Quand Graham découvre le corps (hors-champ), on sent que des liens
+    spéciaux le lie à lui. Il passe autre chose que du dégoût, du dépit ou de l'indifférence.
+  :d_resolution: La résolution, pour quelqu'un qui suivrait parfaitement le film se
+    fait ici, lorsqu'on apprend que le frère de Graham est voleur de voiture. Mais
+    dans le film, on le comprend réellement plus tard, à l'IML (<a class="to_tl" href="&"
+    onclick="TIMELINE.showEventsByTps('5485', {'idfilm':'Crash', 'evc':'scenier.evc'});return
+    false;">1:31:25</a>).
+  :installation_time: 315
+  :resolution_time: 4030
+  :intensite: 0
+2:
+  :id: 2
+  :question: Farhad et Dorri pourront-ils acheter une arme ?
+  :reponse: Oui, mais après avoir mis Farhad à la porte et essuyé les insultes racistes
+    de l'armurier.
+  :d_resolution: Dorri finit par pouvoir obtenir l'arme.
+  :installation_time: 352
+  :resolution_time: 450
+  :intensite: 0
+3:
+  :id: 3
+  :question: À quoi va servir l'arme achetée par Farhad ?
+  :reponse: 'À se venger de celui qu''il croit être responsable de sa faillite : Daniel.'
+  :description: On est au cinéma, on est dans un film bien écrit, on sait donc que
+    l'arme va fatalement servir à quelque chose, ce qui justifie la QD.
+  :installation_time: 420
+  :resolution_time: 4630
+  :intensite: 0
+4:
+  :id: 4
+  :question: Les Cabot vont-ils rencontrer les deux blacks, et que va-t-il se passer
+    ?
+  :reponse: Les Cabot vont se faire braquer leur véhicule.
+  :description: Tout est fait, dans la réalisation, pour nous faire comprendre que
+    les deux “couples” vont se croiser. Et comme on se doute que ça n'est pas fait
+    au hasard, on sedemande inévitablement comment ça va tourner.
+  :d_installation: L'installation se fait à partir du moment où l'on voit qu'on est
+    dans la même rue, et que les deux couples vont en sens opposé.
+  :installation_time: 505
+  :resolution_time: 565
+  :intensite: 0
+5:
+  :id: 5
+  :question: Conklin est-il coupable ? A-t-il tué Lewis ?
+  :reponse: On ne le saura pas, mais Graham Waters devra prendre une décision et l'accuser.
+  :d_resolution: Graham Waters dit au procureur général que tout semble indiquer que
+    Conklin est coupable. Mais le doute subsiste.
+  :installation_time: 660
+  :resolution_time: 4140
+  :intensite: 0
+6:
+  :id: 6
+  :question: Daniel est-il un voyou, comme le pense Jean Cabot ?
+  :reponse: Non, c'est un homme bien, qui ne cherche que la tranquillité de sa famille.
+  :d_resolution: 'Quand on voit Daniel avec sa fille Lara, on comprend quel genre
+    d''homme il est. Il a déjà déménagé pour que sa fille se sente en sécurité, et
+    il est encore prêt à la faire. '
+  :installation_time: 720
+  :resolution_time: 1500
+  :intensite: 0
+7:
+  :id: 7
+  :question: Richard Cabot parviendra-t-il à se sortir du pétrin dans lequel l'a mis
+    le vol de son véhicule ? Parviendra-t-il à garder le vote des noirs ?
+  :reponse: Oui, grâce à la pression exercée sur Graham Waters à propos de l'affaire
+    Conklin (même si le lien entre les deux choses n'est pas très clair). C'est la
+    nomination de Waters qui va servir à Cabot de caution envers les noirs.
+  :d_resolution: Rick Cabot commence sa conférence de presse. Il a les cartes en mains
+    pour retourner l'affaire à son avantage.
+  :installation_time: 840
+  :resolution_time: 4140
+  :intensite: 0
+8:
+  :id: 8
+  :question: John Ryan trouvera-t-il une solution pour son père ?
+  :reponse: Non, il devra continuer à le soutenir.
+  :d_installation: John essaie d'obtenir un rendez-vous pour son père, en vain.
+  :d_resolution: John se retrouve comme au début du film, dans les toilettes avec
+    son père.
+  :installation_time: 890
+  :resolution_time: 5850
+  :intensite: 0
+9:
+  :id: 9
+  :question: Que va-t-il se passer entre John Ryan et les passagers de la voiture
+    (le couple Thayer) ?
+  :reponse: John Ryan, comme pour se venger de son coup de fil manqué, humilie le
+    couple.
+  :description: 'La tension est très bien montée pour faire sentir que cette QD se
+    pose à nous : notamment souligné par le collègue Tom Hansen qui fait comprendre
+    à John qu''ils n''ont aucune raison d''arrêter le véhicule.'
+  :d_installation: John Ryan prend le véhicule en chasse.
+  :d_resolution: Dès qu'ils s'énervent, John Ryan en profite pour durcir le contrôle.
+    Et finit par l'humiiation des deux membres du couple.
+  :installation_time: 990
+  :resolution_time: 1260
+  :intensite: 0
+10:
+  :id: 10
+  :question: Que va devenir le couple Thayer ?
+  :reponse: Il finira par se réconcilier.
+  :description: On assiste à la dislocation du couple Thayer suite à l'humiliation
+    subie pendant le contrôle de l'officier Ryan. Cameron et Christine s'insultent,
+    jusqu'à la séparation. Les deux connaitront une belle courbe avant de résoudre
+    cette QD.
+  :d_installation: L'humiliation du contrôle se retourne contre l'un et l'autre des
+    membres du couple Thayer, qui implose.
+  :d_resolution: Christine appelle Cameron. Il décroche. Ils se disent qu'ils s'aiment.
+  :installation_time: 1410
+  :resolution_time: 6000
+  :intensite: 0
+11:
+  :id: 11
+  :question: Daniel parviendra-t-il à rassurer sa fille Lara.
+  :reponse: Oui, en lui confiant son manteau magique.
+  :d_installation: En entrant dans la chambre de sa fille Lara, Daniel voit qu'elle
+    n'est pas dans son lit.
+  :d_resolution: Daniel quitte la chambre quand Lara s'endort dans son lit.
+  :installation_time: 1500
+  :resolution_time: 1740
+  :intensite: 0
+12:
+  :id: 12
+  :question: Anthony va-t-il écraser le conducteur de la fourgonnette ?
+  :reponse: Oui, de façon brutale.
+  :description: Alors que Peter et Anthony sont en pleine discussion, ils ne remarquent
+    pas le conducteur sorti de sa fourgonnette.
+  :d_installation: On voit Choi à la porte conducteur de sa fourgonnette.
+  :d_resolution: Un choc se produit, Choi se retrouve écrasé sous le 4x4 de Peter
+    et Anthony.
+  :installation_time: 1825
+  :resolution_time: 1860
+  :intensite: 0
+13:
+  :id: 13
+  :question: Peter et Anthony vont-ils laisser mourir Choi ?
+  :reponse: Non, ils vont le conduire aux urgences.
+  :description: 'Peter et Anthony ont le choix de laisser Choi sur le bord du trottoir
+    et de se tirer ; il fait nuit et la route est déserte. Cette QD, et la réponse
+    qu''y donne les personnages, est fondateur de leur personnalité : ils ne sont
+    pas aussi méchants qu''on pourrait l''imaginer.'
+  :d_installation: Peter et Anthony découvre Choi en sang sous le 4x4.
+  :d_resolution: Le corps ensanglanté de Choi est déposé devant les urgences.
+  :installation_time: 1860
+  :resolution_time: 2035
+  :intensite: 0
+14:
+  :id: 14
+  :question: Tom Hansen va-t-il pouvoir changer d'équipier ?
+  :reponse: Oui, mais sa réputation en prendra un gros coup (il devra s'accuser de
+    flatulences).
+  :d_installation: Dans le bureau de Dixon, son lieutenant supérieur, l'officier Hansen
+    demande à ne plus travailler avec Ryan.
+  :d_resolution: John Ryan vient “féliciter” Hansen pour sa mutation.
+  :installation_time: 1920
+  :resolution_time: 3300
+  :intensite: 0
+15:
+  :id: 15
+  :question: Daniel va-t-il réussir à expliquer que sa porte doit être changée ?
+  :reponse: Non (et il manquera de le payer cher).
+  :description: Cette QD joue sur le “syndrome Tour de Babel”. Elle met en scène deux
+    étrangers qui ne parviennent pas à se comprendre, et les problèmes que cela pose.
+    Elle alimente donc la thématique du film.
+  :d_installation: Dès qu'il lui expliquer le problème de sa porte, on sent que Farhad,
+    mal disposé, ne comprend pas.
+  :d_resolution: Daniel part sans rien faire payer à Farhad.
+  :installation_time: 2040
+  :resolution_time: 2120
+  :intensite: 0
+16:
+  :id: 16
+  :question: Peter et Anthony vont-ils obtenir que Lucien, le garagiste, s'occupe
+    du sang sur le 4x4 ?
+  :reponse: Non.
+  :d_installation: Peter et Anthony sont dans un garage, avec leur 4x4. On comprend
+    qu'ils veulent que le garagiste le nettoie.
+  :d_resolution: Après une brillante démonstration (…), Lucien fait comprendre qu'il
+    refuse.
+  :installation_time: 2130
+  :resolution_time: 2200
+  :intensite: 0
+17:
+  :id: 17
+  :question: John Ryan parviendra-t-il à convaincre Shinaqua Johnson d'aider son père
+    ?
+  :reponse: Non, elle restera de marbre.
+  :description: Cette QD participe aussi à la QD plus générale interrogeant sur le
+    fait que John puisse soulager son père.
+  :d_installation: John Ryan attend dans la salle d'attente de la clinique, préoccupé.
+  :d_resolution: John Ryan doit quitter le bureau de l'infirmière en chef.
+  :installation_time: 2680
+  :resolution_time: 2830
+  :intensite: 0
+18:
+  :id: 18
+  :question: Farahd obtiendra-t-il le nom du serrurier ?
+  :reponse: Oui, il le retrouvera sur la facture dans la poubelle.
+  :description: Farahd veut obtenir le numéro de celui qu'il juge responsable du cambriolage
+    de son magasin. Dans un premier temps, il n'obtient pas ce numéro (la compagnie
+    refuse de lui donner), mais il finit par le trouver, intelligemment.
+  :d_resolution: Farahd retrouve le nom sur la facture.
+  :installation_time: 2840
+  :resolution_time: 3450
+  :intensite: 0
+19:
+  :id: 19
+  :question: Graham Waters va-t-il retrouver son frère ?
+  :reponse: Oui, mais mort.
+  :description: 'Il est à noter que cette QD n''est pas du tout jouée. Jamais on ne
+    verra Graham faire quoi que ce soit pour retrouver son frère. Encore une fois
+    les auteurs veulent privilégier l''autre question : <u>qui est</u> le frère de
+    Graham. À noter que cette QD est répétée (Louise pose par deux fois la question). '
+  :d_installation: C'est quand la mère pose la question à son fils que QD est installée.
+  :d_resolution: Graham voit son frère, Peter allongé dans la poussière, le ventre
+    en sang.
+  :installation_time: 2940
+  :resolution_time: 5260
+  :intensite: 0
+20:
+  :id: 20
+  :question: Qu'est-ce que la police a retrouvé dans la Mercedes de Lewis ?
+  :reponse: Une grosse somme d'argent.
+  :description: Cette QD est amusante quand on mesure à quel point l'enquête n'est
+    qu'un prétexte. Et ce réflexe de QD sent les années d'enquêtes écrites par Paul
+    Haggis…
+  :d_installation: Ria informe Graham que quelque chose a été retrouvé dans la Mercedes.
+  :d_resolution: Le mec de la fourrière ouvre le pneu de la Mercedes. On y découvre
+    des liasses de billets.
+  :installation_time: 3060
+  :resolution_time: 3380
+  :intensite: 0
+21:
+  :id: 21
+  :question: Christine Thayer parviendra-t-elle à se faire pardonner d'avoir insulter
+    son mari ?
+  :reponse: Non, Cameron restera de marbre.
+  :description: Cette QD joue aussi dans la QD plus générale sur l'avenir du couple
+    Thayer.
+  :d_installation: Christine, en s'expliquant, fait comprendre qu'elle a mal agi et
+    qu'elle le regrette.
+  :d_resolution: Caremon lui dit de rentrer.
+  :installation_time: 3090
+  :resolution_time: 3180
+  :intensite: 0
+22:
+  :id: 22
+  :question: Que va faire Farahd du nom du serrurier ?
+  :reponse: Il va vouloir se venger en le tuant.
+  :d_installation: Farahd retrouve le nom du serrurier.
+  :d_resolution: Quand on voir Farhad sortir de son véhicule son arme à la main, on
+    n'a plus de doute sur ses intensions.
+  :installation_time: 3450
+  :resolution_time: 4670
+  :intensite: 0
+23:
+  :id: 23
+  :question: John Ryan parviendra-t-il à sauver Christine Thayer ?
+  :reponse: Oui, au péril de sa vie.
+  :description: Cette QD est particulièrement importante puisqu'elle participe à construire
+    le personnage de John Ryan (dimension héroïque).
+  :d_installation: John Ryan aperçoit quelqu'un dans le véhicule retourné.
+  :d_resolution: John Ryan parvient à faire sortir Christine.
+  :installation_time: 3520
+  :resolution_time: 3770
+  :intensite: 0
+24:
+  :id: 24
+  :question: Christine parviendra-t-elle à surmonter son dégoût pour être sauvée ?
+  :reponse: Oui.
+  :description: À noter l'aspect symbolique et fort de cette question. C'est ce qu'elle
+    exprime, en repartant, alors qu'elle réalise, bouleversée, qu'un même homme peut
+    être ange et démon.
+  :d_installation: 'Christine reconnait l''officier Ryan, qui l''avait humiliée devant
+    son mari impuissant. Elle se met à hurler. '
+  :d_resolution: John Ryan hausse le ton, Christine se calme.
+  :installation_time: 3575
+  :resolution_time: 3615
+  :intensite: 0
+25:
+  :id: 25
+  :question: La voiture va-t-elle prendre feu ?
+  :reponse: Oui.
+  :description: Cette QD joue directement celle de John Ryan.
+  :d_installation: Une voiture est en flammes. De l'essence coule sur la route.
+  :d_resolution: La voiture de Christine prend feu.
+  :installation_time: 3540
+  :resolution_time: 3720
+  :intensite: 0
+26:
+  :id: 26
+  :question: Graham Waters va-t-il céder à la pression de Flanagan ?
+  :reponse: Oui, pour “sauver” son frère.
+  :description: Après avoir montré qu'il était intègre, Graham cède à la pression,
+    au bénéfice du doute et de son frère. À noter comme cette question est bien jouée,
+    avec de nombreux micro-rebondissements, et notamment le renversement de situation
+    avec le dossier de Peter.
+  :d_installation: Graham comprend que le procureur veut orienter l'affaire.
+  :d_resolution: Graham dit au procureur qu'il pense que Conkin est coupable.
+  :installation_time: 3870
+  :resolution_time: 4140
+  :intensite: 0
+27:
+  :id: 27
+  :question: Qui est le frère de Graham ?
+  :reponse: C'est Peter Waters, le braqueur de voitures.
+  :description: Cette question est diffuse, mais joue fortement pour structurer le
+    film.
+  :d_installation: La mère demande si Graham a retrouvé son frère.
+  :d_resolution: On reconnait le “gosse mort”, Peter.
+  :installation_time: 2940
+  :resolution_time: 5260
+  :intensite: 0
+28:
+  :id: 28
+  :question: 'Cameron va-t-il se faire descendre ? (ou : Peter va-t-il tirer sur Cameron
+    ?)'
+  :reponse: Non.
+  :d_installation: Peter met en joue Cameron et lui dit de lâcher Anthony.
+  :d_resolution: 'Apercevant une voiturede police, Peter aide Anthony à se dégager. '
+  :installation_time: 4260
+  :resolution_time: 4280
+  :intensite: 0
+29:
+  :id: 29
+  :question: Cameron va-t-il se faire arrêter par la police. Et que va-t-il se passer  ?
+  :reponse: Cameron se fait arrêter, mais grâce à l'intervention de Tom Hansen, la
+    situation qui aurait pu dégénérer se soldera par un simple avertissement.
+  :d_installation: Cameron s'enfuit, suivi par la police.
+  :d_resolution: Les flics laissent Cameron repartir.
+  :installation_time: 4300
+  :resolution_time: 4560
+  :intensite: 0
+30:
+  :id: 30
+  :question: Cameron va-t-il se servir de l'arme d'Anthony ?
+  :reponse: Non.
+  :description: À noter le poids de cette QD dans la tension imprimée à la scène.
+  :d_installation: Cameron glisse l'arme dans son dos et sort du Navigator.
+  :d_resolution: Cameron retourne à son véhicule sans avoir sorti l'arme.
+  :installation_time: 4380
+  :resolution_time: 4530
+  :intensite: 0
+31:
+  :id: 31
+  :question: Tom Hansen parviendra-t-il à gérer la situation ?
+  :reponse: Oui, avec beaucoup de courage, d'inconscience et de naïveté.
+  :description: Cette question, pour le personnage, représente beaucoup. C'est comme
+    s'il rachetait sa passivité lors de l'humiliation du couple Thayer par son collègue
+    Ryan. La réponse positive lui donne une stature de héros.
+  :d_installation: 'Tom Hansen monte au devant de la scène pour dire qu''il connait
+    Cameron. '
+  :d_resolution: Hansen obtient de son collègue qu'ils laissent tomber.
+  :installation_time: 4400
+  :resolution_time: 4500
+  :intensite: 0
+32:
+  :id: 32
+  :question: Farhad va-t-il tuer Daniel ?
+  :reponse: Non, il sera sauvé par sa fille (symboliquement) et la fille de Farhad
+    (qui a mis des balles à blanc dans l'arme de son père).
+  :d_installation: Farhad fond sur Daniel  son arme à la main.
+  :d_resolution: L'arme n'a pas tiré de balle.
+  :installation_time: 4530
+  :resolution_time: 4760
+  :intensite: 0
+33:
+  :id: 33
+  :question: Lara va-t-elle faire une bêtise ? Va-t-elle vouloir sauver son père ?
+  :reponse: Oui, et l'issue aurait puêtre dramatique pour elle.
+  :d_installation: Lara réalise que c'est elle qui a le manteau magique.
+  :d_resolution: Lara saute dans les bras de son père pour le sauver.
+  :installation_time: 4700
+  :resolution_time: 4710
+  :intensite: 0
+34:
+  :id: 34
+  :question: Un vrai drame s'est-il abbatu sur Jean Cabot ?
+  :reponse: 'Non, elle s''en sort bien, a seulement découvert que sa seule vraie amie,
+    c''était son employée de maison. '
+  :description: C'est seulement un demi-suspense, ce personnage étant tellement détestable
+    de futilité. Une partie de nous dit “Ça lui fera les pieds”, une autre ne peut
+    que s'inquiéter pour elle.
+  :d_installation: Joan Cabot chute dans les escaliers.
+  :d_resolution: Jean est dans son lit, elle semble bien.
+  :installation_time: 4905
+  :resolution_time: 5710
+  :intensite: 0
+35:
+  :id: 35
+  :question: Qu'est-ce que Choi demande à Kim de ramener ?
+  :reponse: Le chèque de leur dernière passe.
+  :d_installation: Choi dit à Kim de lui amener quelque chose.
+  :d_resolution: Kim ramène le chèque à Choi
+  :installation_time: 5370
+  :resolution_time: 5385
+  :intensite: 0
+36:
+  :id: 36
+  :question: Qu'est-ce que Graham Waters a aperçu sur le sol de la scène du crime
+    ?
+  :reponse: C'est le Saint-Christophe de son frère, qui lui a coûté la vie.
+  :d_installation: Crahma aperçoit quelque chose sur le sol de la scène du  crime
+    de son frère.
+  :d_resolution: Graham prend le Saint-Christophe dans sa main.
+  :installation_time: 6030
+  :resolution_time: 6045
+  :intensite: 0

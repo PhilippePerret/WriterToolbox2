@@ -1,0 +1,29 @@
+---
+0:
+  :id: 0
+  :libelle: Mensonge de Bill Houston
+  :description: L’ironie dramatique la plus forte du film, c’est certainement ce moment
+    où <personnage>Bill Houston fait croire à Selma qu’il s’en va et reste en réalité
+    dans la caravane pour voir où la jeune femme range ses économies.</personnage>
+  :auteur: Bill Houston
+  :victime: Selma
+  :effet_produit: sus
+  :notes: |-
+    Si l’on voulait embêter l’auteur, on pourrait dire qu’il perd un peu la cohérence du personnage lorsque Selma devine tout de suite que c’est Bill Houston le voleur. Après tout, elle pourrait penser, dans sa vie de tous les jours, que c’est peut-être son fils Gene le mieux placé pour avoir commis ce vol.
+    Nous admettons ce écueil certainement parce que nous, nous savons pertinemment que c’est Bill.
+  :preparation: Bill dit qu’il s’en va.
+  :installation: Bill fait semblant de partir mais reste là.
+  :exploitation: Selma range ses économies, frôlant presque Bill dans la petite caravane.
+  :resolution: La résolution se fera plus tard, quand Selma découvrira que ses économies
+    ont été volées. Elle devinera aussitôt que c’est Bill qui a fait ça.
+1:
+  :id: 1
+  :libelle: Mensonge de Selma sur sa cécité
+  :description: Dès les premières scènes, on découvre que Selma a des problèmes de
+    vues qu’elle dissimule à son entourage comme à son médecin de travail.
+  :auteur: Selma Jezkova
+  :victime: Kathy, le toubib
+  :installation: Dans les toilettes du cabinet médical, Selma révise les lettres de
+    l’alphabet.
+  :exploitation: Selma passe l’examen des yeux avec succès.
+  :resolution: Cathy découvre la feuille où Selma écrit les lettres.

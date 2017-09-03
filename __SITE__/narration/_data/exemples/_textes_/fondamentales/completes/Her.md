@@ -1,0 +1,9 @@
+Fondamentale 1<br>tt:|Personnage fondamental| ++++ personnage:Theodore est un écrivain public sensible et psychologique, un rien nostalgique, qui travaille pour l'entreprise `belles-lettres-manuscrites.com`. C'est un homme curieux, ouvert, en tout cas jusqu'à ce qu'on le contrarie trop.
+
+Fondamentale 2<br>tt:|Question dramatique fondamentale| ++++ On peut voir deux histoires dans cette histoire, suivant l'angle d'où l'on regarde, qu'on appellera H1 et H2. H1 raconte l'histoire de Theodore qui doit faire le deuil de son mariage. H2 raconte l'histoire d'amour entre Theodore et personnage:Samantha.<br>tt:QDF de H1 : Theodore va-t-il réussir à faire le deuil de son mariage ?<br>tt:QDF de H2 : l'histoire d'amour entre Theodore et personnage:Samantha sera-t-elle possible ?
+
+Fondamentale 3<br>tt:|Opposition fondamentale| ++++ L'amour qu'il a encore pour sa femme.<br>La nature informatique de Samantha. Une intelligence exceptionnelle. Le décalage d'intelligence entre les deux personnages malgré l'humour qui les lie peut-être. L'évolution de Samantha.
+
+Fondamentale 4<br>tt:|Réponse dramatique fondamentale| ++++ H1 : OUI, personnage:Theodore parviendra, grâce à Samantha, à faire le deuil de sa femme.<br>H2 : NON, Theodore ne parviendra pas à vivre son amour avec Samantha, MAIS il sortira de bonnes choses de cet amour impossible : le deuil de son mariage, la publication de ses lettres.
+
+Fondamentale 5<br>tt:|Concept fondamental| ++++ Faire un film d'amour n'a rien d'original. Faire un film sur un système d'exploitation d'ordinateur semblerait plus original mais peu intéressant. Mais le mélange des deux histoires produit un résultat totalement original. On n'a jamais raconté, jusqu'à ce jour, une histoire d'amour entre un homme et son système d'exploitation.

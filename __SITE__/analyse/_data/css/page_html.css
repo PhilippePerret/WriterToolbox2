@@ -1,0 +1,74 @@
+body {
+  margin:0;
+  padding:0;
+}
+
+/**
+  * Entête de page
+  * --------------
+  */
+body > div#body_header {
+  border-bottom:2px solid;
+  background-color:#578088;
+  z-index:2;
+  padding:4px;
+}
+body > div#body_header > div#film_titre {
+  position:absolute;
+  left:10px;
+  font-family:Verdana;
+  color:white;
+  z-index:2;
+}
+body > div#body_header > div#rapport_date {
+  font-family: Arial;
+  position: absolute;
+}
+
+/* Les onglets */
+body > div#body_header > div#onglets {
+  position:relative;
+  margin-left:6.8em;
+  padding:10px;
+  opacity:0.59;
+  z-index:1;
+}
+body > div#body_header > div#onglets:hover {
+  opacity:1;
+  z-index:10;
+}
+body > div#body_header > div#onglets > a.onglet {
+  display:block;
+  float:left;
+  width:104px;
+  height:30px;
+  line-height:30px;
+  margin-right:10px;
+  margin-bottom:4px;
+  background-color:#e8e8e8;
+  color:teal;
+  border:1px solid #b8b8b8;
+  padding:4px 10px 2px;
+  text-align:center;
+  font-family:Helvetica;
+  font-size:10pt;
+  cursor:pointer;
+}
+
+body > div#body_header > div#onglets > a.onglet > span {
+  display:inline-block;
+  line-height:13px;
+  vertical-align:middle;
+}
+body > div#body_header > div#onglets > a.onglet.actif {
+  background-color:#9F9;
+  border-color:#080;
+}
+
+/**
+  * Contenu de la page (sous entête)
+  * --------------------------------
+  */
+body > div#body_content {
+  padding:2em;
+}

@@ -1,0 +1,30 @@
+---
+:decoupe: '3.4'
+:incdec:
+  :description: "<personnage>Jérôme Clifford</personnage> révèle (en off) l'emplacement du cadavre."
+  :time: 480
+  :duree: 0
+:pivot1:
+  :description: "<personnage>Mark Sway</personnage> va trouver <personnage>Reggie Love</personnage> pour qu'elle devienne son avocate"
+  :time: 1450
+  :duree: 300
+:cdv:
+  :description: Scène d'intimité entre Reggie et Mark. Mark lui révèle toute la vérité.
+  :time: 3300
+  :duree: 0
+:pivot2:
+  :description: Mark échappe à la mafia, à la police, et convainc Reggie de partir pour la Nouvelle-Orléans (où se trouve le cadavre du sénateur).
+  :time: 5090
+  :duree: 0
+:climax:
+  :description: Reggie obtient tout ce qu'elle veut pour Mark. Elle accepte de dire où est caché le corps.
+  :time: 6560
+  :duree: 40
+:tiers:
+  :description: Retournement de situation dans la scène de rencontre avec le FBI. Ils n'obtiendront pas les renseignements de Mark aussi facilement.
+  :time: 1940
+  :duree: 220
+:deuxtiers:
+  :description: Scène du tribunal. Mark invoque le 5ème amendement pour refuser de parler.
+  :time: 4500
+  :duree: 0

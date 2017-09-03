@@ -1,0 +1,58 @@
+<!-- Page: #301 L'incident déclencheur (scène-clé) -->
+
+### Fonction structurelle de l’Incident Déclencheur
+
+La fonction principale de l’MOT[67|incident déclencheur] est de définir l'intrigue principale et de la lancer si possible. Concrètement, qu’il y ait un MOT[163|objectif principal] ou non, l’tt:|Incident Déclencheur| (ID) doit permettre de définir la MOT[210|question dramatique fondamentale] (QDF) de l’histoire.
+
+C’est cet incident qui va pousser le protagoniste à prendre une décision, à se fixer ou devoir se fixer un objectif. C'est cet incident qui va montrer la direction du récit ou conduire à devoir la fixer.
+
+C’est l’achat de personnage:Babe par le fermier personnage:Hogget [ID] qui va permettre de poser la QDF de FILM[Babe1995], exemple de film où le protagoniste ne possède pas d’objectif principal mais contient bien une tt:|question dramatique fondamentale| : “Le cochon Babe finira-t-il en jambon de Noël ?”
+
+L’tt:|Incident déclencheur| est donc un temps capital dans la définition structurelle d’une histoire. Sans cette scène formelle — ou ce temps de scène — on pourrait dire qu’il ne peut pas y avoir d’histoire.
+
+
+### Exemples d’incidents déclencheurs
+
+Voyons d'abord des incidents déclencheurs suivants leur MOT[305|incident perturbateur].
+
+FILM[StillAlice2014]
+: INCIDENT PERTURBATEUR : personnage:|Alice| se perd en faisant son footing.
+: INCIDENT DÉCLENCHEUR : Alice apprend qu'elle est atteinte d'un Alzheimer précoce.
+
+FILM[TheMazeRunner2014]
+: INCIDENT PERTURBATEUR : personnage:Thomas se réveille en sursaut dans un étrange ascenseur.
+: INCIDENT DÉCLENCHEUR : Thomas découvre/apprend qu’il est enfermé dans un labyrinthe.
+  
+FILM[ThelmaLouise1991]
+: INCIDENT PERTURBATEUR : personnage:Thelma se fait presque violer.
+: INCIDENT DÉCLENCHEUR : personnage:Louise tue Arlan, le violeur.
+
+FILM[HorseWhisperer1998]
+: INCIDENT PERTURBARTEUR : L’accident de cheval de Grace.
+: INCIDENT DÉCLENCHEUR : personnage:Annie McLean la retrouve à l’école, effondrée, incapable de continuer à vivre.
+
+FILM[ErinBrockovich2000]
+: INCIDENT PERTURBATEUR : personnage:Erin n’a pas de travail (dès le début du film). On pourrait dire aussi que c’est l’accident de voiture qui remplit le rôle d’incident perturbateur.
+: INCIDENT DÉCLENCHEUR : personnage:Erin s’étonne du contenu du dossier immobilier des Jensen que lui a demandé d’ouvrir son patron. Si l’on considère l’histoire plus globalement, où Erin serait une jeune mère qui cherche un travail, on pourrait aussi considérer que l’incident déclencheur est l’échec de son procès, qui la pousse à s’imposer dans le cabinet de personnage:Ed. Mais c’est plutôt une “méta-intrigue” que l’intrigue principale réellement jouée dans le film.
+
+FILM[Alien1979]  
+: INCIDENT PERTURBATEUR : Le vaisseau doit détourner sa route (= rupture de l’équilibre, de la routine de vie) pour porter secours à un vaisseau en détresse.
+: INCIDENT DÉCLENCHEUR : Un des membres d’équipage se fait attaquer par un “œuf”.
+
+FILM[BlueVelvet1986]
+: INCIDENT PERTURBATEUR : Le père de personnage:|Jeffrey Beaumont| est victime d'un accident d'arrosage…
+: INCIDENT DÉCLENCHEUR : personnage:|Jeffrey| retrouve dans l'herbe une oreille humaine découpée.
+
+^
+
+### Les écueils en choisissant l’Incident déclencheur
+
+L’écueil le plus fréquent qui guette l'auteur<%= user.f_e %> lorsqu'<%= user.f_elle %> doit choisir son tt:|incident déclencheur|, c’est justement de trop le *choisir*. On ne le répètera jamais assez : on ne colle pas d’étiquettes de force aux éléments de la structure. Ces éléments, ces scènes-clés, doivent s’imposer d’eux-mêmes. Si ça n'est pas le cas, l'auteur doit tout mettre en œuvre pour qu’ils soient en mesure de s’imposer d’eux-mêmes.
+
+Le premier danger de ce mauvais choix est qu’on ne perçoive pas l’incident déclencheur comme tel, parce qu'il est éclipsé par une autre scène qui définit une direction plus “alléchante” ou une direction qui semble plus logique.
+
+Le second danger est que cet incident déclencheur ne permette de définir un objectif ou une question dramatique que… dans la tête de l’auteur, auteur qui sait trop bien où il veut conduire son histoire et ne parvient pas à se mettre dans “la peau de l'histoire” pour sentir si elle est animée ou non des mêmes envies.
+
+CHECKUP[Votre incident déclencheur permet-il, dans la scène ou après la scène, de définir la QDF du film ? Si oui, vous devriez être capable d'énoncer cette QDF en quelques mots ?|scenes_cles]
+
+CHECKUP[N’existe-t-il pas dans votre exposition une scène, un incident, un évènement, qui pourrait venir concurrencer votre incident déclencheur ? qui serait plus fort ? plus marquant ? qui poserait une question plus intéressante pour le public ?|scenes_cles] 

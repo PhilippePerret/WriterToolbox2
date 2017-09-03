@@ -1,0 +1,5 @@
+<!-- Page: Des harmonies finales toute relatives -->
+
+De la même manière, lorsque l’on parle d’harmonie finale, cette harmonie peut être toute relative. Je ne citerais que quelques exemples bien connus : film:ThelmaLouise1991 pour retourner à cette harmonie n’ont d’autre alternative que de se donner la mort, portant très haut le message féministe du film. C’est également en mourant que personnage:|Selma Jezkova| trouve la paix et atteint son objectif dans film:DancerInTheDark2000. C’est aussi le cas dans film:RequiemForADream2000 : la jeune fille obtient une quantité inespérée de drogue, elle s’endort heureuse. Mais nous, spectateurs, nous savons qu’elle a tout perdu et qu’elle s'est à jamais perdue elle-même… Nous en reparlerons en parlant des tt:|fins paradoxales|.
+
+En conclusion, ces termes peuvent servir de *repère*, mais en aucun cas ils ne doivent être pris au *pied de la lettre*. Profitons-en pour signaler qu'un des plus grands dangers de la structure et de la narration en général, ce sont justement les termes qu’on utilise pour en parler. Ils peuvent être aussi inspirants que trompeurs, ne leur faisons jamais excessivement confiance.

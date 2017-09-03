@@ -1,0 +1,9 @@
+Fondamentale 1<br>tt:|Personnage fondamental| ++++ personnage:Thomas. Les deux caractéristiques principales de Thomas sont la peur et le courage. Deux caractéristiques qui peuvent paraitre contradictoires mais qui, en réalité, sont à la base de la dynamique de l'histoire : “la peur pousse au courage” ou “le courage nait de la peur”.
+
+Fondamentale 2<br>tt:|Question dramatique fondamentale| ++++ À peine a-t-il mis les pieds dans le labyrinthe que personnage:Thomas n'a qu'une seule obsession : sortir d'ici. Cet objectif éclipse même complètement l'autre, naturel, qui serait de *comprendre*, comprendre ce qu'est ce labyrinthe, comprendre ce que sont les expériences de *VICKED* et ce que cache cette appellation elle-même. Il ne se donne même pas ce temps.<br>tt:QDF : Thomas va-t-il réussir à sortir du labyrinthe ?<br>tt:Objectif : parvenir à sortir du labyrinthe.<br>tt:Moyen : devenir runner pour trouver la sortie.
+
+Fondamentale 3<br>tt:|Opposition fondamentale| ++++ Les règles du bloc, incarnées surtout par Galli.<br>Les griffeurs qui hantent les couloirs du labyrinthe et dont la “morsure” est mortelle — c'est une piqure plus qu'une morsure.<br>La peur du protagoniste, même si elle lui permet de se surpasser (caractéristique ambivalente).
+
+Fondamentale 4<br>tt:|Réponse dramatique fondamentale| ++++ OUI, personnage:Thomas parvient à échapper au labyrinthe, MAIS au sacrifice de nombreuses vies et en bousculant les règles de l'univers dans lequel il débarque.
+
+Fondamentale 5<br>tt:|Concept fondamental| ++++ L'histoire repose beaucoup sur l'originalité de la prémisse “La peur conduit au courage”. Elle doit beaucoup à la “pureté” de son histoire, presque mythique.

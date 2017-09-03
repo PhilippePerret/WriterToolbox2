@@ -1,0 +1,18 @@
+<!-- Page: Premier visionnage du film -->
+
+Après vous être procuré le film, installez-vous confortablement et visionnez-le :
+
+dans sa langue originale
+: Il ne vous viendrait pas à l'esprit d'écouter une œuvre de Mozart, Beethoven ou Debussy jouée sur un orgue Bontempi, n'est-ce pas ? De la même manière, ne visualisez le film que dans sa langue originale, qu'elle soit anglaise, coréenne ou danoise. Un acteur passe plusieurs semaines, plusieurs mois très souvent, à travailler son personnage, ses répliques, il le fait avec de grands directeurs d'acteurs. Même le doubleur le plus talentueux, quand il ne dispose que de quelques heures pour s'approprier le rôle et l'interpréter, est incapable d'arriver au dixième du résultat attendu.
+Après analyse de nombreux doublages on peut constater que les doublages même les mieux réalisés amputent le film beaucoup plus que de l'interprétation originale des acteurs dirigés par le réalisateur lui-même : ils ne respectent la plupart du temps que le sens approximatif du dialogue — quand ils ne le trahissent pas dans l'intonation —, ils font fi de la précision rythmique et de la tonalité générale des dialogues. En d'autres termes ils dénaturent considérablement l'œuvre originale au point d'être capable de transformer un chef-d'œuvre en navet (*).
+
+dans son intégralité
+: Il est important lors de la première vision du film d'en voir une version intégrale, pour être capable de l'embrasser dans l'étape suivante.
+
+sans vous arrêter
+: Sauf cas d'urgence, efforcez-vous de ne pas arrêter la projection, vous perdriez le rythme qui a été installé jusque-là et ce peut être nocif pour la perception générale de l'œuvre.
+
+Ensuite, surtout, munissez-vous plutôt d'un paquet de popcorns — même si consommer entre les repas n'est pas recommandé — que d'un bloc-notes ! Au cours d'une première vision, contentez-vous de regarder le film, de le savourer, de le déguster et, surtout, *ne réfléchissez pas !*, *ne l'analysez pas&nbsp;!* Servez-vous de vos neurones uniquement lorsque l'auteur vous le demande. Rappelez-vous : l'analyse n'est pas là pour vous gâcher les films. Laissez donc aller vos émotions, vivez l'histoire, sans vous préoccuper du fait que vous vous apprêtez à en faire l'analyse. Et une analyse poussée qui plus est !
+
+<div class='small'>(*) voir par exemple l'adaptation française de FILM[EyesWideShut1999] par la réalisatrice Pascale Ferran — doublage que devait initialement réaliser Patrice Chéreau — et le désastre du personnage de Nicole Kidman qui, sublime de finesse et d'intelligence dans l'original, devient une gourde inconsistante quand sa voix est portée par Danielle Douet. Mais Pascale Ferran avoue elle-même dans une entrevue menée par Colette Milon et Jean-Philippe Renouard pour VACARME, datée du 2 janvier 2000, qu'elle n'avait pas tout compris du personnage d'personnage:|Alice Harford|. Elle suppose même — tout en finesse cette fois — une incohérence psychologique ou de direction d'acteur qu'aurait commise Kubrick. Voilà tout le problème : ça n'est pas la suffisance qui nous hisse à la hauteur des plus grands, c'est bien plutôt l'humilité. J'ai eu beau chercher et chercher encore cette incohérence dans le jeu d'une justesse sidérante de Nicole Kidman, je ne l'ai pas vue. Kidman est plus stradivarius que jamais dans ce film, et c'est ici un maître absolu de la “petite musique unique” qui la joue. Même Chéreau aurait peut-être eu du mal, peut-être est-ce une des sages raisons de son refus — je n'arrive pas à croire personnellement qu'un “autre projet” l'ait fait refuser ce cadeau unique du destin. Peut-être aussi un problème d'égo ? Le maître Chéreau ne voulait pas se mettre au service du maître Kubrick ?… Wouaf wouaf !</div>
+

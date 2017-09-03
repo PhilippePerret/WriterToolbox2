@@ -1,0 +1,72 @@
+---
+1:
+  :id: 1
+  :libelle: Introduction de la doublure de Selma
+  :famille: pp
+  :installation: Les critiques que Boris émet en apparte à Samuel, le metteur en scène,
+    prépare le fait que quelque temps plus tard, ce suggéré le fait que c'est lui
+    qui a proposé Susan en doublure de Selma.
+  :installation_time: 3833
+  :resolution: Lorsque Samuel présente Susan à Selma, il glisse discrètement que c'est
+    une ami de Boris (créant également un effet de “Hors-champ narratif”).
+  :resolution_time: 5680
+2:
+  :id: 2
+  :libelle: Selma cache son problème de vue
+  :description: |-
+    Selma cache son problème de vue et la cécité qui la guette à tous les personnages du film. Les deux raisons principales sont : 1) pour conserver son travail et 2) pour ne pas alarmer Gene qui, en s'inquiétant, risquerait de rendre impossible son opération des yeux.
+    AUTEUR : Selma
+    VICTIMES : Tous les personnages,  Kathy, Bill, Gene, Norman, Jeff, Samuel ou encore le docteur
+  :famille: irdr
+  :preparation: La préparation de cette ironie dramatique se fait dans cette scène
+    où Selma apprend les lettres par cœur dans les toilettes du cabinet médical. On
+    ne comprendra que la scène suivant les raisons de cette action qu'on ne peut,
+    ici, que supputer.
+  :preparation_time: 3935
+  :installation: Lorsque l'on voit Selma passer l'examen des yeux, on comprend pourquoi
+    elle apprenait ses lettres. C'est là véritablement que s'installe l'ironie dramatique.
+    Les victimes en sont pour le moment Kathy et le docteur
+  :installation_time: 3935
+  :exploitation: |-
+    De nombreuses scènes exploitent le fait que Selma devienne aveugle et que les autres personnages l'ignorent.
+    Cette ironie dramatique joue surtout pour créer le suspense concernant le travail de Selma à la presse, qui conduira à l'accident. Si un seul des personnages savait, il y a de fortes chances pour que Selma n'ait pas pu continuer à travailler sur sa machine.
+  :resolution: |-
+    La résolution se fait en plusieurs temps, puisque les victimes sont plurielles :
+    Le premier personnage est (justement) le futur antagoniste : BILL, lorsque Selma lui fait ses aveux [tps1].
+    KATHY le découvre à l'usine, lorsqu'elle trouve la feuille de Selma [tps2].
+    NORMAN, en off-screen, lorsque Kathy, certainement, doit lui apprendre que Selma a causé l'accident à cause de sa cécité [tps3].
+    JEFF l'apprendra le dernier, lorsqu'il est sur le pont avec Selma [tps4].
+    À noter que seul Samuel et Gene, tous deux pourtant proches de Selma, ne seront pas informés de façon explicite ou suggérée.
+  :resolution_time:
+  - 4723
+  - 5166
+  - 6594
+  - 6729
+3:
+  :id: 3
+  :libelle: Boris s'arrange pour placer son amie Susan
+  :description: De façon tout à fait subtile, presque invisible, par le simple “C'est
+    une amie de Boris”, l'auteur suggère ce que Boris a dû faire — en hors-champ narratif
+    — pour imposer son amie Susan comme doublure de Selma. Boris, dès la première
+    répétition, fait part de son scepticisme quant au talent de Selma. On devine qu'il
+    s'est arrangé activement pour proposer une autre actrice.
+  :famille: hcnarra
+  :installation_time: 5680
+4:
+  :id: 4
+  :libelle: Bill fait croire qu'il est parti.
+  :description: |-
+    Afin de découvrir où Selma range ses économies, Bill Houston feint de quitter le bungalow, mais reste dans la pièce. Selma, le croyant parti, tire la boîte de bonbons de sa cachette pour y ranger ses derniers billets.
+    AUTEUR : Bill Houston
+    VICTIME : Selma Jezkova
+  :famille: irdr
+  :installation: Bill fait semblant de partir (mensonge), mais il reste là.
+  :installation_time: 6197
+  :exploitation: L'ironie est exploitée pendant tout le temps où Selma écoute si Bill
+    est bien parti.
+  :resolution: C'est lorsqu'elle découvre que sa boite de bonbons est vide que Selma
+    résoud l'ironie dramatique, et comprend que Bill lui a volé son argent.
+  :resolution_time: 7113
+  :relatifs:
+  - :type: :commentaire
+    :id: 3

@@ -1,0 +1,25 @@
+--- 
+:scale: 1
+:is_entier: true
+:film_dim: DancerInTheDark
+:film_id: 29
+:is_brin: false
+:items: 
+- :scale: 1
+  :indice_absolu: 
+  :temps: 0
+  :commentaire: 
+- :scale: 1
+  :indice_absolu: 
+  :temps: 3615
+  :commentaire: 
+- :scale: 1
+  :indice_absolu: 
+  :temps: 4116
+  :commentaire: 
+- :scale: 1
+  :indice_absolu: 
+  :temps: 7860
+  :commentaire: 
+:duree: 7860
+:titre: Actanciel

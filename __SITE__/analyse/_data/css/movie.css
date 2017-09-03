@@ -1,0 +1,25 @@
+div#div_movie {
+/*  position:fixed;*/
+  display:inline-block;
+  width:480px;
+  bottom:0em;
+  right:0em;
+  display:none;
+  z-index:10;
+}
+
+div#div_movie embed#movie {
+  position:absolute;
+  top:4px;
+  z-index:-1;
+}
+
+a.lk_video {
+  cursor:pointer;
+}
+
+div#div_movie .poignee {
+  height:20px;
+  width:100%;
+  background-color:#CCC;
+}

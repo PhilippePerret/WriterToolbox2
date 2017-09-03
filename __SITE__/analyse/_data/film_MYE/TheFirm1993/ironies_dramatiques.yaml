@@ -1,0 +1,373 @@
+---
+1:
+  :libelle: Le Titre du film
+  :description: Le titre même peut être considéré comme une ironie dramatique diffuse. Son “poids” laisse deviner qu'il va peser sur le personnage dans le film, sans qu'il s'en doute d'abord.
+  :victime: Mitch McDeere/nous…
+  :produit: Du suspense
+  :id: 1
+  :installation: Sur l'affiche du film
+  :resolution: Dès que Mitch comprend — et nous avec lui — que la Firme est “louche”.
+2:
+  :libelle: Penchant d'Avery Tolar pour les femmes
+  :description: Avery Tolar est un homme à femme. Nous le savons, Abby l'ignore.
+  :victime: Abby
+  :auteur: Avery
+  :produit: De la complexité psychologique et relationnelle.
+  :id: 2
+  :installation: Ce penchant est installé scène 33, dans le speech à Mitch, au restaurant.
+  :exploitation: |-
+    Le regard à Abby au cimetière, scène 37 (il trouve que c'est une très belle femme, Abby ne sait pas qu'Avery est un homme à femmes). Il va la trouver dans le hall — Il l'invite aux iles Cayman.
+  :resolution: Il confie son penchant (et ses raisons) à Abby (on peut noter qu'une faute aurait été qu'il fasse ses aveux à quelqu'un d'autre — ce qui était tout à fait possible) (sc.128).
+3:
+  :libelle: Le couple McDeere est sur écoutes
+  :description: Mitch et McDeere sont sur écoutes, nous le savons, ils l'ignorent.
+  :victime: Le couple McDeere
+  :auteur: La Firme
+  :produit: Du suspense, du mystère (pourquoi sont-ils sur écoutes ?)
+  :id: 3
+  :installation: Scène 20, quand Bill Devasher fait son rapport
+  :exploitation: Scène 32, quand l'installateur du téléphone fait une installation “Firme”.
+  :resolution: 'La résolution se fait en deux temps (puisque c''est un couple) : 1.
+    Mitch l''apprend à Washington de la bouche du chef du FBI (sc. 70) 2. Mitch le dit à Abby (sc. 78). À partir de là, il y a <tt>inversion ironique</tt> (cf. ci-dessous).'
+4:
+  :libelle: Les avocats ont été assassinés par la firme
+  :description: 'C''est une ironie dramatique diffuse : on (le spectateur) se doute bien que ces avocats ont été assassinés par la firme, mais Mitch, lui, l''ignore.'
+  :victime: Mitch
+  :auteur: La Firme (Bill et l'Albinos)
+  :produit: 'Du suspense, de la crainte du spectateur pour le personnage principal'
+  :id: 4
+  :installation: Diffuse donc pas d'installation
+  :exploitation: Intervention des deux agents du FBI dans le bar (sc. 42).
+  :resolution: J'ai envie de dire que la résolution se fait dans la scène 44, lorsque Mitch cherche sur l'ordinateur des informations sur la mort des avocats. Toutes les informations suivantes ne feront que confirmer cette résolution.
+5:
+  :libelle: Abby n'a pas attendu Mitchel (scène 39)
+  :description: Abby n'attend pas Mitch et va se coucher. Nous le savons, Mitch l'ignore.
+  :victime: Mitch
+  :auteur: Abby
+  :produit: C'est une toute petite ironie dramatique mais elle génère de l'humour, de la sympathie. Cette ironie caractérise les personnages et crée des <tt>perspectives de conflit</tt> (Mitch aurait pu tout simplement appeler Abby pour lui dire qu'il rentrerait tard, ce qui aurait supprimé toute ironie dramatique).
+  :id: 5
+  :installation: Abby se met au lit
+  :exploitation: Mitch rentre, il n'y a personne. C'est le chien qui l'accueille.
+  :resolution: Par le biais du mot du chien
+6:
+  :libelle: Mitch enquête sur la mort des avocats
+  :description: Mitch enquête sur la mort des avocats, nous le savons, la firme l'ignore.
+  :victime: Firme
+  :auteur: Mitch
+  :produit: 'Du suspense : on se demande quand la firme va être informée de cette enquête et comment elle va réagir.'
+  :id: 6
+  :installation: Discours des agents du FBI (sc. 42). Réflexion devant les tableaux (sc. 43). Recherche sur l'ordinateur (sc. 44).
+  :exploitation: Toutes les scènes qui concerneront cette enquête (Abanks, Lomax, etc.).
+  :resolution: Bill comprend, grâce au fax, que Mitch est “dans le coup” (sc. 154).
+7:
+  :libelle: Mitch ment à Abby
+  :description: En rentrant chez lui, Mitch n'avoue pas à Abby qu'il a consulté des documents concernant l'affaire des avocats décédés (sc. 46).
+  :victime: Abby
+  :auteur: Mitch
+  :produit: De la caractérisation de personnage. Mitch (préparation de l'adultère, qui est un mensonge. Si l'on n'avait pas vu Mitch mentir à Abby, le fait qu'il ne lui avoue pas son méfait, eu égard à leurs rapports, aurait pu être moins bien accepté).
+  :id: 7
+  :installation: Mitch dit à Abby qu'il a travaillé sur le voyage qu'il doit faire à l'ile Grand Cayman.
+  :resolution: " <b>Pas de résolution</b>, si ce n'est une résolution implicite : Abby peut comprendre plus tard que Mitch a fait des recherches sur la mort des avocats."
+8:
+  :libelle: Sonny Capps ignore le talent de Mitch (sc. 48)
+  :description: Nous savons que Mitch, par son talent, parviendra à convaincre Sonny Capps, lui ne le sait pas.
+  :victime: Sonny Capps
+  :auteur: Mitch
+  :produit: Un peu d'humour, puisqu'on sait que Mitch convaincra Sonny Capps.
+  :id: 8
+  :installation: Mitch prend le relais d'Avery — air de Capps conclu par “Qui c'est ce mec ?”
+  :exploitation: Mitch prend une seconde fois le relais d'Avery.
+  :resolution: 'Implicite (“racontée” par Avery) : Sonny Capps s''est laissé convaincre par Mitch.'
+9:
+  :libelle: Mitch connaît l'Albinos
+  :description: Nous savons que Mitch connaît l'Albinos que lui a décrit Abanks, l'Albinos l'ignore.
+  :victime: L'Albinos
+  :auteur: "(sans le savoir) Abanks"
+  :id: 9
+  :installation: Abanks décrit à Mitch les deux hommes qui étaient sur le bateau (sc. 51).
+  :exploitation: Quand Bill “coince” Mitch à l'entrée de la firme (sc. 86), Mitch reconnaît l'Albinos quand il sort de la voiture (l'Albinos, lui, ne sait pas que Mitch peut le reconnaître).
+  :resolution: Pas de résolution ou résolution implicite, à Mud Island, quand Mitch fait demi-tour en voyant l'Albinos en haut des escaliers (L'Albinos, sans que cela soit vraiment joué, comprend que Mitch le reconnaît — sc. 180).
+10:
+  :libelle: Mitch découvre les dossiers secrets
+  :description: Alors qu'il se trompe de porte, Mitch découvre les dossiers secrets dans la chambre d'hôtel d'Avery (sc. 52). Avery ne le sait pas.
+  :victime: Avery Tolar
+  :auteur: Mitch
+  :produit: du suspense
+  :id: 10
+  :installation: Par erreur, Mitch ouvre la porte derrière laquelle sont cachés les dossiers secrets.
+  :exploitation: Omniprésence d'Avery par voix-off, créant un suspense — Avery s'approche de la cuisine alors que Mitch n'a pas encore refermé la porte.
+  :resolution: "Il y a une préparation de la résolution lorsque Mitch renverse sa bouteille de bière (qui devait, dans une scène certainement coupée au montage, servir à Avery de découvrir que Mitch avait découvert les dossiers). Pas de résolution ou résolution implicite."
+11:
+  :libelle: Mitch trompe Abby
+  :description: Mitch trompe Abby. Nous le savons, Abby l'ignore.
+  :victime: Abby
+  :auteur: 'Mitch (et indirectement : la Firme, qui a tout manigancé)'
+  :produit: De la complexité relationnelle
+  :id: 11
+  :installation: Mitch fait l'amour sur la plage (sc. 54)
+  :exploitation: La pression exercée sur Mitch (surtout scène 87 avec les photos) et la très belle ironie dramatique de la scène 89 avec l'enveloppe.
+  :resolution: Mitch avoue à Abby son adultère (sc. 92)
+12:
+  :libelle: Mitcha menti à propos de son frère (1)
+  :description: Nous savons que Mitch a dit ne pas avoir de frère. Ray, son frère, l'ignore.
+  :victime: Ray
+  :auteur: Mitch
+  :id: 12
+  :installation: Ray demande à Mitch comment il a pu trouver du travail avec un frère en taule (sc. 61).
+  :exploitation: La non réponse de Mitch, le très beau silence et échange de regard qui suivent la question.
+  :resolution: Ray comprend que Mitch a menti
+13:
+  :libelle: Mitch a menti à propos de son frère (2)
+  :description: Mitch a un frère. Nous le savons, la firme l'ignore.
+  :victime: la Firme
+  :auteur: Mitch
+  :produit: De l'épaisseur pour le personnage de Mitch, sa part d'ombre.
+  :id: 13
+  :installation: On découvre que Mitch a un frère (en prison, sc.  59)
+  :exploitation: Pression du FBI sur Mitch (sc. 70)
+  :resolution: On apprend que la firme a découvert l'existence de Ray (sc. 93)
+14:
+  :libelle: Mitch a été voir son frère sans le dire à Abby
+  :description: Mitch rend visite à son frère (sc. 59). Nous le savons, Abby l'ignore.
+  :victime: Abby
+  :auteur: Mitch
+  :produit: De l'épaisseur pour le personnage de Mitch
+  :id: 14
+  :installation: Abby vient chercher Mitch à son travail, ne le trouve pas (sc. 63).
+  :exploitation: Abby demande à Mitch où il était
+  :resolution: Mitch avoue qu'il a été voir son frère (sc. 66).
+15:
+  :libelle: Eddie Lomax a un flingue caché sous son bureau
+  :description: Eddie Lomax cache une arme sous son bureau. Nous le savons, l'Albinos et son comparse l'ignorent.
+  :victime: L'Albinos et son adjoint
+  :auteur: Eddie
+  :id: 15
+  :installation: Eddie Lomax recharge son flingue et le place sous le bureau (sc. 64).
+  :exploitation: Eddie Lomax glisse la main sous le bureau (sc. 67)
+  :resolution: Eddie tire, l'Albinos et l'adjoint “découvrent” l'arme
+16:
+  :libelle: Tammy a vu les deux tueurs tuer Eddie Lomax
+  :description: Sous le bureau, Tammy a pu voir les deux meurtriers d'Eddie. Elle les connaît, eux ne le savent pas (sc. 67).
+  :victime: Les deux tueurs
+  :auteur: Tammy
+  :id: 16
+  :installation: Tammy se glisse sous le bureau quand les deux tueurs entrent (sc. 67).
+  :exploitation: Toute la scène entre les deux tueurs et le détective privé. On sait que Tammy écoute (ce qui conduira aux révélations à Mitch qui permettront à ce dernier de reconnaître les tueurs de la Firme — sc. 85).
+  :resolution: 'Pas de résolution : les deux tueurs ne sauront jamais que Tammy était là.'
+17:
+  :libelle: Mitch ment à la firme sur son entretien avec le FBI
+  :description: Nous savons que Mitch ment sur l'entretien puisque nous l'avons vu, la firme l'ignore.
+  :victime: La firme
+  :auteur: Mitch
+  :id: 17
+  :installation: Mensonge de Mitch sur le contenu de l'entretien quand il fait son rapport (sc. 75).
+  :resolution: 'Partielle et indirecte : Bill apprend à la firme que Mitch est l''auteur du vol des dossiers.'
+18:
+  :libelle: Abby est “espionnée” par Mitch
+  :description: Mitch, depuis l'extérieur de la maison, observe sa femme. Elle ne le sait pas.
+  :victime: Abby
+  :auteur: Mitch (incarnant l'oeil de la firme)
+  :id: 18
+  :installation: Mitch regarde Abby depuis l'extérieur (sc. 77).
+  :resolution: Si l'on voit l'aspect symbolique de cette ironie dramatique, la résolution se fait dans la scène suivante quand Mitch dit à Abby qu'ils sont surveillés par la firme.
+19:
+  :libelle: Mitch veut faire les photocopies à l'insu de la firme
+  :description: Quand il arrive dans le box à photocopies, Lammar ignore que Mitch fait des photocopies de dossiers compromettants. Nous le savons.
+  :victime: La Firme, représentée ici par Lammar Quinn
+  :auteur: Mitch
+  :id: 19
+  :installation: Mitch s'apprête à faire les photocopies (sc. 82).
+  :exploitation: Lammar arrive dans le box à photocopies (id.).
+  :resolution: Pas de résolution pour Lammar, mais résolution pour la firme, qui apprendra que Mitch fait des photocopies.
+20:
+  :libelle: Tammy vient trouver Mitch à son bureau, à l'insu de la firme
+  :description: Quand Tammy, déguisée en livreuse, vient trouver Mitch, nous savons qui elle est vraiment. Nina, la secrétaire, l'ignore.
+  :victime: 'Nina, la secrétaire (donc indirectement : la firme)'
+  :auteur: Tammy
+  :id: 20
+  :installation: Mitch découvre Tammy déguisée en livreuse.
+  :exploitation: Tammy ne peut pas dire explicitement à Mitch qu'elle lui donne rendez-vous (utilisation du ticket de caisse).
+  :resolution: Pas de résolution
+21:
+  :libelle: Mitch “connait” le deuxième tueur
+  :description: Nous savons que Mitch sait qu'un tueur boîte (Tammy lui a dit). Le tueur l'ignore.
+  :victime: Le tueur qui boite
+  :auteur: Tammy
+  :id: 21
+  :installation: Tammy dit à Mitch que l'homme boitera toute sa vie (sc. 85)
+  :exploitation: Mitch reconnaît l'homme qui boite à Mud Island (sc. 180)
+  :resolution: Résolution implicite (le boiteux comprend implicitement que Mitch le connait).
+22:
+  :libelle: L'enveloppe de photos compromettantes
+  :description: Nous savons que l'enveloppe de Mitch contient des photos compromettantes. Abby (et les membres de la firme) l'ignore.
+  :victime: Abby
+  :auteur: Mitch (et la firme)
+  :produit: Du conflit et du suspense
+  :id: 22
+  :installation: Bill remet l'enveloppe à Mitch (sc. 87)
+  :exploitation: Mitch se retrouve avec l'enveloppe devant tous les avocats et sa femme (sc. 89).
+  :resolution: pas de résolution directe (Abby ne verra jamais les photos) mais résolution indirecte puisqu'elle saura que Mitch l'a trompée.
+23:
+  :libelle: L'échange de cartables
+  :description: Nous voyons Mitch et Tammy échanger leur serviette. L'employé dans l'ascenseur ne le voit pas.
+  :victime: un quidam, employé de la firme
+  :auteur: Mitch et Tammy
+  :id: 23
+  :installation: 'implicite : Tammy entre dans l''ascenseur et pose un cartable identique (sc. 96).'
+  :resolution: Pas de résolution. Le quidam ne saura rien de la transaction.
+24:
+  :libelle: Le client oriente malgré lui Mitch sur son nouvel objectif
+  :description: Le client ne sait pas que ce qu'il dit permet à Mitch de définir un nouvel objectif. Les spectateurs attentifs le savent.
+  :victime: Le client
+  :auteur: Le client
+  :produit: Cette ironie dramatique génère une forte complicité entre nous, spectateur, et le personnage.
+  :id: 24
+  :installation: Tout ce que nous savons de l'objectif de Mitch, qui est de coincer la firme.
+  :exploitation: Le speech avec le client, à partir du moment où Mitch comprend ce qu'il peut faire de l'information des sur-facturations (sc. 99).
+  :resolution: 'Aucune. Le client ne saura rien de ce qu''il a permis. Ou résolution très indirecte et très implicite, en <tt>hors-champ narratif</tt> : Puisque Mitch doit appeler tous les clients pour leur demander leur accord, il le demandera forcément à ce client aussi.'
+25:
+  :libelle: Tammy prend des photos de l'Albinos
+  :description: Nous savons que Tammy prend des photos de l'Albinos, ce dernier l'ignore.
+  :victime: L'Albinos
+  :auteur: Tammy
+  :id: 25
+  :installation: On voit Tammy dans le véhicule avec un appareil photo (sc.103).
+  :resolution: L'Albinos ne saura jamais qu'on a pris des photos de lui.
+26:
+  :libelle: Piège tendu à Wayne Tarrance
+  :description: Mitch tend un piège à Tarrance en l'enregistrant. Nous le savons, Tarrance l'ignore.
+  :victime: Wayne Tarrance
+  :auteur: Mitch
+  :id: 26
+  :installation: Mitch demande à Tammy si Eddie Lomax avait un magnéto (sc. 102).
+  :exploitation: Tout le speech de Tarrance, au stade de course de lévriers (sc. 105).
+  :resolution: Tarrance comprend qu'il s'est fait piéger (très court). Il en a confirmation juste après en entendant l'enregistrement (id).
+27:
+  :libelle: Le couple McDeere rend le change aux “écoutes” de la firme.
+  :description: Nous savons que les McDeere vont se servir des écoutes pour mentir à la firme, la firme l'ignore.
+  :victime: La firme
+  :auteur: Le couple McDeere
+  :id: 27
+  :installation: Annonce faite par Abby (sc.106).
+  :exploitation: La firme entend Abby dire qu'elle rentre chez sa mère (sc. 107), le soutien que Lammar Quinn vient donner à Mitch dans la scène suivante.
+  :resolution: Pas de résolution
+28:
+  :libelle: Mitch dérobe les feuilles de facturation
+  :description: Nous savons ce que Mitch vient chercher, le vigile l'ignore et le laisse entrer.
+  :victime: 'le vigile de la firme (donc indirectement : la firme)'
+  :auteur: Mitch
+  :id: 28
+  :installation: Mitch ment au vigile
+  :resolution: Pas de résolution (le vigile n'en saura rien). Résolution si l'on considère le vigile comme une représentation de la firme).
+29:
+  :libelle: Le piège tendu à Avery Tolar, pour récupérer les dossiers secrets
+  :description: Nous savons qu'Avery va être manipulé (drogué) par Mitch et surtout Abby, Avery l'ignore.
+  :victime: Avery Tolar
+  :auteur: Mitch (Abby)
+  :produit: Beaucoup de suspense et crée des complexités relationnelles très intéressantes.
+  :id: 29
+  :installation: Scène 116, quand on comprend qu'Abanks doit retenir suffisamment longtemps Avery.
+  :exploitation: Toutes les scènes concernant le vol des dossiers et notamment la scène 119 (cour d'école) et toutes les scènes d'Avery et d'Abby aux iles Cayman.
+  :resolution: Avery comprend la machination grâce au coup de fil (sc. 148)
+30:
+  :libelle: Immixtion d'Abby dans le plan de Mitch
+  :description: Nous savons qu'Abby s'est immiscée dans le plan de Mitch, Mitch l'ignore.
+  :victime: Mitch
+  :auteur: Abby
+  :produit: Beaucoup de conflit et de complexité psychologique et relationnelle
+  :id: 30
+  :installation: Coup de fil d'Abby à Tammy (sc. 122). Elle dit de ne rien dire à
+    Mitch
+  :exploitation: Toutes les scènes d'Abby et Avery aux iles Cayman
+  :resolution: Très belle et très forte, quand Mitch apprend qu'Abby a participé au plan (sc. 178).
+31:
+  :libelle: Fausse libération de Ray
+  :description: Nous savons que le FBI fait seulement semblant de libérer Ray, Ray et Mitch l'ignorent (du moins c'est ce que le film nous laisse croire un moment).
+  :victime: Ray (et Mitch)
+  :auteur: Le responsable du FBI
+  :id: 31
+  :installation: Voyles dit explicitement qu'ils vont remettre Ray en prison dès qu'ils auront les dossiers (sc. 109).
+  :exploitation: Plusieurs scènes où on voit que Ray est suivi, que le bus n'est qu'une machination.
+  :resolution: Elle est implicite et se trouve en fait avant l'exploitation, puisque l'on comprend que Mitch (et donc Ray) se doutait de cette machination (sc. 135).
+32:
+  :libelle: Véritable libération de Ray
+  :description: Mitch et Ray savent que le FBI veut leur jouer un tour, le FBI ne se doute pas qu'ils savent.
+  :victime: le FBI
+  :auteur: Mitch
+  :id: 32
+  :installation: On voit Elvis dans le resto-station service (on comprend la fausse ironie dramatique précédente) (sc. 133).
+  :exploitation: L'homme qui regarde les passagers remonter dans le bus. Puis il va trouver son collègue dans le resto et ils découvrent les habits de Ray.
+  :resolution: Ils comprennent que Ray s'est échappé.
+33:
+  :libelle: Fax annonçant la libération de Ray
+  :description: Nous savons qu'un fax est arrivé, Bill ne le voit pas.
+  :victime: La firme (Bill)   FBI
+  :auteur: Le gardien de la prison (le récepteur de fax)
+  :id: 33
+  :installation: Envoi du fax à la firme (sc. 134)
+  :exploitation: Le plan où l'on voit le fax sous le meuble (sc. 141)
+  :resolution: 'Pour FBI : Tarrance prend connaissance du coup de fil du gardien de prison (sc. 156). Pour firme : Bill découvre le fax (sc. 154).'
+34:
+  :libelle: Bill découvre ce que préparent Tammy et Abby
+  :description: Abby et Tammy ne savent pas que Bill les écoute. Nous le savons.
+  :victime: Abby et Tammy (et donc Mitch)
+  :auteur: Bill (et donc la firme)
+  :produit: Beaucoup de suspense
+  :id: 34
+  :installation: Bill entend la communication entre Tammy et Abby (sc. 141).
+  :exploitation: Les coups de fil qui doivent réveiller Avery (sc. 144). L'envoi de l'Albinos.
+  :resolution: Avery dit explicitement à Abby que la firme a surpris le coup de fil (sc. 148).
+35:
+  :libelle: Mensonge d'Avery à la firme sur la “femme”
+  :description: Nous savons qu'Avery connaît parfaitement bien la femme. La firme l'ignore.
+  :victime: Bill (donc la firme)
+  :auteur: Avery
+  :id: 35
+  :installation: Avery (sc. 148) ment en disant qu'il ne connait pas la femme qui l'a drogué.
+  :resolution: 'Non résolue : la firme n''apprendra jamais que la femme est Abby.'
+36:
+  :libelle: Mitch ment à la secrétaire d'Avery
+  :description: Pour avoir accès à l'ordinateur, Mitch doit mentir à la secrétaire d'Avery. Nous savons qu'il ment, la secrétaire ne le sait pas.
+  :victime: La secrétaire d'Avery.
+  :auteur: Mitch
+  :id: 36
+  :installation: Mensonge de Mitch
+  :resolution: Pas de résolution
+37:
+  :libelle: Mitch est découvert à Mud Island
+  :description: Mitch ne sait pas qu'il a été découvert à Mud Island. Nous le savons.
+  :victime: Mitch
+  :auteur: Kay, la femme de Lammar Quinn, l'agent du FBI (Tarrance)
+  :produit: du conflit et du suspense
+  :id: 37
+  :installation: Kay Quinn aperçoit Mitch dans le bateau-musée (sc. 169).
+  :exploitation: Kay dit à son mari qu'elle a vu Mitch (sc. 171) — Croisement de Mitch et de l'Albinos dans le monorail (sc. 179).
+  :resolution: 'implicite : En découvrant les deux flics et les deux tueurs, Mitch peut comprendre — implicitement — que la firme a été avertie et que le FBI le recherche.'
+38:
+  :libelle: Mitch suspendu aux tuyaux
+  :description: Nous savons que Mitch est suspendu à la tuyauterie. L'Albinos l'ignore.
+  :victime: L'Albinos
+  :auteur: Mitch
+  :produit: Du suspense
+  :id: 38
+  :installation: Plan sur Mitch accroché à la tuyauterie passant sur le plafond.
+  :exploitation: Le suspense (l'Albinos va-t-il découvrir Mitch ?) accentué par les gouttes de sueurs qui tombent.
+  :resolution: Pas de résolution (l'Albinos meurt avant)
+39:
+  :libelle: Mort de l'Albinos
+  :description: Bill croit reconnaître Mitch avec son cartable. Nous savons que ça n'est pas lui.
+  :victime: L'Albinos   Bill Devasher
+  :auteur: la vitre opaque (et le cartable de Mitch).
+  :produit: Du soulagement…
+  :id: 39
+  :installation: Le plan sur Bill voyant l'ombre sur la vitre opaque.
+  :resolution: L'Albinos comprend qu'il meurt... (tué par Bill s'il a le temps de se faire la réflexion...). Bill découvre que ce n'est pas Mitch qu'il a tué.
+40:
+  :libelle: Raison de la visite de Mitch aux mafiosi
+  :description: Quand Joey et Tommy Moroco voit débarquer Mitch, ils ne s'imaginent pas ce qu'il vient leur dire — ils imaginent même tout autre chose. Nous, nous savons ce qu'il vient faire.
+  :victime: Joey et Tommy Moroco
+  :auteur: Mitch
+  :id: 40
+  :installation: L'entrée de Mitch dans la suite des deux hommes.
+  :exploitation: Tout le speech de Mitch, l'ir. dr. étant merveilleusement soulignée par les “têtes” des deux italiens.
+  :resolution: Mitch leur donne la véritable raison de sa “visite”.

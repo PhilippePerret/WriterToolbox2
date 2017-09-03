@@ -1,0 +1,63 @@
+@media print {
+  body {
+    padding-bottom:0;
+  }
+  /* BODY HEADER */
+  body > div#body_header {
+    position:relative;
+    margin-bottom:0 !important;
+  }
+  body > div#body_header > div#film_titre {
+    font-size:30pt;
+  }
+  body > div#body_header > div#rapport_date {
+    top: 10px;
+    right: 10px;
+    text-align: right;
+    width: auto;
+    font-size: 14pt;
+    color:white;
+  }
+  /* BODY CONTENT */
+  body > div#body_content {
+    margin-top: 2em;
+  }
+  /* Tous les éléments à masquer en impression */
+  div#onglets,
+  div#suptimeline,
+  a.citations,
+  .owner 
+  {
+    display:none !important;
+  }
+}
+@media screen {
+  body {
+    padding-bottom: 50em;
+  }
+  /* BODY HEADER */
+  body > div#body_header {
+    position:fixed;
+    height:170px;
+    min-width:1300px;
+    top:0;
+    left:0;
+  }
+  body > div#body_header > div#film_titre {
+    font-size:20pt;
+  }
+  body > div#body_header > div#rapport_date {
+    font-size: 10pt;
+    left: 10px;
+    top: 50px;
+    width: 90px;
+  }
+  /* BODY CONTENT */
+  body > div#body_content {
+    margin-top:180px;
+  }
+  div.scenier > div.lit > div.dgene,
+  div.scenier > div.lit > div.objets {
+    display:none;
+  }
+}

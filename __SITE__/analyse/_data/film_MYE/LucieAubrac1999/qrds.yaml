@@ -1,0 +1,12 @@
+---
+1:
+  :id: 1
+  :question: Lucie Aubrac parviendra-t-elle à trouver le bonheur ?
+  :reponse: Positive
+  :description: Lucie vit par l'amour qu'elle éprouve pour Raymond, son mari. Arrêté
+    par la Gestapo, l'objet de cet amour sera mis en péril, et le bonheur de Lucie
+    avec lui.
+  :intensite: 4
+  :relatifs:
+  - :type: :objectif
+    :id: 1

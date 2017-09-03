@@ -1,0 +1,92 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+      <title>Tableau de divisions d'un film</title>
+      <style type="text/css">
+          body{margin:4em;}
+  div.table {
+/*    width: 1000px;*/
+    width: 100%;
+    font-size:    13pt;
+    font-family:  Arial;
+  }
+  div.table div.row {
+    border: 1px solid;
+    margin-bottom: 1em;
+  }
+  /* La marque indiquant la division */
+  div.table div.row div.mark_division {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 11.2pt;
+    color: #777;
+    text-align: center;
+    width: calc(3%);
+  }
+  div.table div.row div.cell {
+    display: inline-block;
+  }
+  /* Les div qui contiennent les scènes charnières */
+  div.table div.row div.cell div.seps {
+    border-right: 1px solid;
+    padding-right: 8px;
+    text-align: right;
+  }
+  div.table div.row div.cell div.seps span.temps {
+    font-family: Georgia;
+    font-size: 12.8pt;
+    display:block;
+  }
+  div.table div.row div.cell div.seps span.temps span.temps_absolu {
+    font-size:11pt;
+    color: #777;
+  }
+  div.table div.row div.cell div.seps span.temps span.temps_absolu:before {
+    content: "[";
+  }
+  div.table div.row div.cell div.seps span.temps span.temps_absolu:after {
+    content: "] ";
+  }
+  div.table div.row div.cell div.seps span.scene {
+    display:block;
+    padding-left: 20%;
+  }
+  div.table div.row div.cell div.partie {
+    display: block;
+    border: 1px solid;
+    padding: 4px 8px;
+    text-align: center;
+  }
+  /*Les div de couleur, en fonction de la division courante*/
+  div.table div.row div.cell div.partie.div2 {
+    background-color: #ccccff;
+  }
+  div.table div.row div.cell div.partie.div3 {
+    background-color: #ccffcc;
+  }
+  div.table div.row div.cell div.partie.div4 {
+    background-color: #ffccff;
+  }
+  div.table div.row div.cell div.partie.div5 {
+    background-color: #ffffcc;
+  }
+  div.table div.row div.cell div.partie.div6 {
+    background-color: #ffcccc;
+  }
+  div.table div.row div.cell div.partie.div7 {
+    background-color: #ccffff;
+  }
+  div.table div.row div.cell div.partie.div8 {
+    background-color: #ccccff;
+  }
+
+      </style>
+    </head>
+    <body>  <div style="font-size:11pt;margin-bottom:2em;font-style:italic">
+    Jouez sur la largeur de la fenêtre pour ajuster la taille du tableau puis faire un screenshot du tableau. Vous pouvez l'insérer à l'aide d'une balise IMAGE[...].
+  </div>
+<div class='table'><div class='row'><div class='mark_division'>x2</div><div class='cell' style='width:48.5%'><div class='seps'><span class='temps'>1:03:00</span><span class='scene'>Première victoire de Seabiscuit</span></div><div class='partie div2'>Découverte et formation de Seabiscuit. Rencontre des trois hommes.
+<br><b>Seabiscuit n'a aucun avenir</b>.</div></div><div class='cell' style='width:48.5%'><div class='seps'><span class='temps'>2:06:00</span><span class='scene'>Fin</span></div><div class='partie div2'>Accomplissement, gloire, chute et renaissance.
+<br><b>Seabiscuit a un avenir</b>.</div></div></div><div class='row'><div class='mark_division'>x3</div><div class='cell' style='width:32.333333333333336%'><div class='seps'><span class='temps'>42:00</span><span class='scene'>Découverte de Seabiscuit</span></div><div class='partie div3'>Exposition des trois personnages et Seabiscuit. Objectif de Charles Howard après la destruction de son foyer : monter une écurie de chevaux, et gagner.</div></div><div class='cell' style='width:32.333333333333336%'><div class='seps'><span class='temps'>1:24:00</span><span class='scene'>Riddle accepte de faire concourir son champion contre Seabiscuit</span></div><div class='partie div3'>La formation d’un champion. Mais pas encore <em>LE</em> champion.<br><br><br></div></div><div class='cell' style='width:32.333333333333336%'><div class='seps'><span class='temps'>2:06:00</span><span class='scene'>Fin</span></div><div class='partie div3'>Grandeur, décadence et renaissance.<br>Seabiscuit devient le plus grand des chevaux, puis il chute et remonte la pente contre toute attente.</div></div></div><div class='row'><div class='mark_division'>x4</div><div class='cell' style='width:24.25%'><div class='seps'><span class='temps'>32:00</span><span class='scene'>Rencontre au Mexique de Charles et Marcella</span></div><div class='partie div4'>Charles, de la réussite au deuil.<br>                    </div></div><div class='cell' style='width:24.25%'><div class='seps'><span class='temps'>1:03:00</span><span class='scene'>Première victoire de Seabiscuit</span></div><div class='partie div4'>De la renaissance à la possibilité de gagner.</div></div><div class='cell' style='width:24.25%'><div class='seps'><span class='temps'><span class='temps_absolu'>1:34:30</span>1:40:00</span><span class='scene'>Victoire de Seabiscuit contre War Amiral</span></div><div class='partie div4'>De la première victoire au sacre du champion.</div></div><div class='cell' style='width:24.25%'><div class='seps'><span class='temps'>2:06:00</span><span class='scene'>Fin</span></div><div class='partie div4'>De la chute à la renaissance.<br>                            </div></div></div><div class='row'><div class='mark_division'>x6</div><div class='cell' style='width:16.166666666666668%'><div class='seps'><span class='temps'>21:00</span><span class='scene'>Mort du fils de Charles (incident perturbateur)</span></div><div class='partie div6'>Trois destins : Charles Howard, Red Pollard et Tom Smith</div></div><div class='cell' style='width:16.166666666666668%'><div class='seps'><span class='temps'>42:00</span><span class='scene'>Smith découvre Seabiscuit</span></div><div class='partie div6'>De la destruction<br>familiale au retour de l’ambition</div></div><div class='cell' style='width:16.166666666666668%'><div class='seps'><span class='temps'>1:03:00</span><span class='scene'>Seabiscuit remporte sa première course</span></div><div class='partie div6'>De la formation à la première victoire<br><br></div></div><div class='cell' style='width:16.166666666666668%'><div class='seps'><span class='temps'><span class='temps_absolu'>1:24:00</span>1:22:00</span><span class='scene'>Riddle accepte de faire concourir son champion contre Seabiscuit</span></div><div class='partie div6'>De la gloire à<br>l’obtention de l’ultime duel</div></div><div class='cell' style='width:16.166666666666668%'><div class='seps'><span class='temps'><span class='temps_absolu'>1:45:00</span>1:35:00</span><span class='scene'>Duel entre Seabiscuit et War Admiral</span></div><div class='partie div6'>De la préparation du combat à la victoire<br><br></div></div><div class='cell' style='width:16.166666666666668%'><div class='seps'><span class='temps'>2:06:00</span><span class='scene'>Fin</span></div><div class='partie div6'>La chute puis la renaissance<br><br></div></div></div></div><div style="font-size:11.5pt;font-style:italic;">Les temps indiqués entre crochets sont les temps absolus, c'est-à-dire les positions exactes des divisions lorsqu'il y a un décalage significatif avec la position de la scène du film (> 30 secondes).</div></body>
+    </html>

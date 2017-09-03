@@ -1,0 +1,32 @@
+---
+1:
+  :libelle: L'ambition
+  :nature_theme: :both
+  :id: 1
+2:
+  :libelle: La trahison et l'exploitation
+  :nature_theme: :abstrait
+  :id: 2
+3:
+  :libelle: L'usurpation d'identité
+  :nature_theme: :abstrait
+  :id: 3
+4:
+  :libelle: La solidarité et l'amitié
+  :nature_theme: :abstrait
+  :id: 4
+5:
+  :libelle: L'amour
+  :nature_theme: :abstrait
+  :id: 5
+6:
+  :libelle: Etre une femme dans le monde du travail
+  :description: de surcroît dans un métier particulièrement machiste — le monde des
+    affaires, combines et négociations
+  :nature_theme: :concret
+  :id: 6
+7:
+  :libelle: Les différences entre deux classes sociales éloignées
+  :description: Celle de Tess et celle de Kath
+  :nature_theme: :concret
+  :id: 7

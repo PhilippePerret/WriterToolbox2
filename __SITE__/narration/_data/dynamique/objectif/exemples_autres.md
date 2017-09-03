@@ -1,0 +1,22 @@
+<!-- Page: #242 Autres exemples d'objectifs -->
+
+* Dans FILM[Antichrist2009], l'objectif d'un psychothérapeute (“personnage:|Lui|”) est d'aider sa femme (“personnage:|Elle|”) à faire le deuil de leur jeune enfant décédé,
+* dans FILM[Sunshine2007], l'objectif de personnage:|Robert Capa| est de parvenir à raviver le soleil mourant,
+* dans FILM[DeBattreMonCoeurSEstArrete2005], l'objectif de personnage:|Tom Seyr| est de devenir pianiste comme sa mère,
+* dans FILM[TheButterflyEffect2004], l'objectif d'personnage:|Evan Treborn| est de parvenir à modifier le passé pour préserver la vie de ceux qu'il aime,
+* dans FILM[Dogville2003], l'objectif de personnage:|Grace Margaret Mulligan| est de parvenir à échapper à la police et à ses poursuivants,
+* dans FILM[AIArtificialIntelligence2001], l'objectif du jeune androïde personnage:|David| est de réussir à se faire aimer de sa mère adoptive personnage:|Monica Swinton|,
+* dans FILM[LeFabuleuxDestinDameliePoulain2001], l'objectif d'Amélie est de donner un sens à sa vie en faisant le bien autour d'elle,
+* dans FILM[Frequency2000], l'objectif d'un fils est de permettre à son père de coincer un serial-killer, 
+* dans FILM[TheFamilyMan2000], l'objectif de personnage:|Jack Campbell| est de recouvrer sa vie d'avant,
+* l'objectif de personnage:|Selma Jezkova| dans FILM[DancerInTheDark2000] est de payer une opération des yeux à son fils personnage:Gene,
+* dans FILM[SavingPrivateRyan1998], l'objectif du personnage:|captaine John H. Miller| est de ramener du front le soldat personnage:|James Francis Ryan|,
+* dans FILM[ToDieFor1995], l'objectif de personnage:|Suzanne Stone| est de devenir journaliste TV,
+* dans FILM[TheClient1994], l'objectif du jeune personnage:|Mark Sway| est d'échapper à la mafia qui veut l'éliminer pour le secret qu'il détient,
+* dans FILM[TheBodyguard1992], l'objectif de personnage:|Franck Farmer| est de protéger la chanteuse personnage:|Rachel Marrun|,
+* dans FILM[PresumedInnocent1990], l'objectif de l'avocat personnage:|Rusty Sabbish| est de parvenir à se défendre contre les accusations de meurtre dont il est l'objet,
+* dans FILM[BlueVelvet1986], l'objectif de personnage:|Jeffrey Beaumont| est de découvrir l'histoire qui se cache derrière l'oreille coupée qu'il a retrouvé,
+* dans FILM[FirstBlood1982], l'objectif de personnage:|Rambo| est simplement qu'on lui fiche la paix,
+* dans FILM[MidnightExpress1978], l'objectif de personnage:|William Hayes| est de sortir de prison,
+* dans FILM[LeCorniaud1965], l'objectif d'personnage:|Antoine Maréchal| est de convoyer une voiture qui transporte or, héroïne et diamant,
+* dans FILM[AdamSRib1949], l'objectif de l'avocate personnage:|Amanda Bonner| est de remporter un procès contre son mari procureur.

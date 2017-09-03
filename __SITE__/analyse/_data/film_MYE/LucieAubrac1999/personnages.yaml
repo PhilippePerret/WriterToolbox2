@@ -1,0 +1,17 @@
+---
+1:
+  :pseudo: Lucie Aubrac
+  :nom: Aubrac
+  :prenom: Lucie
+  :sexe: F
+  :fct_perso: prota
+  :description: Femme d'un résistant (Daniel Auteuil) pendant la seconde guerre mondiale,
+    Lucie Aubrac est une femme déterminée, prête à tout pour préserver et vivre son
+    amour.
+  :acteur: Carole Bouquet
+  :relatifs:
+  - :type: :objectif
+    :id: 1
+  - :type: :objectif
+    :id: 2
+  :id: 1

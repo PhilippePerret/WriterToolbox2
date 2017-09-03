@@ -1,0 +1,28 @@
+/*
+ *  Pour les tables statistiques
+ */
+
+div.statistiques {
+  padding:1em;
+  border:1px solid #ccc;
+  margin-bottom:1em;
+}
+
+div.statistiques > div {
+  margin-bottom: 12px;
+}
+
+/* Horloges dans les statistiques */
+div.statistiques span.hlg { 
+  float:left; 
+  margin-top:3px;
+}
+
+
+/*
+ *  Cas particuliers
+ */
+div.statistiques > div.longest_scene > span.value > span ,
+div.statistiques > div.shortest_scene > span.value > span {
+  margin-left:8px;
+}

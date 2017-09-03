@@ -1,0 +1,40 @@
+---
+1:
+  :id: 1
+  :pseudo: David
+  :prenom: David
+  :fct_perso: prota
+  :role: Enfant-robot
+  :description: |
+    David est un robot-enfant. Il a été programmé pour aimer
+    inconditionnellement et d'une façon quasi “humaine” la personne qui
+    l'initialiserait. Monica Swinton est en l'occurrence cette personne,
+    et David va chercher à s'en faire aimer, comme un bon petit garçon
+    pourrait le faire.
+2:
+  :id: 2
+  :pseudo:  Monica
+  :prenom:  Monica
+  :nom:     Swinton
+  :fct_perso: anta
+  :role: |
+    C'est en même temps l'objet de la quête de David (il veut son amour) et
+    son antagonisme puisque c'est elle qui se refuse à l'amour de son fils
+    adoptif.
+3:
+  :id: 3
+  :pseudo: Professeur Hobby
+  :prenom: Allen
+  :nom:    Hobby
+  :role: |
+    C'est le génial créateur de David.
+
+4:
+  :id: 4
+  :pseudo:  Gigolo Joe
+  :prenom:  Joe
+  :nom:     Gigolo
+  :role: |
+    Un “Méca d'amour”, robot spécialisé dans l'amour aux femmes. Il
+    deviendra l'ami de David jusqu'à ce que la quête de ce dernier ne
+    lui semble impossible.

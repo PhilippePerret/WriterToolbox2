@@ -1,0 +1,7 @@
+<!-- Page: #453 Trop intelligent pour être vrai -->
+
+Le personnage *trop intelligent pour être vrai* est un autre personnage qu'on rencontre dans les histoires qui hantent les fonds de tiroir. C'est ce personnage qui face à une situation délicate trouve une solution tellement rapidement et tellement intelligente qu'elle nous semble impossible à avoir. Par contre-coup, le personnage nous semble artificiel, nous nous rappelons qu'il est fabriqué et nous sortons de l'histoire.
+
+C'est un problème qu'on rencontre souvent et qui se pose de façon naturelle : l'auteur a des minutes, des heures, des jours, des semaines parfois pour trouver l'idée qui va permettre au personnage d'accomplir une action pour se tirer d'un mauvais pas, pour avoir un bon mot ou pour offrir une réponse que l'auteur voudrait *culte*. Or, le personnage, lui, n'aura que quelques secondes tout au plus pour la trouver, cette idée. Comme nous dans la vie.
+
+Donc, lorsque vous vous retrouvez face à une difficulté qui nécessite du temps, de la réflexion, pour vous auteur, pensez bien, une fois la solution trouvée, à vérifier qu'elle puisse venir naturellement au personnage. Dans le cas contraire, il existe au moins deux solutions : 1/ implanter dans ce qui précède l'action certaines informations rendront la solution naturelle ou 2/ trouver une autre solution plus simple et plus en accord avec le personnage.

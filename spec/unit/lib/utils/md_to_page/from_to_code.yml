@@ -1,0 +1,85 @@
+---
+  -
+    :it:    "transforme les titres"
+    :from:  |-
+      # Un grand titre
+
+      ## Un sous-titre {#avec_ancre}
+
+      Un paragraphe simple.
+    :to:  |-
+      <h1 id="un-grand-titre">Un grand titre</h1>
+
+      <h2 id="avec_ancre">Un sous-titre</h2>
+
+      <p>Un paragraphe simple.</p>
+
+  -
+    :it:    'transforme les balises MOT'
+    :from:  'MOT[112|le mot]'
+    :to:    '<p><a href="scenodico/show/112" class="mot">le mot</a></p>'
+
+  -
+    :it:    'transforme les balises FILM'
+    :from:  'FILM[Seven1995]'
+    :to:    '<p><a href="filmodico/show/129" class="film"><span class="titre">Seven</span> (<span class="realisateur">David Fincher</span>, <span class="annee">1995</span>)</a></p>'
+  -
+    :it:    'transforme les liens'
+    :from: |-
+      [Atelier Icare]: http://www.atelier-icare.net
+
+      Dans l'[Atelier Icare].
+
+    :to: |-
+      <p>Dans l’<a href="http://www.atelier-icare.net">Atelier Icare</a>.</p>
+
+  -
+    :it:    'transforme les listes'
+    :from: |-
+      * item 1
+      * item 2
+      * item 3
+
+      Un paragraphe
+
+      1. item 1
+      2. item 2
+
+    :to: |-
+      <ul>
+        <li>item 1</li>
+        <li>item 2</li>
+        <li>item 3</li>
+      </ul>
+
+      <p>Un paragraphe</p>
+
+      <ol>
+        <li>item 1</li>
+        <li>item 2</li>
+      </ol>
+  -
+    :it: 'évalue le code ruby'
+    :from: "2 + 2 est égal à RUBY_ 2+2 _RUBY"
+    :to: "<p>2 + 2 est égal à 4</p>"
+
+
+  -
+    :it:  'transforme les balises images IMAGE'
+    :from: "C'est une IMAGE[pictos/rond-vert.png]"
+    :to:    "<p>C’est une <center class=\"image\"><div class=\"image\"><img src=\"./img/pictos/rond-vert.png\" /></div></center></p>"
+
+  -
+    :it:  'transforme les balises images IMAGE avec un style plain'
+    :from:  "C'est une IMAGE[pictos/rond-vert.png|plain]"
+    :to:    "<p>C’est une <center class=\"image\"><div class=\"image\"><img src=\"./img/pictos/rond-vert.png\" style=\"width:100%;\" /></div></center></p>"
+
+  -
+    :it:  'transforme les balises images IMAGE avec une légende'
+    :from:  "C'est une IMAGE[pictos/rond-none.png||Une légende]"
+    :to:    "<p>C’est une <center class=\"image\"><div class=\"image\"><img src=\"./img/pictos/rond-none.png\" /></div><div class=\"img_legend\">Une légende</div></center></p>"
+
+  -
+    :it:  'transforme les balises images IMAGE avec une balise style définie explicitement'
+    :from:  "IMAGE[pictos/rond-none.png|||width:50%;]"
+    :to:    "<p><center class=\"image\"><div class=\"image\"><img src=\"./img/pictos/rond-none.png\" style=\"width:50%;\" /></div></center>"

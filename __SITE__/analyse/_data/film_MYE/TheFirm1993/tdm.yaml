@@ -1,0 +1,42 @@
+-
+  path:   fiche/commentaires.md
+  titre:  Commentaires généraux
+-
+  path:   fiche/lecon_tiree.md
+  titre:  La Leçon tirée du film
+-
+  path:   preparations_paiments.yaml
+  titre:  Préparations/paiements
+-
+  path:   fiche/objectifs.md
+  titre:  L'objectif de Mitch McDeere
+-
+  path:   fondamentales.yaml
+  titre:  Fondamentales du film
+-
+  path:   structure.yaml
+  titre:  Structure du film
+-
+  path:   ironies_dramatiques.yaml
+  titre:  Ironies dramatiques
+-
+  path:   stats/introduction_stats.md
+  titre:  Introduction aux données statistiques
+-
+  path:   stats/stats_generales.md
+  titre:  Statistiques générales
+-
+  path:   stats/personnages.md
+  titre:  Statistiques personnages
+-
+  path:   stats/persos.md
+  titre:  Statistiques sur les scènes de personnages
+-
+  path:   stats/brins_persos_detail.md
+  titre:  Statistiques sur les scènes de personnages (détail)
+-
+  path:   stats/stats_decors.md
+  titre:  Données statistiques sur les décors
+-
+  path:   stats/decors.md
+  titre:  Données statistiques sur les décors (détail)

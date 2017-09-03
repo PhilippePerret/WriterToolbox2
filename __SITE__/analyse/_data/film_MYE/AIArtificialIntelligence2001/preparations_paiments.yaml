@@ -1,0 +1,64 @@
+---
+1:
+  :id: 1
+  :libelle: Le café de Monica
+  :description: C’est grâce au café que David va pouvoir séduire Monica
+  :installation: |
+    L’installation se fait lorsque personnage:David regarde personnage:Monica
+    préparer son café et qu’il mémorise tout ce qu’elle fait.
+  :exploitation: |
+    On verra plus tard David préparer le café pour Monica.
+  :resolution: |
+    Enfin, ce moment très beau où, à la fin du film, Monica s’étonne que
+    David se rappelle toujours comment le préparer (on se demande vraiment
+    par quelle magie un moment aussi simple, banal, peut être aussi
+    émouvant…).
+2:
+  :id: 2
+  :libelle: La mèche de cheveux
+  :description: |
+    C’est la mèche de cheveux qui permettra à David de voir aboutir sa
+    quête. Sans cette mèche de cheveux, les robots du futur n’auraient pas
+    pu faire revenir Monica “à la vie”.
+  :installation: |
+    Teddy, l’ours de David, récupère la mèche tombée au pied du lit (ou
+    plutôt, puisqu’on ne le voit pas faire, on devine plus tard qu’il
+    l’a ramassée)
+  :exploitation: Pas d’exploitation
+  :resolution: |
+    Teddy donne la mèche de cheveux à David et celui-ci la remet à la
+    Fée Bleue.
+
+3:
+  :id: 3
+  :libelle: La trace de David
+  :description: |
+    Cette préparation/paiement permet au professeur qui a construit David
+    de retrouver sa trace.
+  :installation: |
+    L'installation de cette P/P se fait lorsque le réalisateur de la Foire
+    à la chair découvre David et son originalité.
+  :exploitation: Pas d’exploitation.
+  :resolution: |
+    Lorsque les collaborateurs du professeur viennent lui annoncer qu’ils
+    ont retrouvé la trace de David, on devine que c’est par le biais du
+    réalisateur.
+
+4:
+  :id: 4
+  :libelle: David, un robot de dernière génération
+  :description: |
+    Une préparation/paiement qui permet de montrer la différence entre
+    un robot traditionnel et David.
+  :installation: |
+    Dans la première scène, on voit le professeur Hobby enfoncer un clou
+    (une pince de cravate ?) dans la main d’une “robot-femelle” sans provoquer la moindre
+    douleur chez ce sujet, ni la moindre réaction hostile, ni surtout
+    <em>aucune crainte</em> de la part du personnage (ce dernier point étant
+    discutable et humoristique puisque le robot se recule quand Hobby veut
+    lui reprendre la main).
+  :exploitation: Pas d’exploitation.
+  :resolution: |
+    Lors de la scène de la piscine, quand un ami de Martin voudra enfoncer
+    une pelle à gâteau (?) dans le bras de David, celui-ci se réfugiera
+    derrière Martin, il a peur.

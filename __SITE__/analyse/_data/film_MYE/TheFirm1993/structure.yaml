@@ -1,0 +1,47 @@
+---
+:incdec:
+  :description: Soupçons de <personnage>Mitch McDeere</personnage> sur la mort des avocats de la firme.
+  :time: 1500
+:incdecalt:
+  :description: Mitch et Abby arrivent à leur maison de Memphis.
+  :notes: Ce n'est pas vraiment l'incident qui déclenche les recherches de Mitch, mais il représente l'entrée de Mitch dans sa nouvelle vie, dans la vie professionnelle.
+  :time: 745
+:pivot1:
+  :description: Mitch découvre les dossiers secrets chez <personnage>Avery Tolar</personnage>.
+  :notes: Cette découverte après plusieurs minutes où Mitch a pu avoir des doutes sur des choses “louches” concernant les activités de la firme.
+  :time: 2100
+:cdv:
+  :description: 'Mitch trouve un autre moyen de s''en sortir : Les sur-facturations.'
+  :time: 4980
+:pivot2:
+  :description: Les sbires de la firme découvre le coup monté. L’<personnage>Albinos</personnage>,
+    le tueur à la solde du cabinet d’avocat, est envoyé pour exécuter Mitch.
+  :explication: À partir de là, la vie de Mitch est directement et physiquement menacé
+    par l’homme le plus dangereux de la firme (et le plus inquiétant aussi).
+  :time: 6840
+:climax:
+  :description: Confrontation physique entre Mitch et les deux tueurs de la firme, <personnage>Bill</personnage> et l'Albinos.
+  :time: 7208
+:desinence:
+  :description: Retrouvailles avec <personnage>Abby</personnage>, voyage de <personnage>Tammy</personnage>
+    et <personnage>Ray</personnage>, explications au FBI.
+  :time: 8220
+:tiers:
+  :description: Doutes d'<personnage>Abby</personnage>, la femme de Mitch, sur la fidélité de son mari.
+  :time: 3030
+  :duree: 120
+:deuxtiers:
+  :description: Faux adultère d'Abby pour permettre à son mari et à Tammy de faire les photocopies.
+  :time: 6060
+:un5ie:
+  :description: Voyage aux îles Cayman. Le voyage commence sous l'eau avec Mitch et Avery qui font de la plongée.
+  :time: 1847
+:deux5ie:
+  :description: Mitch revient de son voyage à Washington où le FBI l'a contacté.
+  :time: 3670
+:trois5ie:
+  :description: 'Mise en route du deuxième moyen : récupérer les preuves des sur-facturations.'
+  :time: 5100
+:quatre5ie:
+  :description: Mitch doit sauver physiquement sa peau.
+  :time: 7140

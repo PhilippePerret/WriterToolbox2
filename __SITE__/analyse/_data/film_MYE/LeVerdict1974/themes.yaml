@@ -1,0 +1,33 @@
+---
+1:
+  :libelle: La justice
+  :nature_theme: :both
+  :id: 1
+2:
+  :libelle: Le Procès
+  :nature_theme: :concret
+  :id: 2
+3:
+  :libelle: L'amour
+  :nature_theme: :abstrait
+  :id: 3
+4:
+  :libelle: L'abnégation
+  :nature_theme: :abstrait
+  :id: 4
+5:
+  :libelle: L'honnêteté
+  :nature_theme: :abstrait
+  :id: 5
+6:
+  :libelle: Le mensonge
+  :nature_theme: :both
+  :id: 6
+7:
+  :libelle: L'enlèvement
+  :nature_theme: :concret
+  :id: 7
+8:
+  :libelle: Le mensonge
+  :nature_theme: :concret
+  :id: 8

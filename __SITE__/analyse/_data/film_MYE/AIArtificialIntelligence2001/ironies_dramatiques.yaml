@@ -1,0 +1,168 @@
+---
+0:
+  :libelle: Scène des épinards
+  :description: Dans la “scène des épinards”, petite ironie, porteuse de tension.
+  :victime: Les Swinton
+  :auteur: David
+  :id: 0
+  :installation: |
+    On voit que David va avaler des épinards pour imiter Martin. Les
+    parents, pris dans leur discussion, ne s’aperçoivent de rien.
+  :exploitation: Les deux enfants continuent leur jeu. On s’attend au pire, annoncé
+    par le “Tu vas te casser” de Teddy.
+  :resolution: Les parents découvrent le jeu de Martin et David. Malheureusement,
+    il est trop tard, David s’est réellement “cassé”.
+
+1:
+  :libelle: La mèche de cheveux
+  :description: |
+    Scène de suspense classique où l’on voit un personnage mettre
+    dangereusement en péril la vie d’un autre.
+  :victime: Monica Swinton
+  :auteur: David
+  :id: 1
+  :installation: |
+    David vient couper une mèche des cheveux de Monica, avec une grande
+    paire de ciseaux. Monica dort, elle ne se doute donc de rien.
+  :exploitation: |
+    Le suspense est étiré avec le temps et le déplacement de Monica
+    pendant son sommeil.
+  :resolution: |
+    Alors qu’elle se retourne, Monica découvre les lames des ciseaux devant
+    ses yeux. Elle hurle.
+  :produit: |
+    De la méprise et de l'injustice. À cause de ce qui vient de se passer,
+    les personnage:Swinton vont être amenés à penser que David représente
+    un réel danger. Cette ironie dramatique est à mettre en rapport avec
+    l'autre du même type autour de la piscine avec les amis de
+    personnage:Martin (Ir.Dr #3).
+
+2:
+  :id: 2
+  :libelle: La mèche de cheveux (2)
+  :description: |
+    La plus importante ironie dramatique, concernant cette scène de coupe
+    de cheveux, c’est que Monica et Henry ignorent les véritables
+    motivations de David.
+  :victime: Les parents Swinton
+  :auteur: David
+  :installation: |
+    Martin demande à David d’aller couper une mèche de cheveux de Monica.
+  :exploitation: |
+    L'exploitation de cette ironie dramatique, c’est qu'ajoutée à la
+    méprise de la scène de la piscine, elle poussera Monica
+    et Henry à se débarrasser de David.
+  :resolution: |
+    Il n’y aura pas de résolution. Jamais les parents ne connaîtront la
+    vérité. Ils “condamneront” donc David sans savoir.
+
+3:
+  :libelle: David entraîne Martin dans l’eau
+  :description: |
+    Cette ironie dramatique conduira David vers son destin : il sera
+    banni de la famille pour un geste mal interprété, une méprise.
+  :victime: Les Swinton
+  :auteur: David
+  :id: 3
+  :installation: |
+    Menacé par une pelle à gâteau, David prend peur, il agrippe Martin
+    et lui demande de le protéger. Monica, trop loin de la scène, croit
+    voir David tirer Martin vers la piscine. Panique.
+  :resolution: |
+    Comme l’ironie sur la mèche de cheveux (#2), cette ironie dramatique
+    ne sera jamais résolue. Jamais les parents ne sauront la vérité sur
+    cet incident.
+  :produit: |
+    De l'injustice à l'égard du protagoniste qui le conduira à être
+    rejeté de sa famille adoptive.
+
+4:
+  :id: 4
+  :libelle: Monica abandonne David
+  :description: |
+    Lorsque Monica part soi-disant en balade avec David, nous nous doutons
+    qu’elle le ramène à l’entreprise qui l’a construit. C’est une ironie
+    dramatique diffuse puisque les choses ne sont jamais explicitement
+    affirmées.
+  :victime: David
+  :auteur: Monica Swinton
+  :installation: |
+    Monica et David sont dans la voiture. On sait (on se doute) que Monica
+    ramène David. David, confiant, ne s’en doute pas une seconde.
+  :exploitation: |
+    L’exploitation se joue surtout dans le jeu de Monica qui n’accomplit
+    pas ce geste de gaîté de cœur.
+  :resolution: |
+    Lorsque Monica explique la raison de leur balade à David, celui-ci
+    apprend la vérité.
+  :produit: |
+    Du conflit pour nous spectateur. On souffre par anticipation de ce qui
+    va advenir à David. D'autant plus que cela n'est pas mérité (cf. les
+    ironies dramatiques #1, #2 et #3).
+
+5:
+  :libelle: La fille du réalisateur croit que David est réel
+  :description: |
+    À la Foire à la chair, la fille du réalisateur, du même âge que David,
+    pense qu’un enfant a été malencontreusement embarqué par les
+    “chasseurs” (et que cet enfant est David).
+  :victime: La fille du réalisateur
+  :auteur: David
+  :id: 5
+  :installation: |
+    La fille du réalisateur de l'émission à la Foire à la chair découvre
+    David dans une cage. Elle pense que c’est un vrai enfant, nous savons
+    nous spectateurs que c’est un robot.
+  :exploitation: |
+    La fille vient en parler à son père. Son père vient voir.
+  :resolution: |
+    Le père découvre, grâce à son “identificateur laser”, que David est
+    bien un robot.
+  :produit: |
+    Entre autres choses, un espoir passager.
+
+6:
+  :id: 6
+  :libelle: La Fée Bleue ne peut rien pour David
+  :installation: |
+    David trouve enfin la Fée Bleue ! Il pense qu’elle va pouvoir l’aider.
+    Mais nous savons qu’elle ne pourra rien faire pour lui puisque ça n'est
+    que la statue du parc d'attraction de Coney Island inondé sous les flots.
+  :description: |
+    Lorsque David rencontre enfin la Fée Bleue, nous savons, nous, grandes
+    personnes (ou presque…), que c’est une statue et qu’elle ne pourra rien
+    pour lui. C’est une ironie dramatique diffuse.
+  :victime: David.
+  :auteur: La statue, l’innocence.
+  :exploitation: |
+    La belle exploitation de cette ironie, c’est la voix-off qui l’apporte
+    en expliquant que David continuera et continuera encore, jusqu’au bout,
+    à implorer la Fée Bleue. Terriblement émouvant…
+  :resolution: |
+    S'il n'y a pas réellement de résolution à proprement parler, on peut
+    tout de même la voir dans la troisième partie du film, lorsque la Fée
+    bleue, gelée, se brise en morceaux. À ce moment, David sait qu’elle ne
+    pourra plus rien pour lui.
+  :produit: |
+    De la souffrance pour le spectateur. Nous savons que l'espoir du
+    personnage est vain, et puisqu'il s'agit de l'amour de sa mère,
+    nous en sommes profondément tristes pour lui.
+7:
+  :id: 7
+  :libelle: David est dans un rêve
+  :description: |
+    Dans le troisième acte du film, David va vivre dans un rêve sans le
+    savoir.
+  :victime: David
+  :auteur: Les robots du futur
+  :installation: |
+    Lorsque nous découvrons les robots du futur “au-dessus” de la maison
+    de David, nous comprenons que David vit dans le rêve qu’ils ont reconstruit pour lui. David l’ignore.
+  :exploitation: |
+    Cette ironie n’est pas vraiment exploitée dramaturgiquement parlant,
+    si ce n’est que nous, nous nous doutons que puisque l'on se trouve
+    dans un rêve, tout devient possible.
+  :resolution: |
+    Un des robots vient expliquer la chose à David.
+  :produit: |
+    Un questionnement subtil entre le rêve et la réalité.

@@ -1,0 +1,63 @@
+---
+:Acte_I:
+  :description: 'Présentation et préparation de la mission confiée à Grant : encadrer
+    une mission visant à sauver Benes'
+  :time: 0
+  :duree: 1430
+:incdec:
+  :description: Benes tombe dans un guet-apends. Il en résultat un coma dont il semble
+    ne pas devoir sortir vivant.
+  :explication: 'Ce qui justifie le fait de tenter l’impossible, c’est que Benes est
+    le seul à connaitre un secret militaire en rapport même avec la mission : la façon
+    de miniaturiser pendant plus d’une heure.'
+  :notes: 'À noter qu’il est question ici de l’incident déclencheur concernant l’histoire
+    en générale, pas le protagoniste en particulier. Pour le protagoniste, l’incident
+    déclencheur est hors-champ narratif : l’annonce qu’un sabotage va (certainement)
+    avoir lieu.'
+  :time: 180
+:decobj:
+  :description: 'Le docteur Mike Mickaels apprend à Grant qu’il va devoir les accompagner
+    par mesure de sécurité : un sabotage n’est pas à exclure.'
+  :notes: Noter le soin que prennent les auteurs de déclarer l’objectif du protagoniste
+    avant même que de présenter la mission en elle-même.
+  :time: 555
+:decobjalt:
+  :description: 'Explication de la mission de l’équipe : aller dans le cerveau de
+    Benes pour retirer la tumeur.'
+  :notes: Il ne s’agit pas de la mission du protagoniste, qui a été définie plus haut.
+  :time: 780
+:Acte_II:
+  :description: C’est la première partie de la mission, celle qu’on pourrait appeler
+    “le voyage” proprement dit puisqu’elle s’achève avec l’entrée de l’équipe dans
+    le cerveau de Benes.
+  :explication: Cette partie débute par la miniaturisation de l’équipe et s’achève
+    lorsque l’équipe pénètre enfin dans le cerveau de Benes.
+  :time: 1430
+:cdv:
+  :description: L’équipe est contrainte de passer par le cœur, l’endroit le plus redouté
+    du corps. Benes est mis gravement en danger car pour passer, ils ont dû arrêter
+    son cœur.
+  :time: 2880
+  :duree: 160
+:crise:
+  :description: |-
+    Mickeals, seul maitre à bord du sous-marin, fonce sur la tumeur. S’il réussit, s’en est fini de la mission, de l’équipe et de la vie de Benes.
+    Heureusement Grant parviendra à mettre le sous-marin hors d’état de nuire à l’aide du laser.
+  :notes: Cette fin de crise correspond également au climax pour Grant et la mission.
+  :time: 5330
+:Acte_III:
+  :description: Arrivés dans le cerveau de Benes, l’équipe va pouvoir tenter d’anéantir
+    la tumeur. C’est sans compter sur la trahison de Mickael qui se révèle être le
+    traitre de l’équipée.
+  :time: 4800
+:climax:
+  :description: |-
+    Le sous-marin fonce sur la tumeur, Mickaels est aux commandes. Si Grant ne parvient pas à l’arrêter, la mission échoue, et la sienne en propre (veiller à son bon déroulement) aussi.
+    Heureusement, Grant attrape le laser et met le sous-marin hors d’état de nuire.
+  :notes: 'On peut remarquer comment les deux “missions” se rejoignent dans ce climax
+    : celle de Grant (veiller au bon déroulement de l’expédition) et celle du film
+    (soigner Benes).'
+  :time: 5340
+:desinence:
+  :description: On récupère l’équipe dans l’œil de Benes, toute l’équipe se congratule.
+  :time: 5640

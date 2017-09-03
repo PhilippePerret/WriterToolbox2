@@ -1,0 +1,124 @@
+//  * Les classes .collasped et .expanded permettent de limiter l'affichage
+//  * d'élements longs (comme les citations)
+//  * Régler le :onclick => "toggle_collapsed(this)" dans l'objet collapsé
+.collapsed 
+  max-height      : 138px
+  overflow        : hidden
+  text-overflow   : ellipsis
+
+.expanded 
+  max-height  : auto
+
+
+div.listing 
+  h4 
+    margin-top      : 0
+    margin-bottom   : 4px
+
+  // Horloges
+  .hlg 
+    position    : relative !important
+    margin      : 0 8px
+
+div.lit 
+  margin-top    : 1em
+  margin-left   : 2em
+  padding-left  : 2em
+  max-width     : 50em
+
+  // Titre de l'objet
+  .tit 
+    font-size       : large
+    margin-left     : -2em
+    margin-bottom   : 5px
+    font-weight     : bold
+    padding         : 4px 12px 3px
+    border          : 1px solid #555
+    display         : inline-block
+
+  > div.btnclose 
+    display   : none
+
+  > div.inti 
+    border-top  : 1px solid #555
+    padding-top : 10px
+
+// Quand l'objet porte un index (par exemple les brins) */
+.lit 
+  > div.inti 
+    span.index 
+      float       : left
+      margin-left : -50px
+      display     : inline-block
+      width       : 36px
+      text-align  : right
+      font-weight : bold
+      font-family : Helvetica
+      font-size   : 10pt
+  
+
+div.ifm 
+  clear   : both
+  > div.times 
+    > span.tps 
+      margin-right : 20px
+
+
+// Le lien vers la scène (texte "Dans : Scène x" + "voir toutes 
+// les citations ")
+div.listing 
+  > div.lit 
+    > div.sc 
+      float     : right
+      margin    : 8px 0 8px 30px
+
+// Fonction-clé de la scène, if any
+//
+//  Pour le moment, n'est utilisé que dans le listing des scènes classées par
+//  durées.
+.keyfonction 
+  float       : right
+  font-family : Arial
+  font-size   : 0.7em
+
+
+// Pour le list-item d'une réponse dans le listing des QDs
+div.r_qd 
+  > .lit 
+    margin-left   : 0 !important
+    margin-top    : 0 !important
+
+
+div.r_qd
+  > div.lit
+    div.tit, a.citations 
+      display   : none
+
+    > div.intl 
+      margin    : 8px 0 !important
+
+div.fiche 
+  div.r_qd 
+    div.q_rd 
+      display : none 
+
+// Titre pour un texte d'objet ou sous-titre de listing
+.titreobj 
+  font-family   : "Lucida Grande"
+  font-size     : 17pt
+  font-weight   : bold
+  margin-bottom : 4px
+  margin-top    : 8px  
+
+
+div.listpars 
+  div.par 
+    margin-left : 4em
+    width       : 720px
+
+div.cars 
+  div.par 
+    margin-bottom : 10px
+
+    > div.intl 
+      margin    : 0

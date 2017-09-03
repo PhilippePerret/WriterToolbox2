@@ -1,0 +1,87 @@
+---
+:decoupe: ’3.4’
+:incdec:
+  :description: |
+    Tentative d’assassinat de son mari et de sa maîtresse par 
+    personnage:|Doris Attinger|.
+  :time: 180
+  :duree: 0
+:decobj:
+  :description: |
+    personnage:|Amanda Bonner| décide de plaider pour la
+    jeune mère de famille.
+  :time: 780
+  :duree: 0
+:pivot1:
+  :description: |
+    Adam apprend/comprend que sa femme personnage:Amanda a pris l’affaire 
+    en main.
+  :time: 1560
+  :duree: 0
+:pivot2:
+  :description: Le procès est gagné, personnage:Amanda triomphe.
+  :time: 4680
+  :duree: 0
+:climax:
+  :description: |
+    Chez l’expert comptable, le couple est en froid. Mais lorsque le comptable
+    fait mention de la ferme dont ils viennent de payer la dernière traite, 
+    Adam fond en larmes. Amanda s’attendrit. Ils retombent dans les bras l’un
+    de l’autre et rentrent “à la maison” |à nouveau réunis.
+  :time: 5340
+  :duree: 240
+
+:desinence:
+  :description: |
+    Tout est devenu comme avant (en mieux ?) le couple est chez lui heureux
+    l’un avec l’autre. personnage:Adam avoue avoir feint ses larmes chez le
+    comptable prétend qu’il peut pleurer sur commande|et le prouve (= il peut
+    lui aussi user des armes des femmes simplement il n’y pense pas dit-il…).
+  :time: 4980
+  :duree: 0
+  
+:devpart2:
+  :description: |
+    Séance de massage. personnage:Adam met un claque un peu forte sur les fesses
+    d’personnage:Amanda. Elle s’insurge. Pour la première fois|on la sent
+    profondément offusquée par Adam.
+  :time: 3420
+  :duree: 0
+  
+:crise:
+  :description: |-
+    Adam débarque avec une arme chez son voisin personnage:Kip dans les bras
+    duquel il croit que sa femme se console. Il menace de les tuer (tout comme
+    personnage:|Doris Attinger| au début du film).
+
+    On pense que c’est la fin du couple, qu’Adam va tirer et pourtant tout
+    bascule : lorsqu’Amanda dit malgré elle que “personne n’a le droit de 
+    faire ça” (sous-entendu : j’ai défendu Doris mais elle était en faute 
+    vis-à-vis de la loi) le revolver se révèle être en chocolat et Adam le
+    dévore (c’est sa victoire).
+  :notes: |
+    Cette scène pourrait également être considérée comme le climax du film (elle
+    est beaucoup plus conflictuelle que le climax choisi ici).
+  :time: 5160
+  :duree: 180
+
+:tiers:
+  :description: |
+    Début du procès (les hostilités sont ouvertes) avec le choix des
+    jurés. Amanda donne le ton et annonce ce qu’’elle va démontrer : que 
+    les hommes et les femmes ne sont pas égaux face à la justice.
+  :time: 1860
+  :duree: 300
+:deuxtiers:
+  :description: Adam fait ses valises et quitte le foyer conjugal.
+  :time: 4140
+  :duree: 0
+:incdecalt:
+  :description: |
+    personnage:|Adam Bonner| “hérite” de l’affaire de tentative de meurtre.
+  :time: 600
+  :duree: 0
+:id: AdamSRib
+
+:fin:
+  :time:  6060

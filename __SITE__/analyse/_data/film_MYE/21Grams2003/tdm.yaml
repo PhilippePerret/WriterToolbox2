@@ -1,0 +1,34 @@
+-
+  titre:  Méthodologie d'une analyse
+  path:   fiche/methodologie.md
+-
+  path:   fiche/plan_methodologie.md
+  titre:  Proposition de méthodologie
+# -
+#   path:   divers/data-scenes/timeline_chrono.htm
+#   titre:  Timeline des scènes (ordre chronologique)
+-
+  titre:  Premières impressions
+  path:   fiche/tps1_premiere_impression.md
+
+-
+  titre:  Version “à l'endroit” du film
+  path:   fiche/version_endroit.md
+-
+  path:   stats/statistiques_generales.md
+  titre:  Statistiques générales
+-
+  path:   stats/statistiques_personnages.md
+  titre:  Statistiques personnages
+-
+  path:   stats/statistiques_decors.md
+  titre:  Statistiques décors
+-
+  path:   stats/scenes_personnages.md
+  titre:  Scènes des personnages
+-
+  path:   stats/brins_personnages.md
+  titre:  Brins personnages
+-
+  path:   stats/utilisation_decors_principaux.md
+  titre:  Utilisation des décors principaux

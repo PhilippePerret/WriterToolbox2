@@ -1,0 +1,39 @@
+---
+1:
+  :id: 1
+  :question: David va-t-il pouvoir se faire aimer de Monica ?
+  :reponse: Oui, mais seulement en rêve. Donc non.
+  :description: |
+    MOT[210|Question dramatique fondamentale] du film, elle ne trouvera de
+    réponse qu'à la toute fin du film lorsque, en rêve, les robots du futur
+    permettent à David d'exhausser son vœu le plus cher. Cette question
+    ouvre sur une question plus large : un robot peut-il se faire aimer ?
+  :resolution: |-
+    En donnant cette réponse, les auteurs affirment que ce que les personnages
+    (nous ?) rêvaient de voir possible, l'amour entre une machine et un être
+    humain, ne pourrait être atteint… qu'en rêve. Donc ne pourrait être
+    atteint tout court.
+
+    Mais cette réponse pose aussi une autre question et offre d'autres
+    perspectives en laissant une porte ouverte : qu'est-ce que le rêve ?
+    Est-ce qu'un désir qui se réalise en rêve, même à notre insu, est moins
+    fort que s'il se réalisait dans la réalité ?
+
+    Pour David, la réponse est incontestablement : non. Pour lui, le rêve
+    est aussi fort que la réalité. Mais David, après tout, n'est qu'un robot…
+
+    La question du scientifique au début du film “Une machine serait-elle
+    capable d'aimer comme un homme” (qui s'est métamorphosée au cours du
+    film en “Un humain serait-il capable d'aimer une machine ?”) reçoit
+    quant à elle une réponse positive, puisque nous avons vu David remuait
+    ciel et terre pour recevoir et donner cet amour, faire tout ce qu'un
+    humain était capable de faire pour signifier son amour.
+  :intensite: 4
+  :relatifs:
+  - :type: :commentaire
+    :id: 1
+
+2:
+  :id:  2
+  :question:  personnage:David trouvera-t-il la personnage:|Fée Bleue| ?
+  :reponse:   OUI, il trouvera la Fée Bleue MAIS seulement en rêve.

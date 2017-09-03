@@ -1,0 +1,11 @@
+---
+1:
+  :id: 1
+  :question: La Veuve Léoni parviendra-t-elle à faire acquitter son fils ?
+  :reponse: Positive, mais elle découvrira qu'en vérité, son fils était coupable.
+  :description: Croyant son fils accusé à tort de meurtre, la veuve Léoni décidera
+    de tout tenter, jusqu'à l'illégalité, pour le faire acquitter et le sauver.
+  :intensite: 4
+  :relatifs:
+  - :type: :personnage
+    :id: 1

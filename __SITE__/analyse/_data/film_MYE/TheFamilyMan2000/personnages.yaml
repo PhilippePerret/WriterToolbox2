@@ -1,0 +1,17 @@
+---
+1:
+  :pseudo: Jack
+  :nom: Campbell
+  :prenom: Jack
+  :fct_perso: prota
+  :description: Jack Campbell est un golden boy qui a tout sacrifié à sa réussite professionnelle et sociale, qui pense que le bonheur se trouve dans le pouvoir et l'argent ainsi que l'envie qu'on peut susciter chez les autres.
+  :acteur: Nicolas Cage
+  :id: 1
+2:
+  :pseudo: Kate
+  :nom: Reynolds
+  :prenom: Kate
+  :role: Elle sert de point de repère pour Jack. C'est en quelque sorte son “opposée”.
+    Alors que Jack fait passer son travail avant la famille, Kate ne sacrifiera jamais rien (tout du moins dans cette vie paralèlle-là).
+  :acteur: Téa Léoni
+  :id: 2

@@ -1,0 +1,27 @@
+---
+1:
+  :libelle: 'L''amnésie, les agents secrets (soldat de commandot)'
+  :description: Le film donne moults détails sur leurs procédures.
+  :nature_theme: :concret
+  :id: 1
+
+2:
+  :libelle: La quête de soi, la vengeance
+  :nature_theme: :abstrait
+  :id: 2
+
+3:
+  :libelle:     'Soin du détail sur la prémisse'
+  :description: 'On pense, au début du film, que Jason
+  quitte l''Inde pour se venger de la mort de son amie (noter qu''on hésite entre
+  le fait qu''il veuille faire ça, et le fait qu''il veuille vraiment se prendre en
+  main pour découvrir qui il a été — comme il le dit au début du film, il en a marre
+  de noter ses rêves, ses souvenirs tristes). Or, lorsqu''il a l''occasion de tuer
+  l''assassin de son amie (après la poursuite en voiture dans les rues de Moscou,
+  il ne le fait pas. Il l''a salement amoché, mais c''était seulement pour échapper
+  à la mort. De la même manière, alors qu''on peut se dire à ce moment-là qu''il a
+  décidé de s''attaquer aux “décideurs”, on voit le mafieu russe être arrêté (sans
+  que Jason — absent de la scène — ne cherche à l''éliminer). Les auteurs montrent
+  bien Jason hésiter à tuer le meurtrier de son amie, pour bien dire qu''il n''y a
+  pas vengeance personnelle de sa part.'
+  :id: 3

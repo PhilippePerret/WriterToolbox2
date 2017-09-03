@@ -1,0 +1,9 @@
+-
+  path:   structure.yaml
+  titre:  Structure du film
+-
+  path:   fiche/commentaires.md
+  titre:  Commentaires
+-
+  path:   fiche/chrono.md
+  titre:  Chronométrage intégral du film

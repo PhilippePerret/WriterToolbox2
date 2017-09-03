@@ -1,0 +1,37 @@
+/**   
+  * Div contenant les personnages triés par durée
+  */
+div.personnages_sorted {
+  padding:2em;
+  border:1px solid #777;
+  border-radius:6px;
+  width:365px;
+  float:right;
+}
+div.personnages_sorted div.tit {
+  font-family:Tahoma;
+  font-size:1.2em;
+  font-weight:bold;
+  margin-bottom:1em;
+}
+div.personnages_sorted div.sorted_perso {
+  cursor:pointer;
+}
+
+div.personnages_sorted div.sorted_perso span.patronyme {
+  display:inline-block;
+  font-weight:bold;
+  width:200px;
+}
+div.personnages_sorted div.sorted_perso span.duree,
+div.personnages_sorted div.sorted_perso span.pct_duree {
+  display:inline-block;
+  width:80px;
+}
+
+/* Son picto dans la fiche et list-item */
+.lf img.perso {
+  float: left;
+  margin-right: 46px;
+  width: 14px;
+}

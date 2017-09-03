@@ -1,0 +1,46 @@
+---
+1:
+  :id: 1
+  :titre: Multidimensionnement du personnage dès Expo
+  :titre_commentaire: Multidimensionnement du personnage dès l'exposition
+  :texte: |-
+    Dès l'exposition, le monde de Selma nous est entièrement présenté en à peine 10 minutes de film :
+    1) Dimension intime : Suggestion de son univers de musique et la cécité qui la guette avec le générique (fanfare dans le noir) [tps1]
+    2) Dimension émotionnelle : Passion pour la comédie musicale (première répétition [tps2])
+    3) Dimension amicale : Rapport avec Kathy et avec Samuel (première répétition [tps2])
+    4) Dimension physiologique : problème de vue (visite médicale [tps3])
+    5) Dimension professionnelle : Travail à l'usine [tps4]
+    6) Dimension familiale : Rapport et problèmes avec son fils Gene (Bill ramène Gene à l'usine [tps5])
+    7) Dimension affective : Relation avec Jeff (Sortie de l'usine [tps6])
+  :type_comment: pe
+  :event_times:
+  - 0
+  - 205
+  - 335
+  - 380
+  - 458
+  - 535
+2:
+  :id: 2
+  :titre: La scène des confidences
+  :titre_commentaire: La scène des confidences
+  :texte: |-
+    [A DÉVELOPPER]
+    — Durée de la scène (une des plus longues) [tps1]
+    — Définition dans la même scène de l’antagonisme et du but du personnage principal, donc de l’objectif et des obstacles : Selma doit payer une opération des yeux à Gene, Bill doit trouver de l’argent pour sauver son ménage.
+  :type_comment: st
+  :event_times:
+  - 1123
+  - 1490
+3:
+  :id: 3
+  :titre: Vol de l'argent en hors-champ narratif
+  :titre_commentaire: Vol de l'argent en hors-champ narratif
+  :texte: Il est intéressant de noter que le vol de l'argent n'est pas montré par
+    l'auteur. Cela permet de rester avec le personnage principal, Selma. Dans le cas
+    contraire, même si cela aurait pu créer une ironie dramatique intéressantes, nous
+    aurions été “en avance” sur Selma en sachant que son argent a été dérobé.
+  :type_comment: pn
+  :relatifs:
+  - :type: :procede
+    :id: 4

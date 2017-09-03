@@ -1,0 +1,21 @@
+-
+  path:   fiche/structure.md
+  titre:  Une structure bien divisée
+-
+  path:   fiche/actes.md
+  titre:  Quelques notes sur les actes
+-
+  path:   fiche/themes.md
+  titre:  À propos des thèmes du film
+-
+  path:   fiche/personnages.md
+  titre:  Quelques notes sur les personnages
+-
+  path:   evc/scenier.evc
+  titre:  Scénier du film
+  ancre:  evcscenierevcscenierdufilm
+  introduction: |
+    Scénier complet du film qui pourra servir de base de référence à
+    toute analyse complémentaire. On peut trouver le début du
+    MOT[38|Dénouement] dont nous parlons au début de ce document (à `1:34:00`) en
+    <a href="analyse/128/show#scenier-denouement">cliquant ici</a>.

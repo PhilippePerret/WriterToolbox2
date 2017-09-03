@@ -1,0 +1,21 @@
+---
+1:
+  :id: 1
+  :libelle: 'Un requin menace '
+  :famille: irdr
+  :effet_produit1: sus
+2:
+  :id: 2
+  :libelle: La copie de la carte
+  :famille: irdr
+3:
+  :id: 3
+  :libelle: L'existence de l'île
+  :description: 'Lorsque les deux touristes américains qui ont invités '
+  :famille: irdr
+  :effet_produit1: aff
+4:
+  :grainemal: |-
+    La copie de la carte que fait Richard aux touristes américains surfeurs est une “graine de mal” qui entraînera sa destruction et ira jusqu'à la destruction de la communauté : d'abord, quand les touristes arrivent sur l'île, Sal oblige Richard à rester seul, sur la coline, pour les surveiller. C'est dans ce temps qu'il sombrera dans la folie.
+    Ensuite, les quatre touristes traverseront le lagon et viendront dans le champ de canabis : ils seront tués par les cultivateurs (leur mort reste sur la conscience de Richard — on lit cette souffrance dans ses yeux dans il voit la fille mourir devant lui), les cultivateurs viendront ensuite chasser la communauté : Richard se retrouve en danger de mort : pour sauver la communauté, Sal doit le tuer dans un jeu de roulette russe. Enfin, la communauté, qui ne croit plus en sa chef, quitte définitivement l'île.
+  :id: 4

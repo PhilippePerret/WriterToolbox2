@@ -1,0 +1,166 @@
+div.film_map {
+}
+
+/* Nom des actes */
+div.filmmap_map div.stt_acte {
+  border-top: 1px solid #EEE;
+}
+div.filmmap_map div.stt_acte .name {
+  display: block;
+  font-size: 2em;
+  margin-top: -0.9em;
+  opacity: 0.39;
+}
+
+/* La carte contenant tous les objets */
+div.film_map div.filmmap_map {
+  position:relative;
+}
+
+div.film_map div.filmmap_map div.map_o {
+  position:absolute;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  background-color:white;
+  z-index:0;
+}
+/*div.film_map div.filmmap_map div.map_o:hover,*/
+div.film_map div.filmmap_map div.map_o.expanded {
+  max-width:400px;
+  min-width:200px;
+  overflow:visible;
+  background-color:white;
+  height:auto !important;
+  width:auto !important;
+  z-index:10;
+  padding:4px;
+  border:1px solid #555;
+}
+div.film_map div.filmmap_map div.map_sc {
+  position:absolute;
+  bottom:0;
+  height:10px;
+  z-index:0;
+}
+div.film_map div.filmmap_map div.map_sc:hover {
+  z-index:10;
+}
+div.film_map div.filmmap_map div.map_sc span.tit {
+  display:none;
+  position:absolute;
+  white-space:nowrap;
+  top:-30px;
+  background-color:white;
+  padding:2px 4px;
+}
+div.film_map div.filmmap_map div.map_sc:hover span.tit {
+  display:block;
+}
+
+/* Les brins */
+div.film_map div.filmmap_map div.map_br {
+  position:relative;
+}
+div.film_map div.filmmap_map div.map_br > div.obr {
+  position:absolute;
+  height:10px;
+}
+div.film_map div.filmmap_map div.map_br span.tit {
+  display:none;
+  position:absolute;
+  top:-20px;
+  white-space:nowrap;
+}
+div.film_map div.filmmap_map div.map_br:hover span.tit {
+  display:block;
+}
+/* Les objets quelconques */
+div.film_map div.filmmap_map div.map_o div.type_inmap {
+  display:none;
+  position:absolute;
+  top:-16px;
+  text-align:right;
+  background-color:white;
+  width:calc(100% - 16px);
+  font-family:Arial;
+  font-size:11.2px;
+  font-weight:bold;
+  padding:0 8px;
+  font-style:italic;
+}
+/*div.film_map div.filmmap_map div.map_o:hover div.type_inmap,*/
+div.film_map div.filmmap_map div.map_o.expanded div.type_inmap {
+  display:block;
+}
+
+div.film_map div.filmmap_map div.map_o img {
+  height:20px;
+  float:left;
+}
+/*div.film_map div.filmmap_map div.map_o:hover img.inmap,*/
+div.film_map div.filmmap_map div.map_o.expanded img {
+  height:auto;
+  width:22px;
+}
+div.film_map div.filmmap_map div.map_o span.inmap {
+  display:block;
+  margin-left:22px;
+  padding-top:2px;
+}
+div.film_map div.filmmap_map div.map_o span.inmap.perso {
+  margin-left:10px;
+}
+/*div.film_map div.filmmap_map div.map_o:hover span.inmap,*/
+div.film_map div.filmmap_map div.map_o.expanded span.inmap {
+  margin-left:30px;
+}
+
+/**
+  * Panneau des options 
+  *
+  */
+div.film_map div.filmmap_options {
+  margin-bottom: 25px;
+  margin-right: 130px;
+  text-align: right;
+  width: 94%;
+}
+div.film_map div.filmmap_options a#map_options_toggle {
+  cursor:pointer;
+  text-align:right;
+  font-family:Helvetica;
+  width:85%;
+}
+div.film_map div.filmmap_options div#map_options_panneau {
+  position:absolute;
+  background-color:white;
+  padding:2em;
+  border:1px solid #777;
+  clear:both;
+  width:85%;
+  z-index:20;
+}
+
+div.film_map div.filmmap_options div#map_options_cb_all_types {
+  float:left;
+  width:360px;
+  border:1px solid #777;
+  margin:0 8px;
+  padding:1em;
+}
+div.film_map div.filmmap_options div#map_options_cb_all_types > span {
+  display:inline-block;
+  width:170px;
+}
+
+div.film_map div.filmmap_options div#map_options {
+  float:left;
+  width:200px;
+  border:1px solid #777;
+  margin:0 8px;
+  padding:1em;
+}
+div.film_map div.filmmap_options div#map_options > span {
+  display:inline-block;
+  width:170px;
+}

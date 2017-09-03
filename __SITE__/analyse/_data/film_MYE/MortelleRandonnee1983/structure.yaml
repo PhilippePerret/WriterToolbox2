@@ -1,0 +1,106 @@
+---
+:Acte_I:
+  :description: Louis Beauvoir, dit l’Œil, est un détective sans envergure à la quête
+    passive de sa petite fille qu’il n’a jamais connue.
+  :time: 0
+:incdec:
+  :description: Louis Beauvoir voit Catherine Leiris jeter le corps du fils Hugo dans
+    le lac.
+  :time: 840
+:decobj:
+  :description: Louis va jeter le corps de Michel de Meyerganz dans la mer.
+  :explication: 'Cet acte, que le personnage n’avait aucune raison de faire, résonne
+    comme une déclaration d’objectif : par inférence, on comprend explicitiment que
+    Louis veut protéger Catherine en masquant ses meurtres.'
+  :notes: C’est en même temps une déclaration d’objectif et une entrée dans le développement.
+  :time: 1380
+:pivot1:
+  :description: 'Louis Beauvoir découvre le corps de Michel de Meyerganz assassiné.
+    Il n’a plus de doute (et nous non plus) : Catherine Leiris est bien une tueuse
+    en série.'
+  :time: 1370
+:Acte_II:
+  :description: Louis commence à protéger Catherine à son insu en dissimulant le corps
+    de Michel de Meyerganz.
+  :notes: À noter que l’entrée dans le développement se fait par un acte “fort” du
+    personnage, d’autant plus fort que ce personnage est d’une nature plutôt contemplative.
+  :time: 1380
+:cdv:
+  :description: Louis Beauvoir apprend que Catherine va se marier avec Ralph Forbes.
+    Il se sent mal.
+  :explication: Alors qu’il n’était jusque-là qu’un observateur de la vie de Catherine
+    Leiris (exception faite de l’action qui a fait débuter le développement, il ne
+    faisait en somme que son travail de détective), il va intervenir directement dans
+    la vie de la jeune femme, en lui faisant savoir qu’il existe. Son action était
+    invisible jusque-là pour la jeune femme, elle va le devenir. Dès la scène suivante
+    en intervenant au cours de son anniversaire (collier) puis en allant jusqu’à empêcher
+    le mariage en devenant lui même un meurtrier (il tue Forbes en le jetant sous
+    un autobus).
+  :notes: Le milieu exact du film est à 46:30, qui peut correspondre à la clé de voûte
+    pour le personnage de Catherine Leiris.
+  :time: 2688
+:cdvalt:
+  :description: Catherine découvre le collier posé sur son paquet de cigarette. Elle
+    regarde autour d’elle, effrayée.
+  :explication: Alors qu’elle se pensait invulnérable, invisible, Catherine découvre
+    que son passé peut la rattraper.
+  :time: 2790
+:pivot2:
+  :description: 'Le braquage d’une banque tourne mal, Catherine abat un officier de
+    police. '
+  :explication: C’est à proprement parlé un Point de Non Retour. À partir de ce moment,
+    alors qu’elle n’était pas inquiétée par la police, Catherine va devenir un ennemi
+    public recherché. Elle va devoir fuir.
+  :notes: Les 3/4 du film se situent à 1:10:00
+  :time: 4270
+:Acte_III:
+  :description: 'Louis Beauvoir arrive en camion à Biarritz.Voix-off “philosophique”
+    où il donne le titre du film : “Mortelle randonnée”. La confusion est totale pour
+    lui , il se demande si sa fille Marie n’a pas fait trop de bêtises en son absence.'
+  :time: 4320
+:climax:
+  :description: Louis Beauvoir fait venir Catherine dans sa chambre d’hôtel. Veut-il
+    qu’elle lui dise qu’elle est sa fille ? Que cherche-t-il exactement ? Pas facile
+    de le savoir.
+  :notes: Il faut noter que Louis sait pertinemment que Catherine va lui tirer dessus
+    (il a répété la scène juste avant). Quelque part, il la pousse à sa perte, c’est
+    lui qui l’accule à se suicider plus tard.
+  :time: 5040
+:climaxalt:
+  :description: En entendant Louis arriver derrière lui, Catherine prend la décision
+    de se jeter en voiture du haut du parking. Sa voiture s’écrase en flammes dans
+    la rue.
+  :notes: On ne peut s’empêcher de penser à FILM[ThelmaLouise]…
+  :time: 5460
+:desinence:
+  :description: Louis est avec sa femme Madeleine dans l’allée d’un cimetière. Elle
+    lui demande de ne plus l’importuner. Louis dit qu’il n’a plus qu’à attendre maintenant.
+    Puis sa voix-off annonce qu’il a vu la porte et qu’il est passé “dans la photo”…
+  :time: 5520
+:tiers:
+  :description: Catherine parle de son père à Cora. Elle dit qu’il était anthropologue,
+    passionné du Nil. Elle se demande où il peut bien être. À la fenêtre, Louis écoute.
+  :explication: C’est la première fois que Catherine confie sa “déchirure”, l’absence
+    du père.
+  :notes: 'À noter que dès la scène suivante, on aura confirmation que Louis veut
+    (sic) se prendre pour le père de Catherine : il raconte à une pensionnaire de
+    la cure les périples que Catherine avait raconté dans la scène précédente.'
+  :time: 1800
+:tiersalt:
+  :description: Louis se fait passer pour le père que Catherine vient de raconter
+    à Cora (cf. tiers).
+  :explication: On peut dire que c’est ici que commence réellement la confusion d’identité.
+    Confusion qui trouvera son accomplissement dans au point qui correspond au second
+    tiers.
+  :time: 1830
+:deuxtiers:
+  :description: Au bord de la mer, Catherine crie sa douleur.
+  :explication: C’est la seconde fois qu’on la voit exprimer de la douleur, la première
+    était symétriquement au premier tiers du film.
+  :time: 3540
+:deuxtiersalt:
+  :description: Louis arrive à Biarritz en se demandant si sa fille Marie n’a pas
+    fait trop de bêtises.
+  :explication: La confusion implantée dans le premier tiers est ici arrivée à conclusion
+    complète.
+  :time: 3630

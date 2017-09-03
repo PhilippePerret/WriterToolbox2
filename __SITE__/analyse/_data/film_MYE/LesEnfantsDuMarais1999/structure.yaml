@@ -1,0 +1,27 @@
+---
+:decoupe: '3.4'
+:Acte_I:
+  :description: La vie paisible autour du marais.
+  :explication: Malgré les petits conflits internes (l’alcoolisme et la fainéantise
+    de Riton, le caractère acariâtre d’Émilie, le départ de Pamela), on peut dire
+    que le monde du marais est tranquille jusqu’à la menace que représente Jo Sardi.
+  :time: 0
+  :duree: 1770
+:pivot1:
+  :description: "<personnage>Riton</personnage> s’en prend à <personnage>Jo Sardi</personnage>,
+    qui démolit le bar et les flics."
+  :explication: C’est l’élément perturbateur par excellence, qui vient troubler la
+    vie paisible des personnages. À partir de là, Jo Sardi n’aura de cesse de se venger.
+    C’est un Point de Non Retour.
+  :time: 1735
+  :duree: 30
+:Acte_II:
+  :description: La vie continue autour du marais, tandis que la menace de Sardi plane
+    sur l’avenir…
+  :time: 1770
+  :duree: 3940
+:Acte_III:
+  :description: Jo Sardi sort de prison. La première chose qu’il veut faire est se
+    venger de Riton à cause de qui il a tout perdu.
+  :time: 5710
+  :duree: 720

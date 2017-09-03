@@ -1,0 +1,202 @@
+---
+1:
+  :libelle: Places de match
+  :scenes: 3 6
+  :installation: 'Scène 3 : Mitch joue au basket.'
+  :resolution: 'Scène 6 : Le recruteur propose à Mitch des places pour un match.'
+  :id: 1
+2:
+  :libelle: Mitch gymnaste
+  :scenes: 17 182
+  :installation: 'Scène 17 : Démonstration de gymnastique de Mitch dans la rue (=> C''est un gymnaste).'
+  :exploitation: 'Scène 182 : Mitch fait “de la barre fixe” pour casser la vitre.'
+  :resolution: 'Scène 94 : Mitch repasse devant le jeune black sans faire de pirouettes.'
+  :id: 2
+3:
+  :libelle: Arrivée tôt le matin
+  :scenes: 26-27
+  :installation: 'Scène 26 : Le gardien du parking dit à Mitch que les employés de la firme n''arrivent jamais aussi tôt.'
+  :exploitation: 'Scène 27 : Kozinsky a laissé sa porte ouverte, ce qui permet à Mitch de le surprendre.'
+  :id: 3
+4:
+  :libelle: Relation Kay et Abby
+  :scenes: 32 36
+  :installation: 'Scène 32 : Présence muette et presque invisible de Kay.'
+  :resolution: 'Scène 36 : Abby lui dit “Nous nous sommes beaucoup vus ces derniers temps”.'
+  :id: 4
+5:
+  :libelle: Mitch n'est pas léger
+  :scenes: 53-54 92
+  :installation: 'Scène 53 : Mitch refuse la soirée agréable que lui propose son hôtesse.'
+  :exploitation: 'Scène 54 : Mitch fait l''amour avec la fille de la plage.'
+  :resolution: 'Scène 92 : Mitch avoue la vérité à Abby.'
+  :id: 5
+6:
+  :libelle: Motivations d'Abanks
+  :scenes: 51 110 168 170 172-173 178
+  :installation: 'Scène 51 : Abanks nous apprend qu''il a perdu son fils dans l''explosion qui a tué les avocats de la firme.'
+  :exploitation: Toutes les scènes où Abanks vient en aide à Mitch
+  :id: 6
+7:
+  :libelle: Adultère de Mitch
+  :scenes: 56 92
+  :installation: 'Scène 56 : Avery apprend à Mitch que sa femme Abby a appelé (le soir où il a couché avec la fille de la plage).'
+  :resolution: 'Scène 92 : Sans un mot, Abby comprend l''adultère de Mitch.'
+  :id: 7
+8:
+  :libelle: Elvis du premier coup d'œil
+  :scenes: 62 133
+  :installation: 'Scène 62 : Eddie Lomax nous apprend que le mari de Tammy est un fan d''Elvis Presley, qu''il imite.'
+  :resolution: 'Scène 133 : Grâce à cette information, on reconnaît le personnage au premier coup d''œil, sans nous le présenter.'
+  :id: 8
+9:
+  :libelle: Le flingue de Lomax
+  :scenes: 64 67
+  :installation: 'scène 64 : Lomax recharge son flingue et le planque sous le bureau.'
+  :resolution: 'Scène 67 : Lomax tire sur l''Albinos et son comparse.'
+  :id: 9
+10:
+  :libelle: Le caractère d'Abby
+  :scenes: '106'
+  :installation: 'Scène 106 : Abby s''énerve et envoie sa bouteille de vin contre le mur de la maison.'
+  :resolution: Toutes les scènes où Abby prend part activement au plan de Mitch
+  :id: 10
+11:
+  :libelle: Recrutement
+  :scenes: 2 5
+  :installation: 'Scène 2 : Deux élèves s''approchent du tableau des résultats d''examen.'
+  :resolution: 'Scène 5 : On comprend que Mitch est devant les recruteurs.'
+  :id: 11
+12:
+  :libelle: L'examen de Mitch
+  :scenes: 16 28-29 89
+  :installation: 'Scène 16 : On comprend que Mitch n''a pas encore obtenu son diplôme.'
+  :exploitation: 'Scène 28 et 29 : On dit à Mitch que personne n''a raté l''examen du barreau, à la Firme.'
+  :resolution: 'Scène 89 : La Firme fête la réussite de l''examen de Mitch (il est
+    second) alors que lui dissimule dans une enveloppe les photos de son adultère.'
+  :id: 12
+13:
+  :libelle: Les avocats assassinés
+  :scenes: 20 51
+  :installation: 'Scène 20 : Allusion à Kozinsky et Hodges, les avocats qui seront assassinés.'
+  :exploitation: Scènes où l'on apprend que ces avocats sont morts.
+  :id: 13
+14:
+  :libelle: La mafia de Chicago
+  :scenes: 20 48-49 93 174-175
+  :installation: 'Scène 20 : Bill explique que “ça coince à Chicago”.'
+  :exploitation: Scènes où les pontes de la mafia débarquent à Memphis
+  :id: 14
+15:
+  :libelle: La sur-facturation
+  :scenes: '30'
+  :installation: 'Scène 30 : Avery parle de l''importance de la facturation des honoraires.'
+  :exploitation: Toutes les scènes qui concernent le plan de Mitch
+  :resolution: On peut dire que le paiement se fait au climax avec les frères Moroco,
+    lorsqu'on comprend comment Mitch va se tirer définitivement d'affaire.
+  :id: 15
+16:
+  :libelle: Mitch est comme Avery
+  :scenes: 29-31 187
+  :installation: 'Premières scènes entre les deux personnages : Mitch et Avery semblent beaucoup se ressembler (idéalisme).'
+  :resolution: 'Scène 187 : Abby dit à Mitch, en parlant de la déchéance d''Avery : “Ça aurait pu t''arriver à toi. De a à z, tu en prenais le chemin.”.'
+  :id: 16
+17:
+  :libelle: Le penchant d'Avery pour les femmes
+  :scenes: 33 63 119 128
+  :installation: 'Scène 33 : Avery confie son penchant pour les femmes.'
+  :exploitation: Les scènes où Avery “drague” Abby
+  :id: 17
+18:
+  :libelle: La douleur d'Avery
+  :scenes: 37 128
+  :installation: 'Scène 37 : Avery dit “Chacun exprime la douleur à sa façon”.'
+  :exploitation: 'Scène 128 : On apprend qu''Avery courtise les femmes pour “exprimer à sa façon” sa douleur de ne plus être aimé par sa femme.'
+  :id: 18
+19:
+  :libelle: Plongée sous-marine
+  :scenes: 47 119
+  :installation: 'Scène 47 : les auteurs rappellent au spectateur (ou l''informent) qu''on doit attendre 24 heures avant de reprendre l''avion après une plongée.'
+  :resolution: 'Scène 119 : Avery dit qu''il ne fera pas de plongée parce qu''il doit écourter son séjour à cause d''un client (ce qui remet en cause la réussite du plan de Mitch).'
+  :id: 19
+20:
+  :libelle: Le mari de Tammy
+  :scenes: 62 136
+  :installation: 'Scène 62 : On apprend que le mari de Tammy est chauffeur-routier.'
+  :exploitation: 'Scène 136 : Le frère de Mitch peut s''échapper en camion.'
+  :id: 20
+21:
+  :libelle: Les doutes d'Abby
+  :scenes: 63 66 92
+  :installation: 'Scène 63 : Doutes d''Abby sur l''infidélité de Mitch.'
+  :exploitation: 'Scène 66 : Confirmation des doutes d''Abby. Elle fait allusion à une autre femme.'
+  :resolution: 'Scène 92 : Abby apprend que Mitch l''a trompée.'
+  :id: 21
+22:
+  :libelle: Le code secret
+  :scenes: 83 155
+  :installation: 'Scène 83 : On apprend que la femme d''Avery s''appelle Cordelia.'
+  :resolution: 'Scène 155 : Cordelia est le code secret utilisé par Avery.'
+  :id: 22
+23:
+  :libelle: Le tueur qui boite
+  :scenes: 85 180
+  :installation: 'Scène 85 : Tammy dit qu''un des deux tueurs boitera toute sa vie
+    (celui sur lequel Lomax a tiré).'
+  :resolution: 'Scène 180 : Grâce à cette information, Mitch peut reconnaître le tueur (et donc s''en protéger).'
+  :id: 23
+24:
+  :libelle: La photocopieuse
+  :scenes: '90'
+  :installation: 'Scène 90 : Annonce de l''achat d''une photocopieuse.'
+  :exploitation: Toutes les scènes où des photocopies sont faites
+  :id: 24
+25:
+  :libelle: Les frères Moroco
+  :scenes: 93 162 175
+  :installation: 'Scène 93 : Annonce de la venue des frères Moroco sans que leur nom ne soit cité (MOT[148|déictique]).'
+  :exploitation: Information confirmée scène 162 par Tarrance (annonce de scène)
+  :resolution: 'Scène 175 : Arrivée des frères Moroco + climax.'
+  :id: 25
+26:
+  :libelle: Le responsable des honoraires
+  :scenes: 99 112
+  :installation: 'Scène 99 : Mitchel dit que celui qui s''occupe des honoraires est le directeur du service.'
+  :exploitation: 'Scène 112 : Mitch obtient du gardien qu''il lui ouvre le bureau du directeur du service.'
+  :id: 26
+27:
+  :libelle: Ray pris en filature
+  :scenes: 109 129 132 135
+  :installation: 'Scène 109 : On apprend que le FBI veut remettre Ray en taule dès qu''ils auront récupéré les dossiers.'
+  :exploitation: Filature de Ray par le FBI
+  :id: 27
+28:
+  :libelle: Empoisonnement d'Avery
+  :scenes: 123 131
+  :installation: 'Scène 123 : Tammy récupère les médicaments pour Abby.'
+  :resolution: 'Scène 131 : Abby drogue Avery.'
+  :id: 28
+29:
+  :libelle: Sortie de prison de Ray
+  :scenes: 124 154
+  :installation: 'Scène 124 : Le gardien regarde longuement et bizarrement Ray quitter la prison sans menottes.'
+  :resolution: 'Scène 154 : le gardien a envoyé un fax pour avertir de la sortie de Ray.'
+  :id: 29
+30:
+  :libelle: Les flics à Mud Island
+  :scenes: 164 180
+  :installation: 'Scène 164 : Demande de diffusion d''un mandat d''amener contre Mitch et Ray.'
+  :exploitation: 'Scène 180 : Présence des flics à la sortie de Mud Island.'
+  :id: 30
+31:
+  :libelle: Le double des dossiers
+  :scenes: 177 183
+  :installation: 'Scène 177 : On apprend que Mitch a fait un double des dossiers qu''il va garder précieusement.'
+  :exploitation: 'Scène 183 : Mitch annonce aux frères Moroco qu''il a un double des dossiers, ce qui est une assurance pour sa protection.'
+  :id: 31
+32:
+  :libelle: Les tueurs aux trousses de Mitch
+  :scenes: 176 179 180
+  :installation: 'Scène 176 : Envoi des tueurs de la Firme aux trousses de Mitch.'
+  :exploitation: 'Scènes à Mud Island : les tueurs essaient de piéger Mitch.'
+  :id: 32

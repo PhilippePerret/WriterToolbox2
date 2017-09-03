@@ -1,0 +1,169 @@
+---
+1:
+  :id: 1
+  :question: Pourquoi Selma appelle-t-elle Kathy “Cvalda” ?
+  :reponse: Parce que Cvalda veut dire “une bonne grosse”…
+  :intensite: 1
+  :installation_time: 290
+  :resolution_time: 888
+2:
+  :id: 2
+  :question: Qu'est-ce que le docteur et Kathy attendent ?
+  :reponse: Le docteur et Kathy attendent Selma
+  :description: |-
+    Petite question dramatique, lorsque l'on voit le docteur tourner dans son bureau, avec Kathy, on se demande ce qu'ils attendent.
+    La réponse est donnée en partie lorsque l'on voit Selma dans les toilettes, puis on a confirmation que c'est bien elle qu'ils attendent lorsqu'elle en sort.
+  :intensite: 1
+  :installation_time: 335
+  :resolution_time: 350
+3:
+  :id: 3
+  :question: Pourquoi Selma apprend-elle des lettres par cœur ?
+  :reponse: Pour pouvoir passer son examen des yeux avec succès
+  :intensite: 2
+  :installation_time: 338
+  :resolution_time: 360
+  :relatifs:
+  - :type: :personnage
+    :id: 1
+4:
+  :id: 4
+  :question: Selma va-t-elle avoir un problème avec sa machine ?
+  :reponse: Oui, elle va la casser, ce qui conduira à son licenciement
+  :description: Quand le docteur, après la visite des yeux de Selma, lui dit qu'elle
+    peut travailler sans danger sur sa machine, et que nous savons qu'elle a triché
+    pour réussir cet examen, nous nous demandons quelles seront les conséquences de
+    cette tricherie.
+  :d_exploitation: |-
+    L'exploitation (et donc le rappel) de ce danger est exprimé plusieurs fois dans le film avant l'accident :
+    — Lorsque Norman, le contre-maître, lui demande de “garder l'œil” sur la machine, de ne pas apprendre son texteen travaillant [tps1].
+    — Lorsque Selma, sans s'en apercevoir, pose deux plaques sur sa machine [tps2]
+    — Lorsque Kathy, après avoir découvert la fraude de Selma, la met en garde contre le danger [tps3]
+    — Lorsqu'on découvre que Selma est aveugle [tps4]
+    — Lorsque Kathy, incrédule, lui demande comment elle va pouvoir travailler de nuit alors qu'elle n'y voit déjà plus de jour [tps5]
+    — Lorsque Selma, faisant sa première nuit, demande si l'atelier est toujours aussi sombre [tps6]
+    — Lorsque Selma, à bout de force, épuisée, sans Kathy pour l'aider, remet une plaque sur sa machine sans y voir [tps7]
+  :intensite: 3
+  :installation_time: 367
+  :exploitation_time:
+  - 427
+  - 1589
+  - 1648
+  - 1916
+  - 1972
+  - 2148
+  - 2271
+  :resolution_time: 2490
+5:
+  :id: 5
+  :question: Qui sont Bill et Gene ?
+  :reponse: Bill est le policier de la ville, Gene est le fils de Selma
+  :intensite: 1
+  :installation_time: 413
+  :resolution_time: 459
+6:
+  :id: 6
+  :question: Jeff et Selma vivront-ils leur histoire d'amour ?
+  :reponse: Non, Selma n'aura pas le temps, et mourra avant de pouvoir.
+  :description: Cette question dramatique concerne la sous-intrigue amoureuse entre
+    Selma, le personnage principal et Jeff. Cet amour ne sera jamais consommé, au
+    grand malheur de Selma.
+  :d_exploitation: |-
+    Cette question dramatique est relancée, exploitée, chaque fois que Jeff, avec une constance touchante, vient chercher Selma a son travail et fait tout pour se rendre agréable: 
+    — Lorsqu'il achète un vélo à Gene [tps1].
+    — Lorsque Jeff l'attend à la sortie de l'usine [tps2]
+    — Lorsque Selma, devenue aveugle, demande à Jeff de la raccompagner [tps3] (il n'ose pas lui offrir un bouquet de fleurs).
+    — Lorsque Jeff, malgré l'heure tardive, attend encore Selma à la sortie de l'usine [tps4]
+    — Lorsque Jeff rattrape Selma sur la voie ferrée et qu'il essaie de la convaincre qu'il lui reste des choses à vivre.
+  :intensite: 3
+  :installation_time: 540
+  :exploitation_time:
+  - 1015
+  - 1629
+  - 1996
+  - 2505
+  - 3129
+  :resolution_time: 7020
+7:
+  :id: 7
+  :question: Selma va-t-elle accepter le vélo pour Gene ?
+  :reponse: Oui.
+  :description: 'Dans cette question se cache toute la détresse de Selma : pour sauver
+    Gene, elle doit le priver de beaucoup de choses, et ce sans pouvoir lui expliquer.
+    Le fait d''accepter le vélo offert par ses amis, c''est accepter qu''elle n''a
+    pas les moyens de satisfaire son fils, ce qui ne peut être facile pour aucune
+    mère.'
+  :d_resolution: En voyant le bonheur de Gene, sur son vélo, Selma ne peut qu'accepter
+    le cadeau que ses amis ont fait à son fils.
+  :intensite: 1
+  :installation_time: 956
+  :resolution_time: 1072
+8:
+  :id: 8
+  :question: Qu'est-ce que Bill va faire pour sauver son ménage et son train de vie ?
+  :reponse: Il va dérober les économies de Selma, mais en vain
+  :d_installation: L'installation de cette question dramatique est le premier “grain
+    de sable” qui se pose dans l'histoire qui, jusque-là, tournait bien. Avec cet
+    aveu, et celui de Selma, le film entre dans une nouvelle phase.
+  :d_exploitation: |-
+    Le premier temps de l'exploitation de cette QD est la demande du prêt que Bill fait à Selma. Malheureusement, la jeune femme ne peut pas prêter cet argent [tps1].
+    Puisque Selma ne veut pas lui accorder un prêt, Bill se voit contraint de lui dérober son argent. Il s'y prépare en découvrant où Selma range ses économies [tps2].
+  :d_resolution: Lorsque nous découvrons avec Selma que ses économies lui ont été
+    dérobées, on comprend avec elle que ça ne peut être que Bill.
+  :intensite: 1
+  :installation_time: 1183
+  :exploitation_time:
+  - 1779
+  - 2591
+  :resolution_time: 3523
+9:
+  :id: 9
+  :question: Selma va-t-elle réussir à payer l'opération des yeux de Gene ?
+  :reponse: Oui, au sacrifice de sa vie
+  :description: Cette question est la problématique principale de Selma. C'est pour
+    cette question qu'elle vit, qu'elle se tue au travail (au sens propre comme au
+    figuré), qu'elle refuse l'amour. Exception faite de la passion pour la comédie
+    musicale, seul écart qu'elle s'autorise (et auquel elle finit même par renoncer),
+    toute sa vie est tournée vers la résolution heureuse, ou tout au moins positive,
+    de cette question. Il lui faut parvenir à payer l'opération des yeux de Gene.
+  :d_installation: L'installation se fait lorsqu'on apprend que Selma est venue aux
+    …tats-Unis parce qu'on pouvait y opérer Gene.
+  :d_resolution: |-
+    On apprend que Selma a réussi lorsque Kathy, secouée par le désespoir de Selma lors de son exécution, passe outre le règlement et vient lui glisser les lunettes entre les mains en lui disant que Gene verra ses petits-enfants.
+    Cette réponse donne raison à Selma. Comme Kathy lui crie avant qu'elle ne soit pendu : “ Tu as eu raison d'écouter ton cœur !”. Cette réponse affirme qu'il faut aller au bout de ses désirs, qu'il faut être prêt à mourir, à tout sacrifier, pour ses idéaux.
+  :intensite: 4
+  :installation_time: 1293
+  :resolution_time: 7594
+  :relatifs:
+  - :type: :objectif
+    :id: 1
+  - :type: :personnage
+    :id: 1
+10:
+  :id: 10
+  :question: Comment Kathy va-t-elle réagir en découvrant la fraude de Selma ?
+  :reponse: Elle va reprocher vivement à son amie cette tricherie qui la met en danger
+  :d_installation: 'C''est en remettant les épingles dans le sac de Selma (ce qui
+    peut paraître comme un deus ex machina : pourquoi n''est-ce pas Selma qui range
+    elle-même ses épingles dans son sac) que Kathy découvre la tricherie de Selma.'
+  :intensite: 1
+  :installation_time: 1569
+  :resolution_time: 1629
+11:
+  :id: 11
+  :question: Que va-t-il arriver à Selma suite à son accident de Machine ?
+  :reponse: Elle sera licenciée
+  :d_resolution: Norman explique à Selma qu'elle a été licenciée à cause de la journée
+    perdue pour l'accident de machine.
+  :intensite: 3
+  :installation_time: 2496
+  :resolution_time: 3037
+12:
+  :id: 12
+  :question: Selma va-t-elle pouvoir récupérer ses économies ?
+  :reponse: Oui, mais en tuant Bill
+  :d_resolution: Après une lutte acharnée, désespérée, Selma parvient enfin à retrouver
+    son dû.
+  :intensite: 1
+  :installation_time: 3535
+  :resolution_time: 4113

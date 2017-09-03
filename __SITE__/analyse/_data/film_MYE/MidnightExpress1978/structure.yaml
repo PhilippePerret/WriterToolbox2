@@ -1,0 +1,45 @@
+---
+:decoupe: '3.4'
+:incdec:
+  :description: "<personnage>Bill Hayes</personnage> se fait arrêter"
+  :time: 510
+  :duree: 0
+:pivot1:
+  :description: Bill se réveille de son coma.
+  :time: 1560
+  :duree: 0
+:cdv:
+  :description: Lettre à Susan, 2ans et demi se sont écoulés. Il se conduit bien.
+    Suit la scène d'homosexualité, très belle et contrastant avec le reste du film
+    (correspondant au milieu exact du film).
+  :time: 3390
+  :duree: 0
+:pivot2:
+  :description: Bill arrache la langue de <personnage>Rifki</personnage>. Il est conduit
+    en Section 13, la section des aliénés mentaux (= il est tombé au fond du gouffre).
+    Nœud dramatique très fort.
+  :time: 5280
+  :duree: 0
+:climax:
+  :description: Bill tue son bourreau et s'échappe. Nœud dramatique très fort.
+  :time: 6460
+  :duree: 0
+:desinence:
+  :description: Les retrouvailles, par le biais des photos.
+  :time: 6770
+  :duree: 0
+:tiers:
+  :description: Bill est condamné à 4 ans de prison.
+  :time: 2280
+  :duree: 0
+:deuxtiers:
+  :description: Tentative d'évasion de Bill et ses amis <personnage>Jimmy</personnage>
+    et <personnage>Max</personnage>.
+  :time: 4440
+  :duree: 222
+:pivot2alt:
+  :description: Visite de <personnage>Susan</personnage>, la petite amie de Bill.
+    Bill décide de s'en sortir tout seul. Nœud dramatique très fort.
+  :time: 5660
+  :duree: 280
+:id: MidnightExpress

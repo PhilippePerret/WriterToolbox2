@@ -1,0 +1,32 @@
+body > div#body_header > div#suptimeline {
+  background-color: yellow;
+  bottom: 3px;
+  height: 15px;
+  margin: 0 1em;
+  position: absolute;
+  width: calc(100% - 3em);
+}
+
+
+div#suptimeline > div.zone {
+  position:absolute;
+  height:15px;
+  background-color:red;
+}
+
+div#suptimeline > div.zone_field {
+  position:absolute;
+  height:15px;
+  background-color:#EEEEFF;
+  text-align:center;
+}
+div#suptimeline > div.zone_field > span {
+  border-left: 2px solid black;
+  top: 2px;
+  bottom: 1px;
+  color: teal;
+  font-size: 9pt;
+  opacity: 0.9;
+  padding-left: 4px;
+  position: absolute;
+}

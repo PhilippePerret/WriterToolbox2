@@ -1,0 +1,15 @@
+---
+1:
+  :pseudo: La Veuve Léoni
+  :nom: Léoni
+  :prenom: La Veuve
+  :sexe: F
+  :fct_perso: prota
+  :description: La veuve Léoni est une femme issu d'un milieu de malfrats qui, lorsque
+    son fils se retrouve accusé de meurtre, sera capable de soulever des montagnes
+    pour le faire acquitter.
+  :acteur: Sophia Loren
+  :relatifs:
+  - :type: :qrd
+    :id: 1
+  :id: 1

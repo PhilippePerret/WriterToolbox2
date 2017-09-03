@@ -1,0 +1,42 @@
+---
+:decoupe: '3.4'
+:incdec:
+  :description: Annonce du meurtre de <personnage>Carolyn Polhemus</personnage>
+  :time: 300
+  :duree: 0
+:pivot1:
+  :description: Les soupçons se portent sur <personnage>Raymond Horgan</personnage>
+  :time: 1740
+  :duree: 0
+:cdv:
+  :description: Arrestation/mise en accusation de Rustin Sabish
+  :time: 3480
+  :duree: 120
+:pivot2:
+  :description: 'Retournement de situation en forme de coup de théâtre : <personnage>Sandy
+    Stern</personnage> confond le témoignage du docteur chargé de l''autopsie.'
+  :time: 5700
+  :duree: 0
+:climax:
+  :description: La femme de Rusty Sabish explique son crime.
+  :time: 6540
+  :duree: 420
+:desinence:
+  :description: Retour au plan sur le tribunal vide. Propos sur la justice.
+  :time: 6960
+  :duree: 0
+:devpart2:
+  :description: Début du procès
+  :time: 4020
+  :duree: 0
+:tiers:
+  :description: Concrétisation de la relation <personnage>Carolyn Polhemus</personnage>
+    et <personnage>Rusty Sabish</personnage>
+  :time: 2340
+  :duree: 180
+:deuxtiers:
+  :description: "<personnage>Sandy Stern</personnage> parle de machination contre
+    Rusty Sabish"
+  :time: 4620
+  :duree: 540
+:id: PresumedInnocent

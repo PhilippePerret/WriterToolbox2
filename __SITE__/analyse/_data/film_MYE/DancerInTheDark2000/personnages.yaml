@@ -1,0 +1,133 @@
+---
+1:
+  :id: 1
+  :pseudo: Selma
+  :nom: Jezkova
+  :prenom: Selma
+  :sexe: F
+  :description: Selma est une jeune mère tchèque émigrée aux États-Unis, rêveuse,
+    passionnée de rythmes et de comédies musicales, ouvrière tenace dans une usine
+    où elle sacrifie sa vie au travail pour être en mesure de payer une opération
+    des yeux à son fils Gene qui sans elle deviendrait aveugle.
+  :atouts: Elle est prête à tout pour atteindre son objectif, même à mourir.
+  :handicaps: Elle devient aveugle. Elle est dans un pays qu'elle ne connaît pas bien.
+  :acteur: Björk
+  :fct_perso: prota
+  :importance: '1'
+  :event_times:
+  - 205
+  - 335
+  - 380
+  - 458
+  - 535
+  - 568
+  - 689
+  - 703
+  - 774
+2:
+  :id: 2
+  :pseudo: Bill
+  :nom: Houston
+  :prenom: Bill
+  :sexe: H
+  :fct_perso: anta
+  :event_times:
+  - 458
+  - 703
+  - 854
+  - 956
+  - 1043
+  - 1123
+  - 1490
+  - 1629
+  - 1779
+  - 1844
+  - 2567
+  - 2591
+  - 3615
+  - 4131
+3:
+  :id: 3
+  :pseudo: Kathy
+  :description: Kathy est une ouvrière d'une quarantaine d'années. C'est la grande
+    amie de Selma Jezkova, elle est toujours à ses côtés, et se porte en chaque occasion
+    à son secours.
+  :rapport_amis: C’est une ami fidèle et indéfectible de Selma.
+  :acteur: Catherine Deneuve
+  :fct_perso: adju
+  :role: Sauveteuse de Selma
+  :importance: '1'
+  :event_times:
+  - 205
+  - 335
+  - 380
+  - 458
+  - 535
+  - 877
+  - 906
+  - 956
+  - 1043
+  - 1530
+  - 1566
+  - 1629
+  - 1950
+  - 2074
+  - 2132
+  - 2505
+  - 2736
+  - 2765
+  - 2964
+  - 3103
+  - 5141
+  - 5919
+  - 6160
+  - 6784
+  - 7436
+4:
+  :id: 4
+  :pseudo: Jeff
+  :description: |-
+    De nature simple, Jeff est un homme qui a les pieds sur terre, avec les qualités et les défauts qu'on peut en attendre. Son amour pour Selma, platonique et constant, en font un personnage attachant et sensible.
+    Malgré quelques maladresses (acheter des cadeaux à Gene en faisant croire qu'ils viennent de sa mère, par exemple), c'est le seul personnage avec lequel Selma aura une relation qui ne faillira jamais, et cela au-delà de tout ce qui les sépare (même si c'est un peu à cause de lui que le projet de Selma manquera échouer).
+  :fct_perso: adju
+  :importance: '2'
+  :event_times:
+  - 458
+  - 535
+  - 956
+  - 1043
+  - 1629
+  - 1996
+  - 2054
+  - 2505
+  - 3129
+  - 4516
+  - 4563
+  - 4592
+  - 4605
+  - 4822
+  - 4860
+  - 4902
+  - 5141
+  - 6085
+  - 6122
+  - 6884
+5:
+  :id: 5
+  :pseudo: Gene
+  :description: Gene est le fils de Selma. S'il n'a pas un rôle actif dans le film,
+    il est pourtant le personnage pour lequel Selma se bat. C'est un jeune adolescent
+    “normal”, qui souffre en silence de la pauvreté de sa mère qu'il est trop jeune
+    pour comprendre.
+  :importance: '3'
+  :event_times:
+  - 458
+  - 568
+  - 689
+  - 703
+  - 854
+  - 956
+  - 1043
+  - 1844
+  - 2591
+  - 4131
