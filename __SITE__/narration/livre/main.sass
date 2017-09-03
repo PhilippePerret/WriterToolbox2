@@ -1,0 +1,38 @@
+// Table des matières du livre
+
+ul.livre_tdm
+  font-family   : "Open Sans",Tahoma,Arial
+  font-size     : 15.9pt
+  list-style      : none !important
+  border          : 1px solid
+  border-radius   : 4px
+  display         : inline-block
+  font-size       : 0.8em
+  list-style      : outside none none
+  margin-left     : 4em
+  padding         : 2.6em 8em
+  li
+    line-height     : 2.1em!important
+    a
+      color           : inherit !important
+      text-decoration : none !important
+    img
+      margin-right   : 0.5em
+    // Les pages qui ne sont pas encore consultables
+    span.unreadable
+      color         : #777
+      font-style    : italic
+  // Une page
+  li.niv1
+    margin-left     : 4em
+    margin-top      : 0
+  // Un sous-chapitre
+  li.niv2
+    margin-left     : 2em
+    margin-top      : 1em
+    font-size       : 1.2em
+  // Un chapitre
+  li.niv3
+    font-size       : 1.4em
+    margin-left     : 0
+    margin-top      : 2em

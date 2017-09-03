@@ -1,0 +1,11 @@
+<% 
+
+# Page affichant la table des matières d'un livre
+
+%>
+<%= header %>
+
+<h2>La collection Narration</h2>
+<h3><%= link_edit_tdm_if_admin %><%= livre.titre  %></h3>
+<%= livre.tdm  %>
+<%= footer %>
