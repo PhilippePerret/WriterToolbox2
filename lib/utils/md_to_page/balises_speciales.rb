@@ -49,12 +49,12 @@ class MD2Page
     #   INCLUDE[path/relatif/to/file.ext]
     def formate_balises_include str
       str.gsub!(/INCLUDE\[(.*?)\]/){
-        sfile = SuperFile.new($1.split('/'))
-        if sfile.exist?
-          "\n\n" + sfile.read + "\n\n"
+        path = $1
+        if File.exist?(path)
+          "\n\n" + File.read(path).force_encoding('utf-8') + "\n\n"
         else
           # TODO Ici, alerte administrateur
-          "INSERTION FICHIER INTROUVABLE : #{sfile.path}"
+          "INCLUSION FICHIER INTROUVABLE : #{path}"
         end
       }
       str
@@ -253,8 +253,8 @@ class MD2Page
     # d'analyse.
     #
     def formate_balises_images str, options = nil
-      str.match(/(IMAGE|IMG)\[/) || (return str)
-      str.gsub!(/(?:IMAGE|IMG)\[(.+?)\]/){
+      str.match(/IMAGE\[/) || (return str)
+      str.gsub!(/IMAGE\[(.+?)\]/){
         args = $1.split('|')
         args.unshift(options)
         traite_donnees_images(*args)
@@ -263,24 +263,24 @@ class MD2Page
 
     # Retourne le code HTML pour une balise image
     #
-    def traite_donnees_images options, path = nil, class_css = nil, legend = nil, style = nil
+    def traite_donnees_images options, path = nil, class_css = nil, legend = nil, style = nil, subfolder = nil
 
       # Path de l'image
       # (raise si elle est introuvable)
-      imgpath = seek_image_path_of( path, options[:img_folder])
+      imgpath = seek_image_path_of( path, options[:img_folder], subfolder)
 
       attrs = Hash.new
+      img_attrs = Hash.new
 
       class_css = class_css.nil_if_empty
       legend    = legend.nil_if_empty
       style     = style.nil_if_empty
 
       legend && legend.gsub!(/'/, '’')
-      legend = legend ? "<div class=\"img_legend\">#{legend}</div>" : ''
       
       case class_css
       when 'inline'
-        legend && attrs.merge!(alt: legend)
+        legend && img_attrs.merge!(alt: legend)
       when 'fleft', 'fright'
         attrs.merge!(class: "image_#{class_css}")
       when 'plain'
@@ -288,35 +288,60 @@ class MD2Page
         style << "width:100%;"
       end
 
-      style && attrs.merge!(style: style)
-      attrs = attrs.collect { |attr, val| "#{attr}=\"#{val}\"" }.join(' ')
+      main_div_class =
+        case class_css
+        when 'inline' then nil
+        when 'fleft', 'fright' then class_css
+        else 'center'
+        end
 
-      img_tag = "<img src=\"#{imgpath}\" #{attrs} />"
+      attrs = attrs.collect {|k,v|"#{k}=\"#{v}\""}.join(' ')
+
+      style && img_attrs.merge!(style: style)
+      img_attrs = img_attrs.collect{|k,v|"#{k}=\"#{v}\""}.join(' ')
+      img_tag = "<img src=\"#{imgpath}\" #{img_attrs} />"
       
       case class_css
-      when 'fleft', 'fright'
-        "<div class=\"image_#{class_css}\">#{img_tag + legend}</div>"
-      when :inline
+      when 'inline'
         img_tag
       else
-        "<center class=\"image\"><div class=\"image\">#{img_tag}</div>#{legend}</center>"
+        legend  = legend ? "<div class=\"img_legend\">#{legend}</div>" : '' 
+        img_tag = "<div class=\"image\">#{img_tag}</div>" 
+        "<div class=\"#{main_div_class} image\">#{img_tag}#{legend}</div>"
       end
     end
 
-    def seek_image_path_of relpath, folder = nil
-      [
+    def seek_image_path_of relpath, folder = nil, other_folder = nil
+      dossiers = [
         '',
         './img/',
         "./img/narration/",
-        "./img/narration/#{folder}/",
         "./img/analyse/",
-        "./img/analyse/#{folder}/",
-        "#{folder}" # narration ou autre
-      ].each do |prefix_path|
-        goodpath = "#{prefix_path}#{relpath}"
-        File.exist?(goodpath) && (return goodpath) 
+      ]
+      if folder
+        dossiers += [
+          folder,
+          "./img/#{folder}/",
+          "./img/narration/#{folder}/",
+          "./img/analyse/#{folder}/"
+        ]
       end
-      raise "Impossible de trouver l'image de relative path `#{relpath}`"
+      if other_folder
+        dossiers += [
+          other_folder,
+          "./img/#{other_folder}",
+          "./img/narration/#{other_folder}",
+          "./img/analyse/#{other_folder}"
+        ]
+      end
+      paths_seek = Array.new
+      dossiers.each do |prefix_path|
+        testedpath = File.join(prefix_path,relpath)
+        File.exist?(testedpath) && (return testedpath) 
+        paths_seek << testedpath
+      end
+      rc = "\n"
+      raise "Impossible de trouver l'image de relative path `#{relpath}`.\nElle a été recherchée dans :\n#{paths_seek.join(rc)}"
     end
     def formate_balises_mots str
       str.gsub!(/MOT\[([0-9]+)\|(.*?)\]/){ "<a href=\"scenodico/show/#{$1}\" class=\"mot\">#{$2}</a>"}

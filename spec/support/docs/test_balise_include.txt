@@ -1,0 +1,7 @@
+Le contenu du fichier inclus.
+
+* item 1
+* item 2
+* item 3
+
+Nous allons à l'[atelier Icare](http://www.atelier-icare.net) pour obtenir la définition du mot MOT[100|#100].

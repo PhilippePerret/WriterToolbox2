@@ -32,9 +32,11 @@ describe 'MD2Page' do
   def write_md contenu
     File.open(file_md,'wb'){|f| f.write contenu}
   end
-  def read_dyn
+  def read_dyn keep_return = false
     File.exist?(file_dyn) || (return nil)
-    File.read(file_dyn).strip.gsub(/&lt;/,'<').gsub(/&gt;/,'>')
+    res = File.read(file_dyn).strip.gsub(/&lt;/,'<').gsub(/&gt;/,'>')
+    keep_return || res.gsub!(/\n/, '')
+    res
   end
   alias :read_erb :read_dyn
   def transpile src = nil, params = nil
@@ -93,10 +95,16 @@ describe 'MD2Page' do
       factory.each do |dsample|
         write_md(dsample[:from])
         transpile
-        if read_dyn != dsample[:to]
-          compare(read_dyn, dsample[:to])
+        theto   = dsample[:to].gsub(/\n/,'')
+        theres  = read_dyn
+        dsample[:nospace] && begin
+          theto.gsub!(/>\W+</,'><')
+          theres.gsub!(/>\W+</,'><')
         end
-        expect(read_dyn).to eq dsample[:to]
+        if theres != theto
+          compare(theres, theto)
+        end
+        expect(theres).to eq theto
         success dsample[:it]
       end
     end
