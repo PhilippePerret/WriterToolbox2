@@ -1,20 +1,7 @@
-* Dans les pages, il faudrait traiter les inclusions après avoir traité tout le document, mais en les mettant de côté pour que les caractères ne soient pas modifiés
-  En effet, les problèmes qui se posent sont les suivants :
-    - les apostrophes simples sont transformés en "’",
-    - les apostrophes doubles sont transformés en "”",
-    - les '_..._' sont transformés en '<strong>' donc le dossier '_data_' devient le dossier '<strong>data</strong>'
-    => Ce qui fait qu'aucun chemin ne peut être conservé, alors qu'il y en a.
-    Donc :
-      - On fait une première passe pour relever les exemples inclus (et en général toutes les inclusions ?)
-      - On remplace le code par un code type sans problème.
-        Par exemple, on met "CODEEXEMPLE001" et dans une table on fait :
-        "CODEEXEMPLE001" => "<le code initial>"
-      - On traite tout le document
-      - À la fin, on remplace le code CODEINCLUSION001 par le <code initial> traité (MD2Page(nil,{code: <le code>, dest: nil}) pour que ce soit le code qui soit traité)
-      Et si un code contient un code ?
-* [NARRATION - gros morceau] Implémenter et tester l'affichage d'une page de Narration (#138)
-  <= Il faut indiquer le livre courant en envoyant narration_current_book_id: <id> en options de MD2Page.transpile.
 
+* [NARRATION - gros morceau] Implémenter et tester l'affichage d'une page de Narration (#138)
+
+* Implémenter l'édition des textes quelconque par "admin/edit_text?path=..." (c'est ce qui est utilisé pour les exemples, par exemple)
 * Implémenter l'édition d'une table des matières de livre narration
   Le lien est "admin/narration/<id livre>?op=edit_tdm"
 

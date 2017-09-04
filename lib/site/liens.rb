@@ -12,11 +12,17 @@ class Site
     # c'est un administrateur.
     # @param {Hash} options
     #               options[:titre] Le titre (sinon, "éditer")
+    #               options[:in_span] SI true, on le met dans un span.span_edit_link
     def edit_text path, options = nil
       user.admin? || (return '')
       options ||= Hash.new
       options.key?(:titre) || options.merge!(titre: "éditer")
-      "<adminonly><a href=\"admin/edit_text?path=#{CGI.escape(path)}\">#{options[:titre]}</a><adminonly>"
+      link = "<a href=\"admin/edit_text?path=#{CGI.escape(path)}\">#{options[:titre]}</a>"
+      if options[:in_span]
+        "<span class=\"span_edit_link\">#{link}</span>"
+      else
+        "<adminonly>#{link}<adminonly>"
+      end
     end
 
     def signup params = nil

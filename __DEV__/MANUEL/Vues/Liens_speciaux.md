@@ -1,7 +1,8 @@
 # Liens spéciaux
 
 * [Les liens vers page avant et après](#link_to_next_prev_pages)
-* [Lien pour éditer la page courante (admin)](#link_to_edit_current_page)
+* [Span de lien pour éditer la page courante (admin)](#link_to_edit_current_page)
+* [Lien pour éditer un fichier quelconque](#lien_edition_fichier_quelconque)
 * [Lien vers les pages de la collection Narration](#links_to_narration)
 
 ## Liens vers pages avant et après {#link_to_next_prev_pages}
@@ -28,7 +29,8 @@ Pour obtenir une homogénéité dans le site, utiliser :
 
 > Note : les styles sont définis dans `./__SITE__/xTemplate/css/contents_section.sass`.
 
-## Lien pour éditer la page courante (article, etc.) {#link_to_edit_current_page}
+
+## Span de lien pour éditer la page courante (article, etc.) {#link_to_edit_current_page}
 
 Pour mettre un lien d'édition de la page dans le document, placer en haut :
 ```html
@@ -50,6 +52,22 @@ Par exemple, pour les articles :
 <span class="span_edit_link">
   <a href="admin/blog/12?op=edit">Éditer l'article</a>
 </span>
+
+```
+
+
+## Lien pour éditer un fichier quelconque {#lien_edition_fichier_quelconque}
+
+```ruby
+
+site.lien.edit_text("path/to/file.md", {
+  titre: "autre titre que 'éditer'",  # le titre, si autre que "éditer"
+  in_span: true                       # pour renvoyer un code dans un span
+                                      # span_edit_link
+  })
+
+```
+
 
 ## Lien vers les pages de la collection Narration {#links_to_narration}
 

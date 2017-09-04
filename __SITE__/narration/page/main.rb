@@ -26,11 +26,11 @@ class Narration
       exist? && File.exist?(dyn_file) && File.stat(dyn_file).mtime > File.stat(md_file).mtime
     end
 
-    #-------------------------------------------------------------------------------- 
+    #--------------------------------------------------------------------------------
     #
     #   MÉTHODES D'HELPER
     #
-    #-------------------------------------------------------------------------------- 
+    #--------------------------------------------------------------------------------
 
     # Retourne le span pour le titre du livre
     def titre_livre
@@ -40,9 +40,13 @@ class Narration
       @livre_folder ||= data_livre[:folder]
     end
     def data_livre
-      @data_livre ||= Narration::LIVRES[data[:livre_id]]
+      @data_livre ||= Narration::LIVRES[livre_id]
+    end
+    def livre_id
+      @livre_id ||= data[:livre_id]
     end
 
+    # Titre de la page
     def titre
       "<span class='titre_page'>#{data[:titre]}</span>"
     end
@@ -53,16 +57,16 @@ class Narration
     end
 
 
-    #-------------------------------------------------------------------------------- 
+    #--------------------------------------------------------------------------------
     #
     #   MÉTHODES DE CONSTRUCTION DE LA PAGE
     #
-    #-------------------------------------------------------------------------------- 
+    #--------------------------------------------------------------------------------
 
     # Actualise le fichier dynamique lorsqu'il n'est pas à jour.
     def update
       require_folder './lib/utils/md_to_page'
-      MD2Page.transpile( md_file, {dest: dyn_file} )
+      MD2Page.transpile( md_file, {dest: dyn_file, narration_current_book_id: livre_id} )
     end
 
 
@@ -71,7 +75,7 @@ class Narration
       def get_data
         @data = site.db.select(:cnarration,'narration',{id:id}).first
       end
-      
+
       # Méthodes qui définit les différentes paths de la page courante
       def def_paths
         affixe_path = File.join(folder_pages,livre_folder, data[:handler])

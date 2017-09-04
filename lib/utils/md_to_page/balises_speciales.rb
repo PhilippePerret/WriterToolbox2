@@ -100,7 +100,7 @@ class MD2Page
     fullpath  = File.join(FOLDER_EXEMPLES,relpath)
     # Ici, le lien `edit_link` serait transformé à la suite, donc on conserve son code
     # dans la table @table_final_replacements pour l'insérer en tout dernier
-    rep_id = add_final_replacement("<%= lien.edit_text(\"#{fullpath}\",\"Éditer l’exemple\") %>")
+    rep_id = add_final_replacement("<%= lien.edit_text(\"#{fullpath}\",{titre: \"Éditer l’exemple\", in_span: true}) %>")
     return rep_id + traite_fichier_include(fullpath)
   end
 
