@@ -25,7 +25,7 @@ class MD2Page
       str = formate_mises_en_forme_propres(str, options)
       str = traite_document_in_code(str) # cf. MEFDocument.rb
       str = formate_balises_notes(str)
-      str = formate_balises_references(str)
+      str = formate_balises_references(str,options)
       str = formate_balises_images(str, options)
       str = formate_balises_mots(str)
       str = formate_balises_films(str)
@@ -74,7 +74,7 @@ class MD2Page
         # Puisque le code sera mise entre balises DIV, il ne sera
         # pas corrigé par kramdown. Il faut donc le faire ici, suivant
         # le code du fichier.
-        note_marge = MD2Page.transpile(nil,options.merge(code: note_marge, dest: nil))
+        note_marge = MD2Page.transpile(nil,options.merge(code: note_marge, dest: nil, no_leading_p: true))
         texte      = MD2Page.transpile(nil, options.merge(code: texte, dest: nil))
         "<div class=\"mg #{css}\">" +
           "<div class=\"notemarge\">#{note_marge.strip}</div>" +
@@ -228,16 +228,27 @@ class MD2Page
       return str
     end
 
-    def formate_balises_references str
-      str.gsub!(/REF\[(.*?)\]/){
-        pid, ancre, titre = $1.split('|')
-        if titre.nil? && ancre != nil
-          titre = ancre
-          ancre = nil
-        end
-        lien.cnarration(to: :page, from_book:$narration_book_id, id: pid.to_i, ancre:ancre, titre:titre)
+    def formate_balises_references str, options = nil
+      str.gsub!(/REF\[(.*?)\]/){ 
+        args = $1.split('|').collect{|e|e.nil_if_empty}
+        args.unshift(options[:narration_current_book_id])
+        traite_lien_narration(*args)
       }
       str
+    end
+    def traite_lien_narration cur_book_id, page_id, titre = nil, ancre = nil
+      page_id = page_id.to_i
+      hpage = site.db.select(:cnarration,'narration',{id: page_id},[:titre,:livre_id]).first
+      hpage != nil || raise("Impossible d'obtenir la page Narration ##{page_id}. Merci de vérifier l'identifiant.")
+      c = "<a href=\"narration/page/#{page_id}"
+      ancre != nil && c << "##{ancre}"
+      c << "\" class=\"page\">#{titre || hpage[:titre]}</a>" 
+      bid = hpage[:livre_id]
+      if bid != cur_book_id
+        require './__SITE__/narration/_lib/_required/constants'
+        c << " dans <a href=\"narration/livre/#{bid}\" class=\"livre\">#{Narration::LIVRES[bid][:hname]}</a>"
+      end
+      return c
     end
 
     # Formate les balises images

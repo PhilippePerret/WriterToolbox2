@@ -19,6 +19,7 @@ class MD2Page
     #   options[:owner]         Possesseur du fichier (à voir)
     #   options[:img_folder]    Dossier des images
     #   options[:pre_code]      Le code à mettre avant
+    #   options[:no_leading_p]  Si true, on retire les "<p>...</p>"
     #
     def transpile src_path, options = nil
       @src_path = src_path
@@ -85,6 +86,10 @@ class MD2Page
       #
       koptions = {header_offset:0}
       @wcode = Kramdown::Document.new(@wcode,koptions).to_html
+
+      # Suppression éventuelle des <p>...</p>
+      #
+      options[:no_leading_p] && @wcode.sub!(/^<p>(.*)<\/p>$/m,'\1')
 
       # On replace les balises erb pour produire le code dynamique
       unescape_balises_erb

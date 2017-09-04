@@ -16,7 +16,9 @@ class String
   def in_div attrs = nil
     'div'.as_intag(attrs) + self + '</div>'
   end
-
+  def in_span attrs = nil
+    'span'.as_intag(attrs) + self + '</span>'
+  end
   def in_section attrs = nil
     'section'.as_intag(attrs) + self + '</section>'
   end

@@ -91,37 +91,6 @@ class MEFDocument
     # Le code entièrement traité
     self.in_section + self.legend
   end
-  def traite_code_as_latex
-    envi = case true
-    when events?    then 'docEvents'
-    when scenario?  then 'docScenario'
-    when synopsis?  then 'docSynopsis'
-    else 'asDocument'
-    end
-
-    res = if events?
-      lines.collect do |line|
-        case line[0..1]
-        when /^- / then line[2..-1].strip.in_command_latex('evt')
-        else line.in_command_latex('par')
-        end
-      end.join('')
-    elsif scenario?
-      @codet.traite_as_script_per_format(:latex)
-    else
-      lines.collect{ |l| l.traite_as_line_of_document }.join('')
-    end
-
-    @codet = unless brut?
-      res.traite_as_document_content_latex
-    else
-      res
-    end
-
-    # On retourne le document et sa légende s'il y en
-    # a une.
-    @codet.in_command_latex(envi) + legend
-  end
 
   def in_section
     @grand_titre = (@grand_titre.nil? ? '' : @grand_titre.in_h1)
@@ -285,7 +254,6 @@ class String
   # qui doit insérer le code dans un container.
   #
   def traite_as_markdown
-    puts "-> traite_as_markdown (self = #{self})"
     res = MD2Page.transpile(nil,{code: self, dest: nil})
     res.strip.sub(/^<p>(.*?)<\/p>$/,'\1')
   end

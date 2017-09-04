@@ -94,7 +94,12 @@ describe 'MD2Page' do
     it 'transforme correctement tous les textes' do
       factory.each do |dsample|
         write_md(dsample[:from])
-        transpile
+
+        dsample[:args] && dsample[:args] = JSON.parse(dsample[:args], symbolize_names: true)
+
+        # ============> TEST <================
+        transpile(nil,dsample[:args])
+
         theto   = dsample[:to].gsub(/\n/,'')
         theres  = read_dyn
         dsample[:nospace] && begin
