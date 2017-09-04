@@ -18,14 +18,13 @@
 </adminonly>
 ### Définition
 
-<webonly>
+<webonly class="block">
 Lire la définition dans le scénodico :  MOT[272|espace d’implication du spectateur].
 </webonly>
 
 Il n'y a rien de plus froid, de plus triste, de plus ennuyeux que ces histoires (qui n'ont aucune chance de devenir des films ou des romans) qui expliquent et explicitent tout, nous gardant méprisamment à distance de l'histoire.
 
 ### Comment développer cet espace ?
- 
+
 
 Cet espace gagne a être développé le plus largement et le plus précisément possible. Comme nous le verrons par la suite, il est possible de gérer cet espace de façon tout à fait objective et consciente.
-

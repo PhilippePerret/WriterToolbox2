@@ -74,7 +74,7 @@ Pour connaitre les personnages présents dans les scènes, on peut se faciliter 
 DOC/events,scenario,synopsis,brut plain,rapport,procedure
 
 0:01:12
-<%= user.pseudo %> rencontre MATHIEU pour lui parler de Juliette. <%= user.pseudo %> explique qu'il doit la protéger.
+<%= user.pseudo.upcase %> rencontre MATHIEU pour lui parler de Juliette. <%= user.pseudo %> explique qu'il doit la protéger.
 
 /DOC
 
@@ -104,7 +104,7 @@ Dans la collecte des scènes :
 
 DOC/rapport
 2:13:45 EXT. PARKING NUIT
-<%= user.pseudo %> sort de l'ascenseur et avance […]
+<%= user.pseudo.upcase %> sort de l'ascenseur et avance […]
 OBJ #45 : <%= user.pseudo %> va devoir tenter de rejoindre sa voiture sans être pris.
 OBS #45.1 : La lumière du parking ne fonctionne plus, <%= user.pseudo %> se trouve dans le noir.
 ...
@@ -115,7 +115,7 @@ Ou on peut tenir un document qui liste ces objectifs et ces obstacles à part en
 
 DOC/rapport
 OBJECTIF #45
-<strong><%= user.pseudo %> va devoir tenter de rejoindre sa voiture sans être pris.</strong>
+<strong><%= user.pseudo.upcase %> va devoir tenter de rejoindre sa voiture sans être pris.</strong>
 Implantation : 2:13:45
 OBSTACLES :
 \#1 : 2:13:45 La lumière du parking ne fonctionne plus, <%= user.pseudo %> se trouve dans le noir.
@@ -163,7 +163,7 @@ Là aussi, on peut soit indiquer le thème dans la collecte de la scène :
 
 DOC/rapport
 2:13:45 EXT. PARKING NUIT
-<%= user.pseudo %> sort de l'ascenseur et avance […]
+<%= user.pseudo.upcase %> sort de l'ascenseur et avance […]
 THEMES : #3, #6
 ...
 /Extrait du document de collecte des scènes
@@ -188,7 +188,7 @@ Il va s'agir aussi pendant cette phase de collecte rigoureuse de relever le maxi
 
 Dans les premiers temps de vos analyses, soyez particulièrement vigilant<%=user.f_e%> en ce qui concernent les MOT[95|préparations/paiements] ainsi que les MOT[19|ironies dramatiques] qui peuvent faire l'objet d'une liste séparée. Dans le cas contraire, vous pouvez *identifier* ces procédés par un préfixe différent :
 
-* les préparations/paiements (`PP`), 
+* les préparations/paiements (`PP`),
 * les ironies dramatiques (`IRDR`),
 * les autres procédés (`PROC`).
 
@@ -204,8 +204,8 @@ La liste des décors peut tout à fait s'établir à la fin de la collecte des s
 
 Forts de tous ces éléments qui nécessitent quelques heures de travail, nous pouvons passer à l'analyse proprement dite du film.
 
-<webonly>
+<webonly class="block">
 
-Notez que si vous utilisez des outils tels que le <%= lien.collecteur_analyse %>, cette collecte est grandement facilitée et vous pouvez d'ores et déjà obtenir de nombreuses données statistiques concernant le film analysé.
+Notez que si vous utilisez des outils tels que le <a href="analyse/collector">collecteur d’analyse</a>, cette collecte est grandement facilitée et vous pouvez d'ores et déjà obtenir de nombreuses données statistiques concernant le film analysé.
 
 </webonly>

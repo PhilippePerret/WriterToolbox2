@@ -103,7 +103,7 @@ class << self
     Dir["#{folder_template}/**/*.sass"].each do |src_path|
       src_path.start_with?('_') && next
       code_sass = File.read(src_path).force_encoding('utf-8')
-      @ref.write Sass.compile(entete_sass+code_sass, data_compilation)
+      @ref.write Sass.compile(entete_sass + "\n\n" + code_sass, data_compilation)
     end
 
   end

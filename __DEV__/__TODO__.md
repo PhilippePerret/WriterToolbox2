@@ -1,5 +1,11 @@
-
+* Il faut soit :
+  - mettre les pages narration dans une section spéciale pour pouvoir définir les H3 (premier niveau de titre) différemment
+  - soit augmenter d'un le niveau de titre au traitement, mais il faudrait alors pouvoir le définir dans les options, pour que ça ne perturbe pas tous les textes.
+  => Je pense que la première solution est la meilleure. Voir quels autres textes (analyse ?) il faut traiter de la même manière.
+  
 * [NARRATION - gros morceau] Implémenter et tester l'affichage d'une page de Narration (#138)
+
+* Implémenter "analyse/collector" (collecteur d'analyse)
 
 * Implémenter l'édition des textes quelconque par "admin/edit_text?path=..." (c'est ce qui est utilisé pour les exemples, par exemple)
 * Implémenter l'édition d'une table des matières de livre narration

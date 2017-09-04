@@ -62,7 +62,7 @@
 
 <p>Pour connaitre les personnages présents dans les scènes, on peut se faciliter les choses en partant du principe qu’on indique toujours en capitales, au moins une fois, un personnage présent dans une scène. Par exemple :</p>
 
-<section class="document events,scenario,synopsis,brut plain,rapport,procedure"><div class="p">0:01:12</div><div class="p"><%= user.pseudo %> rencontre MATHIEU pour lui parler de Juliette. <%= user.pseudo %> explique qu’il doit la protéger.</div></section>
+<section class="document events,scenario,synopsis,brut plain,rapport,procedure"><div class="p">0:01:12</div><div class="p"><%= user.pseudo.upcase %> rencontre MATHIEU pour lui parler de Juliette. <%= user.pseudo %> explique qu’il doit la protéger.</div></section>
 
 <p>Dans la scène ci-dessus, <personnage><%= user.pseudo %></personnage> et <personnage>Mathieu</personnage> sont présents, mais <personnage>Juliette</personnage> n’est pas présente. La deuxième fois qu’on mentionne <%= user.pseudo %>, il est inutile de le remettre en capitales (les capitales attirent l’œil, il est bon de ne pas en abuser).</p>
 
@@ -92,12 +92,12 @@ etc.</li>
 
 <p>Dans la collecte des scènes :</p>
 
-<section class="document rapport"><div class="p">2:13:45 EXT. PARKING NUIT</div><div class="p"><%= user.pseudo %> sort de l’ascenseur et avance […]</div><div class="p">OBJ #45 : <%= user.pseudo %> va devoir tenter de rejoindre sa voiture sans être pris.</div><div class="p">OBS #45.1 : La lumière du parking ne fonctionne plus, <%= user.pseudo %> se trouve dans le noir.</div><div class="p">…</div></section>
+<section class="document rapport"><div class="p">2:13:45 EXT. PARKING NUIT</div><div class="p"><%= user.pseudo.upcase %> sort de l’ascenseur et avance […]</div><div class="p">OBJ #45 : <%= user.pseudo %> va devoir tenter de rejoindre sa voiture sans être pris.</div><div class="p">OBS #45.1 : La lumière du parking ne fonctionne plus, <%= user.pseudo %> se trouve dans le noir.</div><div class="p">…</div></section>
 <div class="document_legend">Extrait du document de collecte des scènes</div>
 
 <p>Ou on peut tenir un document qui liste ces objectifs et ces obstacles à part en précisant les scènes :</p>
 
-<section class="document rapport"><div class="p">OBJECTIF #45</div><div class="p"><strong><%= user.pseudo %> va devoir tenter de rejoindre sa voiture sans être pris.</strong></div><div class="p">Implantation : 2:13:45</div><div class="p">OBSTACLES :</div><div class="p">#1 : 2:13:45 La lumière du parking ne fonctionne plus, <%= user.pseudo %> se trouve dans le noir.</div><div class="p">#2 : 2:15:25 Les hommes en noir sont autour de son véhicule.</div><div class="p">…</div></section>
+<section class="document rapport"><div class="p">OBJECTIF #45</div><div class="p"><strong><%= user.pseudo.upcase %> va devoir tenter de rejoindre sa voiture sans être pris.</strong></div><div class="p">Implantation : 2:13:45</div><div class="p">OBSTACLES :</div><div class="p">#1 : 2:13:45 La lumière du parking ne fonctionne plus, <%= user.pseudo %> se trouve dans le noir.</div><div class="p">#2 : 2:15:25 Les hommes en noir sont autour de son véhicule.</div><div class="p">…</div></section>
 <div class="document_legend">Extrait du document de thèmes</div>
 
 <h4 id="liste-des-brins">Liste des brins</h4>
@@ -119,7 +119,7 @@ etc.</li>
 
 <p>Là aussi, on peut soit indiquer le thème dans la collecte de la scène :</p>
 
-<section class="document rapport"><div class="p">2:13:45 EXT. PARKING NUIT</div><div class="p"><%= user.pseudo %> sort de l’ascenseur et avance […]</div><div class="p">THEMES : #3, #6</div><div class="p">…</div></section>
+<section class="document rapport"><div class="p">2:13:45 EXT. PARKING NUIT</div><div class="p"><%= user.pseudo.upcase %> sort de l’ascenseur et avance […]</div><div class="p">THEMES : #3, #6</div><div class="p">…</div></section>
 <div class="document_legend">Extrait du document de collecte des scènes</div>
 
 <p>Ou on peut tenir un document qui liste ces thèmes à part en précisant les scènes :</p>
@@ -131,7 +131,7 @@ etc.</li>
 
 <p>Il va s’agir aussi pendant cette phase de collecte rigoureuse de relever le maximum de <a href="scenodico/show/249" class="mot">procédés narratifs</a> utilisés.</p>
 
-<p>Dans les premiers temps de vos analyses, soyez particulièrement vigilantCODEFINALREPLACEMENT18 en ce qui concernent les <a href="scenodico/show/95" class="mot">préparations/paiements</a> ainsi que les <a href="scenodico/show/19" class="mot">ironies dramatiques</a> qui peuvent faire l’objet d’une liste séparée. Dans le cas contraire, vous pouvez <em>identifier</em> ces procédés par un préfixe différent :</p>
+<p>Dans les premiers temps de vos analyses, soyez particulièrement vigilant<%=user.f_e%> en ce qui concernent les <a href="scenodico/show/95" class="mot">préparations/paiements</a> ainsi que les <a href="scenodico/show/19" class="mot">ironies dramatiques</a> qui peuvent faire l’objet d’une liste séparée. Dans le cas contraire, vous pouvez <em>identifier</em> ces procédés par un préfixe différent :</p>
 
 <ul>
   <li>les préparations/paiements (<code>PP</code>),</li>
@@ -149,8 +149,8 @@ etc.</li>
 
 <p>Forts de tous ces éléments qui nécessitent quelques heures de travail, nous pouvons passer à l’analyse proprement dite du film.</p>
 
-<webonly>
+<webonly class="block">
 
-Notez que si vous utilisez des outils tels que le <%= lien.collecteur_analyse %>, cette collecte est grandement facilitée et vous pouvez d'ores et déjà obtenir de nombreuses données statistiques concernant le film analysé.
+Notez que si vous utilisez des outils tels que le <a href="analyse/collector">collecteur d’analyse</a>, cette collecte est grandement facilitée et vous pouvez d'ores et déjà obtenir de nombreuses données statistiques concernant le film analysé.
 
 </webonly>

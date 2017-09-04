@@ -1,5 +1,5 @@
-<!-- 
-Page: #629 Les fiches structure 
+<!--
+Page: #629 Les fiches structure
 
 Pour ajouter une fiche structure, la créer dans le dossier ./data/unan/page_semidyn/cnarration/img/Chantier/documents/Fiche_structure/
 en dupliquant le fichier _module_vierge_.odt
@@ -13,7 +13,7 @@ Puis ajouter le lien IMAGE en s'inspirant des liens ci-dessous.
 
 Pour le détail, voir REF[216|La fiche Structure].
 
-<webonly>
+<webonly class="block">
 
 <%= (DOIGT +  'Charger le modèle de fiche ODF (.dot)'.in_a(href: './data/unan/pages_semidyn/cnarration/_assets_/modeles/modele_vide.odt', target: :new)).in_div %>
 

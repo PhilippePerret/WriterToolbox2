@@ -34,7 +34,7 @@ On peut mettre dans sa “boucle” les documents que l'on souhaite, mais ceux p
 * document  s'occupant des thèmes (qu'on appellera “Document Thématique”),
 * document divers qui s'occupera de choses différentes en fonction des besoins du développement (ce sont les dossiers mauves ci-dessus).
 
-<webonly>
+<webonly class="block">
 Noter que c'est cette méthode qui est utilisée pour développer son script ou son manuscrit dans le <%= lien.unanunscript('programme ÉCRIRE UN ROMAN OU UN FILM EN UN AN') %>.
 </webonly>
 

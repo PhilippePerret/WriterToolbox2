@@ -1,8 +1,13 @@
+div#riendutout
+  display : block
+  
+div#flash
+  div.error
+    .red
+      color : #FFA1A2 !important
+
 .red
-  color: red
-  // Sur du rouge comme dans le flash
-  div#flash div.error
-    color #FFA1A2
+  color   : red!important
 
 .green
   color: green !important
@@ -25,6 +30,10 @@ span.oeuvre
   letter-spacing  : 2.6px
   &:before, &:after
     content   : "•"
+
+// Pour du texte qui ne doit apparaitre qu'en version ligne
+.block
+  display   : block
 
 // Pour les éléments un peu transparent qui s'éclaircissent au passage
 // de la souris

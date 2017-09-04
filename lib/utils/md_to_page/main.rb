@@ -50,7 +50,7 @@ class MD2Page
   #
   def add_final_replacement code
     @icode_replacement ||= 0
-    repid = "CODEFINALREPLACEMENT#{@icode_replacement+=1}"
+    repid = "XXXCODEFINALREPLACEMENT#{@icode_replacement+=1}XXX"
     @table_final_code_replacements.merge!(repid => code)
     return repid
   end
@@ -129,7 +129,7 @@ class MD2Page
   # traités
   def traite_final_replacements 
     @table_final_code_replacements.each do |repid, code|
-      @wcode.gsub!(/\b#{repid}\b/, code)
+      @wcode.gsub!(/#{repid}/, code)
     end
   end
 

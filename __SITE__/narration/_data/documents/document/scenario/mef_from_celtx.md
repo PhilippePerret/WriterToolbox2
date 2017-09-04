@@ -4,7 +4,7 @@
 
 Cependant, le logiciel étant américain, la mise en forme n'est pas adaptée à l'usage hexagonal et les lecteurs français peuvent être heurtés par la présentation en police “`Courier`”.
 
-Cette page décrit le moyen de mettre en forme votre scénario pour une utilisation française, à l'aide de CeltX et de [LibreOffice](http://fr.libreoffice.org/), un autre logiciel libre. 
+Cette page décrit le moyen de mettre en forme votre scénario pour une utilisation française, à l'aide de CeltX et de [LibreOffice](http://fr.libreoffice.org/), un autre logiciel libre.
 
 Dans une première partie, on présente la version abrégée, rapide, de la procédure, pour ceux qui l'ont déjà suivie en détail ou qui maitrisent parfaitement les deux logiciels requis. Dans une seconde partie, on reprend la procédure en détail.
 
@@ -59,11 +59,11 @@ Il ne vous reste plus alors qu'à recommencer l'opération ou à déplacer les f
 
 #### Modifier les styles
 
-Au point où nous en sommes, si vous parcourez votre document scénario dans LibreOffice, vous vous apercevrez que le formatage n'est pas bon. Nous allons modifier les styles pour pallier ce problème. 
+Au point où nous en sommes, si vous parcourez votre document scénario dans LibreOffice, vous vous apercevrez que le formatage n'est pas bon. Nous allons modifier les styles pour pallier ce problème.
 
 Notez que cette modification ne sera à faire qu'une seule fois. Pour votre prochain scénario, il suffira de *charger* les styles que vous allez modifier.
 
-<webonly>
+<webonly class="block">
 <em>Bien sûr, je pourrais me contenter de fournir un document à télécharger, contenant les feuilles de styles d'un scénario, mais il est plus intéressant pour l'auteur de se familiariser avec la création des styles. Il y gagnera beaucoup dans son travail quotidien.</em>
 </webonly>
 
