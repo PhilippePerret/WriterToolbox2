@@ -23,12 +23,12 @@ class MD2Page
     str = evaluate_codes_ruby(str)                            # testé
     str = formate_mises_en_forme_propres(str, options)        # testé
     str = traite_document_in_code(str) # cf. MEFDocument.rb   # testé
-    str = formate_balises_notes(str)
+    str = formate_balises_notes(str)                          # testé
     str = formate_balises_references(str,options)             # testé
     str = formate_balises_images(str, options)                # testé
     str = formate_balises_mots(str)                           # testé
     str = formate_balises_films(str)                          # testé
-    str = formate_balises_scenes(str)
+    str = formate_balises_scenes(str)                         # testé
     str = formate_balises_livres(str)
     str = formate_balises_personnages(str)
     str = formate_balises_realisateurs(str)
@@ -232,7 +232,7 @@ class MD2Page
   end
 
   def formate_balises_references str, options = nil
-    str.gsub!(/REF\[(.*?)\]/){ 
+    str.gsub!(/REF\[(.*?)\]/){
       args = $1.split('|').collect{|e|e.nil_if_empty}
       args.unshift(options[:narration_current_book_id])
       traite_lien_narration(*args)
@@ -245,7 +245,7 @@ class MD2Page
     hpage != nil || raise("Impossible d'obtenir la page Narration ##{page_id}. Merci de vérifier l'identifiant.")
     c = "<a href=\"narration/page/#{page_id}"
     ancre != nil && c << "##{ancre}"
-    c << "\" class=\"page\">#{titre || hpage[:titre]}</a>" 
+    c << "\" class=\"page\">#{titre || hpage[:titre]}</a>"
     bid = hpage[:livre_id]
     if bid != cur_book_id
       require './__SITE__/narration/_lib/_required/constants'
@@ -313,8 +313,8 @@ class MD2Page
     when 'inline'
       img_tag
     else
-      legend  = legend ? "<div class=\"img_legend\">#{legend}</div>" : '' 
-      img_tag = "<div class=\"image\">#{img_tag}</div>" 
+      legend  = legend ? "<div class=\"img_legend\">#{legend}</div>" : ''
+      img_tag = "<div class=\"image\">#{img_tag}</div>"
       "<div class=\"#{main_div_class} image\">#{img_tag}#{legend}</div>"
     end
   end
@@ -345,7 +345,7 @@ class MD2Page
     paths_seek = Array.new
     dossiers.each do |prefix_path|
       testedpath = File.join(prefix_path,relpath)
-      File.exist?(testedpath) && (return testedpath) 
+      File.exist?(testedpath) && (return testedpath)
       paths_seek << testedpath
     end
     rc = "\n"
@@ -362,8 +362,8 @@ class MD2Page
   end
 
   def formate_balises_films str
-    @films_already_traited ||= Hash.new 
-    str.gsub!(/FILM\[(.*?)(?:\|(.*?))?\]/){ 
+    @films_already_traited ||= Hash.new
+    str.gsub!(/FILM\[(.*?)(?:\|(.*?))?\]/){
       hfilm = site.db.select(:biblio,'filmodico',{film_id:$1},[:id,:titre,:realisateur,:annee,:titre_fr]).first
       "<a href=\"filmodico/show/#{hfilm[:id]}\" class=\"film\">#{titre_film_for hfilm}</a>"
     }
@@ -388,22 +388,30 @@ class MD2Page
 
   def formate_balises_scenes str # Analyses
     str.gsub!(/SCENE\[(.*?)\]/){
-      numero, libelle, extra = $1.split('|').collect{|e| e.strip}
+      numero, libelle, extra = $1.split('|').collect{|e| e.nil_if_empty}
       # Je ne sais plus à quoi sert `extra`, il peut avoir
       # la valeur 'true'
-      libelle ||= "scène #{numero}"
-      libelle.in_a(onclick:"$.proxy(Scenes,'show',#{numero})()")
+      libelle ||= "scène ##{numero}"
+      libelle.in_a(onclick:"Scenes.show.call(Scenes,#{numero})")
     }
     str
   end
 
-  def formate_balises_livres str
-    str.gsub!(/LIVRE\[(.*?)\]/){
-      ref, titre = $1.split('|')
-      lien.livre(titre, ref)
-    }
-    formate_balises_colon(str,'livre')
-  end
+ def formate_balises_livres str
+   str.gsub!(/LIVRE\[(.*?)\]/){
+     lien_vers_livre( *$1.split('|').collect{|e|e.nil_if_empty} )
+   }
+   return str
+ end
+ def lien_vers_livre livre_id, titre = nil
+   require './__SITE__/narration/_lib/_required/constants'
+   hlivre = Narration::BIBLIOGRAPHIE[livre_id]
+   titre ||= hlivre[:titre]
+   titre  = titre.in_span(class: 'livre')
+   auteur = hlivre[:auteur].in_span(class: 'auteur')
+   annee  = hlivre[:annee].to_s.in_span(class: 'annee')
+   "#{titre} (#{auteur}, #{annee})"
+ end
 
   def formate_balises_personnages str
     formate_balises_colon(str,'personnage')

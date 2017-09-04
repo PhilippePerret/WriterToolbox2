@@ -75,4 +75,51 @@ class Narration
     9   => {hname:  'Correction finale'},
     'a' => {hname:  'Achevée'}
   }
+
+  # Sont rassemblés ici tous les livres cités dans les pages
+  # de la collection Narration.
+  #
+  BIBLIOGRAPHIE = {
+    'DIAL2004' => {
+        id:     'DIAL2004',
+        titre:  'Des Dialogues de cinéma',
+        auteur:  'Jean Samouillan',
+        editeur:  'Lharmattan',
+        annee:    2004,
+        isbn:     '2-7475-5923-8'
+    },
+    'DRAMA1994'     => {
+      id:       "DRAMA1994",
+      titre:    "La Dramaturgie",
+      auteur:   "Yves Lavandier",
+      editeur:  "Le Clown & l'Enfant",
+      annee:    1994,
+      isbn:     "2-910606-00-7"
+    },
+    'GDS1998'   => {
+      id:       "GDS1998",
+      titre:    "Le Guide du scénariste",
+      auteur:   "Christopher Vogler",
+      editeur:  "Dixit",
+      annee:    1998,
+      isbn:     "2906587796"
+    },
+    'SRPS1998' => {
+      id:       "SRPS1998",
+      titre:    "Savoir rédiger et présenter son scénario",
+      auteur:   "Philippe Perret et Robin Barrataud",
+      annee:    1998,
+      editeur:  "Encres de Siagne",
+      isbn:     "979-10-90461-05-5"
+    },
+    'PSYFEE1976' => {
+      id:       'PSYFEE1976',
+      titre:    'Psychanalyse des contes de fées',
+      auteur:   'Bruno Bettelheim',
+      annee:    1976,
+      editeur:  'Pocket (sept. 1999)',
+      isbn:     '978-2266095785'
+    }
+  }
+
 end #/Cnarration

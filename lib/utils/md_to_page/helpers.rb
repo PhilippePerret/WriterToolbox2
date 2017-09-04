@@ -5,23 +5,29 @@
 
 class String
 
+  # @syntax:    "texte".in_div([<hash attributes>])
+  #
+  def in_div attrs = nil
+    self.buildtag('div',attrs)
+  end
+  def in_span attrs = nil
+    self.buildtag('span',attrs)
+  end
+  def in_a attrs = nil
+    self.buildtag('a',attrs)
+  end
+  def in_section attrs = nil
+    self.buildtag('section',attrs)
+  end
+
+
+#private
+
   def as_intag attrs = nil
     attrs ||= Hash.new
     "<#{(self + SPACE + attrs.collect{|k,v|"#{k}=\""+v+'"'}.join(' ')).strip}>"
   end
-
-
-  # @syntax:    "texte".in_div([<hash attributes>])
-  #
-  def in_div attrs = nil
-    'div'.as_intag(attrs) + self + '</div>'
+  def buildtag tag, attrs
+    tag.as_intag(attrs) + self + "</#{tag}>"
   end
-  def in_span attrs = nil
-    'span'.as_intag(attrs) + self + '</span>'
-  end
-  def in_section attrs = nil
-    'section'.as_intag(attrs) + self + '</section>'
-  end
-
-
 end #/String

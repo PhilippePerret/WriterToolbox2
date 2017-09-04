@@ -335,3 +335,16 @@
       </ul></div>
       </div>
     :nospace: true
+  -
+    :it: 'transforme les balises SCENE'
+    :from: "C'est une scène SCENE[12]"
+    :to:   "<p>C’est une scène <a onclick=\"Scenes.show.call(Scenes,12)\">scène #12</a></p>"
+
+  -
+    :it:    'transforme les balises SCENE (avec libellé forcé)'
+    :from:  "C'est une autre scène SCENE[12] et une autre SCENE[14|son libellé]"
+    :to:    "<p>C’est une autre scène <a onclick=\"Scenes.show.call(Scenes,12)\">scène #12</a> et une autre <a onclick=\"Scenes.show.call(Scenes,14)\">son libellé</a></p>"
+  -
+    :it:    'transforme les balises LIVRE'
+    :from:  "C'est un LIVRE[GDS1998] à lire."
+    :to:    "<p>C’est un <span class=\"livre\">Le Guide du scénariste</span> (<span class=\"auteur\">Christopher Vogler</span>, <span class=\"annee\">1998</span>) à lire.</p>"
