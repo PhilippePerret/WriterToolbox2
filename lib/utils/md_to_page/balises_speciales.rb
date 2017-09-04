@@ -29,13 +29,13 @@ class MD2Page
     str = formate_balises_mots(str)                           # testé
     str = formate_balises_films(str)                          # testé
     str = formate_balises_scenes(str)                         # testé
-    str = formate_balises_livres(str)
-    str = formate_balises_personnages(str)
-    str = formate_balises_realisateurs(str)
-    str = formate_balises_producteurs(str)
-    str = formate_balises_acteurs(str)
-    str = formate_balises_auteurs(str)
-    str = formate_termes_techniques(str)
+    str = formate_balises_livres(str)                         # testé
+    str = formate_balises_personnages(str)                    # testé
+    str = formate_balises_realisateurs(str)                   # testé
+    str = formate_balises_producteurs(str)                    # testé
+    str = formate_balises_acteurs(str)                        # testé
+    str = formate_balises_auteurs(str)                        # testé
+    str = formate_termes_techniques(str)                      # testé
     str = formate_balises_citations(str)                      # testé
 
     # debug "STRING APRÈS = #{str.gsub(/</,'&lt;').inspect}"
@@ -47,16 +47,15 @@ class MD2Page
   # @usage
   #   INCLUDE[path/relatif/to/file.ext]
   def formate_balises_include str
-    str.gsub!(/INCLUDE\[(.*?)\]/){
-      path = $1
-      if File.exist?(path)
-        "\n\n" + File.read(path).force_encoding('utf-8') + "\n\n"
-      else
-        # TODO Ici, alerte administrateur
-        "INCLUSION FICHIER INTROUVABLE : #{path}"
-      end
-    }
-    str
+    str.gsub!(/INCLUDE\[(.*?)\]/){ traite_fichier_include($1) }
+    return str
+  end
+  def traite_fichier_include path
+    if File.exist?(path)
+      "\n\n" + File.read(path).force_encoding('utf-8') + "\n\n"
+    else
+      "INCLUSION FICHIER INTROUVABLE : #{path}"
+    end
   end
 
 
@@ -85,60 +84,24 @@ class MD2Page
   end
 
 
+
+  FOLDER_EXEMPLES = File.join('.','__SITE__','narration','_data','exemples')
+
   # Insertion des exemples (balises EXEMPLE)
   #
-  # Elles fonctionnent comme les inclusions, sauf que le paramètre
-  # est un chemin relatif depuis le dossier :
-  #   ./data/unan/page_cours/cnarration/exemples/_textes_/
-  # ou
-  #   ./data/unan/page_semidyn/cnarration/exemples/_textes_/
-  #
-  # La méthode est appelée par le fichier :
-  #   ./objet/cnarration/lib/module/page/build.rb
   def formate_balises_exemples str
-    str.gsub!(/EXEMPLE\[(.*?)\]/){
-      rel_path = $1.freeze
-      path_in_cours   = self.class.folder_textes_exemples_in_cours + rel_path
-      path_in_semidyn = self.class.folder_textes_exemples_in_semidyn + rel_path
-      temp_line = "<adminonly>#{'Éditer l’exemple ci-dessous'.in_a(href: "site/edit_text?path=%s", target: :new)}</adminonly>\n"
-
-      if path_in_cours.exist?
-        (temp_line % [CGI.escape(path_in_cours.to_s)]) +
-          formate_exemple_in_path(path_in_cours)
-      elsif path_in_semidyn.exist?
-        (temp_line % [CGI.escape(path_in_semidyn.to_s)]) +
-          formate_exemple_in_path(path_in_semidyn)
-      else
-        error "Un fichier exemple introuvable : #{rel_path}" +
-        "(recherché dans #{path_in_cours} et #{path_in_semidyn})".in_div(class: 'small')
-        "[ERREUR DE FICHIER EXEMPLE INCONNU : #{rel_path}]"
-      end.gsub(/\r/,'')
-    }
-    str
+    str.gsub!(/EXEMPLE\[(.*?)\]/){ traite_fichier_exemple($1)}
+    return str
   end
 
-  # Pour formater les exemples avec Kramdown, il faut les
-  # traiter de façon particulière, pour ne pas transformer
-  # les parties des notes et les marques `DOC/`. On ne peut
-  # pas se contenter d'utiliser la méthode String#kramdown
-  #
-  # ÇA FOIRE COMPLÈTEMENT LE TRUC, DONC JE ME CONTENTE DE
-  # CORRIGER "MANUELLEMENT" QUELS TRUCS MARKDOWN
-  #
-  def formate_exemple_in_path superfile
-    sfstr = superfile.read.gsub(/\r/,'')
-    sfstr.gsub!(/\*\*(.*?)\*\*/, '<strong>\1</strong>')
-    sfstr.gsub!(/\*(.*?)\*/, '<em>\1</em>')
-    return sfstr
-  end
-
-  class << self
-    def folder_textes_exemples_in_cours
-      @folder_textes_exemples_in_cours ||= SuperFile.new('./data/unan/pages_cours/cnarration/exemples/_textes_')
-    end
-    def folder_textes_exemples_in_semidyn
-      @folder_textes_exemples_in_semidyn ||= SuperFile.new('./data/unan/pages_semidyn/cnarration/exemples/_textes_')
-    end
+  # @param {Sring} relpath
+  #                 Le chemin relatif, avec l'extension (normalement, toujours .md)
+  def traite_fichier_exemple relpath
+    fullpath  = File.join(FOLDER_EXEMPLES,relpath)
+    # Ici, le lien `edit_link` serait transformé à la suite, donc on conserve son code
+    # dans la table @table_final_replacements pour l'insérer en tout dernier
+    rep_id = add_final_replacement("<%= lien.edit_text(\"#{fullpath}\",\"Éditer l’exemple\") %>")
+    return rep_id + traite_fichier_include(fullpath)
   end
 
   # Évalue le code situé entre balise RUBY_ et _RUBY

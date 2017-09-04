@@ -107,6 +107,7 @@ describe 'MD2Page' do
           theto.gsub!(/>\W+</,'><')
           theres.gsub!(/>\W+</,'><')
         end
+
         if theres != theto
           compare(theres, theto)
         end

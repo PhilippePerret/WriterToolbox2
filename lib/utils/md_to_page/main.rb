@@ -12,6 +12,12 @@ class MD2Page
   attr_reader :src_path
   attr_reader :options
 
+  def initialize
+    # table dans laquel on va conserver les codes à ne replacer qu'à
+    # la fin du traitement, pour ne pas les corriger.
+    @table_final_code_replacements = Hash.new
+  end
+
   # @param {String|Nil} src_path
   #         Path du fichier source.
   #         Si nil, le code doit être défini dans options[:code]
@@ -38,6 +44,16 @@ class MD2Page
     end
   end
   #/transpile
+
+  # Ajouter un code à remplacer à la toute fin, pour ne pas le
+  # corriger
+  #
+  def add_final_replacement code
+    @icode_replacement ||= 0
+    repid = "CODEFINALREPLACEMENT#{@icode_replacement+=1}"
+    @table_final_code_replacements.merge!(repid => code)
+    return repid
+  end
 
   # Code initial préparé
   def init_code
@@ -98,6 +114,10 @@ class MD2Page
     # On replace les balises erb pour produire le code dynamique
     unescape_balises_erb
 
+    # On replace les codes à ne pas traiter qui ont peut-être
+    # été mis de côté
+    remettre_codes_intraitables
+
   end
   #/traite_code
 
@@ -111,6 +131,14 @@ class MD2Page
     @wcode.gsub!(/gatBRE/,'%>')
   end
 
+
+  # On replace les codes qui ont été mis de côté pour ne pas être
+  # traités
+  def remettre_codes_intraitables
+    @table_final_code_replacements.each do |repid, code|
+      @wcode.gsub!(/\b#{repid}\b/, code)
+    end
+  end
 
 
 end #/MD2Page

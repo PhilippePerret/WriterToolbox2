@@ -8,6 +8,17 @@ class Site
   # Les liens communs utiles dans toutes les parties du site
   class Lien
 
+    # Retourne un lien pour éditer le fichier +path+, mais seulement si
+    # c'est un administrateur.
+    # @param {Hash} options
+    #               options[:titre] Le titre (sinon, "éditer")
+    def edit_text path, options = nil
+      user.admin? || (return '')
+      options ||= Hash.new
+      options.key?(:titre) || options.merge!(titre: "éditer")
+      "<adminonly><a href=\"admin/edit_text?path=#{CGI.escape(path)}\">#{options[:titre]}</a><adminonly>"
+    end
+
     def signup params = nil
       params = def_params(params, {titre: 'S’inscrire'})
       "<a href='user/signup' class=\"#{params[:class]}\">#{params[:titre]}</a>"
