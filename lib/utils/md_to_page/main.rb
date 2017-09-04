@@ -111,30 +111,23 @@ class MD2Page
     #
     options[:no_leading_p] && @wcode.sub!(/^<p>(.*)<\/p>$/m,'\1')
 
-    # On replace les balises erb pour produire le code dynamique
-    unescape_balises_erb
-
     # On replace les codes à ne pas traiter qui ont peut-être
     # été mis de côté
-    remettre_codes_intraitables
+    traite_final_replacements
 
   end
   #/traite_code
 
 
   def escape_balises_erb
-    @wcode.gsub!(/<%/, 'ERBtag')
-    @wcode.gsub!(/%>/, 'gatBRE')
+    @wcode.gsub!(/(<%(.*?)%>)/m){
+      add_final_replacement($1)
+    }
   end
-  def unescape_balises_erb
-    @wcode.gsub!(/ERBtag/,'<%')
-    @wcode.gsub!(/gatBRE/,'%>')
-  end
-
 
   # On replace les codes qui ont été mis de côté pour ne pas être
   # traités
-  def remettre_codes_intraitables
+  def traite_final_replacements 
     @table_final_code_replacements.each do |repid, code|
       @wcode.gsub!(/\b#{repid}\b/, code)
     end

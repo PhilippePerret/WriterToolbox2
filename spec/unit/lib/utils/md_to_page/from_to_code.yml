@@ -358,7 +358,7 @@
     :it:  'transforme les balises EXEMPLE'
     :from: "Ceci est un exemple : EXEMPLE[_textes_/xtest.md]"
     :to: |-
-      <p>Ceci est un exemple : <%= lien.edit_text("./__SITE__/narration/_data/exemples/_textes_/xtest.md","Éditer l’exemple") %></p>
+      <p>Ceci est un exemple : <%= lien.edit_text("./__SITE__/narration/_data/exemples/_textes_/xtest.md",{titre: "Éditer l’exemple", in_span: true}) %></p>
       <p>Simple fichier pour tester les balises EXEMPLE.</p>
       <ul>
       <li>item 1</li>
