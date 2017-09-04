@@ -1,140 +1,205 @@
 ---
-  -
-    :it:    "transforme les titres en dièses"
-    :from:  |-
-      # Un grand titre
+  # -
+  #   :it:    "transforme les titres en dièses"
+  #   :from:  |-
+  #     # Un grand titre
+  #
+  #     ## Un sous-titre {#avec_ancre}
+  #
+  #     Un paragraphe simple.
+  #   :to:  |-
+  #     <h1 id="un-grand-titre">Un grand titre</h1>
+  #     <h2 id="avec_ancre">Un sous-titre</h2>
+  #     <p>Un paragraphe simple.</p>
+  #
+  # -
+  #   :it:    'transforme les balises MOT'
+  #   :from:  'MOT[112|le mot]'
+  #   :to:    '<p><a href="scenodico/show/112" class="mot">le mot</a></p>'
+  #
+  # -
+  #   :it:    'transforme les balises FILM'
+  #   :from:  'FILM[Seven1995]'
+  #   :to:    '<p><a href="filmodico/show/129" class="film"><span class="titre">Seven</span> (<span class="realisateur">David Fincher</span>, <span class="annee">1995</span>)</a></p>'
+  # -
+  #   :it:    'transforme les liens'
+  #   :from: |-
+  #     [Atelier Icare]: http://www.atelier-icare.net
+  #
+  #     Dans l'[Atelier Icare].
+  #
+  #   :to: |-
+  #     <p>Dans l’<a href="http://www.atelier-icare.net">Atelier Icare</a>.</p>
+  #
+  # -
+  #   :it:    'transforme les listes'
+  #   :from: |-
+  #     * item 1
+  #     * item 2
+  #     * item 3
+  #
+  #     Un paragraphe
+  #
+  #     1. item 1
+  #     2. item 2
+  #
+  #   :to: |-
+  #     <ul>
+  #       <li>item 1</li>
+  #       <li>item 2</li>
+  #       <li>item 3</li>
+  #     </ul>
+  #
+  #     <p>Un paragraphe</p>
+  #
+  #     <ol>
+  #       <li>item 1</li>
+  #       <li>item 2</li>
+  #     </ol>
+  # -
+  #   :it: 'évalue le code ruby'
+  #   :from: "2 + 2 est égal à RUBY_ 2+2 _RUBY"
+  #   :to: "<p>2 + 2 est égal à 4</p>"
+  #
+  #
+  # -
+  #   :it:  'transforme les balises images IMAGE'
+  #   :from: "C'est une IMAGE[pictos/rond-vert.png]"
+  #   :to:    "<p>C’est une <div class=\"center image\"><div class=\"image\"><img src=\"./img/pictos/rond-vert.png\" /></div></div></p>"
+  #
+  # -
+  #   :it:  'transforme les balises images IMAGE avec un style plain'
+  #   :from:  "C'est une IMAGE[pictos/rond-vert.png|plain]"
+  #   :to:    "<p>C’est une <div class=\"center image\"><div class=\"image\"><img src=\"./img/pictos/rond-vert.png\" style=\"width:100%;\" /></div></div></p>"
+  #
+  # -
+  #   :it:  'transforme les balises images IMAGE avec une légende'
+  #   :from:  "C'est une IMAGE[pictos/rond-none.png||Une légende]"
+  #   :to:    "<p>C’est une <div class=\"center image\"><div class=\"image\"><img src=\"./img/pictos/rond-none.png\" /></div><div class=\"img_legend\">Une légende</div></div></p>"
+  #
+  # -
+  #   :it:  'transforme les balises images IMAGE avec une balise style définie explicitement'
+  #   :from:  "IMAGE[pictos/rond-none.png|||width:50%;]"
+  #   :to:    "<div class=\"center image\"><div class=\"image\"><img src=\"./img/pictos/rond-none.png\" style=\"width:50%;\" /></div></div>"
+  #
+  # -
+  #   :it: 'transforme les balises IMAGE avec un dossier défini'
+  #   :from: "C'est une IMAGE[garcon.png|inline|||pictos/personnage]"
+  #   :to:   "<p>C’est une <img src=\"./img/pictos/personnage/garcon.png\" /></p>"
+  #
+  # -
+  #   :it: 'transforme une balise IMAGE avec tous les paramètres'
+  #   :from: "IMAGE[garcon.png|fleft|La légende de la nuit|border:1px solid;|pictos/personnage]"
+  #   :to: |-
+  #     <div class="fleft image">
+  #     <div class="image"><img src="./img/pictos/personnage/garcon.png" style="border:1px solid;" /></div>
+  #     <div class="img_legend">La légende de la nuit</div>
+  #     </div>
+  #
+  # -
+  #   :it: 'transforme les tables "en trait"'
+  #   :from: |-
+  #     | :---: | :---: |
+  #     | Header 1 | Header 2 |
+  #     | --- | --- |
+  #     | Cellule 1 | Cellule 2 |
+  #   :to: |-
+  #     <table>
+  #     <thead>
+  #     <tr><th>Header 1</th><th>Header 2</th></tr>
+  #     </thead>
+  #     <tbody>
+  #     <tr><td>Cellule 1</td><td>Cellule 2</td></tr>
+  #     </tbody>
+  #     </table>
+  #   :nospace: true
+  #
+  # -
+  #   :it:  'inclut les fichiers par la balise INCLUDE'
+  #   :from:  |-
+  #     # Un grand titre
+  #
+  #     Un paragraphe.
+  #
+  #     INCLUDE[./spec/support/docs/test_balise_include.txt]
+  #
+  #     Un autre paragraphe.
+  #   :to: |-
+  #     <h1 id="un-grand-titre">Un grand titre</h1>
+  #     <p>Un paragraphe.</p>
+  #     <p>Le contenu du fichier inclus.</p>
+  #     <ul><li>item 1</li><li>item 2</li><li>item 3</li></ul>
+  #     <p>Nous allons à l’<a href="http://www.atelier-icare.net">atelier Icare</a> pour obtenir la définition du mot <a href="scenodico/show/100" class="mot">#100</a>.</p>
+  #     <p>Un autre paragraphe.</p>
+  #   :nospace: true
+  #
+  # -
+  #   :it:  'met une balise spéciale si le fichier inclus n’existe pas'
+  #   :from: "INCLUDE[./bad/file.txt]"
+  #   :to: |-
+  #     <p>INCLUSION FICHIER INTROUVABLE : ./bad/file.txt</p>
+  #
+  # -
+  #   :it: "transforme les textes avec note en marge"
+  #   :from: "La note +++ Le texte."
+  #   :to: |-
+  #     <div class="mg vingtcinq">
+  #     <div class="notemarge">La note</div>
+  #     <p>Le texte.</p>
+  #     </div>
+  #
+  # -
+  #   :it: 'transforme les textes avec note en marge en les mettant en forme'
+  #   :from: |-
+  #     Une note de marge ++++ Le *texte* du [lien](#unlien).
+  #   :to: |-
+  #     <div class="mg trente">
+  #     <div class="notemarge">Une note de marge</div>
+  #     <p>Le <em>texte</em> du <a href="#unlien">lien</a>.</p>
+  #     </div>
+  #
+  # -
+  #   :it: 'transforme les documents dans les pages'
+  #   :from: |-
+  #     DOC/
+  #     Un document dans la page.
+  #     /DOC
+  #   :to:
+  #     <section class="document">
+  #     <div class="p">Un document dans la page.</div>
+  #     </section>
+  #   :nospace: true
+  #
+  # -
+  #   :it: 'transforme le document de type scénario'
+  #   :from: |-
+  #     DOC/scenario
+  #     i:INT. JOUR
+  #     a:Une action pour voir.
+  #     n:MON PERSONNAGE
+  #     j:(en prenant son temps)
+  #     d:Bonjour, je suis le personnage.
+  #     a:Une autre action.
+  #     /DOC
+  #   :to: |-
+  #     <section class="document scenario">
+  #     <div class="intitule">INT. JOUR</div>
+  #     <div class="action">Une action pour voir.</div>
+  #     <div class="personnage">MON PERSONNAGE</div>
+  #     <div class="note_jeu">(en prenant son temps)</div>
+  #     <div class="dialogue">Bonjour, je suis le personnage.</div>
+  #     <div class="action">Une autre action.</div>
+  #     </section>
+  #   :nospace: true
 
-      ## Un sous-titre {#avec_ancre}
-
-      Un paragraphe simple.
-    :to:  |-
-      <h1 id="un-grand-titre">Un grand titre</h1>
-      <h2 id="avec_ancre">Un sous-titre</h2>
-      <p>Un paragraphe simple.</p>
-
   -
-    :it:    'transforme les balises MOT'
-    :from:  'MOT[112|le mot]'
-    :to:    '<p><a href="scenodico/show/112" class="mot">le mot</a></p>'
-
-  -
-    :it:    'transforme les balises FILM'
-    :from:  'FILM[Seven1995]'
-    :to:    '<p><a href="filmodico/show/129" class="film"><span class="titre">Seven</span> (<span class="realisateur">David Fincher</span>, <span class="annee">1995</span>)</a></p>'
-  -
-    :it:    'transforme les liens'
+    :it:  'transforme tous les textes à l’intérieur du DOC'
     :from: |-
-      [Atelier Icare]: http://www.atelier-icare.net
-
-      Dans l'[Atelier Icare].
-
+      DOC/events
+      *Texte en italique* et **texte en gras**.
+      /DOC
     :to: |-
-      <p>Dans l’<a href="http://www.atelier-icare.net">Atelier Icare</a>.</p>
-
-  -
-    :it:    'transforme les listes'
-    :from: |-
-      * item 1
-      * item 2
-      * item 3
-
-      Un paragraphe
-
-      1. item 1
-      2. item 2
-
-    :to: |-
-      <ul>
-        <li>item 1</li>
-        <li>item 2</li>
-        <li>item 3</li>
-      </ul>
-
-      <p>Un paragraphe</p>
-
-      <ol>
-        <li>item 1</li>
-        <li>item 2</li>
-      </ol>
-  -
-    :it: 'évalue le code ruby'
-    :from: "2 + 2 est égal à RUBY_ 2+2 _RUBY"
-    :to: "<p>2 + 2 est égal à 4</p>"
-
-
-  -
-    :it:  'transforme les balises images IMAGE'
-    :from: "C'est une IMAGE[pictos/rond-vert.png]"
-    :to:    "<p>C’est une <div class=\"center image\"><div class=\"image\"><img src=\"./img/pictos/rond-vert.png\" /></div></div></p>"
-
-  -
-    :it:  'transforme les balises images IMAGE avec un style plain'
-    :from:  "C'est une IMAGE[pictos/rond-vert.png|plain]"
-    :to:    "<p>C’est une <div class=\"center image\"><div class=\"image\"><img src=\"./img/pictos/rond-vert.png\" style=\"width:100%;\" /></div></div></p>"
-
-  -
-    :it:  'transforme les balises images IMAGE avec une légende'
-    :from:  "C'est une IMAGE[pictos/rond-none.png||Une légende]"
-    :to:    "<p>C’est une <div class=\"center image\"><div class=\"image\"><img src=\"./img/pictos/rond-none.png\" /></div><div class=\"img_legend\">Une légende</div></div></p>"
-
-  -
-    :it:  'transforme les balises images IMAGE avec une balise style définie explicitement'
-    :from:  "IMAGE[pictos/rond-none.png|||width:50%;]"
-    :to:    "<div class=\"center image\"><div class=\"image\"><img src=\"./img/pictos/rond-none.png\" style=\"width:50%;\" /></div></div>"
-
-  -
-    :it: 'transforme les balises IMAGE avec un dossier défini'
-    :from: "C'est une IMAGE[garcon.png|inline|||pictos/personnage]"
-    :to:   "<p>C’est une <img src=\"./img/pictos/personnage/garcon.png\" /></p>"
-
-  -
-    :it: 'transforme une balise IMAGE avec tous les paramètres'
-    :from: "IMAGE[garcon.png|fleft|La légende de la nuit|border:1px solid;|pictos/personnage]"
-    :to: |-
-      <div class="fleft image">
-      <div class="image"><img src="./img/pictos/personnage/garcon.png" style="border:1px solid;" /></div>
-      <div class="img_legend">La légende de la nuit</div>
-      </div>
-
-  -
-    :it: 'transforme les tables "en trait"'
-    :from: |-
-      | :---: | :---: |
-      | Header 1 | Header 2 |
-      | --- | --- |
-      | Cellule 1 | Cellule 2 |
-    :to: |-
-      <table>
-      <thead>
-      <tr><th>Header 1</th><th>Header 2</th></tr>
-      </thead>
-      <tbody>
-      <tr><td>Cellule 1</td><td>Cellule 2</td></tr>
-      </tbody>
-      </table>
+      <section class="document events">
+      <div class="p"><em>Texte en italique</em> et <strong>texte en gras</strong>.</div>
+      </section>
     :nospace: true
-
-  -
-    :it:  'inclut les fichiers par la balise INCLUDE'
-    :from:  |-
-      # Un grand titre
-
-      Un paragraphe.
-
-      INCLUDE[./spec/support/docs/test_balise_include.txt]
-
-      Un autre paragraphe.
-    :to: |-
-      <h1 id="un-grand-titre">Un grand titre</h1>
-      <p>Un paragraphe.</p>
-      <p>Le contenu du fichier inclus.</p>
-      <ul><li>item 1</li><li>item 2</li><li>item 3</li></ul>
-      <p>Nous allons à l’<a href="http://www.atelier-icare.net">atelier Icare</a> pour obtenir la définition du mot <a href="scenodico/show/100" class="mot">#100</a>.</p>
-      <p>Un autre paragraphe.</p>
-    :nospace: true
-
-  -
-    :it:  'met une balise spéciale si le fichier inclus n’existe pas'
-    :from: "INCLUDE[./bad/file.txt]"
-    :to: |-
-      <p>INCLUSION FICHIER INTROUVABLE : ./bad/file.txt</p>

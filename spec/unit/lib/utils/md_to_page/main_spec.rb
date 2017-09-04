@@ -98,6 +98,7 @@ describe 'MD2Page' do
         theto   = dsample[:to].gsub(/\n/,'')
         theres  = read_dyn
         dsample[:nospace] && begin
+
           theto.gsub!(/>\W+</,'><')
           theres.gsub!(/>\W+</,'><')
         end

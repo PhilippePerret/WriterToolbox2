@@ -8,8 +8,14 @@ class MD2Page
     attr_reader :src_path
     attr_reader :options
 
+    # @param {String|Nil} src_path
+    #         Path du fichier source.
+    #         Si nil, le code doit être défini dans options[:code]
+    #
     # @param {Hash} options
     #
+    #   options[:code]          Le code à traiter, s'il n'a pas été défini
+    #                           par src_path.
     #   options[:owner]         Possesseur du fichier (à voir)
     #   options[:img_folder]    Dossier des images
     #   options[:pre_code]      Le code à mettre avant
@@ -20,7 +26,7 @@ class MD2Page
 
       # Si un fichier de destination est spécifié, on écrit le code final
       # dedans, sinon on le renvoie.
-      if options[:dest]
+      if @options[:dest]
         File.open(dest_path,'wb') { |f| f.write(final_code) }
       else
         return final_code
@@ -32,7 +38,11 @@ class MD2Page
     def init_code
       c = String.new
       c += options[:pre_code] || ''
-      c += File.read(src_path).force_encoding('utf-8')
+      if src_path
+        c += File.read(src_path).force_encoding('utf-8')
+      else # sinon, le code doit être défini dans options[:code]
+        c += options[:code]
+      end
       c = c.gsub(/\r\n?/,"\n").chomp
       return c
     end

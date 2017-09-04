@@ -1,0 +1,37 @@
+// Pour une marge gauche
+.mg
+  position    : relative
+
+  div.notemarge
+    position      : absolute
+    text-align    : left
+    font-size     : 13.8pt
+    line-height   : 1.1em
+    padding-top   : 7px
+
+  &.cinq
+    margin-left : 5%
+  &.dix
+    margin-left : 10%
+  &.quinze
+    margin-left : 15%
+  &.vingt
+    margin-left : 20%
+    div.notemarge
+      margin-left   : -22%
+      width         : 20%
+  &.vingtcinq
+    margin-left : 25%
+    div.notemarge
+      margin-left   : -30%
+      width         : 25%
+  &.trente
+    margin-left : 30%
+    div.notemarge
+      margin-left   : -40%
+      width         : 30%
+  &.trentecinq
+    margin-left : 35%
+    div.notemarge
+      margin-left   : -50%
+      width         : 35%

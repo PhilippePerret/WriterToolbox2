@@ -22,8 +22,8 @@ class MD2Page
       # File.open(p, 'a'){|f| f.write "\n\nAPRÈS CORRECTION\n\n#{str}"}
 
       str = evaluate_codes_ruby(str)
-      str = formate_mises_en_forme_propres(str)
-      str = traite_document_in_code(str)
+      str = formate_mises_en_forme_propres(str, options)
+      str = traite_document_in_code(str) # cf. MEFDocument.rb
       str = formate_balises_notes(str)
       str = formate_balises_references(str)
       str = formate_balises_images(str, options)
@@ -61,7 +61,7 @@ class MD2Page
     end
 
 
-    def formate_mises_en_forme_propres str
+    def formate_mises_en_forme_propres str, options = nil
 
       # Le format pour mettre une sorte de note de marge, avec un texte
       # réduit à droite. Ce format est défini par des ++ (au moins 2)
@@ -74,18 +74,12 @@ class MD2Page
         # Puisque le code sera mise entre balises DIV, il ne sera
         # pas corrigé par kramdown. Il faut donc le faire ici, suivant
         # le code du fichier.
-        texte = texte.formate_balises_propres
-        texte =
-          if texte.match(/<%/)
-            texte.deserb
-          else
-            texte.respond_to?(:kramdown) || site.require_module('kramdown')
-            texte.kramdown
-          end
-        (
-          note_marge.strip.in_div(class: 'notemarge') +
-          texte.strip
-        ).in_div(class: "mg #{css}")
+        note_marge = MD2Page.transpile(nil,options.merge(code: note_marge, dest: nil))
+        texte      = MD2Page.transpile(nil, options.merge(code: texte, dest: nil))
+        "<div class=\"mg #{css}\">" +
+          "<div class=\"notemarge\">#{note_marge.strip}</div>" +
+          texte.strip +
+          "</div>"
       }
 
       return str
