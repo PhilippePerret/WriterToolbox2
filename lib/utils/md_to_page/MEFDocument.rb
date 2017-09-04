@@ -19,18 +19,16 @@ NOTES
 =end
 
 class MD2Page
-  class << self
 
-    # Traite le code @wcode qui contient des DOC/
-    def traite_document_in_code str
-      ("\n#{str}\n").gsub(/\nDOC\/(.*?)\n(.*?)\/DOC\n/m){
-        classes_css = $1.freeze
-        doc_content = $2.freeze
-        MEFDocument.new(doc_content, classes_css).output
-      }
-    end
+  # Traite le code @wcode qui contient des DOC/
+  def traite_document_in_code str
+    ("\n#{str}\n").gsub(/\nDOC\/(.*?)\n(.*?)\/DOC\n/m){
+      classes_css = $1.freeze
+      doc_content = $2.freeze
+      MEFDocument.new(doc_content, classes_css).output
+    }
+  end
 
-  end #/<< self
 end #/MD2Page
 
 # Classe MEFDocument
@@ -69,8 +67,8 @@ class MEFDocument
   end
 
   def traite_code_as_html
-    return (@codet.in_pre(class:classes.join(' ')) + self.legend) if brut?
-    # Si c'est un document de classe 'brut', on ne passe pas par là
+    brut? && (return (@codet.in_pre(class:classes.join(SPACE)) + self.legend))  
+    # Si c’est un document de classe brut, on ne passe pas par là
     res =
       if events?
         @codet.traite_as_events_html
@@ -83,10 +81,10 @@ class MEFDocument
       end
 
     @codet = unless brut?
-      res.traite_as_document_content_html
-    else
-      res
-    end
+               res.traite_as_document_content_html
+             else
+               res
+             end
 
     # Le code entièrement traité
     self.in_section + self.legend
@@ -122,8 +120,8 @@ class MEFDocument
 
   def lines
     @lines ||= begin
-      brut? ? @codet.split("\n") : @codet.strip.split("\n")
-    end
+                 brut? ? @codet.split("\n") : @codet.strip.split("\n")
+               end
   end
 
   def procedure?
@@ -167,9 +165,9 @@ class String
     end
     str =
       ("#{str}\n").gsub(/\nDOC\/(.*?)\n(.*?)\/DOC\n/m){
-        classes_css = $1.freeze
-        doc_content = $2.freeze
-        MEFDocument.new(doc_content, classes_css).output(output_format)
+      classes_css = $1.freeze
+    doc_content = $2.freeze
+    MEFDocument.new(doc_content, classes_css).output(output_format)
       }
     return str
   end

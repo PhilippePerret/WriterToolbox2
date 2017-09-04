@@ -7,7 +7,7 @@ class String
 
   def as_intag attrs = nil
     attrs ||= Hash.new
-    "<#{(self + ' ' + attrs.collect{|k,v|"#{k}=\""+v+'"'}.join(' ')).strip}>"
+    "<#{(self + SPACE + attrs.collect{|k,v|"#{k}=\""+v+'"'}.join(' ')).strip}>"
   end
 
 

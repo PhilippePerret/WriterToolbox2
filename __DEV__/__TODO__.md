@@ -1,4 +1,5 @@
 * [NARRATION - gros morceau] Implémenter et tester l'affichage d'une page de Narration (#138)
+  <= Il faut indiquer le livre courant en envoyant narration_current_book_id: <id> en options de MD2Page.transpile.
 
 * Implémenter l'édition d'une table des matières de livre narration
   Le lien est "admin/narration/<id livre>?op=edit_tdm"

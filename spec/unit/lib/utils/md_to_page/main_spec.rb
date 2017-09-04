@@ -91,7 +91,7 @@ describe 'MD2Page' do
 
   describe 'la transpilation' do
 
-    it 'transforme correctement tous les textes' do
+    it '=> transforme correctement tous les textes' do
       factory.each do |dsample|
         write_md(dsample[:from])
 

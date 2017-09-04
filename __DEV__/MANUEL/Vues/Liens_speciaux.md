@@ -2,6 +2,7 @@
 
 * [Les liens vers page avant et après](#link_to_next_prev_pages)
 * [Lien pour éditer la page courante (admin)](#link_to_edit_current_page)
+* [Lien vers les pages de la collection Narration](#links_to_narration)
 
 ## Liens vers pages avant et après {#link_to_next_prev_pages}
 
@@ -49,3 +50,13 @@ Par exemple, pour les articles :
 <span class="span_edit_link">
   <a href="admin/blog/12?op=edit">Éditer l'article</a>
 </span>
+
+## Lien vers les pages de la collection Narration {#links_to_narration}
+
+```
+
+REF[<ID page>[|titre forcé ou réel|ancre]]
+
+```
+
+> Si le lien est demandé depuis un autre livre que le livre de la page contenant l'appel, alors on précise le titre du livre et on ajoute un lien vers sa table des matières. Dans le cas contraire, on n'indique pas le livre.

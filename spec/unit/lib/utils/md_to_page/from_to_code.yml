@@ -275,3 +275,63 @@
     :to: |-
       <p>Se rendre à la page <a href="narration/page/110#lancre" class="page">Un titre forcé</a> pour la lire.</p>
     :args: '{"narration_current_book_id":10}'
+
+  -
+    :it: 'transforme une « note de bas de page »'
+    :from: |-
+      Texte avec une note{{1}}
+      <!-- NOTES -->
+      {{1: Le texte de la note}}
+      <!-- /NOTES -->
+    :to: |-
+      <p>Texte avec une note<sup class="note_renvoi">1</sup></p>
+      <div class="bloc_notes">
+      <div class="small">1&nbsp;Le texte de la note</div>
+      </div>
+
+  -
+    :it:  'transforme plusieurs « notes de bas de page » dans le désordre'
+    :from: |-
+      Un texte avec une note{{3}} qui est normalement 3.
+
+      Un autre texte avec la première note{{1}}.
+
+      Le dernier texte qui porte{{2}} la note deux.
+
+      <!-- NOTES -->
+      {{3: La note 3 est la première}}
+      {{1: La note 1 est la deuxième}}
+      {{2: La note 2 est la troisième}}
+      <!-- /NOTES -->
+
+    :to:
+      <p>Un texte avec une note<sup class="note_renvoi">1</sup> qui est normalement 3.</p>
+      <p>Un autre texte avec la première note<sup class="note_renvoi">2</sup>.</p>
+      <p>Le dernier texte qui porte<sup class="note_renvoi">3</sup> la note deux.</p>
+      <div class="bloc_notes">
+      <div class="small">1&nbsp;La note 3 est la première</div>
+      <div class="small">2&nbsp;La note 1 est la deuxième</div>
+      <div class="small">3&nbsp;La note 2 est la troisième</div>
+      </div>
+    :nospace: true
+
+  -
+    :it: 'transforme la « note de bas de page » en la formatant'
+    :from: |-
+      Texte avec une note{{1}}
+      <!-- NOTES -->
+      {{1: Le **texte** de la note :
+
+        * item 1
+        * item 2
+        * item 3
+        }}
+      <!-- /NOTES -->
+    :to: |-
+      <p>Texte avec une note<sup class="note_renvoi">1</sup></p>
+      <div class="bloc_notes">
+      <div class="small">1&nbsp;Le <strong>texte</strong> de la note :<ul>
+      <li>item 1</li><li>item 2</li><li>item 3</li>
+      </ul></div>
+      </div>
+    :nospace: true
