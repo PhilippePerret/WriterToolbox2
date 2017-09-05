@@ -4,6 +4,40 @@ class Narration
 
     include PropsAndDbMethods
 
+    # Méthode principale appelée pour updater la page, pour une vraie
+    # page, un chapitre ou un sous-chapitre.
+    def update_dyn_by_type
+      send("update_dyn_#{type}".to_sym)
+    end
+
+    # Actualiser le code dynamique d'un chapitre
+    def update_dyn_chap
+      File.open(dyn_file,'wb'){ |f|
+        f.write <<-HTML
+<h3 class="titre_livre">#{titre_livre}</h3>
+#{div_pages_avant_apres(:top)}
+<div id="page_titre">
+  <div class="libelle_titre">Chapitre</div>
+  <div class="titre">#{data[:titre]}</div>
+</div>
+        HTML
+      }
+    end
+
+    # Actualiser le code dynamique d'un sous-chapitre
+    def update_dyn_schap
+      File.open(dyn_file,'wb'){ |f|
+        f.write <<-HTML
+<h3 class="titre_livre">#{titre_livre}</h3>
+#{div_pages_avant_apres(:top)}
+<div id="page_titre">
+  <div class="libelle_titre">Sous-chapitre</div>
+  <div class="titre">#{data[:titre]}</div>
+</div>
+        HTML
+      }
+    end
+
     # Création de la page dynamique .dyn.erb permettant d'afficher
     # rapidement la page Narration.
     #
@@ -34,8 +68,8 @@ class Narration
       <<-HTML
 <h3 class="titre_livre">#{titre_livre}</h3>
 #{div_pages_avant_apres(:top)}
-<h3 class="titre_page">#{data[:titre]}</h3>
 <section id="page_narration-#{id}" class="page_narration">
+<h2 class="titre_page">#{data[:titre]}</h2>
       HTML
     end
     # Retourne le code qui doit être ajouté après le contenu du fichier
@@ -59,14 +93,16 @@ class Narration
     def div_pages_avant_apres where
 
       # Le cadre pour le chapitre/sous-chapitre
-      @div_chap_sous_chap ||= <<-HTML
-      <div class="under_next_prev_links">
-        #{span_chapitre}#{span_sous_chapitre}
-      </div>
-      HTML
+      @div_chap_sous_chap =
+        case type
+        when :page, :schap
+          "<div class=\"under_next_prev_links\">#{liens_livres}#{span_chapitre}#{span_sous_chapitre}</div>"
+        else
+          ''
+        end
 
       <<-HTML
-<div class="liens_next_previous_pages #{where}" style="width:660px;">
+<div class="liens_next_previous_pages #{where}">
   #{where == :top ? '' : @div_chap_sous_chap }
   <div class="cadre_links">
     <span class="lien_prev_page">#{prev_page_link}</span>
@@ -76,6 +112,11 @@ class Narration
   #{where == :bottom ? '' : @div_chap_sous_chap }
 </div>
       HTML
+    end
+
+    # Span lien vers la liste de tous les livres
+    def liens_livres
+      "<span class=\"fleft\"><a href=\"narration\">Tous les livres</a></span>"
     end
 
     # Lien vers la page avant
@@ -129,7 +170,7 @@ class Narration
 
     # Retourne le span du titre du chapitre
     def span_chapitre
-      # debug "Chapitre ID : #{chapitre_id}"
+      debug "Chapitre ID : #{chapitre_id}"
       '<span class="chap_titre">' +
         "<a href=\"narration/page/#{chapitre_id}\">#{titre_chapitre}</a>" +
       '</span>'
@@ -145,14 +186,21 @@ class Narration
     # Retourne le span du titre du sous-chapitre
     def span_sous_chapitre
       # debug "Sous-chapitre ID : #{sous_chapitre_id}"
+      scid, sctitre =
+        case type
+        when :page
+          [sous_chapitre_id, titre_sous_chapitre]
+        when :schap
+          [id, data[:titre]]
+        else
+          # Ne doit pas survenir
+        end
       '<span class="schap_titre">' +
-        "<a href=\"narration/page/#{sous_chapitre_id}\">#{titre_sous_chapitre}</a>" +
+        "<a href=\"narration/page/#{scid}\">#{sctitre}</a>" +
       '</span>'
     end
     def titre_sous_chapitre
-      @titre_sous_chapitre || begin
-        site.db.select(:cnarration,'narration',{id:sous_chapitre_id},[:titre]).first[:titre]
-      end
+      @titre_sous_chapitre || site.db.select(:cnarration,'narration',{id:sous_chapitre_id},[:titre]).first[:titre]
     end
     def sous_chapitre_id
       @sous_chapitre_id ||= define_chap_and_schap(:schap)
@@ -165,11 +213,13 @@ class Narration
     def define_chap_and_schap returned_value
       @chapitre_id = data[:options][8..10].to_s.to_i(36)
       @chapitre_id > 0 || begin
-        require './__SITE__/narration/_lib/module/chap_and_schap_of_page.rb'
+        @chapitre_id = nil
         define_chap_n_schap_of_page
         @chapitre_id = data[:options][8..10].to_s.to_i(36)
       end
-      @sous_chapitre_id = data[:options][11..13].to_s.to_i(36)
+      if type == :page
+        @sous_chapitre_id = data[:options][11..13].to_s.to_i(36)
+      end
 
       return returned_value == :chap ? @chapitre_id : @sous_chapitre_id
     end
@@ -187,9 +237,10 @@ class Narration
       # debug "-> define_chap_n_schap_of_page"
 
 
+
       # On recherche jusqu'à ce qu'on ait trouvé notre bonheur
       tole = 0
-      while @chapitre_id.nil? || @sous_chapitre_id.nil?
+      while @chapitre_id.nil? || (type == :page && @sous_chapitre_id.nil?)
         tole += 30
         find_chap_id_and_schap_id tole
       end
@@ -202,7 +253,7 @@ class Narration
       opts.length > 13 || opts = opts.ljust(13,'0')
 
       chap36  = @chapitre_id.to_s(36).rjust(3,'0')
-      schap36 = @sous_chapitre_id.to_s(36).rjust(3,'0')
+      schap36 = (@sous_chapitre_id||0).to_s(36).rjust(3,'0')
 
       opts[8..10]   = chap36
       opts[11..13]  = schap36
@@ -239,7 +290,7 @@ class Narration
           chap_id     = row[:id]
           chap_titre  = row[:titre]
           break
-        elsif schap_id.nil? && row[:options][0] == '2'
+        elsif type == :page && schap_id.nil? && row[:options][0] == '2'
           schap_id    = row[:id]
           schap_titre = row[:titre]
         end

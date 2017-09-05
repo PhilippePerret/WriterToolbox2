@@ -12,8 +12,42 @@ class Narration
     def initialize pid
       @id = pid
       get_data
-      type == :page && def_paths
-      # debug "md_file = #{md_file}"
+      def_paths
+    end
+
+    # Méthode principale retournant le code de la page (ou du chapitre,
+    # du sous-chapitre) à afficher.
+    #
+    # Si la page n'est pas à jour, il faut l'actualiser.
+    def full_content
+      uptodate? || begin
+        require './__SITE__/narration/_lib/module/update.rb'
+        update_dyn_by_type
+      end
+      deserb(dyn_file)
+    end
+
+    # ---------------------------------------------------------------------
+    #
+    #     MÉTHODES DE DONNÉES
+    #
+    # ---------------------------------------------------------------------
+
+    # Retourne TRUE si le fichier dynamique est à jour
+    def uptodate?
+      exist? &&
+      File.exist?(dyn_file) &&
+      code_dyna_is_a_jour
+    end
+
+    def code_dyna_is_a_jour
+      type == :page || ( return true )
+      return File.stat(dyn_file).mtime > File.stat(md_file).mtime
+    end
+
+    def exist?
+      @page_existe === nil && (@page_existe = !data.nil?)
+      @page_existe
     end
 
     # Retourne le type de la page, i.e. :page, :chap ou :schap
@@ -23,22 +57,13 @@ class Narration
       end
     end
 
-    def exist?
-      @page_existe === nil && (@page_existe = !data.nil?)
-      @page_existe
-    end
-
-    # Retourne TRUE si le fichier dynamique est à jour
-    def uptodate?
-      exist? && File.exist?(dyn_file) && File.stat(dyn_file).mtime > File.stat(md_file).mtime
-    end
-
     #--------------------------------------------------------------------------------
     #
     #   MÉTHODES D'HELPER
     #
     #--------------------------------------------------------------------------------
 
+    # Nécessaire pour obtenir le path du fichier quand c'est une page
     def livre_folder
       @livre_folder ||= data_livre[:folder]
     end
@@ -49,13 +74,6 @@ class Narration
       @livre_id ||= data[:livre_id]
     end
 
-    def full_content
-      uptodate? || begin
-        require './__SITE__/narration/_lib/module/update.rb'
-        update_dyn_page
-      end
-      deserb(dyn_file)
-    end
     #--------------------------------------------------------------------------------
     #
     #   MÉTHODES DE CONSTRUCTION DE LA PAGE
@@ -73,9 +91,16 @@ class Narration
 
       # Méthodes qui définit les différentes paths de la page courante
       def def_paths
-        affixe_path = File.join(folder_pages,livre_folder, data[:handler])
-        @md_file  = "#{affixe_path}.md"
-        @dyn_file = "#{affixe_path}.dyn.erb"
+        case type
+        when :page
+          # Pour les vraies pages
+          affixe_path = File.join(folder_pages,livre_folder, data[:handler])
+          @md_file  = "#{affixe_path}.md"
+          @dyn_file = "#{affixe_path}.dyn.erb"
+        else
+          # Pour les chapitres et sous-chapitres
+          @dyn_file = File.join(folder_pages, 'xdyn', "#{type}_#{id}.dyn.erb")
+        end
       end
 
       def folder_pages

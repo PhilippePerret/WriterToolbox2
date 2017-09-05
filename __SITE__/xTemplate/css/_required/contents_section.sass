@@ -45,7 +45,7 @@ body
       clear         : both
       font-variant  : small-caps
       text-align    : right
-      padding-right : 1em
+      padding       : 0 7em
       font-size     : 1em
       a
         text-decoration   : none
@@ -95,3 +95,10 @@ body
             opacity     : 0.5
             &:hover
               opacity     : 1
+
+  // Les exergues amenées par "> "
+  blockquote
+    > p
+      font-weight     : bold
+      margin          : 3em 4em
+      text-align      : center

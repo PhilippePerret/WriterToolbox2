@@ -6,6 +6,9 @@
   - lorsque le titre de son chapitre change (toutes les pages doivent être actualisées)
   - lorsque son chapitre est déplacé (toutes les pages doivent être actualisées)
   - lorsque son sous-chapitre est déplacé (toutes les pages doivent être actualisées)
+  * À la modification d'un chapitre/sous-chapitre, il faut détruire son fichier
+    dyn préparé, dans narration/_data/xdyn/ + "#{type}_#{id}.dyn.erb"
+
 
 * Narration
   - faire trois partials :
