@@ -11,6 +11,12 @@
 =end
 module PropsAndDbMethods
 
+  def data
+    @data ||= begin
+      (id != nil && site.db.select(db_name,db_table,{id: id}).first) || Hash.new
+    end
+  end
+
   def insert hdata, set_id = nil
     # Lire note N0001 dans props_and_db_methods.md
     new_id = site.db.insert(db_name, db_table, hdata)

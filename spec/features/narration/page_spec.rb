@@ -23,7 +23,6 @@ feature "Affichage d'une page de la collection Narration" do
     identify phil
 
     visit "#{base_url}/narration/page/138"
-    sleep 10
 
     expect(page).to have_tag('h2', 'La collection Narration')
     expect(page).to have_tag('h3', text: /L'Analyse de film/)

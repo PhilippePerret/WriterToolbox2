@@ -1,6 +1,36 @@
 
+* [Pré-requis](#prerequise)
+* [Toutes les méthodes](#toutes_les_methodes)
+  * [`data`](#data_method)
+  * [`get`](#get_method)
+  * [`set`](#set_method)
 
-### `get` method
+## Pré-requis {#prerequise}
+
+Pour pouvoir fonctionner, la classe incluant ces méthodes doit définir la base et la table à l'aide de :
+
+```ruby
+
+def base_n_table ; @base_n_table ||= [<base>, <table>] end
+
+```
+
+## Toutes les méthodes {#toutes_les_methodes}
+
+### `data` method {#data_method}
+
+Syntaxe :
+
+```ruby
+
+data[<key>]
+
+```
+
+Noter que pour faire appel à cette méthode, dans l'utilisation courante, il faut absolument que l'identifiant soit fourni, sinon, silencieusement, la méthode retourne toujours un `Hash` vide.
+
+
+### `get` method {#get_method}
 
 Syntaxe :
 
@@ -30,6 +60,8 @@ Si l'argument une liste de clés, alors la méthode renvoie un `Hash` contenant 
   __notice "Bonjour #{data[:pseudo]}"
 
 ```
+
+## `set <key>, <value>` {#set_method}
 
 
 ## NOTES {#notes}

@@ -49,17 +49,6 @@ form
       input[type="text"], input[type="password"]
         color             : #006B00
 
-
-      // Commun à tous les champs
-      input[type="text"], input[type="password"], textarea, select, select option
-        font-size     : inherit
-        font-family   : inherit
-        &.medium
-          width       : 50%
-        &.short
-          width       : 50px
-          text-align  : center
-
     &.buttons
       padding-top      : 1.5em
       text-align      : right
@@ -78,3 +67,20 @@ form
           font-size         : 0.7em
           margin-top        : 1em
           letter-spacing    : 0.8px
+
+// Commun à tous les champs
+input[type="text"], input[type="password"], textarea, select, select option
+  font-size     : inherit
+  font-family   : inherit
+  &.medium
+    width       : 45%
+  &.max-medium
+    max-width   : 45%
+  &.short, &.small
+    width       : 50px
+    text-align  : center
+  &.long
+    width       : 98%
+
+  &.bigger
+    font-size: 1.3em

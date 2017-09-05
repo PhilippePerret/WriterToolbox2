@@ -1,0 +1,35 @@
+<% 
+require_form_support
+%>
+<h3>Page Narration #<%= site.route.objet_id %></h3>
+<form action="" method="POST">
+  <input type="hidden" name="operation" id="" value="save_data" />
+
+  <div>
+    <span>
+      <%# --------- ID de la page -----------  %>
+      <input 
+      id="page_id" type="text" name="page[id]" class="small"
+      value="<%= page.id %>" placeholder="ID" 
+      />
+
+      <%# --------- TYPE de la page -----------  %>
+
+      <%= menu_type_page(selected: page.options[0]) %>
+
+      <%# --------- LIVRE de la page -----------  %>
+
+      <%= menu_livres(selected: page.livre_id) %>
+
+    </span>
+  </div>
+
+
+  <div style="width:100%;">
+    
+      <%# --------- TITRE de la page -----------  %>
+      <input 
+      id="page_titre" type="text" name="page[titre]" class="long bigger"
+      value="<%= page.titre %>" placeholder="Titre" />
+  </div>
+</form>
