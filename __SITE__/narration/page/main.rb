@@ -27,6 +27,18 @@ class Narration
       deserb(dyn_file)
     end
 
+    def boutons_edition_if_admin
+      user.admin? || (return '')
+      c = String.new
+      c << '<div class="admin_edit_links">'
+      c << "<a href=\"admin/narration/#{id}?op=edit_data\" target=\"_new\">data</a>" 
+      if type == :page
+        escaped_path = CGI.escape(md_file)
+        c << "<a href=\"admin/edit_text?path=#{escaped_path}\" target=\"_new\">text</a>"
+      end
+      c << '</div>'
+      return c
+    end
     # ---------------------------------------------------------------------
     #
     #     MÉTHODES DE DONNÉES

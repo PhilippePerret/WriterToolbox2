@@ -23,14 +23,14 @@ feature "Affichage d'une page de la collection Narration" do
     identify phil
 
     visit "#{base_url}/narration/page/138"
+    sleep 10
 
     expect(page).to have_tag('h2', 'La collection Narration')
     expect(page).to have_tag('h3', text: /L'Analyse de film/)
-    expect(page).to have_tag('h2', text: /Deuxième phase de l'analyse/) do
-      page_path = './__SITE__/narration/_data/analyse/collecte/2e_phase_analyse'
-      with_tag('a', text: 'text', with:{href:"admin/edit_text?path=#{CGI.escape(page_path)}"})
-      with_tag('a', text: 'data', with:{href:'admin/narration/138?op=edit_page'})
-    end
+    expect(page).to have_tag('h2', text: /Deuxième phase de l'analyse/)
+    page_path = './__SITE__/narration/_data/analyse/collecte/2e_phase_analyse.md'
+    expect(page).to have_tag('a', text: 'text', with:{href:"admin/edit_text?path=#{CGI.escape(page_path)}"})
+    expect(page).to have_tag('a', text: 'data', with:{href:'admin/narration/138?op=edit_data'})
   end
 
   scenario '=> Une page normale contient les éléments normaux' do

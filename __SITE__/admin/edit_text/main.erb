@@ -1,15 +1,24 @@
 <% 
-ph 
 require_form_support
 
 if param(:file_code) && param(:operation) == 'save_texte'
   texte.save
 end
 
+param(:file_code) === nil && 
+  begin
+    c = 
+      if texte.exist?
+        File.read(texte.path).force_encoding('utf-8')
+      else
+        ''
+      end
+    param(:file_code, c)
+  end
 %>
 <%= header(:small) %>
 
-<h2>Éditeur de texte</h2>
+<h2 class="small">Éditeur de texte</h2>
 
 <div id="texte_state"><%= texte.state %></div>
 <form id="edit_text_form" action="admin/edit_text" method="POST">
@@ -17,7 +26,7 @@ end
   <input type="hidden" name="path" id="file_path" value="<%= texte.path %>" />
   <div>
     <span class="field">
-      <textarea name="file_code" id="file_code" rows="40"><%= param(:file_code) %></textarea>
+      <textarea name="file_code" id="file_code" rows="40"><%= texte.code %></textarea>
     </span>
   </div>
   <div class="buttons">

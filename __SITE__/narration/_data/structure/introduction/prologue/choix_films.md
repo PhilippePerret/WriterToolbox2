@@ -10,7 +10,7 @@ Pour me guider aussi, j’ai voulu choisir des films de toutes provenances, proc
 
 Pour profiter pleinement de cet ouvrage, il est vivement recommandé de visionner les films les plus souvent cités en illustration. On en trouvera la liste précise en annexe de l'ouvrage<!-- TODO: Référence à l'annexe -->.
 
-#### Spoileurs (divulgacheurs…)
+#### Spoileurs (divulgacheurs)
 
 Noter que seront commis dans cet ouvrage comme dans toute la collection de nombreux *spoileurs* inévitables car indispensables aux illustrations et aux démonstrations.
 

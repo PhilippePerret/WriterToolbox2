@@ -16,7 +16,6 @@ class EditedText
   end
 
   def save
-    __notice "Je sauve le texte courant dans #{path}"
     if false == File.exist?(folder)
       return __error("Le dossier `#{folder}` n'existe pas. Je ne préfère pas créer une dossier de cette façon. Crée-le, puis enregistre à nouveau le fichier.")
     end
@@ -32,17 +31,34 @@ class EditedText
       # TODO : Ici, il faudrait certainement faire des modifs dans le texte.
       File.open(path,'wb'){|f| f.write code}
       __notice "Fichier enregistré."
+      remove_dyn_file
     end
   end
   def code
     @code ||= param(:file_code).nil_if_empty
   end
   def state
-    if File.exist?(path)
+    if exist?
       "<div class=\"green\">Le fichier `#{path}` est prêt à être édité.</div>"
     else
       "<div class=\"red\">Le fichier `#{path}` n’existe pas.</div>"
     end
+  end
+  def exist?
+    File.exist?(path)
+  end
+  def remove_dyn_file
+    File.exist?(dyn_file) && 
+      begin
+        File.unlink(dyn_file)
+        __notice "Fichier dynamique détruit (pour actualisation)"
+      end
+  end
+  def dyn_file
+    @dyn_file ||=
+      begin
+        File.join(folder, "#{File.basename(path,File.extname(path))}.dyn.erb")
+      end
   end
   def folder
     @folder ||= File.dirname(path)
