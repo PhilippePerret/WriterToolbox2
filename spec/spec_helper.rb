@@ -56,7 +56,7 @@ RSpec.configure do |config|
   def require_support_paiements
     require_folder './spec/support/paiements'
   end
-  
+
   # Pour les tests have_tag etc.
   config.include RSpecHtmlMatchers
 
@@ -98,6 +98,29 @@ RSpec.configure do |config|
     # … vide le dossier des screenshots
     empty_screenshot_folder
 
+  end
+
+  config.after :suite do
+    destroy_files_to_destroy
+  end
+
+  # ---------------------------------------------------------------------
+  #   Méthodes utiles
+  # ---------------------------------------------------------------------
+
+  # Permet d'ajouter des fichiers à détruire en fin de test, s'ils
+  # existent.
+  def add_file_2_destroy path
+    @files_to_destroy ||= Array.new
+    @files_to_destroy << path
+  end
+  def destroy_files_to_destroy
+    @files_to_destroy || return
+    @files_to_destroy.each do |file|
+      File.exist?(file) || next
+      File.unlink(file)
+      puts "= Fichier détruit : #{file}"
+    end
   end
 
   # ---------------------------------------------------------------------

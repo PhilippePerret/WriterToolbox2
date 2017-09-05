@@ -31,7 +31,7 @@ class EditedText
     else
       # TODO : Ici, il faudrait certainement faire des modifs dans le texte.
       File.open(path,'wb'){|f| f.write code}
-      __notice "Code enregistré dans le fichier."
+      __notice "Fichier enregistré."
     end
   end
   def code
