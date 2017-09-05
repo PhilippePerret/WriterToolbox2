@@ -1,8 +1,23 @@
+* Une page dyn.erb doit être actualisée (i.e. détruite) :
+  - lorsque sa page .md est modifiée
+  - lorsqu'elle change de sous-chapitre
+  - lorsqu'elle change de chapitre
+  - lorsque le titre de son sous-chapitre change (toutes les pages doivent être actualisées)
+  - lorsque le titre de son chapitre change (toutes les pages doivent être actualisées)
+  - lorsque son chapitre est déplacé (toutes les pages doivent être actualisées)
+  - lorsque son sous-chapitre est déplacé (toutes les pages doivent être actualisées)
+
+* Narration
+  - faire trois partials :
+    - page.erb, chap.erb et schap.erb pour l'affichage des pages
+
+* Quand la page dynamique (.dyn.erb) de Narration est vide, il faut la réactualiser.
+
 * Il faut soit :
   - mettre les pages narration dans une section spéciale pour pouvoir définir les H3 (premier niveau de titre) différemment
   - soit augmenter d'un le niveau de titre au traitement, mais il faudrait alors pouvoir le définir dans les options, pour que ça ne perturbe pas tous les textes.
   => Je pense que la première solution est la meilleure. Voir quels autres textes (analyse ?) il faut traiter de la même manière.
-  
+
 * [NARRATION - gros morceau] Implémenter et tester l'affichage d'une page de Narration (#138)
 
 * Implémenter "analyse/collector" (collecteur d'analyse)

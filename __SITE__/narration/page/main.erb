@@ -1,4 +1,4 @@
-<% 
+<%
 
 #
 # Affichage d'une page de la collection Narration
@@ -9,8 +9,6 @@
 
 <h2>La collection Narration</h2>
 
-<h3><%= page.titre_livre %><%= page.titre %></h3>
-
-<%= page.content %>
+<%= partial("#{page.type}.erb") %>
 
 <%= footer %>

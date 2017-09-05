@@ -1,3 +1,7 @@
+// Pour contrecarrer les problèmes de all.css
+div#riendutout
+  display : block
+
 body
   // La section #contents n'a pas de dossier, donc pas de moyen
   // d'être définie dans ce dossier. Il faut le définir ici
@@ -35,22 +39,42 @@ body
         &:hover
           opacity : 1
 
+    // Dans le cas où on ajoute une "case" en dessous, par exemple, pour
+    // les pages narration, l'indication du chapitre et du sous-chapitre
+    div.under_next_prev_links
+      clear         : both
+      font-variant  : small-caps
+      text-align    : right
+      padding-right : 1em
+      font-size     : 1em
+      a
+        text-decoration   : none
+        color             : black
+
     // Pour tous les liens de pages précédentes et suivantes
     div.liens_next_previous_pages
       position    : relative
       height      : 30px
       font-size   : 13pt
-      width       : 100%
+      width       : 98%
+      max-width   : 98%
       text-align  : center
       margin      : 1em 3em
       &.top
-        border-bottom   : 1px solid #CCC
         margin-bottom   : 2em
         span
           bottom          : 0px
+        div.cadre_links
+          border-bottom   : 1px solid #CCC
+          padding-bottom  : 0.4em
+        div.under_next_prev_links
+          margin-top: 0.2em
       &.bottom
-        border-top      : 1px solid #CCC
         margin-top      : 3em
+        div.cadre_links
+          border-top      : 1px solid #CCC
+        div.under_next_prev_links
+          margin-bottom: 0.2em
       span
         &.lien_next_page
           position    : absolute
@@ -58,9 +82,16 @@ body
         &.lien_prev_page
           position    : absolute
           left        : 0
-        a
-          color       : orange
-          font-size   : 22pt
-          opacity     : 0.5
-          &:hover
-            opacity     : 1
+        &.lien_main_page
+          a
+            font-size   : 0.85em
+        &.lien_next_page, &.lien_prev_page
+          a
+            font-size   : 22pt
+        &.lien_next_page, &.lien_prev_page, &.lien_main_page
+          a
+            color       : black
+            text-decoration : none
+            opacity     : 0.5
+            &:hover
+              opacity     : 1

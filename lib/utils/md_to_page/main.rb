@@ -58,12 +58,13 @@ class MD2Page
   # Code initial préparé
   def init_code
     c = String.new
-    c += options[:pre_code] || ''
+    options[:pre_code] && c <<  "#{options[:pre_code]}\n\n\n\n"
     if src_path
       c += File.read(src_path).force_encoding('utf-8')
     else # sinon, le code doit être défini dans options[:code]
       c += options[:code]
     end
+    options[:post_code] && c <<  "#{options[:post_code]}\n\n\n\n"
     c = c.gsub(/\r\n?/,"\n").chomp
     return c
   end
@@ -73,6 +74,10 @@ class MD2Page
   def final_code
     @code_initial = init_code.freeze
     traite_code
+
+    options[:raw_pre_code]  && @wcode = "#{options[:raw_pre_code]}#{@wcode}"
+    options[:raw_post_code] && @wcode << options[:raw_post_code]
+
     @wcode
   end
 
@@ -82,10 +87,9 @@ class MD2Page
   #
   # Méthode qui produit le code final, pour retour ou enregistrement
   # dans le fichier de destination.
-  # 
+  #
   def traite_code
     @wcode = "#{@code_initial}"
-
 
     # On traite les balises ERB pour les escaper
     #
@@ -127,7 +131,7 @@ class MD2Page
 
   # On replace les codes qui ont été mis de côté pour ne pas être
   # traités
-  def traite_final_replacements 
+  def traite_final_replacements
     @table_final_code_replacements.each do |repid, code|
       @wcode.gsub!(/#{repid}/, code)
     end

@@ -12,8 +12,15 @@ class Narration
     def initialize pid
       @id = pid
       get_data
-      def_paths
+      type == :page && def_paths
       # debug "md_file = #{md_file}"
+    end
+
+    # Retourne le type de la page, i.e. :page, :chap ou :schap
+    def type
+      @type ||= begin
+        {'1'=> :page, '2'=> :schap, '3'=> :chap}[data[:options][0]]
+      end
     end
 
     def exist?
@@ -32,10 +39,6 @@ class Narration
     #
     #--------------------------------------------------------------------------------
 
-    # Retourne le span pour le titre du livre
-    def titre_livre
-      "<span class='titre_livre'>#{data_livre[:hname]}</span>"
-    end
     def livre_folder
       @livre_folder ||= data_livre[:folder]
     end
@@ -46,28 +49,20 @@ class Narration
       @livre_id ||= data[:livre_id]
     end
 
-    # Titre de la page
-    def titre
-      "<span class='titre_page'>#{data[:titre]}</span>"
-    end
-
-    def content
-      uptodate? || update
+    def full_content
+      uptodate? || begin
+        require './__SITE__/narration/_lib/module/update.rb'
+        update_dyn_page
+      end
       deserb(dyn_file)
     end
-
-
     #--------------------------------------------------------------------------------
     #
     #   MÉTHODES DE CONSTRUCTION DE LA PAGE
     #
     #--------------------------------------------------------------------------------
 
-    # Actualise le fichier dynamique lorsqu'il n'est pas à jour.
-    def update
-      require_folder './lib/utils/md_to_page'
-      MD2Page.transpile( md_file, {dest: dyn_file, narration_current_book_id: livre_id} )
-    end
+    def base_n_table ; @base_n_table ||= [:cnarration, 'narration'] end
 
 
     private

@@ -1,1 +1,1 @@
-span.titre_page{display:block;font-size:.82em}
+span.chap_titre:after{content:" :: "}h3.titre_page{margin:3em 0 2em -2em;color:#000}

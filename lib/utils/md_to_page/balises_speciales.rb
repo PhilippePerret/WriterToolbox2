@@ -4,8 +4,121 @@ class MD2Page
 
 
   # Traitement de toutes les balises spéciales qu'on peut trouver dans
->
-  #     {{1: Ceci est la première note}}
+  # les textes (Narration, Unan, etc.)
+  def traite_balises_speciales
+    @wcode = formate_balises_propres(@wcode, options)
+  end
+
+  def formate_balises_propres str, options = nil
+
+    # p = 'pour_voir.txt'
+    # File.unlink(p) if File.exist?(p)
+    # File.open(p, 'wb'){|f| f.write "AU DÉPART\n\n#{str}"}
+
+    str = formate_balises_include(str)
+    str = formate_balises_exemples(str)
+
+    # File.open(p, 'a'){|f| f.write "\n\nAPRÈS CORRECTION\n\n#{str}"}
+
+    str = evaluate_codes_ruby(str)                            # testé
+    str = formate_mises_en_forme_propres(str, options)        # testé
+    str = traite_document_in_code(str) # cf. MEFDocument.rb   # testé
+    str = formate_balises_notes(str)                          # testé
+    str = formate_balises_references(str,options)             # testé
+    str = formate_balises_images(str, options)                # testé
+    str = formate_balises_mots(str)                           # testé
+    str = formate_balises_films(str)                          # testé
+    str = formate_balises_scenes(str)                         # testé
+    str = formate_balises_livres(str)                         # testé
+    str = formate_balises_personnages(str)                    # testé
+    str = formate_balises_realisateurs(str)                   # testé
+    str = formate_balises_producteurs(str)                    # testé
+    str = formate_balises_acteurs(str)                        # testé
+    str = formate_balises_auteurs(str)                        # testé
+    str = formate_termes_techniques(str)                      # testé
+    str = formate_balises_citations(str)                      # testé
+
+    # debug "STRING APRÈS = #{str.gsub(/</,'&lt;').inspect}"
+    return str
+  end
+
+  # Formate les balises INCLUDE qui permettent d'inclure des
+  # fichiers dans d'autres fichiers.
+  # @usage
+  #   INCLUDE[path/relatif/to/file.ext]
+  def formate_balises_include str
+    str.gsub!(/INCLUDE\[(.*?)\]/){ traite_fichier_include($1) }
+    return str
+  end
+  def traite_fichier_include path
+    if File.exist?(path)
+      "\n\n" + File.read(path).force_encoding('utf-8') + "\n\n"
+    else
+      "INCLUSION FICHIER INTROUVABLE : #{path}"
+    end
+  end
+
+
+  def formate_mises_en_forme_propres str, options = nil
+
+    # Le format pour mettre une sorte de note de marge, avec un texte
+    # réduit à droite. Ce format est défini par des ++ (au moins 2)
+    str = str.gsub(/^(.*?) (\+\++) (.*?)$/){
+      note_marge  = $1
+      les_plus    = $2
+      texte       = $3
+      css = {2 => 'vingt', 3 => 'vingtcinq', 4 => 'trente', 5 => 'trentecinq'}[les_plus.length]
+
+      # Puisque le code sera mise entre balises DIV, il ne sera
+      # pas corrigé par kramdown. Il faut donc le faire ici, suivant
+      # le code du fichier.
+      note_marge = MD2Page.transpile(nil,options.merge(code: note_marge, dest: nil, no_leading_p: true))
+      texte      = MD2Page.transpile(nil, options.merge(code: texte, dest: nil))
+      "<div class=\"mg #{css}\">" +
+        "<div class=\"notemarge\">#{note_marge.strip}</div>" +
+        texte.strip +
+        "</div>"
+    }
+
+    return str
+  end
+
+
+
+  FOLDER_EXEMPLES = File.join('.','__SITE__','narration','_data','exemples')
+
+  # Insertion des exemples (balises EXEMPLE)
+  #
+  def formate_balises_exemples str
+    str.gsub!(/EXEMPLE\[(.*?)\]/){ traite_fichier_exemple($1)}
+    return str
+  end
+
+  # @param {Sring} relpath
+  #                 Le chemin relatif, avec l'extension (normalement, toujours .md)
+  def traite_fichier_exemple relpath
+    fullpath  = File.join(FOLDER_EXEMPLES,relpath)
+    # Ici, le lien `edit_link` serait transformé à la suite, donc on conserve son code
+    # dans la table @table_final_replacements pour l'insérer en tout dernier
+    rep_id = add_final_replacement("<%= lien.edit_text(\"#{fullpath}\",{titre: \"Éditer l’exemple\", in_span: true}) %>")
+    return rep_id + traite_fichier_include(fullpath)
+  end
+
+  # Évalue le code situé entre balise RUBY_ et _RUBY
+  #
+  def evaluate_codes_ruby(str)
+    str.gsub!(/RUBY_(.*?)_RUBY/m){
+      code_ruby = $1.strip
+      eval(code_ruby)
+    }
+    return str
+  end
+
+  # Formatage des notes
+  # Cf. le mode d'emploi (narration) pour le détail de l'utilisation.
+  # Résumé : les notes doivent être formatées de cette façon :
+  #     Texte avec note {{1}}
+  #     <!-- NOTES -->  #     {{1: Ceci est la première note}}
   #     <!-- /NOTES -->
   # Peu importe l'ordre des numéros, ils seront toujours remplacés par
   # des numéros incrémentés.
@@ -246,13 +359,13 @@ class MD2Page
     str
   end
 
- def formate_balises_livres str
+  def formate_balises_livres str
    str.gsub!(/LIVRE\[(.*?)\]/){
      lien_vers_livre( *$1.split('|').collect{|e|e.nil_if_empty} )
    }
    return str
- end
- def lien_vers_livre livre_id, titre = nil
+  end
+  def lien_vers_livre livre_id, titre = nil
    require './__SITE__/narration/_lib/_required/constants'
    hlivre = Narration::BIBLIOGRAPHIE[livre_id]
    titre ||= hlivre[:titre]
@@ -260,7 +373,7 @@ class MD2Page
    auteur = hlivre[:auteur].in_span(class: 'auteur')
    annee  = hlivre[:annee].to_s.in_span(class: 'annee')
    "#{titre} (#{auteur}, #{annee})"
- end
+  end
 
   def formate_balises_personnages str
     formate_balises_colon(str,'personnage')

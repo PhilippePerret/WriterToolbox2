@@ -1,10 +1,11 @@
 <% 
-
+ph 
 require_form_support
 
 if param(:file_code) && param(:operation) == 'save_texte'
   texte.save
 end
+
 %>
 <%= header(:small) %>
 

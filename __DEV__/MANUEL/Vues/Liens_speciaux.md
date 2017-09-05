@@ -11,14 +11,22 @@ Pour obtenir une homogénéité dans le site, utiliser :
 
 ```html
 
-<div class="liens_next_previous_page top"> <!-- ou bottom pour en bas -->
+<div class="liens_next_previous_pages top"> <!-- ou bottom pour en bas -->
   <span class="lien_prev_page">
     <a ... >
+  </span>
+
+  <span class="lien_main_page">
+    <a ...>
   </span>
 
   <span class="lien_next_page">
     <a ...>
   </span>
+
+  <div class="under_next_prev_links">
+    <!-- Éventuellement, pour écrire à droite, small-caps -->
+  </div>
 </div>
 
 ```
