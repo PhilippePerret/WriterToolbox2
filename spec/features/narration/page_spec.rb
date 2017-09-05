@@ -26,8 +26,10 @@ feature "Affichage d'une page de la collection Narration" do
 
     expect(page).to have_tag('h2', 'La collection Narration')
     expect(page).to have_tag('h3', text: /L'Analyse de film/)
-    expect(page).to have_tag('h3', text: /Deuxième phase de l'analyse/) do
-      with_tag('a', text: 'éditer', with:{href:'admin/narration/138?op=edit_page'})
+    expect(page).to have_tag('h2', text: /Deuxième phase de l'analyse/) do
+      page_path = './__SITE__/narration/_data/analyse/collecte/2e_phase_analyse'
+      with_tag('a', text: 'text', with:{href:"admin/edit_text?path=#{CGI.escape(page_path)}"})
+      with_tag('a', text: 'data', with:{href:'admin/narration/138?op=edit_page'})
     end
   end
 
@@ -36,24 +38,35 @@ feature "Affichage d'une page de la collection Narration" do
     visit "#{base_url}/narration/page/6" # Livre structure
 
     success 'une page correcte…'
+
     expect(page).to have_tag('section',with:{class:'page_narration', id: 'page_narration-6'})
     success 'contient la section.page_narration'
-    expect(page).to have_tag('span', with:{id: 'chap_titre'}, text: 'Introduction à la structure')
+
+    expect(page).to have_tag('span', with:{class: 'chap_titre'}) do
+      with_tag('a', with:{href: 'narration/page/1'}, text: 'Introduction à la structure')
+    end
     success 'contient le titre du chapitre'
-    expect(page).to have_tag('span', with:{id:'schap_titre'}, text: 'Prologue')
+
+    expect(page).to have_tag('span', with:{class:'schap_titre'}) do
+      with_tag('a', with:{href: 'narration/page/2'}, text: 'Prologue')
+    end
     success 'contient le titre du sous-chapitre'
-    expect(page).to have_tag('h3', with:{id: 'page_titre'}, text: 'Choix des films')
+
+    expect(page).to have_tag('h2', with:{class: 'titre_page'}, text: 'Choix des films')
     success 'contient le titre de la page'
+
     expect(page).to have_tag('span', with:{class: 'lien_prev_page'}) do
       with_tag('a', with:{href: 'narration/page/5'})
     end
     success 'contient le bouton pour la page précédente'
+
     expect(page).to have_tag('span', with:{class:'lien_next_page'}) do
       with_tag('a', with:{href: 'narration/page/7'})
     end
     success 'contient le bouton pour la page suivante'
+
     expect(page).to have_tag('span', with:{class:'lien_main_page'}) do
-      with_tag('a', with:{href: 'narration/livre/1'})
+      with_tag('a', with:{href: 'narration/livre/1'}, text: 'Table des matières')
     end
     success 'contient le lien pour la table des matières du livre'
 
