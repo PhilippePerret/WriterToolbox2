@@ -246,6 +246,38 @@ def db_data_offline
   end
 end
 
+# Méthode faisant un backup des données narrations
+def backup_narration
+  File.exist?(backup_narration_filepathofday) || begin
+    # Avant de procéder au backup, on s'assure que l'autoincrément est bon
+    db_use(:cnarration)
+    last_id = db_client.query('SELECT id FROM narration ORDER BY id DESC LIMIT 1;').first.values.first
+    db_client.query("ALTER TABLE narration AUTO_INCREMENT=#{last_id};")
+    puts "last_id Narration : #{last_id}"
+    puts "Appeler la méthode `retreive_data_narration` pour récupérer les données narration"
+    `mkdir -p ~/xbackups;cd ~/xbackups;mysqldump -u root -p#{db_data_offline[:password]} --databases 'boite-a-outils_cnarration' > #{backup_narration_filenameofday}`
+    puts "= Backup complet des données exécuté dans #{backup_narration_filepathofday} ="
+  end
+  puts "\nRécupérer les données initiales de Narration en appelant la méthode\n`retreive_data_narration` à la fin de la session de test\n(chercher 'retreive_data_narration' dans le spec_helper.rb).\n"
+end
+
+def retreive_data_narration
+  File.exist?(backup_narration_filepathofday) && begin
+    `cd ~/xbackups;mysql -u root -p#{db_data_offline[:password]} < #{backup_narration_filepathofday}`
+  end
+end
+
+def backup_narration_filenameofday
+  @backup_narration_filenameofday ||= begin
+    "narration_bckup_#{Time.now.strftime('%Y-%m-%d')}.sql"
+  end
+end
+def backup_narration_filepathofday
+  @backup_narration_filepathofday ||= begin
+    File.join(Dir.home,'xbackups',backup_narration_filenameofday)
+  end
+end
+
 
 # Sauf toutes les données de toutes les bases si nécessaire
 # "Si nécessaire" signifie : s'il n'existe pas un fichier du jour contenant

@@ -102,6 +102,8 @@ RSpec.configure do |config|
 
   config.after :suite do
     destroy_files_to_destroy
+
+    # retreive_data_narration
   end
 
   # ---------------------------------------------------------------------
@@ -114,6 +116,10 @@ RSpec.configure do |config|
     @files_to_destroy ||= Array.new
     @files_to_destroy << path
   end
+  alias :add_file_2_remove :add_file_2_destroy
+  alias :add_file_to_remove :add_file_2_destroy
+  alias :add_file_to_destroy :add_file_2_destroy
+  
   def destroy_files_to_destroy
     @files_to_destroy || return
     @files_to_destroy.each do |file|

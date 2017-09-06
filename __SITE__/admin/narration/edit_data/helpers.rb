@@ -2,6 +2,9 @@
 class Site
 
 
+  def file_md_path
+    
+  end
   def menu_livres params 
     require './__SITE__/narration/_lib/_required/constants'
     params.merge!(values: Narration::LIVRES, id: 'page_livre_id', name: 'page[livre_id]', class: 'medium',

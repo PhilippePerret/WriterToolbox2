@@ -27,6 +27,11 @@ class Narration
     # Reseter les données, par exemple après l'enregistrement,
     # pour recalculer toutes les valeurs volatiles.
     def reset
+      @titre        = nil
+      @livre_id     = nil
+      @options      = nil
+      @handler      = nil
+      @description  = nil
       @type         = nil
       @priority     = nil
       @nivdev       = nil
@@ -100,16 +105,16 @@ class Narration
       # Si le fichier dynamique existe et que des informations déterminantes ont été
       # modifiées, il faut détruire ce fichier dynamique pour forcer la reconstruction
       # de la page.
-      page? && in_livre? && require_building? && File.unlink(dyn_file)
+      page? && in_livre? && require_building? && File.exist?(dyn_file) && File.unlink(dyn_file)
 
       debug "data2save: #{data2save.inspect}"
     end
 
     def md_file
-      @md_file ||= page? && in_livre? ? File.join(folder,"#{affixe}.md") : nil
+      @md_file ||= page? && in_livre? ? File.join(folder,"#{handler}.md") : nil
     end
     def dyn_file
-      @dyn_file ||= page? && in_livre? ? File.join(folder, "#{affixe}.dyn.erb") : nil
+      @dyn_file ||= page? && in_livre? ? File.join(folder, "#{handler}.dyn.erb") : nil
     end
 
     # Le dossier du fichier.
