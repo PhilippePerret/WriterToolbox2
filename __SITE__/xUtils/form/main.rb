@@ -4,6 +4,10 @@ class << self
 
   # Construit un select (menu) et le renvoie
   #
+  # Note : pour pouvoir utiliser cette méthode, il faut requérir le
+  # support de formulaire :
+  #   require_form_support
+  #
   # @param {Hash} attrs
   #       {
   #         id:     Identifiant du select
@@ -17,15 +21,30 @@ class << self
     attrs[:id]    && c << " id=\"#{attrs[:id]}\""
     attrs[:name]  && c << " name=\"#{attrs[:name]}\""
     attrs[:class] && c << " class=\"#{attrs[:class]}\""
+    attrs[:options] ||= attrs[:values]
+
     c << '>'
-    c << attrs[:options].collect do |option|
-      value, label = option
-      selected = value == attrs[:selected] ? ' SELECTED' : ''
-      "<option value=\"#{value}\"#{selected}>#{label}</option>"
-    end.join('')
+    if attrs[:options].is_a?(Array)
+      c << attrs[:options].collect do |option|
+        val, lab = option
+        sel = val == attrs[:selected] ? ' selected="SELECTED"' : ''
+        "<option value=\"#{val}\"#{sel}>#{lab}</option>"
+      end.join('')
+    elsif attrs[:options].is_a?(Hash)
+      c << attrs[:options].collect do |val, dopt|
+        sel = val == attrs[:selected] ? ' selected="SELECTED"' : ''
+        "<option value=\"#{val}\"#{sel}>#{dopt[:hname]}</option>"
+      end.join('')
+    else
+      raise "Les valeurs pour la construction d'un menu select doivent être une liste ou un Hash."
+    end
     c << '</select>'
+    if attrs[:id] && attrs.key?(:selected)
+      c << "<script type=\"text/javascript\">document.getElementById('#{attrs[:id]}').value = '#{attrs[:selected]}';</script>"
+    end
     return c
   end
+  alias :build_select :select_field
 
   # Avant de procéder à l'opération sur le formulaire, il est bon d'envoyer
   # son FORMID à cette fonction pour savoir si le formulaire n'a pas déjà

@@ -1,25 +1,28 @@
 <% 
 require_form_support
+
+# debug "Données de la page: #{page.data.inspect}"
+#
 %>
-<h3>Page Narration #<%= site.route.objet_id %></h3>
-<form action="" method="POST">
+<form id="narration_edit_data_form" action="" method="POST">
   <input type="hidden" name="operation" id="" value="save_data" />
 
   <div>
     <span>
+      
+      <%# --------- LIVRE de la page -----------  %>
+
+      <%= menu_livres(selected: page.livre_id) %>
+
+      <%# --------- TYPE de la page -----------  %>
+
+      <%= menu_type_page(selected: page.options[0].to_i) %>
+
       <%# --------- ID de la page -----------  %>
       <input 
       id="page_id" type="text" name="page[id]" class="small"
       value="<%= page.id %>" placeholder="ID" 
       />
-
-      <%# --------- TYPE de la page -----------  %>
-
-      <%= menu_type_page(selected: page.options[0]) %>
-
-      <%# --------- LIVRE de la page -----------  %>
-
-      <%= menu_livres(selected: page.livre_id) %>
 
     </span>
   </div>
@@ -27,9 +30,57 @@ require_form_support
 
   <div style="width:100%;">
     
-      <%# --------- TITRE de la page -----------  %>
-      <input 
-      id="page_titre" type="text" name="page[titre]" class="long bigger"
-      value="<%= page.titre %>" placeholder="Titre" />
+    <%# --------- TITRE de la page -----------  %>
+    <input 
+    id="page_titre" type="text" name="page[titre]" class="long bigger"
+    value="<%= page.titre %>" placeholder="Titre" />
+
+  </div>
+
+
+  <div style="width:100%">
+    
+    <%# --------- HANDLER de la page -----------  %>
+    
+    <input 
+    type="text" class="medium" 
+    name="page[handler]" id="page_handler" 
+    value="<%= page.handler %>" 
+    placeholder="handler (dossier)"
+    />
+
+  </div>
+
+  <div style="width:100%">
+
+    <%# --------- DESCRIPTION de la page -----------  %>
+
+    <textarea 
+      name="page[description]" id="page_description" 
+      class="long" placeholder="Description de la page"><%= page.description %></textarea>
+
+  </div>
+
+  <div style="width:100%">
+    
+    <%# --------- OPTIONS de la page -----------  %>
+
+    <div>
+      <%= menu_niveau_developpement(selected: page.options[1]) %><%= menu_priorite(selected: page.priority) %>
+    </div>
+    <div>
+      <input type="checkbox" name="page[only_web]" id="page_only_web" <%= page.only_web? ? 'CHECKED' : '' %> />
+      <label for="page_only_web">Version en ligne seulement (pas papier)</label>
+    </div>
+    <div>
+      <input type="checkbox" name="page[create_file]" id="page_create_file" checked="CHECKED" />
+      <label for="page_create_file">Créer le fichier s’il n’existe pas.</label>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <input type="button" class="fleft" value="Init new" onclick="EditData.init_new.call(EditData)" />
+    <input type="submit" class="main" value="<%= page.id ? 'Enregistrer' : 'Créer' %>" />
+    
   </div>
 </form>

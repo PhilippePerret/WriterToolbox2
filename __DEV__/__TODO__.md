@@ -1,3 +1,6 @@
+* Poursuivre l'élaboration du formulaire de données de page Narration
+  - mettre en place les tests pour la tester.
+
 * Une page dyn.erb doit être actualisée (i.e. détruite) :
   - lorsque sa page .md est modifiée
   - lorsqu'elle change de sous-chapitre
@@ -8,11 +11,6 @@
   - lorsque son sous-chapitre est déplacé (toutes les pages doivent être actualisées)
   * À la modification d'un chapitre/sous-chapitre, il faut détruire son fichier
     dyn préparé, dans narration/_data/xdyn/ + "#{type}_#{id}.dyn.erb"
-
-
-* Narration
-  - faire trois partials :
-    - page.erb, chap.erb et schap.erb pour l'affichage des pages
 
 * Quand la page dynamique (.dyn.erb) de Narration est vide, il faut la réactualiser.
 

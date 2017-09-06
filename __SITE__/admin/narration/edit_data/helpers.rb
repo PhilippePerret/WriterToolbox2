@@ -2,34 +2,43 @@
 class Site
 
 
-  def menu_livres params = nil
-    params ||= Hash.new
+  def menu_livres params 
     require './__SITE__/narration/_lib/_required/constants'
-
-    c = String.new
-    c << "<select name=\"page[livre_id]\" id=\"page_livre_id\" class=\"medium\">"
-    Narration::LIVRES.each do |bid, bdata|
-      selected = bid == params[:selected] ? ' selected="SELECTED"' : ''
-      c << "<option value=\"#{bid}\"#{selected}>#{bdata[:hname]}</option>"
-    end
-    c << '</select>'
-    return c
+    params.merge!(values: Narration::LIVRES, id: 'page_livre_id', name: 'page[livre_id]', class: 'medium')
+    Form.build_select(params)
   end
 
   def menu_type_page params = nil
-    params ||= Hash.new
-    c = String.new
-    c << "<select name=\"page[type]\" id=\"page_type\" class=\"max-medium\">"
-    [
-      ['0', 'page'],
-      ['1', 'sous-chapitre'],
-      ['2', 'chapitre'],
+    values = [
+      ['1', 'page'],
+      ['2', 'sous-chapitre'],
+      ['3', 'chapitre'],
       ['5', 'texte type']
-    ].each do |val, tit|
-      sel = val == params[:selected] ? 'selected="SELECTED"' : ''
-      c << "<option value=\"#{val}\"#{sel}>#{tit}</option>"
-    end
-    c << '</select>'
-    return c
+    ]
+    params.merge!(values: values, id: 'page_type', name: 'page[type]', class: 'max-medium')
+    Form.build_select(params)
   end
+
+
+  # Menu pour le niveau de développement
+  #
+  def menu_niveau_developpement params
+    params.merge!(values: Narration::NIVEAUX_DEVELOPPEMENT, id: 'page_nivdev', name: 'page[nivdev]', class: 'medium')
+    Form.build_select(params)
+  end
+
+
+  # Menu pour la priorité de correction de la page
+  #
+  def menu_priorite params
+    values = [
+      [0, '--- correction ---'],
+      [1, 'correction normale'],
+      [4, 'correction rapide'],
+      [7, 'correction prioritaire']
+    ]
+    params.merge!(values: values, id: 'page_priority', name: 'page[priority]', class: 'medium')
+    Form.build_select(params)
+  end
+
 end #/Site
