@@ -4,7 +4,8 @@ class Site
 
   def menu_livres params 
     require './__SITE__/narration/_lib/_required/constants'
-    params.merge!(values: Narration::LIVRES, id: 'page_livre_id', name: 'page[livre_id]', class: 'medium')
+    params.merge!(values: Narration::LIVRES, id: 'page_livre_id', name: 'page[livre_id]', class: 'medium',
+                 first_option: '<option value="">Aucun livre</option>')
     Form.build_select(params)
   end
 

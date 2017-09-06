@@ -1,5 +1,8 @@
 # Vue - Les formulaires
 
+* [Requérir le support de formulaire](#vue_require_support_form)
+* [Aide pour la construction d'un select](#form_aide_build_select)
+
 ## Requérir le support de formulaire {#vue_require_support_form}
 
 Selon le principe du chargement minimum, il faut requérir le support de librairie pour bénéficier des quelques outils utiles :
@@ -94,5 +97,48 @@ Et ensuite on le checke à l'aide de :
   if Form.form_already_submitted?(param(:FORMID))
     # => une alerte ou autre
   end
+
+```
+
+
+## Aide pour la construction d'un select {#form_aide_build_select}
+
+```ruby
+
+Form.build_select({
+  id:             # ID du select
+  name:           # NAME du select
+  values:         # Les valeurs, une liste de paires ou un hash définissant
+                  # :hname (cf. plus bas)
+  options:        # = values
+  first_option:   # {String} Un premier menu éventuel
+  class:          # {String} Class CSS
+  })
+
+```
+
+### Valeurs du menu
+
+Elles peuvent être passées par un `Array` :
+
+```ruby
+
+  values = [
+    ['val1', 'titre1'],
+    ['val2', 'titre2'],
+    etc.
+  ]
+
+```
+
+Ou sous forme d'un `Hash`. Les clés seront les valeurs, les valeurs des clés doivent être des `hash` qui définissent la propriété `:hname` :
+
+```ruby
+
+  values = {
+    'val1' => {..., hname: 'titre1'},
+    'val2' => {..., hname: 'titre2'},
+    etc.
+  }
 
 ```

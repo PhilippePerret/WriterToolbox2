@@ -1,6 +1,15 @@
 <% 
 require_form_support
 
+# S'il faut enregistrer les données
+if param(:operation) == 'save_data'
+
+  page.save
+
+end
+
+
+
 # debug "Données de la page: #{page.data.inspect}"
 #
 %>
@@ -16,7 +25,7 @@ require_form_support
 
       <%# --------- TYPE de la page -----------  %>
 
-      <%= menu_type_page(selected: page.options[0].to_i) %>
+      <%= menu_type_page(selected: page.type) %>
 
       <%# --------- ID de la page -----------  %>
       <input 
@@ -66,7 +75,7 @@ require_form_support
     <%# --------- OPTIONS de la page -----------  %>
 
     <div>
-      <%= menu_niveau_developpement(selected: page.options[1]) %><%= menu_priorite(selected: page.priority) %>
+      <%= menu_niveau_developpement(selected: page.nivdev) %><%= menu_priorite(selected: page.priority) %>
     </div>
     <div>
       <input type="checkbox" name="page[only_web]" id="page_only_web" <%= page.only_web? ? 'CHECKED' : '' %> />

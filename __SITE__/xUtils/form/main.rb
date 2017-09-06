@@ -15,6 +15,7 @@ class << self
   #         class:  Class CSS
   #         options: Liste des options [ [v1, lab1], [v2, lab2] ...]
   #         selected: Item sélectionné
+  #         first_option: Éventuellement, le code du premier item
   #       }
   def select_field attrs
     c = '<select'
@@ -24,6 +25,7 @@ class << self
     attrs[:options] ||= attrs[:values]
 
     c << '>'
+    c << (attrs[:first_option] || '')
     if attrs[:options].is_a?(Array)
       c << attrs[:options].collect do |option|
         val, lab = option
