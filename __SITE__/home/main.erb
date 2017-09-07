@@ -17,6 +17,9 @@
 
 <div style="clear:both"></div>
 
+<% if offline? %>
+<input type="button" onclick="window.test()" value="Test" />
+<% end %>
 <%= site.section_last_post %>
 
 <%= Updates.section_last_updates %>

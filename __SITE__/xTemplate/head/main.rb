@@ -11,15 +11,15 @@ class Site
     end.join("\n")
   end
 
-  def all_javascript_tags
-    all_javascript.map do |js_file|
-      "<script type=\"type/javascript\" src=\"#{js_file}\"></script>"
-    end.join("\n")
-  end
-
   def all_meta_tags
     all_meta.map do |meta_tag|
       "<meta #{meta_tag} />"
+    end.join("\n")
+  end
+
+  def all_javascripts_tags
+    all_javascripts.map do |js_file|
+      "<script type=\"text/javascript\" src=\"#{js_file}\"></script>"
     end.join("\n")
   end
 

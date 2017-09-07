@@ -135,16 +135,21 @@ class Site
     @all_css ||= ['./css/all.css']
   end
 
-  def all_javascript
-    @all_javascript ||= []
-  end
-
   def all_meta
     @all_meta ||= ['charset="utf-8"']
   end
 
+  def all_javascripts
+    @all_javascripts ||= begin
+      arr = []
+      arr += Dir["./js/_required/**/*.js"]
+    end
+  end
+
   def folder_load_javascript solid_path
-    nil
+    Dir["#{solid_path}/**/*.js"].each do |path|
+      all_javascripts << path
+    end
   end
 
 end

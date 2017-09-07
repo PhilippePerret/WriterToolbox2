@@ -14,5 +14,4 @@ class Site
     '<a href="user/suscribe">s’abonner</a>'
   end
 
-
 end

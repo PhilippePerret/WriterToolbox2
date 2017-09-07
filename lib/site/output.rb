@@ -19,7 +19,10 @@ class Site
     cgi.out{
       cgi.html{
         cgi.head{head} +
-        cgi.body{body}
+        cgi.body{
+          body +
+          all_javascripts_tags
+        }
       }
     }
     # -- Rien ne peut passer ici --

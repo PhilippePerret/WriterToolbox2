@@ -1,7 +1,11 @@
+### 2.0.7
+
+  * Implémentation des premières méthodes utilitaires Javascript.
+
 ### 2.0.6
 
   * Formulaire de l'édition et création d'une page Narration entièrement testé.
-  
+
 ### 2.0.5
 
   * Mise en place de l'édition d'un fichier quelconque (admin)
