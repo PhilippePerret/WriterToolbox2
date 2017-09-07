@@ -57,6 +57,10 @@ RSpec.configure do |config|
     require_folder './spec/support/paiements'
   end
 
+  def require_support_narration
+    require_folder './spec/support/narration'
+  end
+
   # Pour les tests have_tag etc.
   config.include RSpecHtmlMatchers
 
@@ -119,7 +123,7 @@ RSpec.configure do |config|
   alias :add_file_2_remove :add_file_2_destroy
   alias :add_file_to_remove :add_file_2_destroy
   alias :add_file_to_destroy :add_file_2_destroy
-  
+
   def destroy_files_to_destroy
     @files_to_destroy || return
     @files_to_destroy.each do |file|

@@ -27,12 +27,13 @@ class Narration
     # Reseter les données, par exemple après l'enregistrement,
     # pour recalculer toutes les valeurs volatiles.
     def reset
+      @btype        = nil
+      @type         = nil
       @titre        = nil
       @livre_id     = nil
       @options      = nil
       @handler      = nil
       @description  = nil
-      @type         = nil
       @priority     = nil
       @nivdev       = nil
       @is_only_web  = nil
@@ -44,11 +45,14 @@ class Narration
     end
 
     # Propriétés volatiles
+    #
+    def btype
+      @btype ||= id? ? options[0].to_i : nil
+    end
     def type
       @type ||= 
-        bit_type = id? ? options[0].to_i : nil
         begin
-          case bit_type
+          case btype
           when 1 then :page
           when 2 then :sous_chapitre
           when 3 then :chapitre
@@ -83,13 +87,15 @@ class Narration
       else
         @id = site.db.insert(:cnarration,'narration',data2save)
       end
-      __notice "Page enregistrée."
 
       # On met les nouvelles données et on les dispatche pour pouvoir
       # y avoir accès tout de suite.
       reset
       @data = data2save
       dispatch(@data)
+
+      # Message de confirmation
+      __notice "#{type.to_s.titleize} enregistré#{page? ? 'e' : ''}."
 
       # Si la case "Créer le fichier" est coché, et que le fichier n'existe pas,
       # il faut le créer en créant également le dossier le contenant, qui peut ne
@@ -148,9 +154,9 @@ class Narration
     end
     def options_built
       o = dform[:type].to_s                 # page, sous-chapitre ou chapitre
-      o << dform[:nivdev]                   # niveau de développement
-      o << (dform[:only_web] ? '1' : '')    # seulement pour livre en ligne
-      o << dform[:priority]                 # priorité pour la correction
+      o << dform[:nivdev].to_s              # niveau de développement
+      o << (dform[:only_web] ? '1' : '0')   # seulement pour livre en ligne
+      o << dform[:priority].to_s            # priorité pour la correction
 
       debug "options : #{o}"
 
@@ -160,24 +166,34 @@ class Narration
 
     # Retourne true si les données sont valides, false dans le cas contraire
     #
+    ERRORS = {
+      titre_required:  "Il faut impérativement définir le titre.",
+      no_handler:      "Pour une page, il faut impérativement définir le handler (path au fichier).",
+      invalid_handler: "Le handler est un chemin invalide (autorisés : a-Z, 0-9, _, / et -)"
+    }
     def data_valid?
       dform[:titre] || raise('titre_required')
-      (dform[:type] == '1' && dform[:handler]) || raise('no_handler')
-      return true
+      if [1,5].include?(dform[:type])
+        handler_valide?(dform[:handler]) || (return false) 
+      else
+        dform[:handler] = nil
+      end
     rescue Exception => e
       debug e
-      __error err(e.message.to_sym) 
+      __error ERRORS[e.message.to_sym] 
     else
       return true
     end
-    ERRORS = {
-      titre_required: "Il faut impérativement définir le titre.",
-      no_handler: "Pour une page, il faut impérativement définir le handler (path au fichier)."
-    }
-    def err err_id
-      ERRORS[:err_id]
-    end
 
+    def handler_valide?(h)
+      h != nil || raise('no_handler')
+      h.gsub(/[a-zA-Z_0-9\-\/]/,'') == '' || raise('invalid_handler')
+    rescue Exception => e
+      debug e
+      __error ERRORS[e.message.to_sym] 
+    else
+      true
+    end
     # Retourne les données du formulaire, en les corrigeant si nécessaire
     #
     def dform
@@ -185,6 +201,8 @@ class Narration
         begin
           d = param(:page)
           d.each { |k, v| d[k] = v.nil_if_empty }
+          [:type, :nivdev, :priority].each{|p| d[p] = d[p].to_i}
+          debug "dform = #{d.inspect}"
           d
         end
     end

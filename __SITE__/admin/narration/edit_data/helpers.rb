@@ -2,8 +2,22 @@
 class Site
 
 
-  def file_md_path
-    
+  # retourne le code HTML pour les boutons utiles pour une page,
+  # par exemple le bouton qui permet d'éditer son texte ou de l'afficher
+  def div_boutons_if_page
+    (page.page? && page.in_livre?) || (return '')
+    c = String.new
+    c << '<div id="utils_page_buttons">'
+    c << edit_text_button
+    c << show_page_button
+    c << '</div>'
+    return c
+  end
+  def edit_text_button
+    "<a href=\"admin/edit_text?path=#{CGI.escape page.md_file}\" target=\"_new\">texte</a>" 
+  end
+  def show_page_button
+    "<a href=\"narration/page/#{page.id}\" target=\"_new\">afficher</a>"
   end
   def menu_livres params 
     require './__SITE__/narration/_lib/_required/constants'
@@ -35,13 +49,7 @@ class Site
   # Menu pour la priorité de correction de la page
   #
   def menu_priorite params
-    values = [
-      [0, '--- correction ---'],
-      [1, 'correction normale'],
-      [4, 'correction rapide'],
-      [7, 'correction prioritaire']
-    ]
-    params.merge!(values: values, id: 'page_priority', name: 'page[priority]', class: 'medium')
+    params.merge!(values: Narration::PRIORITIES, id: 'page_priority', name: 'page[priority]', class: 'medium')
     Form.build_select(params)
   end
 

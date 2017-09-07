@@ -13,8 +13,8 @@ end
 # debug "Données de la page: #{page.data.inspect}"
 #
 %>
-<%= div_boutons_if_page %>
 <form id="narration_edit_data_form" action="" method="POST">
+  <%= div_boutons_if_page %>
   <input type="hidden" name="operation" id="" value="save_data" />
 
   <div>
@@ -26,7 +26,7 @@ end
 
       <%# --------- TYPE de la page -----------  %>
 
-      <%= menu_type_page(selected: page.type) %>
+      <%= menu_type_page(selected: page.btype) %>
 
       <%# --------- ID de la page -----------  %>
       <input 
@@ -89,7 +89,7 @@ end
   </div>
 
   <div class="buttons">
-    <input type="button" class="fleft" value="Init new" onclick="EditData.init_new.call(EditData)" />
+    <a href="admin/narration?op=edit_data" class="btn fleft">Init new</a>
     <input type="submit" class="main" value="<%= page.id ? 'Enregistrer' : 'Créer' %>" />
     
   </div>
