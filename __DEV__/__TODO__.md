@@ -1,8 +1,3 @@
-* Empêcher d'utiliser le retour chariot sur le formulaire data narration
-  * Ajouter un bouton à côté du champ ID pour éditer une page
-  
-* Régler les tabindex pour qu'on arrive tout de suite sur le formulaire d'identification (dans signin)
-
 * Poursuivre l'élaboration du formulaire de données de page Narration
   - mettre en place les tests pour la tester.
 

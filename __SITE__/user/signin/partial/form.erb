@@ -7,7 +7,7 @@
 %>
 <h2>S’identifier</h2>
 
-<form id="signin_form" class="w40pc" action="user/signin" method="POST">
+<form id="signin_form" class="w30pc" action="user/signin" method="POST">
 
   <input type="hidden" name="operation" value="signin">
   <input type="hidden" name="FORMID" value="<%= Form.unique_id %>">
@@ -15,7 +15,7 @@
   <div>
     <label>Votre mail</label>
     <span class="field">
-      <input type="text" name="user[mail]" id="user_mail" value="<%= param(:user)[:mail] %>">
+      <input tabindex="1" type="text" name="user[mail]" id="user_mail" value="<%= param(:user)[:mail] %>">
     </span>
   </div>
 

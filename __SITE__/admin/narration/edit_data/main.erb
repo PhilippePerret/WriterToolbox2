@@ -29,9 +29,18 @@ end
       <%= menu_type_page(selected: page.btype) %>
 
       <%# --------- ID de la page -----------  %>
+
       <input 
       id="page_id" type="text" name="page[id]" class="small"
       value="<%= page.id %>" placeholder="ID" 
+      />
+
+      <%# ----------- Un bouton pour éditer l'ID rentré -------------- %>
+
+      <input 
+      type="button" class="small" style="font-variant:small-caps;"
+      onclick="window.location.href='admin/narration/'+DOM('page_id').value+'?op=edit_data';"
+      value="edit"
       />
 
     </span>
