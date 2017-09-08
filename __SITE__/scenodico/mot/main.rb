@@ -47,7 +47,18 @@ class Scenodico
     end
     def displayed_liens
       liens != nil || (return '')
-      liens.inspect
+      links = liens.force_encoding('utf-8')
+      links = links.split("\n").collect{|l| href, titr = l.split('::'); {href: href, titre: titr}} 
+      links.collect do |hlink|
+        "<div><a href=\"#{hlink[:href]}\" target=\"_blank\">#{hlink[:titre]}</a></div>"
+      end.join('')
+    end
+
+    def lien_edit_if_admin
+      user.admin? || (return '')
+      "<span class=\"span_edit_link\">"+
+        "<a href=\"admin/scenodico/#{id}?op=edit_mot\">éditer</a>"+
+      "</span>"
     end
     # -------------------------------------------------------------------------------- 
     #

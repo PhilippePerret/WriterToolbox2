@@ -5,9 +5,11 @@
 <%= right_margin %>
 
 <h2 class="small air">Le Scénodico</h2>
-
+<div class="right">
+<%= mot.lien_edit_if_admin %>
+</div>
 <div 
-  id="scenodico-mot-#{mot.id}" 
+  id="scenodico-mot-<%= mot.id %>" 
   class="fiche_mot fiche cadre label-medium">
   <div class="titre"><%= mot.displayed_terme %></div>
   <div class="main">
@@ -29,6 +31,10 @@
     <label>catégories</label>
     <div class="value"><%= mot.displayed_categories %></div>
   </div>
-  <div class="liens"><%= mot.displayed_liens %></div>
+  <div class="mg6 small">
+    <label>liens</label>
+    <div class="value">
+      <%= mot.displayed_liens %></div>
+    </div>
 </div>
 <%= footer %>

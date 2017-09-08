@@ -1,0 +1,23 @@
+<% 
+#
+# Formulaire d'édition du mot du scénodico
+#
+
+require_form_support
+
+%>
+<form id="edit_mot_form" action="" method="POST">
+  <input type="hidden" name="operation" id="" value="save_mot" />
+  <div>
+    <input type="hidden" name="mot[relatifs]" id="mot_relatifs" value="<%= mot.relatifs %>" />
+  </div>
+  <div>
+    <input type="hidden" name="mot[synonymes]" id="mot_synonymes" value="<%= mot.synonymes %>" />
+  </div>
+  <div>
+    <input type="hidden" name="mot[contraires]" id="mot_contraires" value="<%= mot.contraires %>" />
+  </div>
+  <div class="buttons">
+    <input type="submit" class="main" value="<%= mot.id ? 'Enregistrer' : 'Créer' %>" />
+  </div>
+</form>

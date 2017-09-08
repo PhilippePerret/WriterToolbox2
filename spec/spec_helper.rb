@@ -61,6 +61,10 @@ RSpec.configure do |config|
     require_folder './spec/support/narration'
   end
 
+  def require_support_scenodico
+    require_folder './spec/support/scenodico'
+  end
+
   # Pour les tests have_tag etc.
   config.include RSpecHtmlMatchers
 
