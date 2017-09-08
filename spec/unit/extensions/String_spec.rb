@@ -82,4 +82,22 @@ describe 'String extensions' do
     end
   end
 
+
+  describe '#as_id_list' do
+    it 'répond' do
+      expect('string').to respond_to :as_id_list
+    end
+    context 'sans argument, quand liste séparée par espaces' do
+      it 'retourne la liste d’IDs' do
+        expect('12 23'.as_id_list).to eq [12, 23]
+        expect('1 2 3 4 5 6'.as_id_list).to eq [1,2,3,4,5,6]
+      end
+    end
+    context 'avec l’argument virgule comme délimiteur, quand liste séparée par virgules' do
+      it 'retourne la liste des IDs' do
+        expect('12,23'.as_id_list(',')).to eq [12,23]
+        expect('12, 23 '.as_id_list(',')).to eq [12, 23]
+      end
+    end
+  end
 end

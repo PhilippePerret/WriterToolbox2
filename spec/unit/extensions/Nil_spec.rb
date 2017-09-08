@@ -7,4 +7,13 @@ describe 'NilClass' do
       expect(nil.nil_if_empty).to eq nil
     end
   end
+
+  describe '#as_id_list' do
+    it 'répond' do
+      expect(nil).to respond_to :as_id_list
+    end
+    it 'retourne une liste vide (pour compatiblité avec String)' do
+      expect(nil.as_id_list).to eq []
+    end
+  end
 end

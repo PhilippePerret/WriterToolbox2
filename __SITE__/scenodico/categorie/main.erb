@@ -1,0 +1,23 @@
+<% 
+#
+# Affichage d'une catégorie, c'est-à-dire sa définition et ses mots
+#
+%>
+<%= header(:small) %>
+
+<h2 class="small air">Le Scénodico</h2>
+
+<div 
+  id="scenodico-categorie-#{categorie.id}" 
+  class="fiche cadre label-medium">
+  <div class="titre">Catégorie&nbsp;: <%= categorie.displayed_name %></div>
+  <div class="main nodeco"><%= categorie.liste_mots %></div>
+  <div class="mg6 small">
+    <label>description</label>
+    <span class="value"><%= categorie.data[:description] || '---' %></span>
+  </div>
+</div>
+<% if user.admin? %>
+  <p>Catégorie #<%= categorie.id %> (<%= categorie.data[:cate_id] %>)</p>
+<% end %>
+<%= footer %>

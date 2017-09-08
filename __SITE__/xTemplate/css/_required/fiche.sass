@@ -1,0 +1,48 @@
+// Pour donner de la cohérence aux fiches (fiche scénodico, filmodico,
+// analyses, etc.) on les regroupe sous des styles identiques.
+div.fiche
+  &.cadre
+    padding       : 2em
+    border-style  : solid
+    border-width  : 1px
+    border-color  : #999
+    border-radius : 1em
+  > div
+    &.nodeco
+      a
+        text-decoration : none !important
+    &.titre
+      font-size     : 2.3em
+      margin-bottom : 0
+    &.main
+      font-size     : 1.12em
+      line-height   : 1.7em
+      text-align    : justify
+      margin        : 3em 4em
+    &.mg2
+      margin-left   : 2em
+    &.mg4
+      margin-left   : 4em
+    &.mg6
+      margin-left   : 6em
+
+    margin-bottom   : 1em
+    label
+      float       : left
+      color       : #999
+      font-size   : 0.85em
+      letter-spacing  : 0.5px
+      font-variant    : small-caps
+      // Note : la dimension est fonction de la classe 'label-<taille>'
+      // du div fiche
+    div.value
+      display     : block
+      // Note : le margin-left dépend de la classe 'label-<taille>' du
+      // div fiche.
+
+  &.label-medium
+    label
+      width   : 8em
+    span.value
+      margin-left : 9em
+      width       : calc(98% - 9em)

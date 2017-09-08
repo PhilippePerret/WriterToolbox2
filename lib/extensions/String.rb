@@ -3,11 +3,11 @@ class String
 
   # Prend une liste de chiffres séparés par des espaces, p.e. "1 2 65 6"
   # et retourne une liste d'entier (p.e. [1, 2, 65, 6])
-  def as_list_num_with_spaces
+  def as_id_list delimitor = ' '
     if self.nil_if_empty.nil?
       []
     else
-      self.split(' ').collect{|n| n.to_i }
+      self.split(delimitor).collect{|n| n.strip.to_i }
     end
   end
 

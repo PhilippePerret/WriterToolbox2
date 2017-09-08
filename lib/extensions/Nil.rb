@@ -1,11 +1,9 @@
 # encoding: UTF-8
 
-class ::NilClass
+class NilClass
 
-  # En parallèle de la même méthode pour String, dans le cas
-  # où c'est une donnée NIL, ce qui arrive très souvent puisque la
-  # méthode traite des propriétés venant d'une base.
-  def as_list_num_with_spaces
+  # Cf. la méthode String
+  def as_id_list
     []
   end
 
@@ -34,6 +32,6 @@ class ::NilClass
   end
 
   def numeric?
-    false 
+    false
   end
 end

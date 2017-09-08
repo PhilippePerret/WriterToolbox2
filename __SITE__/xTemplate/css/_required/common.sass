@@ -23,7 +23,7 @@ div#flash
 .center
   text-align  : center
 
-
+// Un livre, un film, etc.
 span.oeuvre
   color       : #434343
   font-family : "Times New Roman", Times, "Liberation Serif", FreeSerif, serif
@@ -31,6 +31,17 @@ span.oeuvre
   letter-spacing  : 2.6px
   &:before, &:after
     content   : "•"
+
+// Un tag entouré
+.tag
+  color           : #999
+  border          : 1px solid
+  border-radius   : 4px
+  padding         : 0px 4px
+  font-family     : Avenir
+  font-size       : 12pt
+  margin          : 0 6px
+  text-decoration : none !important
 
 // Pour du texte qui ne doit apparaitre qu'en version ligne
 .block
@@ -40,7 +51,7 @@ span.oeuvre
   float : left
 .fright
   float : right
-  
+
 // Pour les éléments un peu transparent qui s'éclaircissent au passage
 // de la souris
 .light

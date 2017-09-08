@@ -1,3 +1,7 @@
+### 2.0.8
+
+  * Première implémentation du scénodico (mot et catégorie).
+
 ### 2.0.7
 
   * Implémentation des premières méthodes utilitaires Javascript.

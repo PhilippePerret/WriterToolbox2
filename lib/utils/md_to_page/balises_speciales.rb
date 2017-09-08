@@ -314,7 +314,7 @@ class MD2Page
     raise "Impossible de trouver l'image de relative path `#{relpath}`.\nElle a été recherchée dans :\n#{paths_seek.join(rc)}"
   end
   def formate_balises_mots str
-    str.gsub!(/MOT\[([0-9]+)\|(.*?)\]/){ "<a href=\"scenodico/show/#{$1}\" class=\"mot\">#{$2}</a>"}
+    str.gsub!(/MOT\[([0-9]+)\|(.*?)\]/){ "<a href=\"scenodico/mot/#{$1}\" class=\"mot\">#{$2}</a>"}
     str
   end
 

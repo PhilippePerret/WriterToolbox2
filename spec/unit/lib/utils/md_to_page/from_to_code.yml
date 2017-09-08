@@ -15,7 +15,7 @@
   -
     :it:    'transforme les balises MOT'
     :from:  'MOT[112|le mot]'
-    :to:    '<p><a href="scenodico/show/112" class="mot">le mot</a></p>'
+    :to:    '<p><a href="scenodico/mot/112" class="mot">le mot</a></p>'
 
   -
     :it:    'transforme les balises FILM'
@@ -129,7 +129,7 @@
       <p>Un paragraphe.</p>
       <p>Le contenu du fichier inclus.</p>
       <ul><li>item 1</li><li>item 2</li><li>item 3</li></ul>
-      <p>Nous allons à l’<a href="http://www.atelier-icare.net">atelier Icare</a> pour obtenir la définition du mot <a href="scenodico/show/100" class="mot">#100</a>.</p>
+      <p>Nous allons à l’<a href="http://www.atelier-icare.net">atelier Icare</a> pour obtenir la définition du mot <a href="scenodico/mot/100" class="mot">#100</a>.</p>
       <p>Un autre paragraphe.</p>
     :nospace: true
 

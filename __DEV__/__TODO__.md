@@ -1,5 +1,20 @@
-* Poursuivre l'élaboration du formulaire de données de page Narration
-  - mettre en place les tests pour la tester.
+* régler le problème du <auteur>...</auteur> qui passe à la ligne.
+  * essayer de le régler en soi, ou
+  * au lieu de corriger "auteur:|l'auteur|" par "<auteur>l'auteur</auteur>", utiliser un span :
+  "<span class='auteur'>l'auteur</span>"
+    Faire quand même une recherche pour voir s'il y a des <auteur> (et autres <personnages>, je suis sûr qu'il y en a)
+    
+* tester scénodico (affichage des mots, affichage des catégories — penser à prendre des mots sans catégorie, sans relatifs)
+  * ajouter le listing des mots
+  * ajouter la recherche d'un mot
+  * ajouter l'édition d'un mot (admin/scenodico/xxx?op=edit_mot, admin/scenodico/xxx?op=edit_categorie)
+
+* Documenter la classe .fiche
+  fiche.cadre.label-medium/label-large/label-small
+  div     .main .mg2/4/6 .small .nodeco (supprimer la déco des liens)
+    label
+    div.value
+* Mettre un lien pour voir le mot suivant/précédent
 
 * Une page dyn.erb doit être actualisée (i.e. détruite) :
   - lorsque sa page .md est modifiée
@@ -12,18 +27,10 @@
   * À la modification d'un chapitre/sous-chapitre, il faut détruire son fichier
     dyn préparé, dans narration/_data/xdyn/ + "#{type}_#{id}.dyn.erb"
 
-* Quand la page dynamique (.dyn.erb) de Narration est vide, il faut la réactualiser.
-
-* Il faut soit :
-  - mettre les pages narration dans une section spéciale pour pouvoir définir les H3 (premier niveau de titre) différemment
-  - soit augmenter d'un le niveau de titre au traitement, mais il faudrait alors pouvoir le définir dans les options, pour que ça ne perturbe pas tous les textes.
-  => Je pense que la première solution est la meilleure. Voir quels autres textes (analyse ?) il faut traiter de la même manière.
-
 * [NARRATION - gros morceau] Implémenter et tester l'affichage d'une page de Narration (#138)
 
 * Implémenter "analyse/collector" (collecteur d'analyse)
 
-* Implémenter l'édition des textes quelconque par "admin/edit_text?path=..." (c'est ce qui est utilisé pour les exemples, par exemple)
 * Implémenter l'édition d'une table des matières de livre narration
   Le lien est "admin/narration/<id livre>?op=edit_tdm"
 

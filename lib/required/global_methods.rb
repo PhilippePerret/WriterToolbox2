@@ -16,6 +16,13 @@ def deserb path
   end
 end
 
+# Formate un texte quelconque
+# cf. Manuel > Markdown.md
+def formate code
+  defined?(MD2Page) || require_folder('./lib/utils/md_to_page')
+  MD2Page.transpile(nil,{dest:nil, code: code})
+end
+
 # Pour écrire un message d'erreur dans la page
 # Cf. ./lib/site/flash.rb
 def __error message

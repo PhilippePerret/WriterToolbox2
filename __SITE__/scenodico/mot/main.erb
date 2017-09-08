@@ -1,0 +1,34 @@
+<% 
+
+%>
+<%= header(:small) %>
+<%= right_margin %>
+
+<h2 class="small air">Le Scénodico</h2>
+
+<div 
+  id="scenodico-mot-#{mot.id}" 
+  class="fiche_mot fiche cadre label-medium">
+  <div class="titre"><%= mot.displayed_terme %></div>
+  <div class="main">
+    <%= mot.displayed_definition %>
+  </div>
+  <div class="mg6 small">
+    <label>relatifs</label>
+    <div class="value"><%= mot.displayed_relatifs %></div>
+  </div>
+  <div class="mg6 small">
+    <label>synonymes</label>
+    <div class="value"><%= mot.displayed_synonymes %></div>
+  </div>
+  <div class="mg6 small">
+    <label>contraires</label>
+    <div class="value"><%=  mot.displayed_contraires  %></div>
+  </div>
+  <div class="mg6 small">
+    <label>catégories</label>
+    <div class="value"><%= mot.displayed_categories %></div>
+  </div>
+  <div class="liens"><%= mot.displayed_liens %></div>
+</div>
+<%= footer %>
