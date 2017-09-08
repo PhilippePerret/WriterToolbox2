@@ -1,9 +1,10 @@
+* Ajouter les boutons "afficher" dans le formulaire d'édition du mot scénodico
 * régler le problème du <auteur>...</auteur> qui passe à la ligne.
   * essayer de le régler en soi, ou
   * au lieu de corriger "auteur:|l'auteur|" par "<auteur>l'auteur</auteur>", utiliser un span :
   "<span class='auteur'>l'auteur</span>"
     Faire quand même une recherche pour voir s'il y a des <auteur> (et autres <personnages>, je suis sûr qu'il y en a)
-    
+
 * tester scénodico (affichage des mots, affichage des catégories — penser à prendre des mots sans catégorie, sans relatifs)
   * ajouter le listing des mots
   * ajouter la recherche d'un mot

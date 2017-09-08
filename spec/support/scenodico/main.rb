@@ -21,6 +21,7 @@
 #                         Peut-être la condition where exprimée en string
 #
 def scenodico_get_mot where_clause
+  defined?(site) || require_lib_site
   where_clause =
     case where_clause
     when Fixnum then "id = #{where_clause}"

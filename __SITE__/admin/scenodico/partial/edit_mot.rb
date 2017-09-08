@@ -1,6 +1,25 @@
 # encoding: utf-8
 class Scenodico
   class Mot
+    class << self
+      # --------------------------------------------------------------------------------
+      #
+      #     MÉTHODES D'HELPER
+      #
+      # --------------------------------------------------------------------------------
+
+      def menu_mots
+        @menu_mots ||= 
+          begin
+            '<select class="mots" onchange="Scenodico.aor_mot(\'__TYPE__\',this)">'+
+              '<option value="">Choisir le mot…</option>'+
+              site.db.select(:biblio,'scenodico',nil,[:id,:mot]).collect do |hmot|
+              "<option data=\"#{hmot[:mot]}\" value=\"#{hmot[:id]}\">#{hmot[:mot]}</option>"
+              end.join('')+
+                '</select>'
+          end
+      end
+    end #/<< self
 
     include PropsAndDbMethods
 
@@ -16,6 +35,18 @@ class Scenodico
     #
     # --------------------------------------------------------------------------------
 
+    def mot
+      @mot ||= dparam[:mot] || data[:mot]
+    end
+    def definition
+      @definition ||= dparam[:definition] || data[:definition]
+    end
+    def liens
+      @liens ||= dparam[:liens] || data[:liens]
+    end
+    def categories
+      @categories ||= dparam[:categories] || data[:categories]
+    end
     def relatifs
       @relatifs ||= dparam[:relatifs] || data[:relatifs]
     end
@@ -33,13 +64,22 @@ class Scenodico
 
     # --------------------------------------------------------------------------------
     #
+    #     MÉTHODES D'HELPER 
+    #
+    # --------------------------------------------------------------------------------
+
+    def formated_relatifs
+      'relatifs'
+    end
+    # --------------------------------------------------------------------------------
+    #
     #     MÉTHODES D'ENREGISTREMENT
     #
     # --------------------------------------------------------------------------------
 
     # Méthode de sauvegarde des données
     def save
-     __error("La sauvegarde du mot n'est pas encore implémenté.") 
+      __error("La sauvegarde du mot n'est pas encore implémenté.") 
     end
 
     # Données à sauver, en les prenant dans le formulaire
