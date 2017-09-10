@@ -1,5 +1,5 @@
 
-docReady().then(function(){
+isReady().then(function(){
 
   // Pour que la touche Entrée ne déclenche pas le formulaire, ce qui
   // poserait des problèmes en cas de changement incomplet des valeurs.

@@ -1,2 +1,31 @@
 textarea#mot_definition
   height : 16em
+
+
+label.mots
+  display   : inline-block
+  width     : 290px
+
+select.mots
+  font-size   : 11.9pt
+  line-height : 1.3em
+  height      : 200px
+  width       : 290px
+
+  option
+    margin  : 0
+    padding : 1px
+
+    &.checked
+      background-color  : #090
+      color             : white
+
+  // Si la case à cocher "seulement les sélectionnés" est cochée,
+  // on masque tous les mots sauf ceux qui sont sélectionnés dans chaque
+  // type de mots, relatifs, synonymes ou contraires.
+  &.only_checkeds
+    option:not(.checked)
+      display : none
+    option.checked
+      background-color  : inherit
+      color             : inherit

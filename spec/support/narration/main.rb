@@ -202,6 +202,3 @@ def remove_page_narration_test page_id
   # === Vérifier que la page a été détruite ===
   expect(site.db.count(:cnarration,'narration',{id:page_id})).to eq 0
 end
-
-
-# Au chargement de ce fichier

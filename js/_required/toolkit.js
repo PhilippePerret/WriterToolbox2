@@ -44,7 +44,9 @@ window.Flash = {
 
   runTimerForText: function(id, longueur) {
     this.timers || (this.timers = {});
-    this.timers[id] = setTimeout(Flash.removeDiv.bind(Flash, id),longueur * 150);
+    var duree = longueur * 150;
+    if ( duree < 5000 ) { duree = 5000 }
+    this.timers[id] = setTimeout(Flash.removeDiv.bind(Flash, id),duree);
   },
   removeDiv: function(id){clearTimeout(this.timers[id]);this.clear(id)},
   clear: function(id) {DOM(id).style.display = 'none'},

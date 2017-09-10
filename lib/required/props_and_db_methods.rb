@@ -25,6 +25,11 @@ module PropsAndDbMethods
     return new_id
   end
 
+  def update hdata
+    site.db.update(db_name,db_table,hdata,{id: id})
+    dispatch hdata
+  end
+
   def set hdata
     site.db.update(db_name, db_table, hdata, {id: self.id})
     dispatch hdata

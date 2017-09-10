@@ -111,7 +111,13 @@ RSpec.configure do |config|
   config.after :suite do
     destroy_files_to_destroy
 
+    # Décommenter la ligne suivante pour réinjecter les données de la
+    # collection Narration dans la base
     # retreive_data_narration
+
+    # Décommenter la ligne suivant pour réinjecter les données biblio
+    # dans mySql.
+    # retreive_base_biblio
   end
 
   # ---------------------------------------------------------------------

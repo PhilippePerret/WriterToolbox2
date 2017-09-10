@@ -5,6 +5,7 @@
 Ces méthodes sont chargées automatiquement, il n'y a donc rien à faire.
 
 * [`DOM(<id>)`](#js_get_dom)
+* [Méthode d'attente `isReady`](#js_is_ready)
 * [`__notice(<notification>)`](#js_notice)
 * [`__error(<message erreur>)`](#js_error)
 
@@ -19,6 +20,19 @@ let elDom = DOM('id_element');
 ```
 
 > Null si l'élément n'existe pas.
+
+
+## Méthode d'attente `isReady` {#js_is_ready}
+
+Cette méthode correspond au `$(document).ready()` de jQuery.
+
+```js
+
+isReady(function(){
+  ... à faire quand le document est prêt ...
+})
+
+```
 
 ## `__notice` {#js_notice}
 

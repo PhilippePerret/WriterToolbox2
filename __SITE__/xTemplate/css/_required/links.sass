@@ -2,9 +2,14 @@
 a.btn
   text-decoration : none !important
   border          : 1px solid #777
-  padding         : 10px 33px
   background      : linear-gradient(#fcfcfc, #AAAAAA)
   color           : #525252 !important
+  &:not(.small)
+    padding         : 10px 33px
+  &.small
+    padding         : 2px 12px
+    font-size       : 11pt
+    letter-spacing  : 2px
 
 input[type="submit"], input[type="button"], a.btn
   font-family       : Arial, Helvetica

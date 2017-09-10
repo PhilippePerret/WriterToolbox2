@@ -1,3 +1,7 @@
+### 2.0.9
+
+  * Implémentation de l'édition d'un mot scénodico entièrement implémentée et testée.
+  
 ### 2.0.8
 
   * Première implémentation du scénodico (mot et catégorie).

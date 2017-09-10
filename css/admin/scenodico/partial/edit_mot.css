@@ -1,1 +1,1 @@
-textarea#mot_definition{height:16em}
+textarea#mot_definition{height:16em}label.mots{display:inline-block;width:290px}select.mots{font-size:11.9pt;line-height:1.3em;height:200px;width:290px}select.mots option{margin:0;padding:1px}select.mots option.checked{background-color:#090;color:#fff}select.mots.only_checkeds option:not(.checked){display:none}select.mots.only_checkeds option.checked{background-color:inherit;color:inherit}

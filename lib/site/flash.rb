@@ -42,6 +42,8 @@ class Site
     end
 
     def notice message, options = nil
+      message = message.nil_if_empty
+      message ||= "[Message notice vide…]"
       messages << "<div class=\"notice\">#{message}</div>"
     end
 
@@ -60,6 +62,8 @@ class Site
         message.each { |mes| error mes }
         return
       end
+      message = message.nil_if_empty
+      message ||= "[Message d'erreur vide…]"
       messages << "<div class=\"error\">#{message}</div>"
       return false
     end

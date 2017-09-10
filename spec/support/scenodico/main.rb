@@ -1,3 +1,26 @@
+=begin
+
+  SCENARIO_MOT_TO_ID[<mot>]
+
+    Retourne l'ID du mot <mot>
+    
+  scenodico_get_mot <where clause>
+
+    Retourne le mot de référence <where clause> qui peut être un ID ou
+    la clause where
+
+  get_mots_after <time>
+
+    Retourne la liste de tous les mots créés après le temps <time>
+    Cette liste en contient que des hash ne contenant que :id et :mot
+
+  nombre_mots_after <time>
+
+    Retourne le nombre de mots avec le temps (fixnum secondes) <time>
+
+=end
+defined?(site) || require_lib_site
+
 
 # scenodico_get_mot(<clause where ou ID>)
 #
@@ -21,7 +44,6 @@
 #                         Peut-être la condition where exprimée en string
 #
 def scenodico_get_mot where_clause
-  defined?(site) || require_lib_site
   where_clause =
     case where_clause
     when Fixnum then "id = #{where_clause}"
@@ -59,4 +81,21 @@ def scenodico_get_mot where_clause
   })
 
   return hmot
+end
+
+def def_mot_to_id
+  h = Hash.new
+  site.db.select(:biblio,'scenodico',nil,[:id,:mot]).each do |hmot|
+    h.merge!(hmot[:mot] => hmot[:id])
+  end
+  h
+end
+# Contient en clé le mot et en valeur son identifiant
+SCENODICO_MOT_TO_ID = def_mot_to_id
+
+def get_mots_after aftertime
+  site.db.select(:biblio,'scenodico', "created_at > #{aftertime}",[:id])
+end
+def nombre_mots_after aftertime
+  get_mots_after(aftertime).count
 end

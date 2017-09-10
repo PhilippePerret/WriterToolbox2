@@ -4,6 +4,9 @@
   * [`data`](#data_method)
   * [`get`](#get_method)
   * [`set`](#set_method)
+  * [`insert`]{#insert_db_method}
+  * [`update`]{#update_db_method}
+
 
 ## Pré-requis {#prerequise}
 
@@ -64,9 +67,33 @@ Si l'argument une liste de clés, alors la méthode renvoie un `Hash` contenant 
 ## `set <key>, <value>` {#set_method}
 
 
+### `insert` {#insert_db_method}
+
+Insert les données pour la première fois dans la table, retourne l'identifiant affecté et dispatche toute les données.
+
+```ruby
+
+insert(<hash data>[, <set_id>])
+
+```
+
+Mettre `set_id` à false si on ne veut pas que l'`@id` soit affecté (voir la [note 0001](#db_note_1)).
+
+
+### `update` {#update_db_method}
+
+Actualise les données de l'enregistrement et les dispatche dans l'instance.
+
+```ruby
+
+udpate(<hash data>)
+
+```
+
+
 ## NOTES {#notes}
 
-### N0001
+### N0001 {#db_note_1}
 
 On serait tenté, dans la méthode `insert`, de faire `@id = site.db.insert(...)`, mais le problème est que pour certaines tables (`tickets` par exemple), l'identifiant n'est pas l'auto-incrément habituel.
 

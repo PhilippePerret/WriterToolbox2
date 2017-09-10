@@ -278,6 +278,36 @@ def backup_narration_filepathofday
   end
 end
 
+# ---------------------------------------------------------------------
+#
+#   BACKUP DE LA TABLE BIBLIO (Scénodico, Filmodico, etc.)
+#
+# ---------------------------------------------------------------------
+def backup_base_biblio
+  File.exist?(backup_biblio_filepath_of_day) || begin
+    puts "Appeler la méthode `retreive_base_biblio` pour récupérer les données Biblio"
+    `mkdir -p ~/xbackups;cd ~/xbackups;mysqldump -u root -p#{db_data_offline[:password]} --databases 'boite-a-outils_biblio' > #{backup_biblio_filepath_of_day}`
+    puts "= Backup complet des données exécuté dans #{backup_biblio_filepath_of_day} ="
+  end
+  puts "\nRécupérer les données initiales de la base Biblio en appelant la méthode\n`retreive_base_biblio` à la fin de la session de test\n(chercher 'retreive_base_biblio' dans le spec_helper.rb).\n"
+
+end
+def retreive_base_biblio
+  File.exist?(backup_biblio_filepath_of_day) && begin
+    `cd ~/xbackups;mysql -u root -p#{db_data_offline[:password]} < #{backup_biblio_filepath_of_day}`
+  end
+end
+def backup_biblio_filepath_of_day
+  @backup_biblio_filepath_of_day ||= begin
+    File.join(Dir.home,'xbackups',backup_biblio_filename_of_day)
+  end
+end
+def backup_biblio_filename_of_day
+  @backup_biblio_filename_of_day ||= begin
+    "biblio_bckup_#{Time.now.strftime('%Y-%m-%d')}.sql"
+  end
+end
+
 
 # Sauf toutes les données de toutes les bases si nécessaire
 # "Si nécessaire" signifie : s'il n'existe pas un fichier du jour contenant
