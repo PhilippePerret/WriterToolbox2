@@ -1,0 +1,16 @@
+<% 
+
+#
+# Page permettant d'affiche une liste de mots du scénodico
+#
+# La lettre se trouve définie dans l'URL, de 1 (a) à 26 (z)
+#
+%>
+<%= header %>
+
+<h2>Le <a href="scenodico/list">Scénodico</a></h2>
+
+<%= alphabet %>
+<%= lettre.listing_mots %>
+
+<%= footer %>

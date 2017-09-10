@@ -50,6 +50,10 @@ class Scenodico
     # --------------------------------------------------------------------------------
 
     # Méthode de sauvegarde des données
+    #
+    # En fonction de la définition de `id`, la méthode sait s'il s'agit d'une
+    # édition ou d'une création et sauve les données en fonction.
+    #
     def save
       user.admin? || raise('Cette opération vous est interdite, désolé.')
       data_valid? || return
@@ -76,6 +80,10 @@ class Scenodico
     end
 
     # Données relevées dans le formulaire
+    #
+    # Certaines de ces données sont corrigées ici. Par exemple, tous les champs vides
+    # sont mis à nil. Le mot est titleisé et les \r\n des liens et des définitions sont
+    # remplacés par de simples \n
     def dform
       @dform ||= 
         begin

@@ -20,6 +20,12 @@ feature "Édition d'un mot du scénodico" do
     expect(page).not_to have_tag('h2', text: "Édition Scénodico")
   end
 
+  scenario 'un administrateur peut arriver sur la page d’édition' do
+    identify phil
+    visit "#{base_url}/admin/scenodico?op=edit_mot"
+    expect(page).to have_tag('h2', text: "Édition Scénodico")
+  end
+
   scenario 'un administrateur peut éditer un mot du scénodico' do
     hmot = scenodico_get_mot('relatifs != "" AND contraires != ""')
     # puts "hmot = #{hmot.inspect}"

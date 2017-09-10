@@ -1,3 +1,5 @@
+* Pour le lien administration (pour administrateur), ajouter toujours la partie où on se trouve (site.route.objet) pour diriger le mieux possible.
+
 * régler le problème du <auteur>...</auteur> qui passe à la ligne.
   * essayer de le régler en soi, ou
   * au lieu de corriger "auteur:|l'auteur|" par "<auteur>l'auteur</auteur>", utiliser un span :
