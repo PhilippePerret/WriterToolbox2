@@ -11,7 +11,7 @@ feature "Édition d'un mot du scénodico" do
     retreive_base_biblio
   end
 
-  scenario "Un visiteur quelconque ne peut pas éditer un mot du scénodico" do
+  scenario "=> Un visiteur quelconque ne peut pas éditer un mot du scénodico" do
     visit "#{base_url}/admin/scenodico"
     expect(page).not_to have_tag('h2', text: "Édition Scénodico")
     visit "#{base_url}/admin/scenodico?op=edit_mot"
@@ -20,13 +20,13 @@ feature "Édition d'un mot du scénodico" do
     expect(page).not_to have_tag('h2', text: "Édition Scénodico")
   end
 
-  scenario 'un administrateur peut arriver sur la page d’édition' do
+  scenario '=> un administrateur peut arriver sur la page d’édition' do
     identify phil
     visit "#{base_url}/admin/scenodico?op=edit_mot"
     expect(page).to have_tag('h2', text: "Édition Scénodico")
   end
 
-  scenario 'un administrateur peut éditer un mot du scénodico' do
+  scenario '=> un administrateur peut éditer un mot du scénodico' do
     hmot = scenodico_get_mot('relatifs != "" AND contraires != ""')
     # puts "hmot = #{hmot.inspect}"
     identify phil
@@ -48,7 +48,7 @@ feature "Édition d'un mot du scénodico" do
     # L'administrateur peut modifier les données
   end
 
-  scenario 'un administrateur peut créer un nouveau mot' do
+  scenario '=> un administrateur peut créer un nouveau mot' do
     start_time = Time.now.to_i
 
     identify phil

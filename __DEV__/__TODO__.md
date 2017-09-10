@@ -6,11 +6,6 @@
   "<span class='auteur'>l'auteur</span>"
     Faire quand même une recherche pour voir s'il y a des <auteur> (et autres <personnages>, je suis sûr qu'il y en a)
 
-* SCENODICO
-  * ajouter le listing des mots
-  * ajouter la recherche d'un mot
-  * ajouter l'édition d'un mot (admin/scenodico/xxx?op=edit_mot, admin/scenodico/xxx?op=edit_categorie)
-
 * Documenter la classe .fiche
   fiche.cadre.label-medium/label-large/label-small
   div     .main .mg2/4/6 .small .nodeco (supprimer la déco des liens)
@@ -50,3 +45,6 @@
 
 * Mettre en place et tester le FORUM
   * La première page doit expliquer que le forum fonctionnement commme les forums techniques.
+
+* SCENODICO
+  * ajouter la recherche d'un mot (dans les définitions)
