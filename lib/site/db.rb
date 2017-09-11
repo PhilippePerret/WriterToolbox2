@@ -101,9 +101,13 @@ class Site
     #         Le LAST_INSERT_ID
     def insert db_name, db_table, hdata
       use_database( db_name )
-      now = Time.now.to_i
-      hdata[:created_at] || hdata.merge!(created_at: now)
-      hdata[:updated_at] || hdata.merge!(updated_at: now)
+      if hdata[:__strict]
+        hdata.delete(:__strict)
+      else
+        now = Time.now.to_i
+        hdata[:created_at] || hdata.merge!(created_at: now)
+        hdata[:updated_at] || hdata.merge!(updated_at: now)
+      end
       colonnes  = []
       values    = []
       interrs   = []
@@ -164,7 +168,11 @@ class Site
     #
     def update db_name, db_table, hdata, where_clause
       use_database db_name
-      hdata[:updated_at] || hdata.merge!(updated_at: Time.now.to_i)
+      if hdata[:__strict]
+        hdata.delete(:__strict)
+      else
+        hdata[:updated_at] || hdata.merge!(updated_at: Time.now.to_i)
+      end
       values    = []
       colsints  = []
       hdata.each do |k, v|

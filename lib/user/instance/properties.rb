@@ -2,7 +2,8 @@
 class User
 
   include PropsAndDbMethods
-  
+  include VarsMethodsModule
+
   attr_reader :id, :mail
   attr_reader :session_id
   # attr_reader :options # dans options.rb

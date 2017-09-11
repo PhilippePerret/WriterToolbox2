@@ -21,3 +21,10 @@ def data_phil
     DATA_PHIL
   end
 end
+
+def data_marion
+  @data_marion ||= begin
+    require './__SITE__/_config/data/secret/data_marion'
+    DATA_MARION
+  end
+end

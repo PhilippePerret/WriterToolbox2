@@ -1,6 +1,8 @@
 def identify duser
   if duser.is_a?(User) && duser.id == 1
     identifier_phil
+  elsif duser.is_a?(User) && duser.pseudo == 'Marion'
+    identifier_marion
   else
     visit signin_page
     within('form#signin_form') do
@@ -16,6 +18,15 @@ def identifier_phil
   within('form#signin_form') do
     fill_in 'user_mail', with: data_phil[:mail]
     fill_in 'user_password', with: data_phil[:password]
+    click_button 'OK'
+  end
+end
+
+def identifier_marion
+  visit signin_page
+  within('form#signin_form') do
+    fill_in 'user_mail', with: data_marion[:mail]
+    fill_in 'user_password', with: data_marion[:password]
     click_button 'OK'
   end
 end

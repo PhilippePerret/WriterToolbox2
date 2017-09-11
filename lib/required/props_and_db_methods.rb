@@ -17,6 +17,10 @@ module PropsAndDbMethods
     end
   end
 
+  def select where = nil, colonnes = nil
+    site.db.select(db_name, db_table, where, colonnes)
+  end
+
   def insert hdata, set_id = nil
     # Lire note N0001 dans props_and_db_methods.md
     new_id = site.db.insert(db_name, db_table, hdata)
@@ -25,9 +29,14 @@ module PropsAndDbMethods
     return new_id
   end
 
-  def update hdata
-    site.db.update(db_name,db_table,hdata,{id: id})
+  def update hdata, where = nil
+    where ||= {id: id}
+    site.db.update(db_name, db_table, hdata, where)
     dispatch hdata
+  end
+
+  def count where = nil
+    site.db.count(db_name, db_table, where)
   end
 
   def set hdata

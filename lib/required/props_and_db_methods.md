@@ -18,6 +18,25 @@ def base_n_table ; @base_n_table ||= [<base>, <table>] end
 
 ```
 
+La plupart des tables doivent posséder les colonnes `created_at` et `updated_at` avec en type `INTEGER(10)`. Ces colonnes sont définies de façon automatique, il est inutile de les définir dans le code.
+
+Si, cependant, des tables n'avaient pas ces colonnes, il suffit de le préciser en envoyant une propriété supplémentaire `__strict` à true.
+
+Par exemple :
+
+```ruby
+
+site.db.insert(ma_base, ma_table, {
+  colonne1: "valeur 1"
+  colonne2: "valeur 2",
+  colonne3: "valeur 3",
+  __strict: true # empêche d'ajouter created_at et updated_at
+  })
+  
+```
+
+
+
 ## Toutes les méthodes {#toutes_les_methodes}
 
 ### `data` method {#data_method}

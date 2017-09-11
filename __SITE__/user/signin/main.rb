@@ -18,23 +18,41 @@ class User
 class << self
 
   def check_login dlogin
+    debug "-> check_login"
 
     login_data_ok?(dlogin) || return
 
-    # TODO On peut rediriger l'utilisateur en fonction de
+    debug "login_data_ok?, oui"
+    # On peut rediriger l'utilisateur en fonction de
     # ses préférences.
+    redirect_after_login
 
   end
 
+  def redirect_after_login
+    debug "[redirect_after_login] user.pseudo = #{user.pseudo}"
+    debug "user.var['goto_after_login'] = #{user.var['goto_after_login'].inspect}"
+    redirect_to(
+      case user.var['goto_after_login']
+      when 0, nil then 'home'
+      when 1 then 'user/profil'
+      when 2 then user.get_var('last_route') || 'home'
+      when 9 then 'unanunscript/bureau'
+      else 'home'
+      end
+    )
+  end
 
   def login_data_ok? dlogin
 
     # Barrière de limite de tentatives
-    site.session['tentatives_login'] ||= 0
-    if site.session['tentatives_login'].to_i > 25
-      redirect_to 'home', ["Vous avez dépassé votre quotat de tentatives de connexions.", :error]
-    else
-      site.session['tentatives_login'] += 1
+    site.online? && begin
+      site.session['tentatives_login'] ||= 0
+      if site.session['tentatives_login'].to_i > 25
+        redirect_to 'home', ["Vous avez dépassé votre quotat de tentatives de connexions.", :error]
+      else
+        site.session['tentatives_login'] += 1
+      end
     end
 
     umail = dlogin[:mail].nil_if_empty

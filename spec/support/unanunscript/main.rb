@@ -1,0 +1,81 @@
+
+
+# Méthode créant un auteur un an un scrit avec les paramètres
+# fournis
+#
+# En plus des paramètres habituels pouvant définir l'user, on
+# peut trouver dans params :
+#   :time_start       Le temps de départ du programme
+#   :rythme           Le rythme du programme (5 par défuat)
+#   :current_pday     Le jour-programme courant (1 par défaut)
+#   :current_pday_start   Le time de démarrage du pday courant
+#   :program_options  Pour régler les options du programme.
+#   :projet_options   Pour régler les options du projet
+#
+# Cette méthode crée un nouvel utilisateur (féminin par défaut) et
+# l'inscript "artificiellement" au programme.
+def unanunscript_create_auteur params = nil
+  require_lib_site
+  require_support_db_for_test
+
+  params ||= Hash.new
+
+  require_folder('./__SITE__/unanunscript/signup/main')
+  require_folder('./__SITE__/unanunscript/_lib/_required')
+
+  # On crée un nouvel utilisateur inscrit au site (mais pas abonné)
+  datau = create_new_user(params) # dans le support db
+
+  # Instance de l'user, pour la création du programme et du projet
+  u = User.get(datau[:id])
+
+  # Paiement pour le programme
+  # ==========================
+  require './lib/utils/paiement'
+  Paiement.new({
+    user_id: u.id,
+    objet_id: '1AN1SCRIPT',
+    facture:  'PAY-000000000000',
+    montant:  19.8
+  }).save
+
+  # Programme
+  # =========
+  # On crée son programme
+  program_id = Unan::UUPRogram.create_program_for_user(u)
+
+  # Projet
+  # =======
+  # On crée son projet
+  projet_id = Unan::UUProjet.create_projet_for_user(u, {program_id: program_id})
+  # TODO Si des paramètres sont définis, il faut les régler
+  hparam_projet = Hash.new
+  params[:start_time]     && hparam_projet.merge!(created_at: params[:start_time])
+  params[:projet_options] && hparam_projet.merge!(options: params[:projet_options])
+  # S'il y a des données à régler dans le projet, on le fait
+  if hparam_projet.keys.count > 0
+    projet = Unan::UUProjet.new(projet_id)
+    projet.set(hparam_projet)
+  end
+
+  # Si des paramètres sont définis pour le programme, il faut les régler
+  hparam_program = {
+    projet_id:            projet_id,
+    rythme:               params[:rythme] || 5,
+    current_pday:         params[:current_pday] || 1,
+    current_pday_start:   params[:current_pday_start] || Time.now.to_i
+  }
+  params[:start_time]       && hparam_program.merge!(created_at: params[:start_time])
+  params[:program_options]  && hparam_program.merge!(options: params[:program_options])
+
+  program = Unan::UUProgram.new(program_id)
+  program.set(hparam_program)
+
+  params.merge!(
+    program_id:   program_id,
+    projet_id:    projet_id,
+    program:      program
+  )
+
+  return params
+end

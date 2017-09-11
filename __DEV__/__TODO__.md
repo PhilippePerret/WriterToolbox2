@@ -1,3 +1,8 @@
+
+* Tester la class user#var (user.var[<name>] et user.var[<name>] = <value>)
+* Tester la redirection après login
+* Tester le bureau UN AN
+
 * Pour le lien administration (pour administrateur), ajouter toujours la partie où on se trouve (site.route.objet) pour diriger le mieux possible.
 
 * Reprendre la liste complète des outils (outils/main.erb)
@@ -26,6 +31,7 @@
   - S'assurer qu'un utilisateur lambda ne puisse pas atteindre cette partie
   - Faire des images (pas forcément en rapport avec l'article) pour le mettre entre le titre et l'article (soit de façon automatique soit en dur, à voir - de toute façon, si l'article est édité, on peut toujours le faire en l'enregistrant).
 
+* Implémenter la variable session 'back_to_after_login' qui va permettre d'être redirigé vers la page voulue au départ après une redirection pour signin. En fait, cette variable peut être implémentée dans la méthode redirect_to à partir du moment où la route est "user/signin"
 
 * [UNAUN] Ajouter "Par où commencer ?" dans la page de paiement OK et parler du bureau et de l'aide qu'on peut télécharger.
 

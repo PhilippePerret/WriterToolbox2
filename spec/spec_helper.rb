@@ -65,6 +65,10 @@ RSpec.configure do |config|
     require_folder './spec/support/scenodico'
   end
 
+  def require_support_unanunscript
+    require_folder './spec/support/unanunscript'
+  end
+
   # Pour les tests have_tag etc.
   config.include RSpecHtmlMatchers
 
