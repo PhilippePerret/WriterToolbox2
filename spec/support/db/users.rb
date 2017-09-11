@@ -26,6 +26,9 @@ end
 
 # Crée un utilisateur dans la base de donnée à partir de +duser+ si
 # fourni et retourne toutes les données.
+#
+# Ajouter `mail_confirmed: true` pour faire un user qui a confirmé
+# son email.
 def create_new_user duser = nil
 
   require_lib_site

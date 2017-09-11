@@ -1,7 +1,11 @@
 
-* Tester la class user#var (user.var[<name>] et user.var[<name>] = <value>)
-* Tester la redirection après login
-* Tester le bureau UN AN
+* Poursuivre l'implémentation testé du bureau UN AN
+  - Mettre en forme pour qu'il n'y ait pas autant de marge à gauche
+  - Installer chaque dossier d'onglet et le faire travailler de façon autonome.
+
+* Implémenter la console et commencer par une commande qui permette de créer un auteur pour le programme UN AN UN SCRIPT, et qui renvoie le mail et le mot de passe pour se connecter. La méthode enregistre aussi un ticket pour détruire cet utilisateur (ou recharger tout simplement toutes les données de la base UAUS).
+
+* Implémenter dans le bureau le choix de la redirection après login (cf. le fichier `./__SITE__/user/signin/main.rb` où est défini la méthode `redirect_after_login` qui gère cette redirection)
 
 * Pour le lien administration (pour administrateur), ajouter toujours la partie où on se trouve (site.route.objet) pour diriger le mieux possible.
 

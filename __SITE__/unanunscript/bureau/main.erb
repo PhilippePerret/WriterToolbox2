@@ -10,8 +10,11 @@ en exercice et que son programme est terminé.
 
 %>
 <%= header %>
-<h2>Bureau de votre programme UN AN UN SCRIPT</h2>
+<h2 class="small">Bureau de votre programme UN AN UN SCRIPT</h2>
 <p>Soyez <%= user.f_la %> bievenu<%= user.f_e %> dans votre bureau de travail, <%= user.pseudo %>&nbsp;!</p>
+
+<%= onglets_sections %>
+<%= partial("#{section.id}") %>
 
 <%= right_margin %>
 <%= footer %>

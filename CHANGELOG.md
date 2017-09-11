@@ -1,7 +1,11 @@
+### 2.0.10
+
+  * Implémentation testée de la tables des variables pour un utilisateur.
+  
 ### 2.0.9
 
   * Implémentation de l'édition d'un mot scénodico entièrement implémentée et testée.
-  
+
 ### 2.0.8
 
   * Première implémentation du scénodico (mot et catégorie).

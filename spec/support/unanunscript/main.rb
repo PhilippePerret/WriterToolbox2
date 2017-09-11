@@ -14,6 +14,16 @@
 #
 # Cette méthode crée un nouvel utilisateur (féminin par défaut) et
 # l'inscript "artificiellement" au programme.
+#
+# NOTES
+# =====
+#     * Par défaut, le mail de l'user est confirmé. Mettre
+#       mail_confirmed: à false dans les +params+ dans le cas contraire.
+#
+# @return {Hash} hdata
+#                 Le hash de toutes les données utilisées ou calculées pour
+#                 l'auteur.
+#
 def unanunscript_create_auteur params = nil
   require_lib_site
   require_support_db_for_test
@@ -24,31 +34,32 @@ def unanunscript_create_auteur params = nil
   require_folder('./__SITE__/unanunscript/_lib/_required')
 
   # On crée un nouvel utilisateur inscrit au site (mais pas abonné)
-  datau = create_new_user(params) # dans le support db
+  # Par défaut, son mail sera confirmé
+  params.key?(:mail_confirmed) || params.merge!(mail_confirmed: true)
+  huser = create_new_user(params) # dans le support db
 
   # Instance de l'user, pour la création du programme et du projet
-  u = User.get(datau[:id])
+  u = User.get(huser[:id])
 
   # Paiement pour le programme
   # ==========================
   require './lib/utils/paiement'
   Paiement.new({
-    user_id: u.id,
+    id:       'PAY-000000000000',
+    user_id:  u.id,
     objet_id: '1AN1SCRIPT',
-    facture:  'PAY-000000000000',
-    montant:  19.8
+    montant:  {total: 19.8}
   }).save
 
   # Programme
   # =========
   # On crée son programme
-  program_id = Unan::UUPRogram.create_program_for_user(u)
+  program_id = Unan::UUProgram.create_program_for(u)
 
   # Projet
   # =======
   # On crée son projet
-  projet_id = Unan::UUProjet.create_projet_for_user(u, {program_id: program_id})
-  # TODO Si des paramètres sont définis, il faut les régler
+  projet_id = Unan::UUProjet.create_projet_for(u, {program_id: program_id})
   hparam_projet = Hash.new
   params[:start_time]     && hparam_projet.merge!(created_at: params[:start_time])
   params[:projet_options] && hparam_projet.merge!(options: params[:projet_options])
@@ -77,5 +88,5 @@ def unanunscript_create_auteur params = nil
     program:      program
   )
 
-  return params
+  return params.merge(huser)
 end

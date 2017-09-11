@@ -12,18 +12,37 @@ class Site
   #   MÉTHODES DE CONSTRUCTION
   # ---------------------------------------------------------------------
   def partial relpath
-    relpath.end_with?('.erb') || relpath << '.erb'
+    # Si `relpath` ne finit pas par '.erb', c'est :
+    # - soit un dossier (qui contient notamment un fichier main.erb à charger)
+    # - soit un partiel auquel il faut ajouter '.erb'
     fullpath = relpath
-    File.exists?(fullpath) || begin
+    File.exist?(relpath) || begin
       fullpath = "#{route.relative_path}/#{relpath}"
     end
-    File.exists?(fullpath) || begin
+    File.exist?(fullpath) || begin
       fullpath = "#{route.relative_path}/partial/#{relpath}"
     end
     File.exist?(fullpath) || begin
-      return "[PARTIEL INTROUVABLE : #{fullpath}]"
+      if fullpath.end_with?('.erb')
+        return "[PARTIEL INTROUVABLE : #{fullpath}]"
+      else
+        return partial(relpath+'.erb') 
+      end
     end
-    return deserb(fullpath)
+
+    if File.directory?(fullpath)
+      # Si c'est un dossier, il faut charger tout le dossier et
+      # ensuite charger le partiel main.erb qu'il doit contenir
+      erbfile = File.join(fullpath,'main.erb')
+      File.exist?(erbfile) || begin
+        return "[PARTIEL INTROUVABLE : #{erbfile} (dans dossier #{fullpath})]"
+      end
+      load_folder(fullpath)
+      return deserb("#{erbfile}")
+    else
+      # Si c'est un fichier, on le charge simplement
+      return deserb(fullpath)
+    end
   end
 
   # ---------------------------------------------------------------------
@@ -79,7 +98,10 @@ class Site
   # et dans all.js qui contient tous les éléments communs.
   #
   def load_folder relpath
-    solid_path = "./__SITE__/#{relpath}"
+    solid_path = relpath
+    File.exist?(solid_path) || begin
+      solid_path = "./__SITE__/#{relpath}"
+    end
     is_not_template = !relpath.start_with?('xTemplate')
     File.exist?(solid_path) || return
     folder_load_ruby solid_path

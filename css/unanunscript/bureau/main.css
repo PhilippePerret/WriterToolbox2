@@ -1,0 +1,1 @@
+div#onglets_sections a{text-decoration:none !important;border:1px solid;border-radius:4px 4px 0 0;padding:2px 16px}div#onglets_sections a:not(.selected){background-color:#fff;color:#8C82B2}div#onglets_sections a.selected{background-color:#8C82B2;color:#fff}
