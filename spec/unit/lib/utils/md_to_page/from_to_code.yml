@@ -353,7 +353,7 @@
     :from:
       Un auteur:|Marion Michel| et realisateur:|Francis Ford Coppola| voient arriver acteur:|Tom Cruise| et acteur:|Leonardo DiCaprio| avec producteur:|Selznic| qui leur parle de tt:|clé de voûte| et d'tt:|incident déclencheur|.
     :to:
-      <p>Un <auteur>Marion Michel</auteur> et <realisateur>Francis Ford Coppola</realisateur> voient arriver <acteur>Tom Cruise</acteur> et <acteur>Leonardo DiCaprio</acteur> avec <producteur>Selznic</producteur> qui leur parle de <tt>clé de voûte</tt> et d’<tt>incident déclencheur</tt>.</p>
+      <p>Un <span class="auteur">Marion Michel</span> et <span class="realisateur">Francis Ford Coppola</span> voient arriver <span class="acteur">Tom Cruise</span> et <span class="acteur">Leonardo DiCaprio</span> avec <span class="producteur">Selznic</span> qui leur parle de <tt>clé de voûte</tt> et d’<tt>incident déclencheur</tt>.</p>
   -
     :it:  'transforme les balises EXEMPLE'
     :from: "Ceci est un exemple : EXEMPLE[_textes_/xtest.md]"

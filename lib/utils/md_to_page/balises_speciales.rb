@@ -400,9 +400,11 @@ class MD2Page
   end
 
   def formate_balises_colon str, balise
-    str.gsub!(/#{balise}:\|(.*?)\|/, "<#{balise}>\\1</#{balise}>")
-      str.gsub!(/#{balise}:(.+?)\b/, "<#{balise}>\\1</#{balise}>")
-      str
+    str.gsub!(/#{balise}:\|(.*?)\|/, "<span class=\"#{balise}\">\\1</span>")
+    str.gsub!(/#{balise}:(.+?)\b/, "<span class=\"#{balise}\">\\1</span>")
+    # str.gsub!(/#{balise}:\|(.*?)\|/, "<#{balise}>\\1</#{balise}>")
+    # str.gsub!(/#{balise}:(.+?)\b/, "<#{balise}>\\1</#{balise}>")
+    str
   end
 
 end #/MD2Page

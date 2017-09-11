@@ -1,17 +1,6 @@
 * Pour le lien administration (pour administrateur), ajouter toujours la partie où on se trouve (site.route.objet) pour diriger le mieux possible.
 
-* régler le problème du <auteur>...</auteur> qui passe à la ligne.
-  * essayer de le régler en soi, ou
-  * au lieu de corriger "auteur:|l'auteur|" par "<auteur>l'auteur</auteur>", utiliser un span :
-  "<span class='auteur'>l'auteur</span>"
-    Faire quand même une recherche pour voir s'il y a des <auteur> (et autres <personnages>, je suis sûr qu'il y en a)
-
-* Documenter la classe .fiche
-  fiche.cadre.label-medium/label-large/label-small
-  div     .main .mg2/4/6 .small .nodeco (supprimer la déco des liens)
-    label
-    div.value
-* Mettre un lien pour voir le mot suivant/précédent ?
+* Reprendre la liste complète des outils (outils/main.erb)
 
 * Une page dyn.erb doit être actualisée (i.e. détruite) :
   - lorsque sa page .md est modifiée
@@ -25,6 +14,8 @@
     dyn préparé, dans narration/_data/xdyn/ + "#{type}_#{id}.dyn.erb"
 
 * Implémenter "analyse/collector" (collecteur d'analyse)
+
+* Implémenter le profil de l'utilisateur
 
 * Implémenter l'édition d'une table des matières de livre narration
   Le lien est "admin/narration/<id livre>?op=edit_tdm"

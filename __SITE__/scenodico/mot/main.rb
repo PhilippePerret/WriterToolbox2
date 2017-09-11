@@ -24,6 +24,13 @@ class Scenodico
     #   MÉTHODES D'HELPER
     #
     # -------------------------------------------------------------------------------- 
+
+    # Retourne l'ID (1-a-start) de la lettre du mot, pour composer le lien
+    # qui permet de retourner à la liste du mot.
+    # Noter que ça retourne un {String}, pour le moment
+    def lettre_id
+      @lettre_id ||= (terme[0].ord - 64).to_s
+    end
     def displayed_terme
       self.terme
     end
