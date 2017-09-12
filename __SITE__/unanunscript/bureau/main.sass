@@ -1,14 +1,38 @@
-div#onglets_sections
-  a
-    text-decoration   : none !important
-    border            : 1px solid
-    border-radius     : 8px 8px 0 0
-    padding           : 2px 16px
+section#contents
+  padding-left    : 2em!important
+  h2
+    margin-left   : 0!important 
+      
+  p.message
+    text-align  : right
+    font-size   : 12pt
 
-    &:not(.selected)
-      background-color  : white
-      color             : $darkTextColor
-    &.selected
-      background-color  : $darkTextColor
-      color             : white
-      border-color      : $darkTextColor
+  div#section
+    border      : 1px solid #ccc
+    margin-top  : 2.5em
+
+    div#onglets_sections
+      text-align    : center
+      margin-top    : -1.3em
+      a
+        text-decoration   : none !important
+        border            : 1px solid
+        border-radius     : 8px 8px 0 0
+        padding           : 2px 16px
+        margin-right      : 2px
+
+        &:not(.selected)
+          background-color  : white
+          color             : $darkTextColor
+        &.selected
+          background-color  : $darkTextColor
+          color             : white
+          border-color      : $darkTextColor
+    div#panneau
+      background-color  : #EFEFEF
+      min-height        : 300px
+      padding           : 2em
+      h3#section_titre
+        font-size   : 1.5em
+        font-style  : italic
+        opacity     : 0.3

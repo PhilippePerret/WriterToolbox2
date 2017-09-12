@@ -13,7 +13,10 @@ class Unan
     #
     def initialize pid = nil
       @id = pid
+    end
 
+    def projet_id
+      @projet_id ||= data[:projet_id]
     end
 
     # Les méthodes de propriétés et de base ont besoin de

@@ -135,6 +135,9 @@ feature "Inscription au programme UN AN UN SCRIPT" do
     expect(hprogram[:created_at]).to be > start_time
     success 'Un nouveau programme est créé avec les bonnes données'
 
+    expect(newU.var['unan_program_id']).to eq hprogram[:id]
+    success 'l’user possède la variable "unan_program_id" avec la bonne valeur'
+
     hprojet = site.db.select(:unan, :projets, {auteur_id: newU.id}).first
     expect(hprojet).not_to eq nil
     expect(hprojet[:created_at]).to be > start_time

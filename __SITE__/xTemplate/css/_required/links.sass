@@ -2,7 +2,7 @@
 a.btn
   text-decoration : none !important
   border          : 1px solid #777
-  background      : linear-gradient(#fcfcfc, #AAAAAA)
+  background      : linear-gradient(#fcfcfc,#AAAAAA)
   color           : #525252 !important
   &:not(.small)
     padding         : 10px 33px
@@ -16,11 +16,13 @@ input[type="submit"], input[type="button"], a.btn
   letter-spacing    : 2.4px
 
 // Les boutons submit/button
-input[type="submit"], input[type="button"]
+input[type="submit"], input[type="button"], a.btn
   &.main
     color             : white
-    background        : linear-gradient(#4CE54C, #079007)
+    background        : linear-gradient(#4CE54C,#079007)
     border            : 0
+  &.small
+    font-size         : 0.61em !important
 
 
 // Liens d'édition pour l'administrateur

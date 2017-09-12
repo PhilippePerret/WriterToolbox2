@@ -7,10 +7,10 @@ def param p,v=nil,f=nil; site.param(p,v,f) end
 # Astuce : pour définir le path d'un fichier par rapport au module qui
 # appelle `deserb`, on peut utiliser une méthode comme `thisfolder` définie
 # par `File.dirname(__FILE__)`
-def deserb path
+def deserb path, bindee = nil
   path.end_with?('.erb') || path << '.erb'
   if File.exist?(path)
-    ERB.new(File.read(path).force_encoding('utf-8')).result(site.bind)
+    ERB.new(File.read(path).force_encoding('utf-8')).result(bindee || site.bind)
   else
     "[Le fichier ERB #{path} est introuvable]"
   end

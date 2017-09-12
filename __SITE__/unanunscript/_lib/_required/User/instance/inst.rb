@@ -6,20 +6,15 @@
 =end
 class User
 
+  def program
+    @program ||= Unan::UUProgram.new(program_id)
+  end
   def program_id
-    @program_id ||= begin
-      # On prend le programme actif
-      r = site.db.select(:unan, 'programs', "auteur_id = #{id} AND SUBSTRING(options,1,1) = '1'", [:id])
-      r.first[:id]
-    end
+    @program_id ||= var['unan_program_id']
   end
 
   def projet_id
-    @projet_id ||= begin
-      # On prend le projet actif
-      r = site.db.select(:unan, 'projets', "auteur_id = #{id} AND SUBSTRING(specs,1,1) = '1'", [:id])
-      r.first[:id]
-    end
+    @projet_id ||= program.projet_id
   end
 
 end #/User

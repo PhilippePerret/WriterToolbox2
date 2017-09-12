@@ -8,7 +8,7 @@ class Unan
 
     # Tout ce qui concerne le programme lui-même
     program: {hname: "Programme"},
-    
+
     # Tout ce qui concerne le projet de l'auteur
     projet:  {hname: "Projet"},
 
@@ -28,7 +28,7 @@ class Unan
     prefs:  {hname: "Préférences"},
 
     # Tout pour l'aide sur le programme
-    help:   {hname: "Aide"}
+    aide:   {hname: "Aide"}
 
   }
 
@@ -44,10 +44,39 @@ class Unan
       @id = section_id.to_sym
     end
 
+    def htitre
+      @htitre ||= '<h3 id="section_titre">'+data[:hname]+'</h3>'
+    end
+
+    def partiel
+      @partiel ||= begin
+                     thisfolder = File.dirname(__FILE__)
+                     folder_partiels = File.join(thisfolder,'partial')
+                     folder_partiel  = File.join(folder_partiels,self.id.to_s)
+                     main_file = File.join(folder_partiel,'main.erb')
+                     site.load_folder(folder_partiel)
+                     deserb(main_file)
+                   end
+    end
+
+    def bind ; binding() end
+
+    def data
+      @data ||= DATA_SECTIONS[id]
+    end
   end #/Section
 end #/Unan
-
+class User
+  def program_id
+    @program_id ||= begin
+                      var['unan_program_id']
+                    end
+  end
+end #/User
 
 def section
   @section ||= Unan::Section.new(site.route.objet_id || 'program')
-end  
+end
+def program
+  @program ||= Unan::UUProgram.new(user.program_id)
+end

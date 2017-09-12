@@ -5,6 +5,8 @@ class Unan
 
     include PropsAndDbMethods
 
+    attr_reader :id
+
     # Instanciation du projet d'identifiant +pid+ ou instanciation
     # simple, sans ID
     #

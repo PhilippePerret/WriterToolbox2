@@ -1,8 +1,24 @@
 <% 
-
-#
-# Onglet des informations du program
-#
-
+  #
+  # Onglet des informations du program
+  #
+  # Noter qu'exceptionnellement (et jusqu'à nouvel ordre), les vues de ce
+  # dossier sont toutes bindées à 'section', la section courante.
+  # 
 %>
-<h3>Programme</h3>
+<div>
+  <label>Jour-programme courant</label>
+  <%= program.current_pday_d %>
+</div>
+<div>
+  <label>Nombre de points</label>
+  <%= program.count_points %>
+</div>
+<div>
+  <label>Début du programme</label>
+  <%= program.start_time_d %>
+</div>
+<div>
+  <label>Fin programme prévue</label>
+  <%= program.end_time_d %>
+</div>

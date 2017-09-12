@@ -1,0 +1,44 @@
+<% 
+
+require_form_support
+
+case param(:operation)
+when 'save_data_projet'
+  projet.save
+end
+%>
+<form id="projet_form" action="" method="POST">
+  <input type="hidden" name="operation" id="" value="save_data_projet" />
+  <div>
+    <label for="projet_titre">Titre du projet</label>
+    <span class="field">
+      <input type="text" name="projet[titre]" id="projet_titre" value="<%= projet.titre %>" />
+    </span>
+  </div>
+
+
+  <div>
+    <label for="projet_resume">Résumé</label>
+    <span class="field">
+      <textarea name="projet[resume]" id="projet_resume" rows="2"><%= projet.resume %></textarea>
+    </span>
+  </div>
+
+  <div>
+    <label for="projet_type">Type du projet</label>
+    <span class="field">
+      <%= menu_types_projet(selected: projet.type) %>
+    </span>
+  </div>
+
+  <div>
+    <label for="projet_partage">Partage</label>
+    <span class="field">
+      <%= menu_partage_projet(selected: projet.partage) %>
+    </span>
+  </div>
+
+  <div class="buttons">
+     <input type="submit" class="main small" value="Enregistrer" />
+  </div>
+</form>

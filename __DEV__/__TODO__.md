@@ -49,3 +49,5 @@
 
 * SCENODICO
   * ajouter la recherche d'un mot (dans les définitions)
+
+* [UAUS] À la destruction ou à l'arrêt d'un programme UN AN UN SCRIPT, penser à supprimer la variable 'unan_program_id' de l'user (`user.var['unan_program_id'] = nil`)

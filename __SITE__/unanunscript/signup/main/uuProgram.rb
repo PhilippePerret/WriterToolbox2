@@ -31,7 +31,14 @@ class Unan
           retards:              nil,
           pauses:               nil
         }
-        return insert(data_program, set_id = true)
+
+        prog_id = insert(data_program, set_id = true)
+        # On met tout de suite ce programme en programme courant de
+        # l'auteur
+        user.var['unan_program_id'] = prog_id
+
+        # On retourne l'ID dont aura besoin la suite du programme.
+        return prog_id
       end
 
     end #/<< self (UUProgram)
