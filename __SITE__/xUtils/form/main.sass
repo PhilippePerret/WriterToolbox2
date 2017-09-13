@@ -22,37 +22,13 @@ form
     width         : 80%
     min-width     : 60%
 
+  // Tous les divs des rangées, pour tous les types de formulaire,
+  // qu'ils soient en ligne ou superposés
   > div
-
     margin-bottom   : 0.5em
-
-    // Pour le label du champ
-    > label
-      display         : block
-      font-size       : 0.9em
-      color           : #707070
-      vertical-align  : top
-      > span
-        font-size       : 0.765em
-        opacity         : 0.5
-        &:hover
-          opacity       : 1
-
-    // Pour les champs de saisie
-    > span.field
-      display         : block
-      vertical-align  : top
-      // border          : 1px dashed green
-
-      input[type="text"], textarea, input[type="password"]
-        width             : 98%
-        background-color  : #DCFFC2
-        border            : 0
-        padding           : 10px
-
-      input[type="text"], input[type="password"]
-        color             : #006B00
-
+    // Le div contenant les boutons et principalement le bouton
+    // pour soumettre le formulaire, à qui on met la class .main, qui
+    // n'est pas définie ici mais dans le fichier .links
     &.buttons
       padding-top      : 1.5em
       text-align      : right
@@ -67,6 +43,65 @@ form
           font-size         : 0.7em
           margin-top        : 1em
           letter-spacing    : 0.8px
+    div.explication
+      font-size       : 10.4pt
+      font-style      : italic
+      opacity         : .115
+      line-height     : 1.2em !important
+      &:hover
+        opacity       : 1
+
+    > label
+      font-size       : 0.9em
+      color           : #707070
+      vertical-align  : top
+      // Quand on ajoute un petit texte au label, pour qu'il apparaisse
+      // plus discrètement (petit et opacity)
+      > span
+        font-size       : 0.765em
+        opacity         : 0.5
+        &:hover
+          opacity       : 1
+
+    // Le span contenant les champs de saisie
+    > span.field
+      vertical-align  : top
+
+  // Formulaire "en ligne", ou les labels et les span.field sont alignés
+  &.div-inline
+    > div
+      > div.explication
+        margin-left   : 30%
+      > label
+        display   : inline-block
+        width     : 50%
+        vertical-align  : middle
+      > span.field
+        vertical-align  : middle
+        input, label
+          vertical-align  : middle
+        > select
+          max-width   : 45%
+
+  &:not(.div-inline)
+    > div
+      // Pour le label du champ
+      > label
+        display         : block
+      // Pour les champs de saisie
+      > span.field
+        display         : block
+        vertical-align  : top
+        // border          : 1px dashed green
+
+        input[type="text"], textarea, input[type="password"]
+          width             : 98%
+          background-color  : #DCFFC2
+          border            : 0
+          padding           : 10px
+
+        input[type="text"], input[type="password"]
+          color             : #006B00
 
 // Commun à tous les champs
 input[type="text"], input[type="password"], textarea, select, select option

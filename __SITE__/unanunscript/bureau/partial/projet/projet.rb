@@ -12,15 +12,6 @@ class Unan
       9 => {hname:"Autre",                  value:9, shorthname: 'Projet',          pages: 120  }
     }
 
-    SHARINGS = [
-      [0, '--- Indéfini ---'],
-      [1, "Personne"],
-      [2, "Autres auteurs du programme"],
-      [3, "Abonnés du site"],
-      [4, "Tout le monde"]
-
-    ]
-
     # ----------------------------------------------------------------------------- 
     #
     #   MÉTHODES DE TRANSFORMATION
@@ -61,7 +52,7 @@ class Unan
     def rebuild_specs
       c = specs[0]
       c << dparam[:type]
-      c << dparam[:partage]
+      c << "0" # Avant, c'était le partage (maintenant dans les options du programme)
       c <<  TYPES[dparam[:type].to_i][:pages].to_s.rjust(3,'0')
       return c
     end

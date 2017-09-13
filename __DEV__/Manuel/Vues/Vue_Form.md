@@ -1,6 +1,8 @@
 # Vue - Les formulaires
 
 * [Requérir le support de formulaire](#vue_require_support_form)
+* [Les types de formulaires](#form_types)
+* [Définir la taille d'un formulaire](#form_taille)
 * [Aide pour la construction d'un select](#form_aide_build_select)
 
 ## Requérir le support de formulaire {#vue_require_support_form}
@@ -50,7 +52,24 @@ Selon le principe du chargement minimum, il faut requérir le support de librair
 
 (1) Un `span` dans un label sera toujours considéré comme une explication et sera affiché moins grosse que le reste du texte.
 
-## Définir la taille d'un formulaire
+
+## Les types de formulaires {#form_types}
+
+```
+
+    form.class        Description
+    ============================================================================
+
+    div-inline        Les div se présentent en "inline", c'est-à-dire
+                      que label et span.field sont en ligne, pas l'un sur l'autre
+                      comme c'est le cas par défaut.
+                      Typiquement, ça fonctionne bien pour les formulaires sans
+                      champ de saisie textarea.
+
+```
+
+
+## Définir la taille d'un formulaire {#form_taille}
 
 Ajouter les classes suivantes pour modifier les tailles :
 

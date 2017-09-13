@@ -20,7 +20,7 @@ feature "Bureau d'un auteur du programme UN AN UN SCRIPT" do
     identify data_auteur
     expect(page).to have_tag('h2', text: 'Bureau de votre programme UN AN UN SCRIPT')
 
-    sleep 30*60
+    # sleep 30*60
 
     success 'l’auteur rejoint son bureau à l’identification (ses préférences sont réglées comme ça)'
 
@@ -47,7 +47,6 @@ feature "Bureau d'un auteur du programme UN AN UN SCRIPT" do
       with_tag('input', with: {type: 'text', id: 'projet_titre'}, text: '')
       with_tag('textarea', with:{name: 'projet[resume]', id: 'projet_resume'}, text: '')
       with_tag('select', with:{name:'projet[type]', id: 'projet_type'})
-      with_tag('select', with: {name: 'projet[partage]', id: 'projet_partage'})
       with_tag('input', with:{type:'submit', value:'Enregistrer'})
     end
     success 'l’auteur trouve un formulaire conforme pour modifier les données du projet'
@@ -57,8 +56,7 @@ feature "Bureau d'un auteur du programme UN AN UN SCRIPT" do
       titre: {value: "Un nouveau titre à #{Time.now.to_i}", ftype: :text},
       resume: {value: "Le nouveau résumé au #{Time.now}.\n\nPour voir.", ftype: :text},
       type: {value:'BD (scénario)', real_value: 3, ftype: :select},
-      partage: {value: 'Autres auteurs du programme', real_value: 2, ftype: :select},
-      specs: {value: '132048'}
+      specs: {value: '130048'}
     }
 
     within('form#projet_form') do
@@ -84,6 +82,106 @@ feature "Bureau d'un auteur du programme UN AN UN SCRIPT" do
 
 
   end
+
+
+
+  scenario 'un auteur peut régler les préférences de son programme' do
+
+    # ============ DONNÉES UTILES ==============
+    u = User.get(data_auteur[:id])
+    program = u.program
+    if u.var['goto_after_login'] == 9
+      u.var['goto_after_login'] = 1
+    end
+
+    # ============== PRÉ-VÉRIFICATION ===========
+    expect(program.rythme).to eq 5
+    expect(program.options).to eq '100000000000'
+    expect(u.var['goto_after_login']).not_to eq 9
+
+    # L'auteur se rend dans son onglet des préférences
+    identify data_auteur
+    visit "#{base_url}/unanunscript/bureau"
+    expect(page).to have_link('Préférences')
+    click_link 'Préférences'
+
+    expect(page).to have_tag('form', with: {id: 'unan_prefs_form'}) do
+      with_tag('select', with: {id: 'prefs_rythme', name: 'prefs[rythme]'})
+      with_tag('input', with: {type: 'checkbox', id: 'prefs_daily_summary'})
+      with_tag('select', with: {id: 'prefs_send_time', name: 'prefs[send_time]'})
+      with_tag('input', with: {type: 'checkbox', id: 'prefs_after_login'})
+      with_tag('select', with: {id: 'prefs_partage', name: 'prefs[partage]'})
+    end
+    success 'il trouve un formulaire de préférences valide'
+
+    expect(page.execute_script("return DOM('prefs_rythme').value;")).to eq '5'
+    expect(page.execute_script("return DOM('prefs_daily_summary').checked;")).to eq false
+    expect(page.execute_script("return DOM('prefs_send_time').value;")).to eq ''
+    expect(page.execute_script("return DOM('prefs_after_login').checked;")).to eq false
+    success 'et bien réglé'
+
+
+    # ============> TEST UN <===============
+    within('form#unan_prefs_form') do
+
+      select('Soutenu', from: 'prefs_rythme') # => 6
+
+      # Pas d'envoi du mail quotidien
+      check('prefs_daily_summary')  # => bit 3 => 1
+      sleep 0.2
+      select('10:00', from: 'prefs_send_time')
+      # Après le login, se rend dans le profil (valeur par défaut)
+      check('prefs_after_login')
+      # Réglage du partage (bit 6 des options)
+      select('Personne', from: 'prefs_partage') # => 1
+
+      shot 'before-submit-prefs-1'
+      click_button 'Enregistrer'
+    end
+    shot 'after-submit-prefs-1'
+    success 'il choisit d’autres valeurs et les soumet'
+
+    # ============== VÉRIFICATION UN ==============
+    u = User.get(data_auteur[:id], force = true)
+    program = u.program
+    expect(page).to have_tag('div.notice', 'Vos préférences pour le programme sont enregistrées.')
+    expect(program.rythme).to eq 6
+    expect(program.options[0..6]).to eq '1001a01'
+    expect(u.var['goto_after_login']).to eq 9
+    success 'les nouvelles valeurs sont correctes'
+
+
+
+    # ============> TEST DEUX <===============
+    within('form#unan_prefs_form') do
+      # Réglage du rythme
+      select('Tranquille', from: 'prefs_rythme') # => 3
+      # Pas d'envoi du mail quotidien
+      uncheck('prefs_daily_summary')  # => bit 3 => 0
+      # Après le login, se rend dans le profil (valeur par défaut)
+      uncheck('prefs_after_login')
+      # Réglage du partage (bit 6 des options)
+      select('Autres auteurs du programme', from: 'prefs_partage') # => 2
+
+      shot 'before-submit-prefs-2'
+      # sleep 10
+      click_button 'Enregistrer'
+    end
+    shot 'after-submit-prefs-2'
+    success 'il choisit d’autres valeurs et les soumet avec succès'
+
+
+    # ========== VÉRIFICATIONS DEUX ===========
+    u = User.get(data_auteur[:id], force = true)
+    program = u.program
+    expect(page).to have_tag('div.notice', 'Vos préférences pour le programme sont enregistrées.')
+    expect(program.rythme).to eq 3
+    expect(program.options[0..6]).to eq '1000002'
+    expect(u.var['goto_after_login']).not_to eq 9
+
+  end
+
+
 
   scenario 'un auteur inscrit au programme peut rejoindre son bureau UN AN UN SCRIPT par un lien à l’accueil' do
     identify data_auteur

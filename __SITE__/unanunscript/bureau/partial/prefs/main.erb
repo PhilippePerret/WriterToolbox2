@@ -1,0 +1,111 @@
+<% 
+  #
+  # Panneau des préférences pour le programme UN AN UN SCRIPT
+  #
+
+  require_form_support
+
+case param(:operation)
+when 'save_prefs_program'
+  program.save_prefs
+end
+
+      rythme_values = [
+        [1, 'Très lent'],
+        [2, 'Lent'],
+        [3, 'Tranquille'],
+        [4, 'Modéré'],
+        [5, 'Moyen'],
+        [6, 'Soutenu'],
+        [7, 'Rapide'],
+        [8, 'Très rapide'],
+        [9, 'Accéléré']
+  ]
+      menu_rythmes = Form.build_select(values:rythme_values, id:'prefs_rythme', name: 'prefs[rythme]', selected: program.rythme)
+
+      heures = 
+        (1..23).collect do |heure|
+          [heure, "#{heure}:00"]
+        end
+      menu_heures = Form.build_select(values: heures, id: 'prefs_send_time', name: 'prefs[send_time]', selected: program.send_time)
+
+%>
+<% 
+
+
+# ============ Valeurs à utiliser au chargement =============
+
+
+%>
+<script type="text/javascript" charset="utf-8">
+
+prefs_after_login = <%= program.prefs_after_login.inspect %>;
+prefs_daily_summary = <%= program.daily_summary? %>;
+prefs_send_time     = <%= program.send_time %>;
+
+</script>
+<% 
+
+
+# ============= Le formulaire ================
+
+
+%>
+<form id="unan_prefs_form" class="div-inline" action="" method="POST">
+  <input type="hidden" name="operation" value="save_prefs_program" />
+<div>
+  <label for="prefs_rythme">Rythme du programme</label>
+  <span class="field">
+    <%= menu_rythmes %>
+  </span>
+  <div class="explication">
+    Le rythme déterminera la durée totale de votre apprentissage et de votre développement. Vous ne devriez avoir à modifier cette valeur que si vous vous apercevez que la démarche générale est trop rapide pour vous ou trop lente.
+  </div>
+</div>
+
+<div>
+  <label for="prefs_daily_summary">Récapitulatif journalier</label>
+  <span class="field">
+    <input type="checkbox" name="prefs[daily_summary]" id="prefs_daily_summary" onclick="Program.toggle_div_send_time(this.checked)" />
+    <label for="prefs_daily_summary">Recevoir le mail quotidien</label>
+  </span>
+  <div class="explication">
+    Si vous cochez cette case, un mail vous sera envoyé quotidiemment pour faire un point sur votre avancée. Dans le cas contraire, vous ne recevrez un mail que lorsqu'en cas de nouveau travail à fournir.
+  </div>
+</div>
+
+
+<div id="div_send_time" style="visibility:<%= program.daily_summary? ? 'visible' : 'hidden' %>;">
+  <label for="">Heure d'envoi du récapitulatif journalier (mail quotidien)</label>
+  <span class="field">
+    <%= menu_heures %>
+  </span>
+  <div class="explication">
+    Si cette option est décochée, vous recevez le mail à l'heure de votre inscription au programme. Si elle est cochée, vous choisissez l'heure pour recevoir votre rapport quotidien. Notez que ça n'est valable que si vous êtes en “rytme moyen” (voir pourquoi).
+  </div>
+</div>
+
+
+<div>
+  <label for="prefs_after_login">Après l'identification</label>
+  <span class="field">
+    <input type="checkbox" name="prefs[after_login]" id="prefs_after_login" />
+    <label for="prefs_after_login">rejoindre ce bureau</label>
+  </span>
+</div>
+
+
+  <div>
+    <label for="projet_partage">Partager ce projet avec…</label>
+    <span class="field">
+      <%= menu_partage_projet(selected: projet.partage) %>
+    </span>
+    <div class="explication">
+      Définissez ici qui peut suivre votre projet, c'est-à-dire consulter votre parcours dans le programme, vos points, votre résumé, etc.
+    </div>
+  </div>
+
+<div class="buttons">
+  <input type="submit" class="main small"  value="Enregistrer" />
+</div>
+</form>

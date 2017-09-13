@@ -22,7 +22,6 @@ class << self
 
     login_data_ok?(dlogin) || return
 
-    debug "login_data_ok?, oui"
     # On peut rediriger l'utilisateur en fonction de
     # ses préférences.
     redirect_after_login
@@ -30,8 +29,6 @@ class << self
   end
 
   def redirect_after_login
-    debug "[redirect_after_login] user.pseudo = #{user.pseudo}"
-    debug "user.var['goto_after_login'] = #{user.var['goto_after_login'].inspect}"
     redirect_to(
       case user.var['goto_after_login']
       when 0, nil then 'home'

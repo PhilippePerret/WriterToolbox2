@@ -1,5 +1,8 @@
 <section id="right_margin">
 
+  <% if user.unanunscript? %>
+    <a href="unanunscript/bureau">Votre programme UN AN UN SCRIPT</a>
+  <% end %>
   <%= Spotlight.section %>
   <%= site.section_suscribe %>
 

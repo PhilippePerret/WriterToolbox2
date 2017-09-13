@@ -1,7 +1,12 @@
+### 2.0.11
+
+  * Implémentation testée des données du projet UN AN UN SCRIPT
+  * Implémentation testée des préférences pour le programme UN AN UN SCRIPT
+  
 ### 2.0.10
 
   * Implémentation testée de la tables des variables pour un utilisateur.
-  
+
 ### 2.0.9
 
   * Implémentation de l'édition d'un mot scénodico entièrement implémentée et testée.

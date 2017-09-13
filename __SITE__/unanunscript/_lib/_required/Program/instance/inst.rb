@@ -15,6 +15,11 @@ class Unan
       @id = pid
     end
 
+    # === Data qui sont employées partout ===
+
+    def rythme  ; @rythme   ||= data[:rythme]   end
+    def options ; @options  ||= data[:options]  end
+
     def projet_id
       @projet_id ||= data[:projet_id]
     end
