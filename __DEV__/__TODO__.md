@@ -1,11 +1,30 @@
 
-* Poursuivre l'implémentation testé du bureau UN AN
-  - Mettre en forme pour qu'il n'y ait pas autant de marge à gauche
-  - Installer chaque dossier d'onglet et le faire travailler de façon autonome.
+* [UNAN] Implémenter et tester l'onglet 'Tâches'
+  - Tester indépendamment, en unitaire, les méthodes du fichier taches/helpers.rb
+    (relève des listes d'ids, des listes de taches, construction des listes)
+  - Mettre en place le nouveau fonctionnement :
+    Chaque jour, on crée pour l'auteur les nouveaux travaux du jour.
+    On pourrait imaginer aussi un programme qui s'assure que tous les travaux ont générés des works (les travaux ont un status de 0 à leur création). Le cron pourrait vérifier ça. De cette manière, il n'y a aucune vérification particulière pour trouver les travaux des auteurs.
+    Checker la validité consiste donc à :
+      - relever tous les travaux absolus jusqu'à un certain pday (le pday courant de l'auteur, en l'occurrence)
+      - s'assurer que pour chaque travail absolu il existe un work relatif à l'auteur.
+        Donc ID de abs_work => work du programme avec abs_work_id = ID
+        On fait en seulement deux requêtes :
+          1 qui relève tous les IDs des absolute-works jusqu'au pday voulu
+            (en associant le travail au jour puisque les deux sont dépendants)
+          1 qui relève tous les IDs des works relatifs de l'auteur, en prenant
+            aussi l'information du pday puisque les deux sont associés
+          Tous les éléments de la première liste qui ne se trouvent pas dans la seconde doivent être créés.
+* [UNAN] Implémenter et tester l'onglet 'Cours' ("Pages")
+* [UNAN] Implémenter et tester l'onglet 'Quiz'
+* [UNAN] Implémenter et tester l'onglet 'Forum'
+* [UNAN] Implémenter et tester l'onglet 'Aide'
+* [UNAN] Dans la partie 'Programme', peut-être faire apparaitre l'état des lieux, c'est-à-dire avec les tâches faites et non faites.
 
 * Implémenter la console et commencer par une commande qui permette de créer un auteur pour le programme UN AN UN SCRIPT, et qui renvoie le mail et le mot de passe pour se connecter. La méthode enregistre aussi un ticket pour détruire cet utilisateur (ou recharger tout simplement toutes les données de la base UAUS).
+  Cette méthode doit tout simplement utiliser le support des tests pour unanunscript.
 
-* Implémenter dans le bureau le choix de la redirection après login (cf. le fichier `./__SITE__/user/signin/main.rb` où est défini la méthode `redirect_after_login` qui gère cette redirection)
+* Implémenter dans le profil le choix de la redirection après login (cf. le fichier `./__SITE__/user/signin/main.rb` où est défini la méthode `redirect_after_login` qui gère cette redirection)
 
 * Pour le lien administration (pour administrateur), ajouter toujours la partie où on se trouve (site.route.objet) pour diriger le mieux possible.
 
@@ -51,3 +70,5 @@
   * ajouter la recherche d'un mot (dans les définitions)
 
 * [UAUS] À la destruction ou à l'arrêt d'un programme UN AN UN SCRIPT, penser à supprimer la variable 'unan_program_id' de l'user (`user.var['unan_program_id'] = nil`)
+
+* [UAUS] Implémenter la pastille pour le programme, indiquant les tâches en retard, etc. Il faut la mettre lorsque les options du programme contiennent 1 en 6e bit (donc option [5])
