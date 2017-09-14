@@ -1,5 +1,5 @@
 <section id="right_margin">
-  <% if user.unanunscript? %>
+  <% if user.unanunscript? && site.route.objet != 'unanunscript' %>
     <div>
       <a href="unanunscript/bureau" class="small">Votre programme UN AN UN SCRIPT</a>
     </div>

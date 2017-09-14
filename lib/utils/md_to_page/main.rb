@@ -1,6 +1,7 @@
 # encoding: utf-8
 #
 require 'kramdown'
+require './lib/extensions_sup/String.html.rb'
 
 class MD2Page
   class << self

@@ -26,7 +26,7 @@ class Site
       if fullpath.end_with?('.erb')
         return "[PARTIEL INTROUVABLE : #{fullpath}]"
       else
-        return partial(relpath+'.erb') 
+        return partial(relpath+'.erb')
       end
     end
 
@@ -125,6 +125,9 @@ class Site
   end
   def folder_load_css relpath
     require './lib/utils/sass_all'
+
+    # Le relpath peut commencer par ./__SITE__/
+    relpath.sub!(/^\.\/__SITE__\//,'')
 
     # Faire la liste des fichiers SASS que peut contenir le dossier principal
     # et le sous-dossier.

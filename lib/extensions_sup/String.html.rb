@@ -1,6 +1,10 @@
 # encoding: utf-8
 =begin
-# Helper pour les méthodes de transformation des pages.
+  Helper pour les méthodes de transformation des pages.
+
+  Ce module peut être chargé par :
+  require './lib/extensions_sup/String.html'
+
 =end
 
 class String

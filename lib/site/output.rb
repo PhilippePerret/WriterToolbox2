@@ -33,7 +33,7 @@ class Site
     begin
       body
     rescue Exception => e
-      debug e.message
+      debug e.message.gsub(/</,'&lt;')
       debug e.backtrace.join("\n")
       @body = '<pre>' + Debug.output + '</pre>'
     end

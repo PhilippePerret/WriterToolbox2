@@ -17,8 +17,10 @@ class Unan
 
     # === Data qui sont employées partout ===
 
-    def rythme  ; @rythme   ||= data[:rythme]   end
-    def options ; @options  ||= data[:options]  end
+    def rythme        ; @rythme       ||= data[:rythme]               end
+    def options       ; @options      ||= data[:options]              end
+    def current_pday  ; @current_pday ||= data[:current_pday]         end
+    def auteur        ; @auteur       ||= User.get(data[:auteur_id])  end
 
     def projet_id
       @projet_id ||= data[:projet_id]

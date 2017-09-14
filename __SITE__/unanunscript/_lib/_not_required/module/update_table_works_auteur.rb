@@ -20,7 +20,7 @@ class Unan
       #                 Le jour-programme de fin. Correspond normalement au
       #                 jour-programme courant de l'auteur.
       def update_table_works_auteur auteur, pday_start, pday_end
-        
+
         auteur.is_a?(User) || raise(ArgumentError.new "La méthode `update_table_works_auteur` attend un User en premier argument.")
         auteur.unanunscript? || raise(ArgumentError.new "#{auteur.pseudo} ne suit pas le programme UN AN UN SCRIPT.")
         pday_start.is_a?(Fixnum) || raise(ArgumentError.new "Le pday de départ doit être spécifié par un nombre (Fixnum)")
@@ -38,7 +38,7 @@ class Unan
         # Dans un premier temps, on relève tous les IDs des travaux absolus
         # des jours-programme demandés.
         # Ensuite, on charge les propriétés :id et :typew de ces travaux
-        # absolus pour renseigner les work-relatifs qu'on crée dans la 
+        # absolus pour renseigner les work-relatifs qu'on crée dans la
         # table de l'auteur. Le :typew, qui permet de connaitre le type du
         # travail relatif sans charger le travail absolu, est consigné dans
         # les deux premiers bits de l'option du travail relatif
@@ -72,9 +72,9 @@ class Unan
         now = Time.now.to_i
 
         request = "INSERT INTO unan_works_#{auteur.id}"+
-          " (abs_work_id, abs_pday, item_id, options, points, ended_at, created_at, updated_at,"+
+          " (abs_work_id, abs_pday, item_id, options, points, created_at, updated_at,"+
           " status, program_id)" +
-          " VALUES (?, ?, ?, ?, 0, NULL, #{now}, #{now}, 0, #{auteur.program.id})"
+          " VALUES (?, ?, ?, ?, 0, #{now}, #{now}, 0, #{auteur.program.id})"
 
         array_values = Array.new
         hpdays.each do |pday_id, awork_ids|
@@ -132,13 +132,14 @@ class Unan
           status INTEGER(1) DEFAULT 0,
           options VARCHAR(32) DEFAULT '',
           points INTEGER(3) DEFAULT 0,
+          started_at INTEGER(10),
           ended_at INTEGER(10),
           updated_at INTEGER(10),
           created_at INTEGER(10) NOT NULL,
           PRIMARY KEY (id)
         );
         SQL
-        
+
       end
     end #<< self
   end #/Work

@@ -5,10 +5,24 @@ Module principal qui gère le panneau des taches. Pour le moment, on met tout ic
 
 =end
 class Unan
-  class AbsWork
+  class Abswork
 
-    
     class << self
+
+      # Vérifie que la table des works-relatifs de l'auteur est à jour, 
+      # et l'actualise et la crée si c'est nécessaire.
+      # Rappel : pour savoir si la table est à jour, on regarde les bits
+      # 8 à 10 de program.option, qui contiennent le jour-programme de la
+      # dernière actualisation (ou rien du tout). Si cette valeur correspond
+      # au jour-programme courant du programme de l'auteur, alors rien n'est
+      # à faire, sinon, il faut charger le module d'actualisation et demander
+      # l'actualisation/création de la table.
+      def check_if_table_works_auteur_uptodate program
+        program.current_pday == program.options[7..9].to_i(10) && return
+        Unan.require_module 'update_table_works_auteur'
+        from_pday = (program.options[7..9] || '1').to_i(10)
+        Unan::Work.update_table_works_auteur(program.auteur, from_pday, program.current_pday)
+      end
 
       # Démarre le travail absolu d'identifiant +awork_id+ pour le
       # programme +program+

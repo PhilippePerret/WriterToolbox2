@@ -1,0 +1,184 @@
+ul.work_list
+  list-style    : none
+// Le div contenant tout le travail a accomplir.
+li.work
+  padding           : 1em
+  border            : 1px solid #CCC
+  border-radius     : 0.5em
+  font-size         : 0.9em
+  background-color  : #DDF7DC
+  margin-bottom     : 1em
+
+  // Le titre principal du travail
+  div.titre
+    margin-bottom     : 1em
+    font-weight       : bold
+    font-size         : 1.2em
+    max-width         : 80%
+    text-align        : left
+
+    // Pour le type de travail dans les tâches
+    span.type
+      float         : right
+      font-weight   : normal
+      font-size     : 0.85em
+      font-style    : italic
+      color         : #777
+
+  // Les titres à l'intérieur du travail
+  h1, h2, h3, h4
+    font-weight     : normal !important
+    font-style      : normal !important
+    color           : #578088 !important
+    letter-spacing  : 2.3px !important
+    text-shadow     : none !important
+    font-variant    : small-caps !important
+    opacity         : 1 !important
+  h1
+    font-size     : 1.6em !important
+    margin-top    : 2em !important
+    margin-bottom : 1em !important
+  h2
+    font-size     : 1.35em !important
+    margin-top    : 1.8em !important
+    margin-bottom : 0.8em !important
+  h3
+    font-size     : 1.2em !important
+    margin-top    : 1.6em !important
+    margin-bottom : 0.6em !important
+  h4
+    font-size     : 1em !important
+    font-weight   : bold !important
+    margin-top    : 1.4em !important
+    margin-bottom : 0.4em !important
+
+  a, a:hover, a:link, a:visited
+    &.inwork
+      color             : white
+      background-color  : #173
+      font-weight       : normal
+      font-size         : smaller
+      padding           : 1px 0.5em 3px
+  div.nbpoints
+    color           : teal
+    font-size       : 13pt
+    font-style      : italic
+    float           : right
+
+  div.details
+    padding           : 0.5em
+
+    // Affichage du travail
+    div.travail
+      margin          : 2em 1em !important
+      font-size       : 1.15em
+      // Les paragraphes dans l'intitulé du travail
+      > p, > div
+        margin          : 1em 0 0 0 !important
+
+    &, *
+      font-size         : 12.2pt
+    > span
+      margin-right      : 0.5em
+    span.info
+      text-align      : left
+      display         : block
+      margin-bottom   : 1em
+  div.dates
+    font-size         : 0.85em
+    color             : black
+    padding           : 0.3em 1em
+    margin            : 1em 0 1em 20%
+    border-left       : 3px solid white
+    background-color  : #CCDDC8
+    span.exbig
+      font-weight   : bold
+      font-size     : 1.1em
+      // Pour indiquer un dépassement d'échéance
+    div.warning
+      padding       : 4px 1em !important
+
+    // QUAND UNE DATE EST EN DÉPASSEMENT
+    div.depassement
+      text-align : center
+      background-color    : red
+      color               : white
+      margin-top          : 1em
+      padding             : 1.6em 2em
+      font-size           : 15pt
+
+  div.buttons, div.exemples
+    margin-top        : 1em
+    padding           : 1em
+    color             : #777
+    background-color  : #B9C8AA
+    > span
+      margin-right        : 1em
+    a
+      background-color  : white
+      color             : green
+      padding           : 0.4em 1em
+      font-size         : 12.2pt
+      margin-right      : 1em
+  div.buttons
+    border-top        : 3px solid #777
+    border-bottom     : 3px solid white
+    text-align        : right
+    a
+      border            : 1px solid green
+
+  div.exemples
+    border-bottom     : 1px solid #777
+    border-top        : 1px solid white
+
+section#completed_works
+  margin-top    : 2em
+  div.work
+    opacity       : 0.55
+    div.buttons
+      // Il faut masquer la barre des boutons pour empêcher de faire des bêtises
+      // SAUF pour les pages de cours (cf. ci-dessous)
+      display   : none
+  strong, span.exbig, div.titre
+    color       : #555
+
+  &.pages_cours
+    div.work
+      div.buttons
+        display     : block !important
+  ul#last_quizes
+    li.quiz.quiz_corrected
+      opacity       : 0.55
+
+div#div_mark_pday_points
+  margin-bottom     : 2em
+  margin-top        : 0
+  text-align        : right
+  span.libelle
+    vertical-align    : bottom
+    margin-right      : 0.4em
+    color             : #7B8263
+    &.mark_pday
+      width   : 140px
+    &.mark_points
+      width         : 50px
+      margin-left   : 1em
+  span
+    &.value
+      display           : inline-block
+      width             : 100px
+      color             : white
+      background-color  : #7B8263
+      font-size         : 1.4em
+      text-align        : center
+    &#mark_pday
+      padding           : 0.22em 1em 0.45em
+    &#mark_points
+      padding           : 0.5em 1em
+  #div_mark_pday
+    margin-top        : 2em
+  #div_mark_points
+    margin-top        : 4px
+
+ul#last_quizes
+  list-style        : none

@@ -1,0 +1,28 @@
+<%
+
+    #
+  # Panneau affichant la liste des tâches à accomplir, démarrer, ou
+  # les dernières accomplies s'il y en a.
+  #
+
+  # Requérir le module qui contient de nombreuses méthodes de
+  # construction ainsi que des méthodes de gestion des tâches (comme
+  # par exemple les méthodes qui permettent de démarrer les tâches
+  # ou de les terminer)
+  Unan.require_module 'taches'
+
+  # Une opération a peut-être été demandée
+  # Elle est contenue dans les paramètres, dans op pour l'opération et dans
+  # wid pour l'identifiant du travail. Noter que seul l'auteur ou un administrateur
+  # peuvent opérer.
+  case param(:op)
+  when 'start_work' then Unan::Work.start(user, param(:wid))
+  when 'done_work'  then Unan::Work.done(user, param(:wid))
+  end
+%>
+
+
+<%= define_all_list_taches %>
+<%= list_taches_to_start %>
+<%= list_taches_courantes %>
+<%= list_last_taches_done %>

@@ -50,3 +50,5 @@ Permet de requérir un module qui doit obligatoirement se trouver dans le dossie
 ```
 
 **Noter que pour le moment, on ne peut utiliser cette méthode que lorsque la route principale (et notamment `objet`) est celle de l'objet. Car pour trouver le path du module, la méthode se sert de `site.route.objet`.**
+
+Noter également que cette méthode utilise `site.load_folder` qui permet de charger tous les éléments, même les fichiers CSS et Javascript.

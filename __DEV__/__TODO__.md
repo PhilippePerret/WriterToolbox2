@@ -1,21 +1,25 @@
+* [UNAN] Utiliser le faux-tests _POUR_ESSAIS_LIVE_spec.rb pour rejoindre le programme comme un auteur et laisser la page ouverte une demi-heure.
+
+* [UNAN] Pour l'affichage des travaux, il faut tester le type de la tâche pour faire le distingo entre une page Narration et une tâche réelle.
+* [UNAN] Pour l'indication de l'échéance, mettre le mois en valeur humaine
+
+* [UNAN] Tester le démarrage d'un travail
+* [UNAN] Tester le rechargement d'une page après un démarrage d'un travail (rien ne doit se passer)
+* [UNAN] Tester l'arrêt d'un travail
+* [UNAN] Tester le rechargement d'une page après un arrêt de travail (rien ne doit se passer)
+* [UNAN] Tester la valeur du nombre de points attribué à l'arrêt du travail
+  - si le travail est fini dans les temps, total des points
+  - si le travail est fini 3 jours après l'échéance, 3 * 10 points en moins. (attention, la valeur ne sera jamais juste juste)
+
+
 
 * [UNAN] Implémenter et tester l'onglet 'Tâches'
   - Tester indépendamment, en unitaire, les méthodes du fichier taches/helpers.rb
     (relève des listes d'ids, des listes de taches, construction des listes)
   - Mettre en place le nouveau fonctionnement :
-    Chaque jour, on crée pour l'auteur les nouveaux travaux du jour.
-    On pourrait imaginer aussi un programme qui s'assure que tous les travaux ont générés des works (les travaux ont un status de 0 à leur création). Le cron pourrait vérifier ça. De cette manière, il n'y a aucune vérification particulière pour trouver les travaux des auteurs.
-    Checker la validité consiste donc à :
-      - relever tous les travaux absolus jusqu'à un certain pday (le pday courant de l'auteur, en l'occurrence)
-      - s'assurer que pour chaque travail absolu il existe un work relatif à l'auteur.
-        Donc ID de abs_work => work du programme avec abs_work_id = ID
-        On fait en seulement deux requêtes :
-          1 qui relève tous les IDs des absolute-works jusqu'au pday voulu
-            (en associant le travail au jour puisque les deux sont dépendants)
-          1 qui relève tous les IDs des works relatifs de l'auteur, en prenant
-            aussi l'information du pday puisque les deux sont associés
-          Tous les éléments de la première liste qui ne se trouvent pas dans la seconde doivent être créés.
+    * Il reste à implémenter la méthode qui va regarder le dernier pday d'actualisation des works relatifs (dans program.options[7..9]) et va lancer la procédure d'actualisation si nécessaire (Unan::Work.update_table_works_auteur(auteur, from_pday, to_pday)) avant d'afficher la liste des tâches.
 * [UNAN] Implémenter et tester l'onglet 'Cours' ("Pages")
+  Utiliser les mêmes modules que `taches`, mais se servir du type pour savoir que c'est une page à lire.
 * [UNAN] Implémenter et tester l'onglet 'Quiz'
 * [UNAN] Implémenter et tester l'onglet 'Forum'
 * [UNAN] Implémenter et tester l'onglet 'Aide'

@@ -33,6 +33,20 @@ def unanunscript_create_auteur params = nil
   require_folder('./__SITE__/unanunscript/signup/main')
   require_folder('./__SITE__/unanunscript/_lib/_required')
 
+  # Si un jour-programme est déterminé dans les paramètres, mais que
+  # :start_time ne l'est pas, on règle ce :start_time pour qu'il
+  # corresponde, en tenant compte du rythme défini ou 5 par défaut
+  if params.key?(:current_pday) && params[:current_pday] > 1
+    if ! params.key?(:start_time)
+      rythme = params[:rythme] || 5
+      coef_rythme = 5.0 / rythme
+      pday_duree = 24*3600 / coef_rythme
+      params[:start_time] = Time.now.to_i - ( params[:current_pday] * pday_duree)
+      puts "Jour-programme réglé à : #{params[:current_pday]}"
+      puts "=> début du programme réglé à : #{Time.at(params[:start_time])}"
+    end
+  end
+
   # On crée un nouvel utilisateur inscrit au site (mais pas abonné)
   # Par défaut, son mail sera confirmé
   params.key?(:mail_confirmed) || params.merge!(mail_confirmed: true)
