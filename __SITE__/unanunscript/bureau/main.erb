@@ -7,6 +7,14 @@ Noter que ce bureau peut être atteint même si l'auteur n'est plus
 en exercice et que son programme est terminé.
 
 =end
+user.unanunscript? || user.admin? || raise('Vous n’êtes pas autorisé à rejoindre cette section.')
+
+# À chaque chargement, on vérifie que les travaux relatifs (dans la table propre à l'auteur) soient
+# bien synchronisés. Cela demande une synchronisation à chaque premier chargement lors d'un nouveau
+# jour-programme (et encore, pas si le cron est utilisé pour changer l'état du programme), mais
+# ensuite les choses sont plus rapides puisqu'il suffit de comparer le jour-programme courant avec
+# la valeur dans les options du programme.
+Unan::UUProgram.check_if_table_works_auteur_uptodate(program)
 
 %>
 <%= header(:small) %>
@@ -22,7 +30,7 @@ en exercice et que son programme est terminé.
     <%= section.partiel %>
 </div>
 <%
-#---------------- Fin de la section
+#---------------- Fin de la section ----------------
 %>
 
 <%= right_margin %>

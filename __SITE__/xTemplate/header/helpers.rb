@@ -25,7 +25,7 @@ class Site
     phil_linked = '<a href="site/phil" class="patronyme">philippe perret</a>'
     charte_linked = '<a href="site/charte">la Charte</a>'
     c << '<img src="./img/phil-medaillon.png" id="medaillon_phil" />'
-    c << "<div>Site conçu par #{phil_linked} entièrement dévolu à l'élaboration des histoires sous toutes leurs formes (cf.&nbsp;#{charte_linked}).</div>"
+    c << "<div>Site conçu et animé par #{phil_linked} dévolu corps et âmes à l'élaboration des histoires sous toutes leurs formes.</div>"
 
     "<section id=\"incipit\" class=\"light\">#{c}</section>"
   end

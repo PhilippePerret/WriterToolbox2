@@ -14,6 +14,8 @@ param(:user) || param(:user, {})
 <%=
   if user.identified?
     partial('bienvenue')
+  elsif site.route.objet_id == 'oubli'
+    partial('password_oubli')
   else
     partial('form')
   end

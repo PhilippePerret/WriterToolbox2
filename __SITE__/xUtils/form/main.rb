@@ -57,7 +57,6 @@ class << self
     if res.nil?
       true
     else
-      debug "DELETE FORMID #{form_id}"
       site.db.execute('DELETE FROM tickets WHERE id = ?', [form_id])
       false
     end

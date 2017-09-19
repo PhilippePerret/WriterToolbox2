@@ -11,7 +11,7 @@ feature "Bureau d'un auteur du programme UN AN UN SCRIPT" do
 
   scenario "un auteur non inscrit au programme ne peut pas rejoindre le bureau UN AN" do
     visit "#{base_url}/unanunscript/bureau"
-    expect(page).not_to have_tag('h2', text: 'Votre bureau UN AN UN SCRIPT')
+    expect(page).not_to have_tag('h2', text: 'Bureau de votre programme UN AN UN SCRIPT')
   end
 
   scenario 'suivant ses préférences, l’auteur inscrit au programme rejoint son bureau après l’identification' do

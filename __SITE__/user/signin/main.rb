@@ -9,6 +9,13 @@ class Site
       __error("Ce formulaire a déjà été soumis… Évitez de recharger votre page, après une soumission.")
     elsif param(:operation) == 'signin' && param(:user)
       User.check_login(param(:user))
+    elsif param(:operation) == 'oubli'
+      debug "-> Mot de passe oublié"
+      if param(:user) && param(:user)[:mail]
+        __notice('Un nouveau mot de passe vous a été envoyé par mail')
+      else
+        __notice('Entrez votre adresse mail et recliquez sur ce lien.')
+      end
     end
   end
 

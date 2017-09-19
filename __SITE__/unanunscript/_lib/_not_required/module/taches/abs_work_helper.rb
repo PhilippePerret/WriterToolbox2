@@ -39,7 +39,7 @@ class Unan
         # carte << details_tache
         # carte << section_exemples
         # carte << suggestions_lectures
-        return "<li class=\"work\" id=\"work-#{habswork[:id]}\">#{carte}</li>"
+        return "<li class=\"work\" id=\"work-#{hwork[:id]}\">#{carte}</li>"
       end
 
       # Retourne le formulaire (bouton) pour démarrer le travail d'ID +work_id+

@@ -2,35 +2,26 @@
 
 class Unan
 
-  # Les données de toutes les sections, pour un travail plus facile de construction
-  # des pages du bureau.
-  DATA_SECTIONS = {
+  class UUProgram
+    class << self
 
-    # Tout ce qui concerne le programme lui-même
-    program: {hname: "Programme"},
+      # Vérifie que la table des works-relatifs de l'auteur est à jour, 
+      # et l'actualise et la crée si c'est nécessaire.
+      # Rappel : pour savoir si la table est à jour, on regarde les bits
+      # 8 à 10 de program.option, qui contiennent le jour-programme de la
+      # dernière actualisation (ou rien du tout). Si cette valeur correspond
+      # au jour-programme courant du programme de l'auteur, alors rien n'est
+      # à faire, sinon, il faut charger le module d'actualisation et demander
+      # l'actualisation/création de la table.
+      def check_if_table_works_auteur_uptodate program
+        program.current_pday == program.options[7..9].to_i(10) && return
+        Unan.require_module 'update_table_works_auteur'
+        from_pday = (program.options[7..9] || '1').to_i(10)
+        Unan::Work.update_table_works_auteur(program.auteur, from_pday, program.current_pday)
+      end
 
-    # Tout ce qui concerne le projet de l'auteur
-    projet:  {hname: "Projet"},
-
-    # Tout ce qui concerne les taches à exécuter
-    taches: {hname: "Tâches"},
-
-    # Tout ce qui concerne les pages de cours à lire
-    cours:  {hname: "Pages"},
-
-    # Tout ce qui concerne les quiz
-    quiz:   {hname: "Quiz"},
-
-    # Tout ce qui concerne le forum attaché au programme
-    forum:  {hname: "Forum"},
-
-    # Tout pour les préférences du programme, par exemple le rythme
-    prefs:  {hname: "Préférences"},
-
-    # Tout pour l'aide sur le programme
-    aide:   {hname: "Aide"}
-
-  }
+    end #/<< self UUProgram
+  end #/ UUProgram
 
   class Section
 
@@ -68,9 +59,7 @@ class Unan
 end #/Unan
 class User
   def program_id
-    @program_id ||= begin
-                      var['unan_program_id']
-                    end
+    @program_id ||= var['unan_program_id']
   end
 end #/User
 

@@ -82,7 +82,7 @@ class Unan
             habswork = habsworks[awork_id]
 
             # Les valeurs pour la requête préparée
-            array_values << [awork_id, pday_id, habswork[:item_id]||nil, "#{habswork[:type_w]}"]
+            array_values << [awork_id, pday_id, habswork[:item_id]||nil, options_for_work(habswork[:id])]
 
           end # / fin de boucle sur tous les ids abs-work du pday
         end # / fin de boucle sur tous les pdays voulus
@@ -100,6 +100,35 @@ class Unan
       end
 
 
+      # Retourne la valeur d'option au démarrage du travail d'id +abswork_id+
+      #
+      def options_for_work abswork_id
+        typew = typew_awork(abswork_id)
+        c = String.new
+        c << typew.to_s.rjust(2,'0')
+        c << duree_awork(abswork_id).to_s.rjust(3,'0')
+        c << Unan::Abswork::TYPES[typew][:itype] # sur un chiffre
+        return c
+      end
+      # Retourne le type de travail du travail absolu d'identifiant +abswork_id+
+      def typew_awork abswork_id
+        data_awork[abswork_id][:type_w]
+      end
+
+      # Retourne la durée en nombre de jours-programme du travail absolu
+      # d'identifiant +abswork_id+
+      def duree_awork abswork_id
+        data_awork[abswork_id][:duree]
+      end
+
+
+      # Retourne les données du travail absolu d'identifient +abswork_id+
+      #
+      def data_awork abswork_id
+        @__data_awork ||= Hash.new
+        @__data_awork[abswork_id] ||= site.db.select(:unan,'absolute_works',{id: abswork_id}).first
+        @__data_awork[abswork_id]
+      end
       # S'assure que la table des works-relatifs de l'auteur +auteur+
       # existe et la crée le cas échéant.
       def ensure_table_works_exists(auteur)

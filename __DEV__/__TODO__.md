@@ -1,3 +1,5 @@
+* [UNAN] Lors de la synchronisation des tâches avec le jour-programme courant, il faut aussi checker les dépassements pour régler le `status` du work à 3 si dépassement normal (moins de la durée de la tâche) et  à dépassement important (si plus de la durée de la tâche)
+
 * [UNAN] Utiliser le faux-tests _POUR_ESSAIS_LIVE_spec.rb pour rejoindre le programme comme un auteur et laisser la page ouverte une demi-heure.
 
 * [UNAN] Pour l'affichage des travaux, il faut tester le type de la tâche pour faire le distingo entre une page Narration et une tâche réelle.

@@ -42,9 +42,9 @@ class Site
     # À présent, on peut construire les trois listes en envoyant les
     # données relatives des travaux ainsi que les données absolues
     #
-    @list_taches_to_start  = build_liste_abs_taches(tready,   habsworks)
-    @list_taches_courantes = build_liste_abs_taches(tcurrent, habsworks)
-    @list_taches_done      = build_liste_abs_taches(tdone,    habsworks)
+    @list_taches_to_start  = build_liste_abs_taches(tready,   habsworks, :ready)
+    @list_taches_courantes = build_liste_abs_taches(tcurrent, habsworks, :current)
+    @list_taches_done      = build_liste_abs_taches(tdone,    habsworks, :done)
   end
 
   def list_taches_to_start ; @list_taches_to_start  end
@@ -64,11 +64,14 @@ class Site
   #                 Liste des Hash contenant les abs-works de type
   #                 +type_tache+
   #
+  # @param {Hash}   habsworks
+  #                 Table des travaux absolus
+  #
   # @param {Symbol} type_tache
   #                 :to_start, :done ou :current
   #
-  def build_liste_abs_taches htaches, habsworks 
-    '<ul class="work_list" id="work_list-#{type_tache}">'+
+  def build_liste_abs_taches htaches, habsworks, type_tache
+    "<ul class=\"work_list\" id=\"work_list-#{type_tache}\">"+
       htaches.collect do |hwork|
         Unan::Abswork.build_card_for_auteur(user, hwork, habsworks[hwork[:abs_work_id]])
     end.join('')+
