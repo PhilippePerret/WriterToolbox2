@@ -12,19 +12,19 @@ class Site
   # prêtes à démarrer, courante et accomplies.
   # On rassemble en une seule méthode pour pouvoir charger toutes les données
   # absolues d'un seul coup
-  def define_all_list_taches
+  #
+  # @param {Symbol} task_type
+  #                 :task, :page, :quiz ou :forum
+  #
+  def define_all_list_taches auteur, task_type
     
-    # D'abord, on s'assure que la liste des travaux de l'user est à jour
-    # par rapport à son jour-programme courant.
-    Unan::Abswork.check_if_table_works_auteur_uptodate(user.program)
-
     abs_works_ids = Array.new
     
     # On récupère la liste des travaux à commencer
     #
-    tready    = taches_to_start(user)
-    tcurrent  = taches_courantes(user)
-    tdone     = last_taches_done(user)
+    tready    = taches_to_start(auteur, task_type)
+    tcurrent  = taches_courantes(auteur, task_type)
+    tdone     = last_taches_done(auteur, task_type)
 
     # On récupère la liste] de tous les IDs des travaux absolus
     [tready, tcurrent, tdone].each do |liste|
@@ -87,30 +87,26 @@ class Site
   # Noter que dans le nouveau système (WriterToobox 2.0), les nouveaux travaux du
   # jour créent automatiquement des enregistrements de works dans la table de
   # l'auteur. Leur status est 0, on les reconnait à ça.
-  def taches_to_start auteur
-    get_user_works(auteur, "status = 0")
+  def taches_to_start auteur, task_type
+    get_user_works(auteur, task_type, "status IN (0, 2, 4)")
   end
 
-  def taches_courantes auteur
-    get_user_works(auteur, "status = 1 AND ended_at IS NULL")
+  def taches_courantes auteur, task_type
+    get_user_works(auteur, task_type, "status & 1 AND ended_at IS NULL")
   end
 
-  def last_taches_done auteur
-    get_user_works(auteur, "status = 9 ORDER BY ended_at DESC LIMIT 5")
+  def last_taches_done auteur, task_type
+    get_user_works(auteur, task_type, "status = 9 ORDER BY ended_at DESC LIMIT 5")
   end
 
   # Retourne la liste des IDs des abs_works qui correspondent à la
   # where clause +where_clause+ pour l'auteur +auteur+ et son programme courant
-  def get_user_works auteur, where_clause
+  def get_user_works auteur, task_type, where_clause
     site.db.select(
       :users_tables,
       "unan_works_#{auteur.id}",
-      "program_id = #{auteur.program.id} AND #{where_clause}",
+      "SUBSTRING(options,6,1) = '#{Unan::Abswork::ITYPES[task_type]}' AND program_id = #{auteur.program.id} AND #{where_clause}",
     )
-      .reject do |hw|
-      # Il faut rejeter les types qui sont autre chose que des taches
-      Unan::Abswork::TYPES_NOT_TASK.include? hw[:options][0..1].to_i
-    end
   end
 
 end #/Site

@@ -10,6 +10,15 @@ class Unan
   class Work
     class << self
 
+      # Méthode appelée pour actualiser la table des works-relatifs de
+      # l'auteur. Elle tient à jour la liste des travaux que l'auteur doit
+      # exécuter, en jouant sur le statut (status) pour indiquer les travaux qui
+      # sont à démarrer (travaux du jour) ou les travaux en dépassement et en
+      # grand dépassement.
+      # Cette méthode n'est appelée qu'une seule fois par jour-programme, lorsque
+      # le jour-programme courant ne correspond pas au jour-programme des options
+      # du programme.
+      #
       # @param {User}   Auteur
       #                 Doit être un auteur du programme
       # @param {Fixnum} pday_start
@@ -31,6 +40,17 @@ class Unan
         # On la crée le cas échéant.
         ensure_table_works_exists(auteur)
 
+        # On relève les travaux relatifs existants déjà dans la période
+        # données, afin de ne créer que ceux qui n'existent pas. Cette méthode
+        # sert principalement lorsque le travail ne se fait pas régulièrement. Sinon,
+        # les nouveaux travaux sont ajoutés regulièrement tous les jours.
+        relworks_kpairs = Hash.new
+        table_name = "unan_works_#{auteur.id}"
+        whereclause = "abs_pday >= #{pday_start} AND abs_pday <= #{pday_end}"
+        site.db.select(:users_tables,table_name,whereclause).each do |hwork|
+          relworks_kpairs.merge!("#{hwork[:abs_pday]}-#{hwork[:abs_work_id]}" => true)
+        end
+
         # Une fois que la table est créée, on peut synchroniser
         # ses données pour que tous les travaux absolus possèdent
         # leur work-relative dans la table.
@@ -50,7 +70,8 @@ class Unan
         # données d'un seul coup :
         abs_works_ids = Array.new
 
-        # On peut boucler sur toutes les données pdays
+        # On peut boucler sur toutes les données pdays pour récupérer tous les
+        # identifiants de travaux de la période donnée.
         where = "id >= #{pday_start} AND id <= #{pday_end}"
         site.db.select(:unan,'absolute_pdays',where,[:id,:works]).each do |hpday|
           id_list = hpday[:works].as_id_list
@@ -59,8 +80,10 @@ class Unan
         end
 
         # On relève les données des travaux absolus (:id, :item_id et :type_w)
+        # On a aussi besoin de la durée (en jours) pour savoir si les travaux-relatifs
+        # sont en dépassement d'échéance.
         habsworks = Hash.new
-        site.db.select(:unan,'absolute_works',"id IN (#{abs_works_ids.join(', ')})",[:id, :item_id, :type_w])
+        site.db.select(:unan,'absolute_works',"id IN (#{abs_works_ids.join(', ')})",[:id, :item_id, :type_w, :duree])
           .each do |habswork|
           habsworks.merge!( habswork[:id] => habswork )
         end
@@ -76,10 +99,15 @@ class Unan
           " status, program_id)" +
           " VALUES (?, ?, ?, ?, 0, #{now}, #{now}, 0, #{auteur.program.id})"
 
+        # Il faut faire les values qui vont alimenter la requête préparée.
         array_values = Array.new
         hpdays.each do |pday_id, awork_ids|
           awork_ids.each do |awork_id|
             habswork = habsworks[awork_id]
+
+            # Si ce travail absolu possède déjà un travail relatif, on peut
+            # le passer.
+            relworks_kpairs["#{pday_id}-#{awork_id}"] == nil || next
 
             # Les valeurs pour la requête préparée
             array_values << [awork_id, pday_id, habswork[:item_id]||nil, options_for_work(habswork[:id])]
@@ -87,8 +115,15 @@ class Unan
           end # / fin de boucle sur tous les ids abs-work du pday
         end # / fin de boucle sur tous les pdays voulus
 
-        site.db.use_database(:users_tables)
-        site.db.execute(request, array_values)
+        # Insertion de tous les travaux-relatifs qui doivent être créés.
+        if array_values.count > 0
+          site.db.use_database(:users_tables)
+          site.db.execute(request, array_values)
+        end
+
+        # Ensuite, on doit regarder si des travaux sont en dépassement ou en
+        # grand dépassement. Cf. la méthode pour le détail.
+        check_depassements auteur.program
 
         # Si on arrive ici, c'est que tout s'est bien passé, on peut indiquer
         # dans le programme le dernier pday d'actualisation.
@@ -100,27 +135,120 @@ class Unan
       end
 
 
+      # Méthode checkant les dépassements éventuel.
+      # Un dépassement est "normal" lorsqu'il est inférieur à la durée du travail
+      # et un travail est en "grand dépassement" lorsque son dépassement excède
+      # sa durée.
+      # Quand un travail est en dépassement, son statut (status) est passé à 3 et
+      # lorsqu'il est en grand dépassement, son statut est passé à 5.
+      #
+      def check_depassements program
+        auteur      = program.auteur
+        rythme      = program.rythme
+        coefduree   = 5.0 / rythme
+        table_works = "unan_works_#{auteur.id}"
+        
+        # On commence par relever tous les travaux qui ne sont pas terminés (status=9)
+        # ou en grand dépassement (status=5). Donc tous les travaux dont le statut est
+        # inférieur à 5 (donc les )
+        # Rappel : le status fonctionne par bit, c'est-à-dire que s'il ne contient pas
+        # 1, c'est qu'il n'est pas démarré. Donc un status à 2 ou à 4 est un travail
+        # en dépassement ou en grand dépassement qui n'a pas été démarré.
+
+        # Puisque la durée en jour est inscrite dans les options du travail relatif,
+        # on pourrait calculer l'opération pour ne relever que les travaux en dépassement. 
+        # Ça donnerait quelque chose comme :
+        # CAST(SUBSTRING(options,3,3) AS UNSIGNED)*coefduree + started_at || created_at > #{now}
+
+        # Pour enregistrer les changements qui devront être faits
+        # Chaque élément de cette liste sera une liste pour les "?" de la requête
+        # préparée avec en première valeur le status, puis l'updated_at et en 
+        # troisièmre valeur l'identifiant du travail relatif
+        values = Array.new
+
+        # Le temps actuel
+        # Il sert pour savoir si le travail est en dépassement et pour
+        # servir de valeur à l'updated_at des travaux modifiés
+        now = Time.now.to_i
+
+        whereclause = "status < 5"
+        site.db.select(:users_tables,table_works,whereclause).each do |hwork|
+          duree_jours = hwork[:options][2..4].to_i(10)
+          real_duree_seconds  = (duree_jours * coefduree).to_i.jours
+
+          start =
+          if hwork[:started_at]
+            hwork[:started_at]
+          else
+            # Si le travail n'a pas été démarré, le calcul de son départ
+            # est plus compliqué. Il ne faut pas utiliser la valeur de `created_at`
+            # car le travail a très bien pu être créé maintenant alors qu'il aurait
+            # du être démarré avant. On se sert donc de la valeur de abs_pday pour
+            # connaitre le jour-programme du travail et de la valeur du jour-programme
+            # courant. On obtenir le nombre de jours de différence, qui, en fonction
+            # du rythme, va indiquer le départ fictif du travail.
+            #
+            # De la même manière, le status sera 2 ou 4, pas 3 ou 5
+            #
+            nombre_jours = program.current_pday - hwork[:abs_pday]
+            now - (nombre_jours.jours.to_f * coefduree).to_i
+          end
+
+          # La fin attendue pour le travail
+          expected_end = start + real_duree_seconds
+          depassement = now - expected_end
+
+          # Si le travail n'est pas en dépassement, on peut tout de suite passer
+          # au travail suivant.
+          depassement <= 0 && next
+
+          # Par exemple 0 (si non démarré), 1 (si démarré), 2 (si non démarré
+          # mais déjà en dépassement), 3 (si démarré et en dépassement), 4 (si
+          # non démarré et en grand dépassement), 5 (si démarré et en grand dépassement),
+          # Ne peut pas être supérieur
+          up = hwork[:status]
+
+          # Le travail est en dépassement, on calcule la nouvelle valeur
+          # qu'on doit donner à `status` en fonction du type de dépassement (grand
+          # ou normal) et en fonction du fait que le travail est déjà commencé ou non.
+          up |= depassement > real_duree_seconds ? 4 : 2
+
+          # On ajoute ce changement
+          values << [up, now, hwork[:id]]
+        end #/fin de boucle sur tous les travaux relatifs retenus
+
+        # S'il n'y a aucune valeur à changer, on peut s'en retourner tout de suite.
+        values.count > 0 || return
+
+        request = "UPDATE #{table_works} SET status = ?, updated_at = ? WHERE id = ?"
+        site.db.use_database(:users_tables)
+        site.db.execute(request, values)
+
+      end
+
+
+
       # Retourne la valeur d'option au démarrage du travail d'id +abswork_id+
       #
       def options_for_work abswork_id
         typew = typew_awork(abswork_id)
+        itype = Unan::Abswork::TYPES[typew][:itype]
         c = String.new
         c << typew.to_s.rjust(2,'0')
         c << duree_awork(abswork_id).to_s.rjust(3,'0')
-        c << Unan::Abswork::TYPES[typew][:itype] # sur un chiffre
+        c << itype.to_s # sur un chiffre
         return c
       end
       # Retourne le type de travail du travail absolu d'identifiant +abswork_id+
       def typew_awork abswork_id
-        data_awork[abswork_id][:type_w]
+        data_awork(abswork_id)[:type_w]
       end
 
       # Retourne la durée en nombre de jours-programme du travail absolu
       # d'identifiant +abswork_id+
       def duree_awork abswork_id
-        data_awork[abswork_id][:duree]
+        data_awork(abswork_id)[:duree]
       end
-
 
       # Retourne les données du travail absolu d'identifient +abswork_id+
       #
@@ -129,6 +257,7 @@ class Unan
         @__data_awork[abswork_id] ||= site.db.select(:unan,'absolute_works',{id: abswork_id}).first
         @__data_awork[abswork_id]
       end
+
       # S'assure que la table des works-relatifs de l'auteur +auteur+
       # existe et la crée le cas échéant.
       def ensure_table_works_exists(auteur)
@@ -145,6 +274,7 @@ class Unan
           end
         end
       end
+
       # Création de la table works pour l'auteur +auteur+
       def create_table_works auteur
         auteur.is_a?(User) || raise(ArgumentError.new('La méthode `create_table_works` attend un User.'))

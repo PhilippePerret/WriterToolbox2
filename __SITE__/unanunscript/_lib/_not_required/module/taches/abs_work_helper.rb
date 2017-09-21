@@ -11,6 +11,8 @@ class Unan
 
       # Retourne le code HTML de la carte pour le travail spécifié
       #
+      # Noter que ça peut être n'importe quel travail, une tâche normale
+      # comme un quiz ou une page de cours à lire.
       #
       # @param {User} auteur
       #               L'auteur du travail
@@ -28,12 +30,20 @@ class Unan
         carte << "<div class=\"nbpoints\">#{habswork[:points]} points</div>"
         carte << "#{habswork[:titre]}".in_div(class:'titre')
         case hwork[:status]
-        when 0 # not started
+        when 0, 2, 4
+          # = Non démarré =
+          # Rappel : les valeurs 2 et 4 correspondent à un travail en dépassement. Ici,
+          # c'est un travail qui n'a même pas été démarré.
           carte << start_form(hwork)
-        when 1 # current
+        when 1, 3, 5
+          # = Travail courant =
+          # 3 correspond à un travail démarré en dépassement et 5 en grand
+          # dépassement.
           carte << div_echeance(auteur, hwork, habswork)
           carte << end_form(hwork[:id])
-        when 9 # done
+        when 9
+          # = Travail accompli =
+          # Pour un travail accompli, rien n'a besoin d'être fait.
         end
         carte << "#{MD2Page.transpile(nil,{code: habswork[:travail], dest: nil})}".in_div(class:'travail') 
         # carte << details_tache
@@ -43,13 +53,10 @@ class Unan
       end
 
       # Retourne le formulaire (bouton) pour démarrer le travail d'ID +work_id+
-      # Le bouton est mis en rouge si ce travail aurait dû être démarré depuis
-      # plus de trois jours programme.
-      # TODO Dans l'idéal, il faudrait tenir compte du rythme du programme (mais alors,
-      # il faudrait envoyer plus de données ou utiliser une instance — ce que je vais
-      # bien finir par refaire…)
+      # Le bouton est mis en rouge si le travail est en dépassement.
+      #
       def start_form hwork
-        linkclass = (Time.now.to_i - hwork[:created_at] > 5.jours) ? 'red' : ''
+        linkclass = hwork[:status] > 0 ? 'red' : nil
         'Démarrer ce travail'
           .in_a(class: linkclass, href: "unanunscript/bureau/taches?op=start_work&wid=#{hwork[:id]}")
           .in_div(class:'buttons')
@@ -57,8 +64,9 @@ class Unan
 
       # Retourne le formulaire (bouton) pour marquer le travail fini
       def end_form work_id
+        linkclass = hwork[:status] > 0 ? 'red' : nil 
         'Marquer ce travail fini'
-          .in_a(href: "unanunscript/bureau/taches?op=done_work&wid=#{work_id}")
+          .in_a(class: linkclass, href: "unanunscript/bureau/taches?op=done_work&wid=#{work_id}")
           .in_div(class: 'buttons')
       end
 

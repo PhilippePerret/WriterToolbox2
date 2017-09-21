@@ -29,7 +29,10 @@ class String
 
   def as_intag attrs = nil
     attrs ||= Hash.new
-    "<#{(self + SPACE + attrs.collect{|k,v|"#{k}=\""+v+'"'}.join(' ')).strip}>"
+    "<#{(self + SPACE + attrs.collect do |k,v|
+      v != nil || next
+      "#{k}=\""+v+'"'
+    end.join(' ')).strip}>"
   end
   def buildtag tag, attrs
     tag.as_intag(attrs) + self + "</#{tag}>"

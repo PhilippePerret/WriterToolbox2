@@ -1,4 +1,16 @@
-* [UNAN] Lors de la synchronisation des tâches avec le jour-programme courant, il faut aussi checker les dépassements pour régler le `status` du work à 3 si dépassement normal (moins de la durée de la tâche) et  à dépassement important (si plus de la durée de la tâche)
+
+* [UNAN] Tenir compte du fait que le statut (status) peut être à 2 ou 4 quand le travail n'est pas démarré.
+* [UNAN] Quand on démarre un travail, il faut ajouter 1 au statut (status), ne pas le mettre à 1, car il peut y avoir déjà des dépassements.
+* [UNAN] Pour l'affichage du travail, tenir compte du fait que le travail peut être en dépassement même lorsqu'il n'est pas démarré. L'indiquer visuellement, peut-être en ajoutant le cadre de dépassement.
+* [UNAN] À la terminaison du travail, penser à régler les options pour qu'elles conserve le nombre de jours de dépassement s'il y en a.
+
+* [UNAN] Tester, tester, tester le réglage des travaux.
+  - la création correcte des travaux relatifs lorsque l'on crée un auteur directement au 10e jour
+  - le réglage correct, surtout, de la valeur `status` (avec des travaux qui seront à 2 et à 4)
+  - ensuite il faut démarrer des travaux en dépassement, en grand dépassement et sans dépassement pour voir si les status se règlent bien.
+  - Faire le test de l'enregistrement des jours de dépassement dans les options (7e à 9e bits) quand on arrête le travail (mais le status se met toujours à 9, quels que soient les dépassements qu'il y a pu avoir).
+  - le bouton "Démarrer ce travail" doit être en rouge (class 'red') si le travail est déjà en dépassement avant d'être démarré.
+
 
 * [UNAN] Utiliser le faux-tests _POUR_ESSAIS_LIVE_spec.rb pour rejoindre le programme comme un auteur et laisser la page ouverte une demi-heure.
 
@@ -13,7 +25,7 @@
   - si le travail est fini dans les temps, total des points
   - si le travail est fini 3 jours après l'échéance, 3 * 10 points en moins. (attention, la valeur ne sera jamais juste juste)
 
-
+* Régler le pied de page pour qu'il corresponde au statut du visiteur (pour le moment, le bouton "s'identifier" s'affiche même lorsque le visiteur est identifié)
 
 * [UNAN] Implémenter et tester l'onglet 'Tâches'
   - Tester indépendamment, en unitaire, les méthodes du fichier taches/helpers.rb
