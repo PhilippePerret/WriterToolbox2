@@ -95,9 +95,13 @@ class Unan
         now = Time.now.to_i
 
         request = "INSERT INTO unan_works_#{auteur.id}"+
-          " (abs_work_id, abs_pday, item_id, options, points, created_at, updated_at,"+
+          " (expected_at, abs_work_id, abs_pday, item_id, options, points, created_at, updated_at,"+
           " status, program_id)" +
-          " VALUES (?, ?, ?, ?, 0, #{now}, #{now}, 0, #{auteur.program.id})"
+          " VALUES (?, ?, ?, ?, ?, 0, #{now}, #{now}, 0, #{auteur.program.id})"
+
+        # Coefficiant durée, en fonction du rythme, pour calculer la date
+        # de fin du travail attendue
+        coefd = 5.0 / auteur.program.rythme
 
         # Il faut faire les values qui vont alimenter la requête préparée.
         array_values = Array.new
@@ -109,8 +113,30 @@ class Unan
             # le passer.
             relworks_kpairs["#{pday_id}-#{awork_id}"] == nil || next
 
+            # Calcul de la date de fin attendue. Elle dépend :
+            # - de la durée du travail (absulte-work)
+            # - du rythme de travail de l'auteur
+            # - du jour-programme courant (program)
+            # - du jour-programme du travail (pday) — qui n'est pas forcément le même que le
+            #   jour-programme courant, car, pour le moment, le travail relatif peut être créé
+            #   seulement lorsque l'auteur rejoint son bureau.
+            #   Mais même lorsque le cronjob s'en occupera, on gardera cette procédure, pour
+            #   les tests.
+            duree_jours  = habswork[:duree]
+            duree_real   = duree_jours.jours * coefd
+            current_pday = auteur.program.current_pday
+            work_pday    = pday_id
+            days_ago     = current_pday - work_pday # peut-être 0, si aujourd'hui
+            real_ago     = days_ago.jours * coefd
+            maintenant   = Time.now.to_i
+            real_depart  = maintenant - real_ago # Le timestamp du vrai départ du travail
+
+            # On obtient finalement la date escomptée de fin du travail en fonction
+            # du rythme du programme de l'auteur
+            expected_at  = real_depart + duree_real
+
             # Les valeurs pour la requête préparée
-            array_values << [awork_id, pday_id, habswork[:item_id]||nil, options_for_work(habswork[:id])]
+            array_values << [expected_at, awork_id, pday_id, habswork[:item_id]||nil, options_for_work(habswork[:id])]
 
           end # / fin de boucle sur tous les ids abs-work du pday
         end # / fin de boucle sur tous les pdays voulus
@@ -292,6 +318,7 @@ class Unan
           options VARCHAR(32) DEFAULT '',
           points INTEGER(3) DEFAULT 0,
           started_at INTEGER(10),
+          expected_at INTEGER(10),
           ended_at INTEGER(10),
           updated_at INTEGER(10),
           created_at INTEGER(10) NOT NULL,

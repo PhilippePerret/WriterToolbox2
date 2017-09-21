@@ -112,6 +112,9 @@ class Site
   end
 
   # Charge les fichiers du dossier, à commencer par le fichier main.rb
+  #
+  # Passe seulement le dossier `partial` s'il existe à la racine du
+  # dossier
   def folder_load_ruby solid_path
     # On regarde au préalable si le dossier principal contient un sous-dossier
     # de path '_lib/_required' qu'il faut toujours charger
@@ -121,7 +124,15 @@ class Site
         require_folder( objet_required_folder )
       end
     end
-    Dir["#{solid_path}/**/*.rb"].each{|m| require m}
+    Dir["#{solid_path}/**"].each do |element|
+      if File.directory?(element)
+        if File.basename(element) != 'partial'
+          Dir["#{element}/**/*.rb"].each{|m|require m}
+        end
+      elsif element.end_with?('.rb')
+        require element
+      end
+    end
   end
   def folder_load_css relpath
     require './lib/utils/sass_all'

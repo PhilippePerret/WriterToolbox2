@@ -1,3 +1,4 @@
+* [UNAN] Reprendre les calculs de dépassement en se servant de la données `expected_at` ajouté aux travaux relatifs.
 
 * [UNAN] Tenir compte du fait que le statut (status) peut être à 2 ou 4 quand le travail n'est pas démarré.
 * [UNAN] Quand on démarre un travail, il faut ajouter 1 au statut (status), ne pas le mettre à 1, car il peut y avoir déjà des dépassements.
@@ -9,8 +10,9 @@
   - le réglage correct, surtout, de la valeur `status` (avec des travaux qui seront à 2 et à 4)
   - ensuite il faut démarrer des travaux en dépassement, en grand dépassement et sans dépassement pour voir si les status se règlent bien.
   - Faire le test de l'enregistrement des jours de dépassement dans les options (7e à 9e bits) quand on arrête le travail (mais le status se met toujours à 9, quels que soient les dépassements qu'il y a pu avoir).
-  - le bouton "Démarrer ce travail" doit être en rouge (class 'red') si le travail est déjà en dépassement avant d'être démarré.
+  [OK] le bouton "Démarrer ce travail" doit être en rouge (class 'red') si le travail est déjà en dépassement avant d'être démarré.
 
+* [UNAN] Pour l'indication des points pour les quiz, il faudrait mettre "en fonction du résultat".
 
 * [UNAN] Utiliser le faux-tests _POUR_ESSAIS_LIVE_spec.rb pour rejoindre le programme comme un auteur et laisser la page ouverte une demi-heure.
 

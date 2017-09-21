@@ -65,39 +65,43 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +3 __SITE__/unanunscript/bureau/partial/taches/main.erb
-badd +1 __SITE__/unanunscript/_lib/_not_required/module/update_table_works_auteur.rb
-badd +31 __SITE__/unanunscript/bureau/partial/taches/helpers.rb
+badd +1 __SITE__/unanunscript/bureau/partial/taches/main.erb
+badd +118 __SITE__/unanunscript/_lib/_not_required/module/update_table_works_auteur.rb
 badd +1 \'/Users/philippeperret/Sites/WriterToolbox2/__SITE__/unanunscript/bureau/onglets.rb\'
-badd +23 __SITE__/unanunscript/bureau/onglets.rb
+badd +1 __SITE__/unanunscript/bureau/onglets.rb
 badd +33 __SITE__/unanunscript/bureau/main.sass
-badd +85 __SITE__/unanunscript/_lib/_not_required/module/taches/work_class.rb
-badd +32 __SITE__/unanunscript/bureau/partial/task_listings.erb
-badd +0 __SITE__/unanunscript/bureau/constants.rb
+badd +1 __SITE__/unanunscript/_lib/_not_required/module/taches/work_class.rb
+badd +1 __SITE__/unanunscript/bureau/partial/task_listings.erb
+badd +19 __SITE__/unanunscript/bureau/constants.rb
+badd +6 __SITE__/unanunscript/bureau/partial/cours/main.erb
+badd +1 __SITE__/unanunscript/bureau/partial/quiz/main.erb
+badd +1 __SITE__/unanunscript/_lib/_not_required/module/taches/abs_work_helper.rb
+badd +41 __SITE__/unanunscript/bureau/main.erb
+badd +1 __SITE__/unanunscript/_lib/_not_required/module/taches/constants.rb
+badd +71 __SITE__/unanunscript/bureau/main.rb
+badd +1 \'/Users/philippeperret/Sites/WriterToolbox2/__SITE__/unanunscript/bureau/partial/taches/---helpers.rb\'
+badd +1 \'/Users/philippeperret/Sites/WriterToolbox2/__SITE__/unanunscript/bureau/partial/taches/helpers.rb\'
+badd +3 __SITE__/unanunscript/bureau/partial/aide/main.erb
+badd +3 __SITE__/unanunscript/bureau/partial/aide/main.rb
+badd +1 \'/Users/philippeperret/Sites/WriterToolbox2/__SITE__/unanunscript/_lib/_not_required/module/taches/helpers.rb\'
+badd +1 __SITE__/unanunscript/_lib/_not_required/module/taches/helpers.rb
 argglobal
 silent! argdel *
-edit __SITE__/unanunscript/bureau/constants.rb
+edit __SITE__/unanunscript/_lib/_not_required/module/taches/abs_work_helper.rb
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
 1wincmd h
 wincmd w
-wincmd _ | wincmd |
-split
-1wincmd k
-wincmd w
 set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 30 + 73) / 147)
-exe '2resize ' . ((&lines * 21 + 22) / 45)
-exe 'vert 2resize ' . ((&columns * 116 + 73) / 147)
-exe '3resize ' . ((&lines * 21 + 22) / 45)
-exe 'vert 3resize ' . ((&columns * 116 + 73) / 147)
+exe 'vert 1resize ' . ((&columns * 31 + 73) / 147)
+exe 'vert 2resize ' . ((&columns * 115 + 73) / 147)
 argglobal
 enew
-file NERD_tree_1
+file NERD_tree_2
 let s:cpo_save=&cpo
 set cpo&vim
 inoremap <buffer> <silent> <BS> =AutoPairsDelete()
@@ -110,8 +114,8 @@ nnoremap <buffer> <silent> B :call nerdtree#ui_glue#invokeKeyMap("B")
 inoremap <buffer> <silent> § =AutoPairsMoveCharacter('''')
 inoremap <buffer> <silent> © =AutoPairsMoveCharacter(')')
 inoremap <buffer> <silent> ¨ =AutoPairsMoveCharacter('(')
-nnoremap <buffer> <silent> C :call nerdtree#ui_glue#invokeKeyMap("C")
 nnoremap <buffer> <silent> CD :call nerdtree#ui_glue#invokeKeyMap("CD")
+nnoremap <buffer> <silent> C :call nerdtree#ui_glue#invokeKeyMap("C")
 inoremap <buffer> <silent> î :call AutoPairsJump()a
 inoremap <buffer> <silent> <expr> ð AutoPairsToggle()
 inoremap <buffer> <silent> â =AutoPairsBackInsert()
@@ -134,9 +138,9 @@ nnoremap <buffer> <silent> X :call nerdtree#ui_glue#invokeKeyMap("X")
 nnoremap <buffer> <silent> cd :call nerdtree#ui_glue#invokeKeyMap("cd")
 nnoremap <buffer> <silent> e :call nerdtree#ui_glue#invokeKeyMap("e")
 nnoremap <buffer> <silent> f :call nerdtree#ui_glue#invokeKeyMap("f")
-nnoremap <buffer> <silent> go :call nerdtree#ui_glue#invokeKeyMap("go")
-nnoremap <buffer> <silent> gs :call nerdtree#ui_glue#invokeKeyMap("gs")
 nnoremap <buffer> <silent> gi :call nerdtree#ui_glue#invokeKeyMap("gi")
+nnoremap <buffer> <silent> gs :call nerdtree#ui_glue#invokeKeyMap("gs")
+nnoremap <buffer> <silent> go :call nerdtree#ui_glue#invokeKeyMap("go")
 nnoremap <buffer> <silent> i :call nerdtree#ui_glue#invokeKeyMap("i")
 nnoremap <buffer> <silent> m :call nerdtree#ui_glue#invokeKeyMap("m")
 nnoremap <buffer> <silent> o :call nerdtree#ui_glue#invokeKeyMap("o")
@@ -147,9 +151,9 @@ nnoremap <buffer> <silent> s :call nerdtree#ui_glue#invokeKeyMap("s")
 nnoremap <buffer> <silent> t :call nerdtree#ui_glue#invokeKeyMap("t")
 nnoremap <buffer> <silent> u :call nerdtree#ui_glue#invokeKeyMap("u")
 nnoremap <buffer> <silent> x :call nerdtree#ui_glue#invokeKeyMap("x")
-nnoremap <buffer> <silent> <MiddleRelease> :call nerdtree#ui_glue#invokeKeyMap("<MiddleRelease>")
-nnoremap <buffer> <silent> <LeftRelease> <LeftRelease>:call nerdtree#ui_glue#invokeKeyMap("<LeftRelease>")
 nnoremap <buffer> <silent> <2-LeftMouse> :call nerdtree#ui_glue#invokeKeyMap("<2-LeftMouse>")
+nnoremap <buffer> <silent> <LeftRelease> <LeftRelease>:call nerdtree#ui_glue#invokeKeyMap("<LeftRelease>")
+nnoremap <buffer> <silent> <MiddleRelease> :call nerdtree#ui_glue#invokeKeyMap("<MiddleRelease>")
 inoremap <buffer> <silent>  =AutoPairsDelete()
 inoremap <buffer> <silent>   =AutoPairsSpace()
 inoremap <buffer> <silent> " =AutoPairsInsert('"')
@@ -271,6 +275,7 @@ setlocal noundofile
 setlocal undolevels=-123456
 setlocal nowinfixheight
 setlocal winfixwidth
+set nowrap
 setlocal nowrap
 setlocal wrapmargin=0
 wincmd w
@@ -333,7 +338,7 @@ setlocal cryptmethod=
 setlocal nocursorbind
 setlocal nocursorcolumn
 setlocal nocursorline
-setlocal define=
+setlocal define=^\\s*#\\s*define
 setlocal dictionary=
 setlocal nodiff
 setlocal equalprg=
@@ -416,171 +421,16 @@ set nowrap
 setlocal nowrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 47 - ((20 * winheight(0) + 10) / 21)
+let s:l = 109 - ((41 * winheight(0) + 21) / 43)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-47
-normal! 0
+109
+normal! 073|
 wincmd w
-argglobal
-edit __SITE__/unanunscript/bureau/partial/task_listings.erb
-let s:cpo_save=&cpo
-set cpo&vim
-inoremap <buffer> <silent> <BS> =AutoPairsDelete()
-inoremap <buffer> <silent> § =AutoPairsMoveCharacter('''')
-inoremap <buffer> <silent> © =AutoPairsMoveCharacter(')')
-inoremap <buffer> <silent> ¨ =AutoPairsMoveCharacter('(')
-inoremap <buffer> <silent> î :call AutoPairsJump()a
-inoremap <buffer> <silent> <expr> ð AutoPairsToggle()
-inoremap <buffer> <silent> â =AutoPairsBackInsert()
-inoremap <buffer> <silent> å =AutoPairsFastWrap()
-inoremap <buffer> <silent> ý =AutoPairsMoveCharacter('}')
-inoremap <buffer> <silent> û =AutoPairsMoveCharacter('{')
-inoremap <buffer> <silent> Ý =AutoPairsMoveCharacter(']')
-inoremap <buffer> <silent> Û =AutoPairsMoveCharacter('[')
-imap <buffer>  <Plug>SparkupExecute
-inoremap <buffer> <silent>  =AutoPairsDelete()
-imap <buffer>  <Plug>SparkupNext
-cmap <buffer>  <Plug><cfile>
-cmap <buffer>  <Plug><cword>
-inoremap <buffer> <silent>   =AutoPairsSpace()
-inoremap <buffer> <silent> " =AutoPairsInsert('"')
-inoremap <buffer> <silent> ' =AutoPairsInsert('''')
-inoremap <buffer> <silent> ( =AutoPairsInsert('(')
-inoremap <buffer> <silent> ) =AutoPairsInsert(')')
-inoremap <buffer> <silent> <M-"> =AutoPairsMoveCharacter('"')
-noremap <buffer> <silent> î :call AutoPairsJump()
-noremap <buffer> <silent> ð :call AutoPairsToggle()
-inoremap <buffer> <silent> [ =AutoPairsInsert('[')
-inoremap <buffer> <silent> ] =AutoPairsInsert(']')
-inoremap <buffer> <silent> ` =AutoPairsInsert('`')
-inoremap <buffer> <silent> { =AutoPairsInsert('{')
-inoremap <buffer> <silent> } =AutoPairsInsert('}')
-let &cpo=s:cpo_save
-unlet s:cpo_save
-setlocal keymap=
-setlocal noarabic
-setlocal autoindent
-setlocal backupcopy=
-setlocal nobinary
-setlocal nobreakindent
-setlocal breakindentopt=
-setlocal bufhidden=
-setlocal buflisted
-setlocal buftype=
-setlocal nocindent
-setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
-setlocal cinoptions=j1,J1
-setlocal cinwords=if,else,while,do,for,switch
-setlocal colorcolumn=
-setlocal comments=:#
-setlocal commentstring=<%#%s%>
-setlocal complete=.,w,b,u,t,i
-setlocal concealcursor=
-setlocal conceallevel=0
-setlocal completefunc=
-setlocal nocopyindent
-setlocal cryptmethod=
-setlocal nocursorbind
-setlocal nocursorcolumn
-setlocal nocursorline
-setlocal define=
-setlocal dictionary=
-setlocal nodiff
-setlocal equalprg=
-setlocal errorformat=
-setlocal expandtab
-if &filetype != 'eruby'
-setlocal filetype=eruby
-endif
-setlocal fixendofline
-setlocal foldcolumn=0
-setlocal foldenable
-setlocal foldexpr=0
-setlocal foldignore=#
-setlocal foldlevel=0
-setlocal foldmarker={{{,}}}
-setlocal foldmethod=manual
-setlocal foldminlines=1
-setlocal foldnestmax=20
-setlocal foldtext=foldtext()
-setlocal formatexpr=
-setlocal formatoptions=croql
-setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
-setlocal grepprg=
-setlocal iminsert=0
-setlocal imsearch=0
-setlocal include=^\\s*\\<\\(load\\>\\|require\\>\\|autoload\\s*:\\=[\"']\\=\\h\\w*[\"']\\=,\\)
-setlocal includeexpr=substitute(substitute(v:fname,'::','/','g'),'%(.rb)=$','.rb','')
-setlocal indentexpr=GetErubyIndent()
-setlocal indentkeys=o,O,*<Return>,<>>,{,},0),0],o,O,!^F,=end,=else,=elsif,=rescue,=ensure,=when
-setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255
-setlocal keywordprg=ri
-setlocal nolinebreak
-setlocal nolisp
-setlocal lispwords=
-setlocal nolist
-setlocal makeprg=
-setlocal matchpairs=(:),{:},[:],<:>
-setlocal modeline
-setlocal modifiable
-setlocal nrformats=bin,octal,hex
-set number
-setlocal number
-setlocal numberwidth=4
-setlocal omnifunc=rubycomplete#Complete
-setlocal path=/usr/local/Cellar/rbenv/1.0.0/rbenv.d/exec/gem-rehash,~/.rbenv/versions/2.3.0/lib/ruby/site_ruby/2.3.0,~/.rbenv/versions/2.3.0/lib/ruby/site_ruby/2.3.0/x86_64-darwin15,~/.rbenv/versions/2.3.0/lib/ruby/site_ruby,~/.rbenv/versions/2.3.0/lib/ruby/vendor_ruby/2.3.0,~/.rbenv/versions/2.3.0/lib/ruby/vendor_ruby/2.3.0/x86_64-darwin15,~/.rbenv/versions/2.3.0/lib/ruby/vendor_ruby,~/.rbenv/versions/2.3.0/lib/ruby/2.3.0,~/.rbenv/versions/2.3.0/lib/ruby/2.3.0/x86_64-darwin15
-setlocal nopreserveindent
-setlocal nopreviewwindow
-setlocal quoteescape=\\
-setlocal noreadonly
-setlocal norelativenumber
-setlocal norightleft
-setlocal rightleftcmd=search
-setlocal noscrollbind
-setlocal shiftwidth=2
-setlocal noshortname
-setlocal nosmartindent
-setlocal softtabstop=0
-setlocal nospell
-setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
-setlocal spellfile=
-setlocal spelllang=en
-setlocal statusline=%!airline#statusline(3)
-setlocal suffixesadd=.rb
-setlocal swapfile
-setlocal synmaxcol=3000
-if &syntax != 'eruby'
-setlocal syntax=eruby
-endif
-setlocal tabstop=2
-setlocal tagcase=
-setlocal tags=./tags,tags,/usr/local/Cellar/rbenv/1.0.0/rbenv.d/exec/gem-rehash/tags,~/.rbenv/versions/2.3.0/lib/ruby/site_ruby/2.3.0/tags,~/.rbenv/versions/2.3.0/lib/ruby/site_ruby/2.3.0/x86_64-darwin15/tags,~/.rbenv/versions/2.3.0/lib/ruby/site_ruby/tags,~/.rbenv/versions/2.3.0/lib/ruby/vendor_ruby/2.3.0/tags,~/.rbenv/versions/2.3.0/lib/ruby/vendor_ruby/2.3.0/x86_64-darwin15/tags,~/.rbenv/versions/2.3.0/lib/ruby/vendor_ruby/tags,~/.rbenv/versions/2.3.0/lib/ruby/2.3.0/tags,~/.rbenv/versions/2.3.0/lib/ruby/2.3.0/x86_64-darwin15/tags
-setlocal textwidth=0
-setlocal thesaurus=
-setlocal noundofile
-setlocal undolevels=-123456
-setlocal nowinfixheight
-setlocal nowinfixwidth
-set nowrap
-setlocal nowrap
-setlocal wrapmargin=0
-silent! normal! zE
-let s:l = 2 - ((1 * winheight(0) + 10) / 21)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-2
-normal! 0
-wincmd w
-3wincmd w
-exe 'vert 1resize ' . ((&columns * 30 + 73) / 147)
-exe '2resize ' . ((&lines * 21 + 22) / 45)
-exe 'vert 2resize ' . ((&columns * 116 + 73) / 147)
-exe '3resize ' . ((&lines * 21 + 22) / 45)
-exe 'vert 3resize ' . ((&columns * 116 + 73) / 147)
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 31 + 73) / 147)
+exe 'vert 2resize ' . ((&columns * 115 + 73) / 147)
 tabnext 1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

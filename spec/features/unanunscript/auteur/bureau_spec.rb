@@ -28,7 +28,7 @@ feature "Bureau d'un auteur du programme UN AN UN SCRIPT" do
       with_tag('a', with: {class: 'onglet selected', id: 'unan_program'})
       with_tag('a', with: {class: 'onglet', id: 'unan_projet'})
       with_tag('a', with: {class: 'onglet', id: 'unan_taches'})
-      with_tag('a', with: {class: 'onglet', id: 'unan_cours'})
+      with_tag('a', with: {class: 'onglet', id: 'unan_pages'})
       with_tag('a', with: {class: 'onglet', id: 'unan_quiz'})
       with_tag('a', with: {class: 'onglet', id: 'unan_forum'})
       with_tag('a', with: {class: 'onglet', id: 'unan_prefs'})
@@ -96,7 +96,7 @@ feature "Bureau d'un auteur du programme UN AN UN SCRIPT" do
 
     # ============== PRÉ-VÉRIFICATION ===========
     expect(program.rythme).to eq 5
-    expect(program.options).to eq '100000000000'
+    expect(program.options).to eq '100000000100'
     expect(u.var['goto_after_login']).not_to eq 9
 
     # L'auteur se rend dans son onglet des préférences

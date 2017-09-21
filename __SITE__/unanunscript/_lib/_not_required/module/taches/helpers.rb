@@ -1,4 +1,10 @@
 # encoding: utf-8
+debug "Je charge -> #{__FILE__}"
+begin
+  raise
+rescue Exception => e
+  debug e.backtrace.join("\n")
+end
 class Site
 
 
@@ -34,9 +40,11 @@ class Site
     # Chargement de toutes les données absolues des travaux
     #
     habsworks = Hash.new
-    site.db.select(:unan,'absolute_works',"id IN (#{abs_works_ids.join(',')})")
-      .each do |habswork|
-      habsworks.merge!(habswork[:id] => habswork)
+    if abs_works_ids.count > 0
+      site.db.select(:unan,'absolute_works',"id IN (#{abs_works_ids.join(',')})")
+        .each do |habswork|
+        habsworks.merge!(habswork[:id] => habswork)
+      end
     end
 
     # À présent, on peut construire les trois listes en envoyant les

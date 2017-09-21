@@ -14,6 +14,10 @@ user.unanunscript? || user.admin? || raise('Vous n’êtes pas autorisé à rejo
 # jour-programme (et encore, pas si le cron est utilisé pour changer l'état du programme), mais
 # ensuite les choses sont plus rapides puisqu'il suffit de comparer le jour-programme courant avec
 # la valeur dans les options du programme.
+#
+# Cette opération est nécessaire pour que le nom des onglets, qui comporte le nombre de taches,
+# soient à jour et corrects, aussi bien au niveau du nom affiché que du style en fonction des
+# dépassements.
 Unan::UUProgram.check_if_table_works_auteur_uptodate(program)
 
 %>
@@ -26,7 +30,7 @@ Unan::UUProgram.check_if_table_works_auteur_uptodate(program)
 %>
 <div id="section">
   <%= onglets_sections %>
-  <div id="panneau">
+  <div id="panneau-<%= site.route.objet_id || 'program' %>" class="panneau">
     <%= section.partiel %>
 </div>
 <%

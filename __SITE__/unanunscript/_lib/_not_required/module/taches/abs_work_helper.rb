@@ -26,8 +26,7 @@ class Unan
       #               les envoyer ici à la méthode.
       def build_card_for_auteur auteur, hwork, habswork
         carte = String.new
-
-        carte << "<div class=\"nbpoints\">#{habswork[:points]} points</div>"
+        carte << div_points(habswork)
         carte << "#{habswork[:titre]}".in_div(class:'titre')
         case hwork[:status]
         when 0, 2, 4
@@ -39,34 +38,50 @@ class Unan
           # = Travail courant =
           # 3 correspond à un travail démarré en dépassement et 5 en grand
           # dépassement.
+          # Note : c'est seulement lorsque le travail est démarré qu'on peut en voir
+          # le détail. Pour un quiz, il s'agit du quiz lui-même.
           carte << div_echeance(auteur, hwork, habswork)
-          carte << end_form(hwork[:id])
+          carte << end_form(hwork)
+          carte << "#{MD2Page.transpile(nil,{code: habswork[:travail], dest: nil})}".in_div(class:'travail') 
+          # carte << details_tache        # div.details
+          # carte << section_exemples     # div.exemples
+          # carte << suggestions_lectures # div.suggestions_lectures
+          # carte << autres_infos         # div.autres_infos
         when 9
           # = Travail accompli =
           # Pour un travail accompli, rien n'a besoin d'être fait.
+          # TODO Mais plus tard, on pourra mettre un lien pour voir ce travail
+          # dans l'historique.
         end
-        carte << "#{MD2Page.transpile(nil,{code: habswork[:travail], dest: nil})}".in_div(class:'travail') 
-        # carte << details_tache
-        # carte << section_exemples
-        # carte << suggestions_lectures
         return "<li class=\"work\" id=\"work-#{hwork[:id]}\">#{carte}</li>"
       end
 
+      # Retourne le code HTML pour le div contenant le nombre de points
+      # du travail, ou la marque "suivant résultat" pour les quiz
+      #
+      def div_points habswork
+        points =
+          case task_type
+          when 'quiz' then 'suivant résultat'
+          else "#{habswork[:points]} points" 
+          end
+        "<div class=\"nbpoints\">#{points}</div>"
+      end
       # Retourne le formulaire (bouton) pour démarrer le travail d'ID +work_id+
       # Le bouton est mis en rouge si le travail est en dépassement.
       #
       def start_form hwork
         linkclass = hwork[:status] > 0 ? 'red' : nil
         'Démarrer ce travail'
-          .in_a(class: linkclass, href: "unanunscript/bureau/taches?op=start_work&wid=#{hwork[:id]}")
+          .in_a(class: linkclass, href: "unanunscript/bureau/#{task_type}?op=start_work&wid=#{hwork[:id]}")
           .in_div(class:'buttons')
       end
 
       # Retourne le formulaire (bouton) pour marquer le travail fini
-      def end_form work_id
+      def end_form hwork
         linkclass = hwork[:status] > 0 ? 'red' : nil 
         'Marquer ce travail fini'
-          .in_a(class: linkclass, href: "unanunscript/bureau/taches?op=done_work&wid=#{work_id}")
+          .in_a(class: linkclass, href: "unanunscript/bureau/#{task_type}?op=done_work&wid=#{hwork[:id]}")
           .in_div(class: 'buttons')
       end
 
@@ -101,6 +116,14 @@ class Unan
 
         return mess_duree_travail.in_div(class:'dates')
       end
+
+      # Retourne l'objet_id de la route, plutôt que la task-type dans l'absolu.
+      # Cette propriété permet d'appeler l'url correcte pour démarrer ou finir
+      # le travail.
+      def task_type
+        @task_type ||= site.route.objet_id || TASK_TYPE
+      end
+
 
     end #/<< self
 

@@ -16,7 +16,7 @@ class Unan
     taches: {id: :taches, hname: "Tâches", tache_type: :task},
 
     # Tout ce qui concerne les pages de cours à lire
-    cours:  {id: :cours, hname: "Pages", tache_type: :page},
+    pages:  {id: :cours, hname: "Cours", tache_type: :page},
 
     # Tout ce qui concerne les quiz
     quiz:   {id: :quiz, hname: "Quiz", tache_type: :quiz},
