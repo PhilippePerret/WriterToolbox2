@@ -70,47 +70,98 @@ li.work
     font-style      : italic
     float           : right
 
-  div.details
-    padding           : 0.5em
-
-  // Affichage du travail
+  // Affichage du travail proprement dit. Ça doit être la partie la plus
+  // importante de la page.
   div.travail
-    margin          : 2em 1em !important
-    font-size       : 1.15em
+
+    margin            : 2em 2em !important
+    font-size         : 1.085em
+    padding           : 2em
+    border-radius     : 0.5em
+    background-color  : white
+
     // Les paragraphes dans l'intitulé du travail
     > p, > div
       margin          : 1em 0 0 0 !important
 
-    &, *
-      font-size         : 12.2pt
     > span
       margin-right      : 0.5em
     span.info
       text-align      : left
       display         : block
       margin-bottom   : 1em
+
+  // Le div qui contient les dates, mais aussi le bouton pour
+  // marquer le travail terminé.
   div.dates
+    text-align        : left
     font-size         : 0.85em
     color             : black
     padding           : 0.3em 1em
-    margin            : 1em 0 1em 20%
     border-left       : 3px solid white
     background-color  : #CCDDC8
-    span.exbig
-      font-weight   : bold
-      font-size     : 1.1em
-      // Pour indiquer un dépassement d'échéance
-    div.warning
-      padding       : 4px 1em !important
 
-    // QUAND UNE DATE EST EN DÉPASSEMENT
-    div.depassement
-      text-align : center
-      background-color    : red
-      color               : white
-      margin-top          : 1em
-      padding             : 1.6em 2em
-      font-size           : 15pt
+    // Le div indiquant l'échéance humaine, avec la date claire
+    div.echeh
+      display           : inline-block
+      margin-top        : 0.95em
+
+
+    // Pour le cadre quand le travail n'est pas en dépassement
+    &:not(.overtaken)
+
+      text-align        : left
+
+      // Le div qui contient l'indication des jours ou des heures
+      // restants.
+      div.reste
+        display           : inline-block
+        margin            : 0.2em 0
+        margin-right      : 1em
+        background-color  : #006C80
+        color             : white
+        font-size         : 1.4em
+        padding           : 0.5em 0.9em
+        clear             : both
+
+      // Le bouton pour marquer le travail fini
+      a
+        float             : right
+        margin-top        : 1em
+
+    // Pour le cadre quand le travail est en dépassement
+    &.overtaken
+
+      text-align        : left
+
+      // QUAND UNE DATE EST EN DÉPASSEMENT
+      // Note : maintenant, ce cadre s'affichage dans le même cadre que le
+      // bouton pour marquer le travail fini.
+      div.depassement
+        text-align          : center
+        background-color    : red
+        color               : white
+        padding             : 1em
+        font-size           : 15pt
+        clear               : both
+
+        // Pour indiquer un dépassement d'échéance
+      div.warning
+        padding       : 4px 1em !important
+
+      // Le bouton pour marquer le travail fini, quand on est dans un
+      // div de dépassement d'échéance
+      a
+        margin-top        : 0.3em
+        float             : right
+
+    a
+      display           : inline-block
+      background-color  : white
+      color             : green
+      padding           : 0.4em 1em
+      font-size         : inherit
+      border            : 1px solid green
 
   div.buttons, div.section_exemples
     margin-top        : 1em
@@ -120,17 +171,17 @@ li.work
     > span
       margin-right        : 1em
     a
+      display           : inline-block
       background-color  : white
       color             : green
       padding           : 0.4em 1em
-      font-size         : 12.2pt
+      font-size         : inherit
       margin-right      : 1em
+      border            : 1px solid green
   div.buttons
     border-top        : 3px solid #777
     border-bottom     : 3px solid white
     text-align        : right
-    a
-      border            : 1px solid green
 
   div.section_exemples
     border-bottom     : 1px solid #777

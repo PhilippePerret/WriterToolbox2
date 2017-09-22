@@ -1,3 +1,8 @@
+* [UNAN][TACHES]
+  - Bien mettre en exergue le nombre de jours restants, quand on n'est pas en dépassement (dans un  
+    cadre noir avec lettres blanches)- pour le moment, l'indication est entre parenthèses.
+  - [BUG] Voir pourquoi le bouton "Marquer ce travail fini" est en rouge, même lorsque c'est un travail qui n'est pas en dépassement.
+
 * [UNAN] Reprendre les calculs de dépassement en se servant de la données `expected_at` ajouté aux travaux relatifs.
 
 * [UNAN] Tenir compte du fait que le statut (status) peut être à 2 ou 4 quand le travail n'est pas démarré.
@@ -11,6 +16,8 @@
   - ensuite il faut démarrer des travaux en dépassement, en grand dépassement et sans dépassement pour voir si les status se règlent bien.
   - Faire le test de l'enregistrement des jours de dépassement dans les options (7e à 9e bits) quand on arrête le travail (mais le status se met toujours à 9, quels que soient les dépassements qu'il y a pu avoir).
   [OK] le bouton "Démarrer ce travail" doit être en rouge (class 'red') si le travail est déjà en dépassement avant d'être démarré.
+  - Tester l'affichage d'un travail qui contient tout (exemples, pages de cours suggérées, illustrations si ça existe, etc.). Il suffit de faire une recherche dans la base avec "exemples IS NOT NULL AND pages_cours_ids IS NOT NULL...", etc. puis de trouver le jour-programme qui utilise ce travail, et de caler l'auteur dessus. Dans ce test, on vérifiera bien tout, même le contenu exact des textes.
+  Appeler ce test "contenu_complet_tache_spec.rb"
 
 * [UNAN] Pour l'indication des points pour les quiz, il faudrait mettre "en fonction du résultat".
 
