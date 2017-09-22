@@ -53,15 +53,10 @@ class Unan
           carte << div_echeance(auteur, hwork, habswork)
           carte << "#{MD2Page.transpile(nil,{code: habswork[:travail], dest: nil})}".in_div(class:'travail') 
           # carte << section_details_tache(habswork)  # div.details
+          carte << ("Résultat attendu : ".in_span(class: 'libelle') + human_values['résultat attendu']).in_div(class: 'section_resultat_attendu')
           carte << section_exemples(habswork)       # div.exemples
           carte << section_suggestions_lectures(habswork) # div.section_suggestions_lectures
-          # carte << section_autres_infos(hwork, habswork)  # div.autres_infos
-          
-          ['type du travail', 'résultat attendu', 'destinataire', 'support', 'développement'
-          ].each do |key|
-            ("#{key} ".in_span(class: 'libelle') + human_values[key])
-          end
-          ['type projet', 'sujet', 'points']
+          carte << section_autres_infos(human_values) 
         when 9
           #
           # = Travail accompli =
@@ -71,6 +66,27 @@ class Unan
           # dans l'historique.
         end
         return "<li class=\"work\" id=\"work-#{hwork[:id]}\" data-id=\"#{hwork[:id]}\">#{carte}</li>"
+      end
+
+
+      # Retourne le div des autres infos
+      def section_autres_infos human_values
+        autres_infos =
+          [
+            'type du travail', 'destinataire', 'support', 'développement'
+        ].collect do |key|
+          human_values[key] || next
+          ("#{key} ".in_span(class: 'libelle') + human_values[key])
+        end.compact.join('')
+
+        autres_infos +=
+          ['type de projet', 'cible travail', 'points'
+        ].collect do |key|
+          human_values[key] || next
+          ("#{key} ".in_span(class: 'libelle') + human_values[key])
+        end.compact.join('')
+
+        autres_infos.in_div(class: 'section_autres_infos')
       end
 
       # Retourne le code HTML pour le div contenant le nombre de points
@@ -105,7 +121,6 @@ class Unan
       # Retourne le formulaire (bouton) pour marquer le travail fini
       def end_form hwork
         'Marquer ce travail fini'.in_a(
-            class: overtaken?(hwork) ? 'red' : nil, 
             href: "unanunscript/bureau/#{task_type}?op=done_work&wid=#{hwork[:id]}"
         )
           #.in_div(class: 'buttons')
@@ -204,7 +219,6 @@ class Unan
         h.merge!('type du travail' => Unan::Abswork::TYPES[habswork[:type_w]][:hname])
 
         type = habswork[:type]
-        points = habswork[:points]
         main_target_id   = type[2].to_i
         sub_target_id    = type[3].to_i
         hash_target = Unan.sujet_cible_of(type[2].to_i, type[3].to_i)
@@ -212,9 +226,9 @@ class Unan
         narrative_target = "#{hash_target[:main_name]} #{hash_target[:hname]}"
         type_projet      = Unan::PROJET_TYPES[type[4].to_i][:hname]
 
-        h.merge!('type projet' => type_projet)
-        h.merge!('sujet' => narrative_target)
-        h.merge!('points' => points)
+        h.merge!('type de projet' => type_projet)
+        h.merge!('cible travail' => narrative_target)
+        h.merge!('points' => "#{habswork[:points]}")
 
         return h
       end
@@ -286,21 +300,6 @@ class Unan
         ).in_div(class:'section_suggestions_lectures')
       end
 
-      # Les détails de la tâche
-      #
-      def section_details_tache habswork
-        return 'section détails tache (ne doit plus être appelé)'
-        # appelait div_type_tache et div_resultat ci-dessous
-      end
-      def div_type_tache habswork
-        return 'div type tache à ne plus utiliser'
-      end
-      def div_resultat habswork
-        return 'div résultat à remplacer'
-        # appelait human_type_resultat
-      end
-
-
       # Retourne la section contenant les exemples s'ils existent
       def section_exemples habswork
         habswork[:exemples] != nil || (return '')
@@ -325,32 +324,6 @@ class Unan
           end.join.in_ul
         ).in_span(class:'info block')
       end
-
-      # +from+ Cf. l'explicaiton dans la méthode principale `as_card`
-      def section_autres_infos hwork, habswork
-        type = habswork[:type]
-        points = habswork[:points]
-        main_target_id   = type[2].to_i
-        sub_target_id    = type[3].to_i
-        hash_target = Unan.sujet_cible_of(type[2].to_i, type[3].to_i)
-
-        narrative_target = "#{hash_target[:main_name]} #{hash_target[:hname]}"
-        type_projet      = Unan::PROJET_TYPES[type[4].to_i][:hname]
-
-        first_infos = [
-          ['type projet', type_projet,        nil],
-          ['sujet',        narrative_target,   nil],
-          ['points',       points,             nil]
-        ].collect do |libelle, valeur, unite|
-          "#{libelle} : ".in_span(class:'libelle') + "#{valeur}"
-        end.compact.join
-
-        (
-          first_infos +
-          infos_durees_travail(hwork)
-        ).in_div(class:'section_autres_infos')
-      end
-
 
       # Prend un durée en secondes et retourne un texte humain en jours
       # ou en heures, comme "2 jours" ou "5 heures" 

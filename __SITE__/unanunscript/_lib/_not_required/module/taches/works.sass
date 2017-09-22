@@ -1,6 +1,18 @@
 ul.work_list
   list-style    : none
 // Le div contenant tout le travail a accomplir.
+
+li.work
+  div.dates, div.buttons
+    a
+      display           : inline-block
+      background-color  : white
+      color             : green
+      padding           : 0.4em 1em
+      font-size         : inherit
+      border            : 1px solid green
+
+
 li.work
   padding           : 1em
   border            : 1px solid #CCC
@@ -91,6 +103,17 @@ li.work
       display         : block
       margin-bottom   : 1em
 
+  // Le div qui contient le bouton pour démarrer le travail (et
+  // seulement celui pour démarrer le travail car ensuite le bouton pour
+  // le terminer se trouve dans .dates ci-dessous)
+  div.buttons
+    text-align        : right
+    font-size         : 0.85em
+    color             : black
+    padding           : 1em
+    border-left       : 3px solid white
+    background-color  : #CCDDC8
+
   // Le div qui contient les dates, mais aussi le bouton pour
   // marquer le travail terminé.
   div.dates
@@ -154,20 +177,42 @@ li.work
       a
         margin-top        : 0.3em
         float             : right
+        background-color  : red!important
+        color             : white!important
+        text-decoration   : none!important
+        font-weight       : bold
+        letter-spacing    : 1.5px
 
-    a
-      display           : inline-block
-      background-color  : white
-      color             : green
-      padding           : 0.4em 1em
-      font-size         : inherit
-      border            : 1px solid green
+  // Le div contenant le résultat attendu
+  div.section_resultat_attendu
+    width             : 80%
+    margin            : 1em 2em
+    border            : 1px solid #24a377
+    padding           : 1em
+    border-radius     : 0.5em
 
-  div.buttons, div.section_exemples
+  // Le div contenant toutes les autres infos, le type de projet, le
+  // type de travail, les points, etc.
+  div.section_autres_infos
+    text-align        : left
+    font-size         : 0.85em
+    border-top        : 1px solid #FFFFFF
+    margin-top        : 0.5em
+    padding-top       : 0.5em
+
+    span.libelle
+      margin-right    : 4px
+      &:not(:first-child)
+        margin-left   : 2em !important
+
+  // Le div contenant les exemples
+  div.section_exemples
     margin-top        : 1em
     padding           : 1em
     color             : #777
     background-color  : #B9C8AA
+    border-bottom     : 1px solid #777
+    border-top        : 1px solid white
     > span
       margin-right        : 1em
     a
@@ -178,14 +223,6 @@ li.work
       font-size         : inherit
       margin-right      : 1em
       border            : 1px solid green
-  div.buttons
-    border-top        : 3px solid #777
-    border-bottom     : 3px solid white
-    text-align        : right
-
-  div.section_exemples
-    border-bottom     : 1px solid #777
-    border-top        : 1px solid white
 
 section#completed_works
   margin-top    : 2em
