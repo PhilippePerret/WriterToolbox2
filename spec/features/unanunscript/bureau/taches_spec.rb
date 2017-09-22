@@ -484,9 +484,9 @@ feature "Affichage des tâches de l'auteur" do
 
     # On prend les données actuelles du travail en question
     hwork_init = site.db.select(:users_tables,table_name,{id: work_id}).first
-    puts "hwork AVANT (hwork_init) : #{hwork_init.inspect}"
+    # puts "hwork AVANT (hwork_init) : #{hwork_init.inspect}"
     habswork = site.db.select(:unan,'absolute_works',{id: hwork_init[:abs_work_id]}).first
-    puts "habswork : #{habswork.inspect}"
+    # puts "habswork : #{habswork.inspect}"
 
     # ---------------------------------------------------------------------
     #   L'auteur clique pour démarrer le travail
@@ -501,7 +501,7 @@ feature "Affichage des tâches de l'auteur" do
 
     # On prend les données qui ont dû être modifiées
     hwork = site.db.select(:users_tables,table_name,{id: work_id}).first
-    puts "hwork après : #{hwork.inspect}"
+    # puts "hwork après : #{hwork.inspect}"
 
     expect(hwork[:status]).to eq hwork_init[:status] + 1
     success 'le travail est marqué démarré en conservant sa marque de dépassement'
@@ -528,10 +528,18 @@ feature "Affichage des tâches de l'auteur" do
       success 'la section présentant le travail'
       with_tag('div.section_details')
       success 'la section des détails de la tâche'
-      with_tag('div.section_exemples')
-      success 'la section des exemples à trouver'
-      with_tag('div.section_suggestions_lectures')
-      success 'la section des suggestions de lectures'
+      if habswork[:exemples]
+        with_tag('div.section_exemples')
+        success 'la section des exemples à trouver'
+      else
+        without_tag('div.section_exemples')
+      end
+      if habswork[:pages_cours_ids]
+        with_tag('div.section_suggestions_lectures')
+        success 'la section des suggestions de lectures'
+      else
+        without_tag('div.section_suggestions_lectures')
+      end
       with_tag('div.section_autres_infos')
       success 'la section des autres infos'
     end

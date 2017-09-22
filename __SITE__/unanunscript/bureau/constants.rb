@@ -1,6 +1,8 @@
 # encoding: utf-8
 class Unan
 
+  # VOIR AUSSI DANS LE FICHIER ./_lib/_not_required/module/taches/constants.rb
+  # QUI PEUT AVOIR BESOIN D'ÊTRE CHARGÉ EN CERTAINES OCCASIONS.
 
   # Les données de toutes les sections, pour un travail plus facile de construction
   # des pages du bureau.

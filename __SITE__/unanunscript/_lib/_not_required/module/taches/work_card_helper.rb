@@ -43,10 +43,10 @@ class Unan
           carte << div_echeance(auteur, hwork, habswork)
           carte << end_form(hwork)
           carte << "#{MD2Page.transpile(nil,{code: habswork[:travail], dest: nil})}".in_div(class:'travail') 
-          carte << details_tache(habswork)        # div.details
-          carte << section_exemples     # div.exemples
-          carte << suggestions_lectures # div.suggestions_lectures
-          carte << autres_infos_travail # div.autres_infos
+          carte << section_details_tache(habswork)  # div.details
+          carte << section_exemples(habswork)       # div.exemples
+          carte << section_suggestions_lectures(habswork) # div.section_suggestions_lectures
+          carte << section_autres_infos(hwork, habswork)  # div.autres_infos
         when 9
           # = Travail accompli =
           # Pour un travail accompli, rien n'a besoin d'être fait.
@@ -85,6 +85,8 @@ class Unan
           .in_div(class: 'buttons')
       end
 
+      JOURS_SEMAINE = ['dimanche', 'lundi','mardi','mercredi','jeudi','vendredi','samedi']
+      MOIS = ['', 'janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre']
       # Retourne le div qui indique l'échéance du travail
       def div_echeance auteur, hwork, habswork 
 
@@ -94,34 +96,37 @@ class Unan
         # en fonction du rythme. Elle est calculée à la création du travail relatif,
         # donc est toujours accessible et n'a plus besoin d'être calculée.
 
-        # Date humaine de la fin du travail attendue
-        dateh_fin = Time.at(hwork[:expected_at]).strftime('%d %m')
-
-
         # Ce travail est-il en dépassement ?
         now = Time.now.to_i
         en_depassement = hwork[:expected_at] < now 
+
+        time_fin = Time.at(hwork[:expected_at])
+        dateh_jour = time_fin.day
+        dateh_jour_semaine = JOURS_SEMAINE[time_fin.wday]
+        dateh_mois = MOIS[time_fin.month]
+        dateh_fin  = "#{dateh_jour_semaine} #{dateh_jour} #{dateh_mois}"
+
         mess_duree_travail =
           if en_depassement
             # Quand l'auteur est en dépassement
             retard_jours = ((now - hwork[:expected_at]).to_f/ 1.jour).floor
             s = retard_jours > 1 ? 's' : ''
             "Vous êtes en dépassement de #{retard_jours} jour#{s}".in_div(class: 'depassement')+
-              "Ce travail aurait dû être accompli le #{dateh_fin}.".in_div
+              "Ce travail aurait dû être terminé #{dateh_fin} dernier.".in_div
           else
             # Quand l'auteur est dans les temps
-            heures = (hwork[:expected_at] - now) / 3600
-            if heures <= 24
-              s = heures > 1 ? 's' : ''
-              mess_eche = "dans #{heures} heure#{s}"
+        
+            # "x jours" ou "x heures"
+            xjours_ou_heures = duree_as_hours_or_days(hwork[:expected_at] - now)
+            if xjours_ou_heures.match(/heure/)
               mess_until = 'aujourd’hui'
+              mess_eche  = "dans #{xjours_ou_heures}"
             else
-              dans_x_jours = ((hwork[:expected_at] - now)/1.jour).ceil
-              s = dans_x_jours > 1 ? 's' : ''
-              mess_until = dans_x_jours > 0 ? "dans #{dans_x_jours} jour#{s}" : "aujourd’hui"
-              mess_eche = "le #{dateh_fin}"
+              # Date humaine de la fin du travail attendue
+              mess_until = "dans #{xjours_ou_heures}"
+              mess_eche  = "le #{dateh_fin}"
             end
-            "Ce travail doit être accompli #{mess_eche} (#{mess_until})."
+            "Ce travail doit être terminé #{mess_eche} (#{mess_until})."
           end
 
         return mess_duree_travail.in_div(class:'dates')
@@ -139,14 +144,6 @@ class Unan
       # ---------------------------------------------------------------------
       #   Propriétés au format humain
       # ---------------------------------------------------------------------
-
-      def human_type_w
-        @human_type_w ||= data_type_w[:hname]
-      end
-
-      def human_narrative_target
-        @human_narrative_target ||= Unan::SujetCible.new(narrative_target).human_name
-      end
 
       # Type de résultat au format humain
       # Rappel : type_resultat est une donnée sur 3 bit dont chaque bit
@@ -215,25 +212,29 @@ class Unan
 
       # Retourne la section DIV contenant les suggestions de
       # lecture (pages cours) s'il y en a
-      def suggestions_lectures
-        return '[suggestions lectures à implémenter]'
-        return '' if pages_cours_ids.empty?
-        where = "id IN (#{pages_cours_ids.join(',')})"
+      def section_suggestions_lectures habswork
+        habswork[:pages_cours_ids] != nil || (return '')
+        pages_ids = habswork[:pages_cours_ids].as_list_ids
+        # On doit charger les titres des pages pour les afficher
         hpagescours = Hash.new
-        Unan.table_pages_cours.select(where: where, colonnes:[:titre]).each do |hpage|
-          hpagescours.merge! hpage[:id] => hpage
-        end
+        site.db.select(
+          :unan,
+          'pages_cours',
+          "id IN (#{pages_ids.join(',')})",
+          [:titre]
+        ).each{|hpage| hpagescours.merge! hp[:id] => hp }
+        # On fait la liste des pages (titres)
         listepages =
-          pages_cours_ids.collect do |pcid|
+          pages_ids.collect do |pcid|
             titre = hpagescours[pcid][:titre]
-            "#{DOIGT}#{titre}".in_a(href:"page_cours/#{pcid}/show?in=unan")
-          end.pretty_join.in_span
+            "– #{titre}".in_a(href:"unanunscript/pages_cours/#{pcid}", target: '_blank').in_div
+          end.join
 
-          s = pages_cours_ids.count > 1 ? 's' : ''
-          (
-            "Suggestion#{s} de lecture#{s} : ".in_span(class:'libelle') +
-            listepages
-          ).in_div(class:'suggestions_lectures')
+        s = pages_ids.count > 1 ? 's' : ''
+        (
+          "Suggestion#{s} de lecture#{s} : ".in_span(class:'libelle') +
+          listepages
+        ).in_div(class:'section_suggestions_lectures')
       end
 
       # Un lien pour soit marquer le travail démarré (s'il n'a pas encore été
@@ -265,7 +266,7 @@ class Unan
 
       # Les détails de la tâche
       #
-      def details_tache habswork
+      def section_details_tache habswork
         (
           div_type_tache(habswork) +
           div_resultat(habswork)
@@ -273,12 +274,11 @@ class Unan
       end
 
       # Retourne la section contenant les exemples s'ils existent
-      def section_exemples
-        return '[section exemples à implémenter]'
-        return '' if exemples.empty?
-        exemples_ids.collect do |eid|
+      def section_exemples habswork
+        habswork[:exemples] != nil || (return '')
+        habswork[:exemples].as_list_ids.collect do |eid|
           "Exemple ##{eid}".in_a(href:"unanunscript/exemples/#{eid}", target:'_exemple_work_').in_span
-        end.join.in_div(class:'exemples')
+        end.join.in_div(class:'section_exemples')
       end
 
       def div_type_tache habswork
@@ -296,54 +296,6 @@ class Unan
         c << res.in_div(class: 'petit_air_autour retrait4')
         c << human_type_resultat(habswork)
         return c.in_div(class:'retrait4 cadre', style:'margin-bottom:4em')
-      end
-
-      # ---------------------------------------------------------------------
-      #   Méthodes d'helper pour `as_card`
-      # ---------------------------------------------------------------------
-
-      # ATTENTION !!! Cette méthode ne sert absolument pas à afficher
-      # la carte pour l'auteur UNAN. Elle sert pour l'administration.
-      # Pour voir la carte affichée pour l'auteur, voir la méthode
-      # `as_card_relative`
-      #
-      #def div_travail
-      #  item_link = if item_id
-      #                chose, human_chose = case true
-      #                                     when page_cours?  then ['page_cours', 'la page de cours']
-      #                                     when quiz?        then ['quiz', 'le questionnaire']
-      #                                     when forum?       then ['forum', 'le message forum']
-      #                                     else ['task', 'tâche']
-      #                                     end
-      #                " (voir #{human_chose} ##{item_id})".in_a(href:"#{chose}/#{item_id}/show?in=unan", target:"_show_#{chose}_")
-      #              else
-      #                ''
-      #              end
-
-      #  (
-      #    travail_formated.in_div(class:'travail') +
-      #    item_link                       +
-      #    div_exemples    +
-      #    div_pages_cours
-      #  ).in_div(class:'details')
-      #end
-
-      #def travail_formated
-      #  @travail_formated ||= travail.formate_balises_propres
-      #end
-
-      # Retourne le code HTML pour le div contenant les exemples,
-      # à placer dans la carte du work. Chaque exemple est un lien
-      # permettant de l'afficher.
-      def div_exemples
-        return '' if exemples_ids.empty?
-
-        (
-          'Exemples :'.in_span(class:'libelle') +
-          exemples_ids.collect do |exid|
-            "Exemple ##{exid}".in_a(href:"exemple/#{exid}/show?in=unan")
-          end.pretty_join
-        ).in_span(class:'info block')
       end
 
       # Retourne le DIV avec les liens vers des pages-cours s'il y
@@ -364,39 +316,72 @@ class Unan
       end
 
       # +from+ Cf. l'explicaiton dans la méthode principale `as_card`
-      def autres_infos_travail from = nil
-        return '[autres infos travail à implémenter]'
-        s_duree = duree > 1 ? "s" : ""
+      def section_autres_infos hwork, habswork
+        type = habswork[:type]
+        points = habswork[:points]
+        main_target_id   = type[2].to_i
+        sub_target_id    = type[3].to_i
+        hash_target = Unan.sujet_cible_of(type[2].to_i, type[3].to_i)
+
+        narrative_target = "#{hash_target[:main_name]} #{hash_target[:hname]}"
+        type_projet      = Unan::PROJET_TYPES[type[4].to_i][:hname]
+
         first_infos = [
-          ['type projet', type_projet[:hname],      nil],
-          ['sujet',       human_narrative_target,   nil],
-          ['points',      points,                   nil]
+          ['type projet', type_projet,        nil],
+          ['sujet',        narrative_target,   nil],
+          ['points',       points,             nil]
         ].collect do |libelle, valeur, unite|
-          ("#{libelle} :".in_span(class:'libelle') + "#{valeur}#{unite}").in_span(class:'info')
+          "#{libelle} : ".in_span(class:'libelle') + "#{valeur}"
         end.compact.join
 
         (
           first_infos +
-          infos_durees_travail(from)
-        ).in_div(class:'autres_infos')
+          infos_durees_travail(hwork)
+        ).in_div(class:'section_autres_infos')
       end
-      # +from+ Cf. l'explication dans la méthode principale `as_card`
-      def infos_durees_travail from = nil
-        pars = Array.new
-        s_duree = duree > 1 ? 's' : ''
-        if user.program && user.program.rythme != 5
-          duree_reelle = user.program.pduree2rduree(duree)
-          pars << ['durée', duree, "&nbsp;jr#{s_duree}-programme"]
-          pars << ['durée réelle', duree_reelle]
+
+
+      # Prend un durée en secondes et retourne un texte humain en jours
+      # ou en heures, comme "2 jours" ou "5 heures" 
+      def duree_as_hours_or_days duree
+        duree_hrs = duree / 3600
+        if duree_hrs > 24
+          # Durée à exprimer en jours
+          duree_jrs = duree_hrs / 24
+          s = duree_jrs == 1 ? '' : 's'
+          "#{duree_jrs} jour#{s}"
         else
-          pars << ['durée', duree, "&nbsp;jour#{s_duree}"]
+          # Durée exprimée en heures
+          s = duree_hrs == 1 ? '' : 's'
+          "#{duree_hrs} heure#{s}"
         end
-        from.nil? || begin
-        pars << ['pdays travaillés', from ]
-        pars << ['pdays restant', duree - from]
+      end
+
+      # Renvoie des informations sur la durée, à savoir la durée totale pour
+      # réaliser le travail, la durée déjà utilisée et la durée restante, si le
+      # travail n'est pas en dépassement.
+      def infos_durees_travail hwork
+        hwork[:status] & 1 > 0 || (return '')
+
+        pars = Array.new
+        now = Time.now.to_i
+        
+        overtaken = hwork[:status] & (2|4) > 0
+
+        if overtaken
+          pars << ['duree restante', "<span class='red'>0 heures et 0 jours</span>"]
+        else
+          duree_totale = duree_as_hours_or_days(hwork[:expected_at] - hwork[:created_at])
+          duree_worked = duree_as_hours_or_days(now - hwork[:started_at])
+          duree_rested = duree_as_hours_or_days(hwork[:expected_at] - now)
+
+          pars << ['durée totale', duree_totale]
+          pars << ['durée travaillée', duree_worked]
+          pars << ['durée restante', duree_rested]
         end
-        pars.collect do |libelle, valeur, unite|
-          ("#{libelle} : ".in_span(class:'libelle') + "#{valeur}#{unite || ''}").in_span(class:'info')
+
+        pars.collect do |libelle, valeur|
+          "#{libelle} : ".in_span(class:'libelle') + "#{valeur}"
         end.join
       end
       def buttons_edit
