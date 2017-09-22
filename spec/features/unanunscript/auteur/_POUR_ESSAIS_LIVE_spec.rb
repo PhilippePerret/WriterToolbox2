@@ -25,7 +25,7 @@ feature "Pour tester en live" do
   scenario "Un auteur rejoint son bureau et attend…" do
 
     hauteur = unanunscript_create_auteur(current_pday: AUTEUR_PDAY)
-    puts "Auteur programme UAUS créé : #{hauteur.inspect}"
+    # puts "Auteur programme UAUS créé : #{hauteur.inspect}"
     identify( mail: hauteur[:mail], password: hauteur[:password])
     visit "#{base_url}/unanunscript/bureau"
 

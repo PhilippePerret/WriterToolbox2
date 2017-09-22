@@ -9,6 +9,11 @@ li.work
   background-color  : #DDF7DC
   margin-bottom     : 1em
 
+  span.libelle
+    opacity     : 0.4
+    font-style  : italic
+    &:not(:first-child)
+      margin-left : 1em
   // Le titre principal du travail
   div.titre
     margin-bottom     : 1em
@@ -68,13 +73,13 @@ li.work
   div.details
     padding           : 0.5em
 
-    // Affichage du travail
-    div.travail
-      margin          : 2em 1em !important
-      font-size       : 1.15em
-      // Les paragraphes dans l'intitulé du travail
-      > p, > div
-        margin          : 1em 0 0 0 !important
+  // Affichage du travail
+  div.travail
+    margin          : 2em 1em !important
+    font-size       : 1.15em
+    // Les paragraphes dans l'intitulé du travail
+    > p, > div
+      margin          : 1em 0 0 0 !important
 
     &, *
       font-size         : 12.2pt
@@ -107,7 +112,7 @@ li.work
       padding             : 1.6em 2em
       font-size           : 15pt
 
-  div.buttons, div.exemples
+  div.buttons, div.section_exemples
     margin-top        : 1em
     padding           : 1em
     color             : #777
@@ -127,7 +132,7 @@ li.work
     a
       border            : 1px solid green
 
-  div.exemples
+  div.section_exemples
     border-bottom     : 1px solid #777
     border-top        : 1px solid white
 

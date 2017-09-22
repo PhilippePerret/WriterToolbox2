@@ -43,7 +43,7 @@ class Unan
           carte << div_echeance(auteur, hwork, habswork)
           carte << end_form(hwork)
           carte << "#{MD2Page.transpile(nil,{code: habswork[:travail], dest: nil})}".in_div(class:'travail') 
-          carte << details_tache        # div.details
+          carte << details_tache(habswork)        # div.details
           carte << section_exemples     # div.exemples
           carte << suggestions_lectures # div.suggestions_lectures
           carte << autres_infos_travail # div.autres_infos
@@ -110,9 +110,18 @@ class Unan
               "Ce travail aurait dû être accompli le #{dateh_fin}.".in_div
           else
             # Quand l'auteur est dans les temps
-            dans_x_jours = ((hwork[:expected_at] - now)/1.jour).round
-            s = dans_x_jours > 1 ? 's' : ''
-            "Ce travail doit être accompli le #{dateh_fin} (dans #{dans_x_jours} jour#{s})"
+            heures = (hwork[:expected_at] - now) / 3600
+            if heures <= 24
+              s = heures > 1 ? 's' : ''
+              mess_eche = "dans #{heures} heure#{s}"
+              mess_until = 'aujourd’hui'
+            else
+              dans_x_jours = ((hwork[:expected_at] - now)/1.jour).ceil
+              s = dans_x_jours > 1 ? 's' : ''
+              mess_until = dans_x_jours > 0 ? "dans #{dans_x_jours} jour#{s}" : "aujourd’hui"
+              mess_eche = "le #{dateh_fin}"
+            end
+            "Ce travail doit être accompli #{mess_eche} (#{mess_until})."
           end
 
         return mess_duree_travail.in_div(class:'dates')
@@ -145,24 +154,25 @@ class Unan
       # Le bit 1 (0) concerne le support (par exemple : un document)
       # Le bit 2 (1) concerne le destinataire (p.e. soi-même ou un producteur)
       # Le bit 3 (2) concerne le niveau d'exigence attendu
-      def human_type_resultat
-        bit_res_support   = type_resultat[0].to_i
-        bit_res_destina   = type_resultat[1].to_i
-        bit_res_exigence  = type_resultat[2].to_i
+      def human_type_resultat habswork
+        typeres = habswork[:type_resultat]
+        bit_res_support   = typeres[0].to_i
+        bit_res_destina   = typeres[1].to_i
+        bit_res_exigence  = typeres[2].to_i
 
         c = String.new
         if bit_res_destina > 0
           destina   = Unan::DESTINATAIRES[bit_res_destina][1]
-          c << ('destinataire : '.in_span(class:'libelle')+destina.in_span).in_span
+          c << ('destinataire : '.in_span(class:'libelle')+destina.in_span)
         end
         if bit_res_support > 0
           support   = Unan::SUPPORTS_RESULTAT[bit_res_support][1]
-          c << ('support : '.in_span(class:'libelle') + support.in_span).in_span
+          c << ('support : '.in_span(class:'libelle') + support.in_span)
         end
         if bit_res_exigence > 0
           if bit_res_exigence < 10
             exigence  = Unan::NIVEAU_DEVELOPPEMENT[bit_res_exigence][1]
-            c << ('développement : '.in_span(class:'libelle') + exigence.in_span).in_span
+            c << ('développement : '.in_span(class:'libelle') + exigence.in_span)
           else
             # ERREUR
             send_error_to_admin(
@@ -255,12 +265,11 @@ class Unan
 
       # Les détails de la tâche
       #
-      def details_tache
-        return '[Détails tache à implémenter]'
+      def details_tache habswork
         (
-          div_type_tache +
-          div_resultat
-        ).in_div(class:'details')
+          div_type_tache(habswork) +
+          div_resultat(habswork)
+        ).in_div(class:'section_details')
       end
 
       # Retourne la section contenant les exemples s'ils existent
@@ -272,26 +281,21 @@ class Unan
         end.join.in_div(class:'exemples')
       end
 
-      def div_type_tache
-        ('Type : '.in_span(class:'libelle') + human_type_w.in_span).in_div(class: 'petit_air_autour')
+      def div_type_tache habswork
+        typeh_w = Unan::Abswork::TYPES[habswork[:type_w]][:hname]
+        ('Type du travail : '.in_span(class:'libelle') + typeh_w.in_span).in_div(class: 'petit_air_autour')
       end
-      def div_resultat
-        # Pour gérer l'erreur quand resultat est false et qu'il ne
-        # connait donc pas la méthode empty?
-        if resultat === false
-          send_error_to_admin(
-            exception:  "`resultat` est false dans Unan::Program::AbsWork#div_resultat",
-            extra:      "AbsWork ID : #{id.inspect} / work ID : #{rwork.id.inspect}",
-            from:       "#{__FILE__}:#{__LINE__}"
-          ) rescue nil
-          return ''
-        end
-        return '' if resultat.empty?
+
+      # Le résultat attendu, c'est-à-dire ce que l'auteur doit produire au cours
+      # de ce travail.
+      def div_resultat habswork
+        res = habswork[:resultat].nil_if_empty
+        res != nil || (return '')
         c = String.new
         c << 'Résultat attendu'.in_span(class:'libelle')
-        c << resultat.in_div(class:'petit_air_autour retrait4')
-                             c << human_type_resultat
-                             return c.in_div(class:'retrait4 cadre', style:'margin-bottom:4em')
+        c << res.in_div(class: 'petit_air_autour retrait4')
+        c << human_type_resultat(habswork)
+        return c.in_div(class:'retrait4 cadre', style:'margin-bottom:4em')
       end
 
       # ---------------------------------------------------------------------

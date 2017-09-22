@@ -526,7 +526,7 @@ feature "Affichage des tâches de l'auteur" do
       success 'le bouton pour marquer le travail fini'
       with_tag('div.travail')
       success 'la section présentant le travail'
-      with_tag('div.section_details_tache')
+      with_tag('div.section_details')
       success 'la section des détails de la tâche'
       with_tag('div.section_exemples')
       success 'la section des exemples à trouver'
