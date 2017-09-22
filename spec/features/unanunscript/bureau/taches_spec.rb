@@ -451,11 +451,15 @@ feature "Affichage des tâches de l'auteur" do
 
   end
 
-  scenario 'l’auteur peut démarre une tâche pure' do
+  scenario 'l’auteur peut démarrer une tâche pure' do
+
+    table_name = "unan_works_#{data_auteur[:id]}"
 
     identify data_auteur
     visit "#{base_url}/unanunscript/bureau"
     expect(page).to have_tag('h2', text: 'Bureau de votre programme UN AN UN SCRIPT')
+
+
 
     # ---------------------------------------------------------------------
     #
@@ -470,31 +474,111 @@ feature "Affichage des tâches de l'auteur" do
 
     # On prend la liste des tâches à démarrer et on clique la première tache en
     # dépassement
-    # work_id = nil
+    work_id = nil
+    lien_premier_travail = nil
     within('div.panneau ul#work_list-ready') do
-      premier_travail = find('li.work a.red', match: :first)
-      work_id = premier_travail.id.split('-')[1].to_i
-      puts "work_id = #{work_id}"
-      premier_travail.click
-      sleep 10
+      lien_premier_travail = find('li.work a.red', match: :first)
+      work_id = lien_premier_travail['href'].split('=')[-1].to_i
+          # Rappel : le lien s'achève par &wik=<id du work relatif>
     end
+
+    # On prend les données actuelles du travail en question
+    hwork_init = site.db.select(:users_tables,table_name,{id: work_id}).first
+    puts "hwork AVANT (hwork_init) : #{hwork_init.inspect}"
+    habswork = site.db.select(:unan,'absolute_works',{id: hwork_init[:abs_work_id]}).first
+    puts "habswork : #{habswork.inspect}"
+
+    # ---------------------------------------------------------------------
+    #   L'auteur clique pour démarrer le travail
+    # ---------------------------------------------------------------------
+    lien_premier_travail.click
+
 
     # On revient dans le bureau
     expect(page).to have_tag('h2', text: 'Bureau de votre programme UN AN UN SCRIPT')
-    expect(page).to have_tag('div.notice', text: /travail démarré avec succès/)
+    expect(page).to have_tag('div.notice', text: /Travail démarré avec succès/)
+    success 'l’auteur peut démarrer une pure tâche'
 
-    failure 'l’auteur peut démarrer une pure tâche'
+    # On prend les données qui ont dû être modifiées
+    hwork = site.db.select(:users_tables,table_name,{id: work_id}).first
+    puts "hwork après : #{hwork.inspect}"
 
-    failure 'cela change le titre de l’onglet « Tâches »'
-    failure 'cela change le contenu du panneau tâches'
+    expect(hwork[:status]).to eq hwork_init[:status] + 1
+    success 'le travail est marqué démarré en conservant sa marque de dépassement'
 
-    failure 'l’auteur peut marquer vue une page de cours'
-    failure 'cela change le titre de l’onglet « Cours »'
-    failure 'cela change le contenu du panneau « Cours »'
+    jours_depassement = ((Time.now.to_i - hwork[:expected_at]).to_f/1.jour).floor
+    dateh_fin = Time.at(hwork[:expected_at]).strftime('%d %m')
 
-    failure 'l’auteur peut démarrer un quiz'
-    failure 'cela change le titre de l’onglet « Quiz »'
-    failure 'cela affiche le quiz en question dans le panneau « Quiz »'
+    success 'l’auteur trouve un bloc de travail conforme qui contient…'
+    expect(page).to have_tag('li', with: {id: "work-#{work_id}"}) do
+      with_tag('div.nbpoints', text: "#{habswork[:points]} points")
+      success 'l’indication du nombre de points'
+      with_tag('div.titre', text: habswork[:titre])
+      success 'le titre du travail'
+      with_tag('div.dates') do
+        with_tag('div.depassement', text: /Vous êtes en dépassement de #{jours_depassement} jours/)
+        with_tag('div', text: /Ce travail aurait dû être accompli le #{dateh_fin}/)
+      end
+      success 'le dépassement en exergue, avec le nombre de jours de retard et la date de fin attendue'
+      with_tag('div.buttons') do
+        with_tag('a', with: {href: "unanunscript/bureau/taches?op=done_work&wid=#{work_id}"}, text: 'Marquer ce travail fini')
+      end
+      success 'le bouton pour marquer le travail fini'
+      with_tag('div.travail')
+      success 'la section présentant le travail'
+      with_tag('div.section_details_tache')
+      success 'la section des détails de la tâche'
+      with_tag('div.section_exemples')
+      success 'la section des exemples à trouver'
+      with_tag('div.section_suggestions_lectures')
+      success 'la section des suggestions de lectures'
+      with_tag('div.section_autres_infos')
+      success 'la section des autres infos'
+    end
+
+
+    # --------------------------------------------------------------------
+    # L'auteur marque le travail fini
+    # ---------------------------------------------------------------------
+
+    within("li#work-#{work_id}") do
+      click_link 'Marquer ce travail fini'
+    end
+    expect(page).to have_tag('div.notice', text: /Vous avez gagné #{habswork[:points]} points/)
+
+    hwork_done = site.db.select(:users_tables,table_name,{id: work_id}).first
+    puts "hwork_done : #{hwork_done.inspect}"
+
+    expect(hwork_done[:status]).to eq 9
+    success 'le statut est passé à 9'
+
+    expect(hwork_done[:points]).to eq habswork[:points]
+    success 'les points du travail relatif ont été définis'
+
+    expect(auteur.program.points).to eq habswork[:points]
+    success 'le nombre de points du programme de l’auteur a augmenté'
+
+    failure 'le retard en jours a été enregistré dans les options'
+    failure 'le travail est listé dans les travaux récemment faits'
+    failure 'avec un lien pour le réafficher'
+
+    # ---------------------------------------------------------------------
+    #   L'auteur clique sur le bouton pour réafficher le travail
+    # ---------------------------------------------------------------------
+
+    failure 'l’auteur peut consulter à nouveau son travail fait'
 
   end
+
+  # scenario 'l’auteur peut gérer les pages de cours' do
+  #
+  #   failure 'l’auteur peut marquer vue une page de cours'
+  #   failure 'cela change le titre de l’onglet « Cours »'
+  #   failure 'cela change le contenu du panneau « Cours »'
+  #
+  #   failure 'l’auteur peut démarrer un quiz'
+  #   failure 'cela change le titre de l’onglet « Quiz »'
+  #   failure 'cela affiche le quiz en question dans le panneau « Quiz »'
+  #
+  # end
 end

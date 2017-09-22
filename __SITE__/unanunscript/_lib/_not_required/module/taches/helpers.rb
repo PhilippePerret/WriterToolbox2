@@ -1,10 +1,4 @@
 # encoding: utf-8
-debug "Je charge -> #{__FILE__}"
-begin
-  raise
-rescue Exception => e
-  debug e.backtrace.join("\n")
-end
 class Site
 
 
