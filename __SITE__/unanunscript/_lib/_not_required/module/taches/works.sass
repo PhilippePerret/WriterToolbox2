@@ -1,3 +1,12 @@
+div.titre_listing_taches
+  font-style    : italic
+  opacity       : 0.2
+  font-size     : 16.6pt
+  padding-bottom  : 10px
+  border-bottom   : 1px solid #BBBBBB
+
+
+
 ul.work_list
   list-style    : none
 // Le div contenant tout le travail a accomplir.
@@ -28,11 +37,15 @@ li.work
       margin-left : 1em
   // Le titre principal du travail
   div.titre
-    margin-bottom     : 1em
-    font-weight       : bold
-    font-size         : 1.2em
+    font-size         : 1.6em
+    margin-bottom     : 1.7em
     max-width         : 80%
     text-align        : left
+
+    span.tiny
+      display     : block
+      margin-left : 1em
+      font-size   : 12pt
 
     // Pour le type de travail dans les tâches
     span.type
@@ -84,8 +97,7 @@ li.work
 
   // Affichage du travail proprement dit. Ça doit être la partie la plus
   // importante de la page.
-  div.travail
-
+  div.section_travail
     margin            : 2em 2em !important
     font-size         : 1.085em
     padding           : 2em
@@ -102,6 +114,16 @@ li.work
       text-align      : left
       display         : block
       margin-bottom   : 1em
+
+  // Classe commune à tous les blocs qui contiennent des informations supplémentaires
+  // comme les pages à lire, les exemples proposés, etc.
+  div.infos_sup
+    margin    : 1em 0 1em 10em
+    padding   : 1em
+    border    : 1px solid white
+    div.contents
+      margin-left   : 2.5em
+      margin-top    : 1.5em
 
   // Le div qui contient le bouton pour démarrer le travail (et
   // seulement celui pour démarrer le travail car ensuite le bouton pour
@@ -180,16 +202,7 @@ li.work
         background-color  : red!important
         color             : white!important
         text-decoration   : none!important
-        font-weight       : bold
         letter-spacing    : 1.5px
-
-  // Le div contenant le résultat attendu
-  div.section_resultat_attendu
-    width             : 80%
-    margin            : 1em 2em
-    border            : 1px solid #24a377
-    padding           : 1em
-    border-radius     : 0.5em
 
   // Le div contenant toutes les autres infos, le type de projet, le
   // type de travail, les points, etc.
@@ -205,14 +218,15 @@ li.work
       &:not(:first-child)
         margin-left   : 2em !important
 
+  // Le div des suggestions de lectures
+  div.section_suggestions_lectures
+    ul.suggestions_lectures
+      list-style    : outside square
+
   // Le div contenant les exemples
   div.section_exemples
     margin-top        : 1em
     padding           : 1em
-    color             : #777
-    background-color  : #B9C8AA
-    border-bottom     : 1px solid #777
-    border-top        : 1px solid white
     > span
       margin-right        : 1em
     a

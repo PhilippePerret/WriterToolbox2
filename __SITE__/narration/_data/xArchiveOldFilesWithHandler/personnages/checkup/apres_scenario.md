@@ -1,0 +1,10 @@
+<!-- Page: Check-up du personnage dans le scénario ou le manuscrit -->
+
+* Avez-vous pensé à mettre le personnage <em>en action</em>, puis à <em>le décrire</em> (et pas l'inverse). Donc : ACTION - DESCRIPTION et pas DESCRIPTION - ACTION ?
+* Avez-vous pensé à décrire, <u>pour chaque scène</u>, et de façon <em>la plus simple possible</em>, l’<strong>humeur de vos personnages</strong> ? Le lecteur qui ne connait pas votre histoire pourra-t-il sentir, toujours, précisément où en sont vos personnages, ce qu’ils ressentent, les enjeux qui sont les leurs, et ce qu’ils cherchent à atteindre ?
+* Avez-vous pris les mêmes précautions à l’intérieur des scènes, lorsque des réactions particulières faisaient varier l’humeur de vos personnages ? Ces variations sont-elles toujours claires et perceptibles, même pour quelqu'un qui ne connait pas l'histoire aussi bien que vous ?
+* En d’autres termes, avez-vous pris soin de souligner par de <strong>courtes indications visuelles</strong> comment vos personnages réagissaient à ce qui leur arrivait ou à ce qu’on leur disait ?
+* Si, pour ce qui précède, vous avez eu recours à des indications d’ordre psychologique — comme : “Il ne comprend pas”, ce qui est tout à fait possible —, avez-vous toujours pris soin de vous demander si cette indication était vraiment <em>visuelle</em>, <em>jouable par un acteur</em>, assimilable par l’esprit de n'importe quel lecteur ?
+* Avez-vous suffisamment tenu compte du fait que le lecteur — comme le spectateur — ne connait absolument rien à vos personnages, ni à votre histoire ?
+* Si c'est un scénario de film, avez-vous pris la précaution de mettre en capitales le nom des personnages lorsqu'ils apparaissent la première fois ?
+* Si c'est un roman ou un synopsis à présenter, le prénom des personnages est-il répété suffisamment de fois, peut-être accompagné de la fonction ou du rôle du personnage — père, mère, etc. — pour que le lecteur puisse le “fixer” ?

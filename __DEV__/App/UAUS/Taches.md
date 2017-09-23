@@ -26,7 +26,11 @@ Les options doivent principalement permettre d'avoir des informations sur la tâ
     7-9     6..8          Nombre de jours de dépassement.
                           Cette valeur est réglée à la terminaison du travail,
                           s'il est en dépassement.
-                          
+    10-13   9..12         ID de la page Narration, si le travail concerne une
+                          lecture de page Narration.
+                          Noter que la propriété :item_id contient l'ID de la
+                          page de cours du programme.
+
 ```
 
 

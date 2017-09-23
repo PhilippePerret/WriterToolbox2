@@ -31,7 +31,7 @@ class Narration
       user.admin? || (return '')
       c = String.new
       c << '<div class="admin_edit_links">'
-      c << "<a href=\"admin/narration/#{id}?op=edit_data\" target=\"_new\">data</a>" 
+      c << "<a href=\"admin/narration/#{id}?op=edit_data\" target=\"_new\">data</a>"
       if type == :page
         escaped_path = CGI.escape(md_file)
         c << "<a href=\"admin/edit_text?path=#{escaped_path}\" target=\"_new\">text</a>"
@@ -102,13 +102,19 @@ class Narration
       end
 
       # Méthodes qui définit les différentes paths de la page courante
+      # C'est la nouvelle méthode, avec un path qui dépend seulement du
+      # dossier (ID) et de l'id de la page.
       def def_paths
         case type
         when :page
-          # Pour les vraies pages
-          affixe_path = File.join(folder_pages,livre_folder, data[:handler])
+          # # ANCIENNE FORMULE
+          # affixe_path = File.join(folder_pages,livre_folder, data[:handler])
+          # NOUVELLE FORMULE :
+          affixe_path = File.join(folder_pages,livre_id.to_s,id.to_s)
+
           @md_file  = "#{affixe_path}.md"
           @dyn_file = "#{affixe_path}.dyn.erb"
+
         else
           # Pour les chapitres et sous-chapitres
           @dyn_file = File.join(folder_pages, 'xdyn', "#{type}_#{id}.dyn.erb")

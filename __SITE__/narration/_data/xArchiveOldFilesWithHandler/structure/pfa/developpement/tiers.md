@@ -1,0 +1,3 @@
+<!-- Page: #313 Les tiers-temps -->
+
+<film>The Maze Runner</film> +++ 1/3 : personnage:Thomas tue un griffeur. C'est un évènement considérable, peut-être le plus important, ça n'est jamais encore arrivé.<br>2/3 : la nuit venue, les portes du labyrinthe ne se referment pas. C'est un évènement considérable qui n'est jamais arrivé avant non plus, et qui est une conséquence directe de l'évènement du premier tiers : c'est parce que Thomas a tué un griffeur que les griffeurs vont venir attaquer les blocards.

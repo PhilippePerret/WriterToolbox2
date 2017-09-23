@@ -17,6 +17,9 @@
   # Elle est contenue dans les paramètres, dans op pour l'opération et dans
   # wid pour l'identifiant du travail. Noter que seul l'auteur ou un administrateur
   # peuvent opérer.
+# Les méthodes ci-dessous sont définies dans le fichier :
+# ./__SITE__/unanunscript/_lib/_not_required/module/taches/work_class.rb
+# ('gf' pour l'ouvrir)
   case param(:op)
   when 'start_work' then Unan::Work.start(user, param(:wid))
   when 'done_work'  then Unan::Work.done(user, param(:wid))
@@ -24,8 +27,20 @@
   
 %>
 
+<% 
+=begin
 
-<%= define_all_list_taches(user, TASK_TYPE) %>
+  Les méthodes ci-dessous sont définies dans le fichier :
+  ./__SITE__/unanunscript/_lib/_not_required/module/taches/listes.rb
+  (se placer sur le path et taper 'gf' pour l'ouvrir directement)  
+
+  Noter que pour gagner une ligne, ci-dessous, on pourrait renvoyer la
+  liste des taches à démarrer avec la méthode define_all_list_taches. Mais
+  ici, on fait comme ça pour la clarté.
+
+=end
+%>
+<% define_all_list_taches(user, TASK_TYPE) %>
 <%= list_taches_to_start  %>
 <%= list_taches_courantes %>
 <%= list_last_taches_done %>

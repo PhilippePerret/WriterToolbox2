@@ -14,6 +14,11 @@
       ALTER TABLE scenodico ADD COLUMN created_at INT(10);
       ALTER TABLE filmodico ADD COLUMN created_at INT(10);
 
+# NARRATION
+
+* Supprimer la colonne `handler` dans la table cnarration.narration
+
+
 # PROGRAMME UN AN UN SCRIPT
 
 Ajouter la colonne `started_at` dans les tables `users_tables.unan_works_<id auteur>` (INT(10)) et y mettre la valeur du démarrage du travail, qui correspond au `created_at` (en tout cas dans la version du site 1.0 car pour la version 2.0, la données work est créée avant son démarrage).

@@ -1,14 +1,18 @@
-* [UNAN][TACHES]
-  - Bien mettre en exergue le nombre de jours restants, quand on n'est pas en dépassement (dans un  
-    cadre noir avec lettres blanches)- pour le moment, l'indication est entre parenthèses.
-  - [BUG] Voir pourquoi le bouton "Marquer ce travail fini" est en rouge, même lorsque c'est un travail qui n'est pas en dépassement.
+* [UNAN]
+  - Traiter l'affichage des onglets APRÈS avoir exécuté les opérations (pour que les chiffres correspondent à la réalité).
+  - Traiter l'affichage d'une page de cours. Tout se joue dans la méthode 'div_travail' de l'affichage de la carte. Faut-il un sous-module propre ou est-ce simple, comme affichage ?
+  - Traiter l'affichage d'un quiz. Tout se joue dans la méthode 'div_travail' de l'affichage de la carte. Peut-être faut-il charger un sous-module propre pour les quiz.
 
-* [UNAN] Reprendre les calculs de dépassement en se servant de la données `expected_at` ajouté aux travaux relatifs.
+* [UNAN]
+  - Implémenter et tester unanunscript/page_cours/ qui permet de lire une page de cours du programme. S'inspirer très exactement de narration.
+  - Tester l'affichage d'une page de cours (en prenant sur les dix jours ou sur le premier)
 
-* [UNAN] Tenir compte du fait que le statut (status) peut être à 2 ou 4 quand le travail n'est pas démarré.
-* [UNAN] Quand on démarre un travail, il faut ajouter 1 au statut (status), ne pas le mettre à 1, car il peut y avoir déjà des dépassements.
-* [UNAN] Pour l'affichage du travail, tenir compte du fait que le travail peut être en dépassement même lorsqu'il n'est pas démarré. L'indiquer visuellement, peut-être en ajoutant le cadre de dépassement.
-* [UNAN] À la terminaison du travail, penser à régler les options pour qu'elles conserve le nombre de jours de dépassement s'il y en a.
+* [NARRATION]
+  - Abandonner l'utilisation des handler et enregistrer les fichiers dans le dossier de leur livre avec leur identifiant.
+  Exemple : la page d'ID #12 du livre Structure (donc du livre d'identifiant #1) doit être enregistré dans `narration/_data/1/12.erb`
+    - faire un script qui transforme les pages actuelles
+    - modifier la façon d'enregistrer les pages
+    - supprimer la donnée handler
 
 * [UNAN] Tester, tester, tester le réglage des travaux.
   - la création correcte des travaux relatifs lorsque l'on crée un auteur directement au 10e jour
@@ -18,8 +22,18 @@
   [OK] le bouton "Démarrer ce travail" doit être en rouge (class 'red') si le travail est déjà en dépassement avant d'être démarré.
   - Tester l'affichage d'un travail qui contient tout (exemples, pages de cours suggérées, illustrations si ça existe, etc.). Il suffit de faire une recherche dans la base avec "exemples IS NOT NULL AND pages_cours_ids IS NOT NULL...", etc. puis de trouver le jour-programme qui utilise ce travail, et de caler l'auteur dessus. Dans ce test, on vérifiera bien tout, même le contenu exact des textes.
   Appeler ce test "contenu_complet_tache_spec.rb"
+  - Tester : quand on marque un travail fini, et qu'on recharge la page, il ne faut
+    pas finir à nouveau le travail, ce qui ajouterait encore le nombre de points
+    (donc il faut s'assurer de faire le test avec une tâche qui donne des points).
+  - Tester le compte de points total, en sachant qu'il semble y avoir une erreur : lorsque je pars au 10e jours, que je marque fini les travaux en dépassement (qui ne rapportent rien), et que je marque fini un travail à 100 points, le total arrive à 150…
+  - Tester que lorsqu'un quiz est en tâche récemment accompli, ce n'est plus la marque "suivant résultat" qui est marqué mais le nombre de points gagnés.
+  - Tester l'indication précise de points : si c'est un dépassement et que le nombre de points est inférieur au nombre que l'auteur aurait pu gagner, on lui indique la différence : "Sans dépassement d'échéance, vous auriez pu marquer xxx points."
+  - Tester les liens pour ouvrir une page narration
+  - Tester les liens pour ouvrir une page de cours du programme
+  - Tester les liens pour ouvrir un Quiz
 
-* [UNAN] Pour l'indication des points pour les quiz, il faudrait mettre "en fonction du résultat".
+* [NARRATION]
+  Voir une page comme la page #530 du livre #1 (problème de titres, problèmes de schéma dans un PRE)
 
 * [UNAN] Utiliser le faux-tests _POUR_ESSAIS_LIVE_spec.rb pour rejoindre le programme comme un auteur et laisser la page ouverte une demi-heure.
 

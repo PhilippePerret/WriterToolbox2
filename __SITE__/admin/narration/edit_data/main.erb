@@ -1,4 +1,4 @@
-<% 
+<%
 require_form_support
 
 # S'il faut enregistrer les données
@@ -19,7 +19,7 @@ end
 
   <div>
     <span>
-      
+
       <%# --------- LIVRE de la page -----------  %>
 
       <%= menu_livres(selected: page.livre_id) %>
@@ -30,14 +30,14 @@ end
 
       <%# --------- ID de la page -----------  %>
 
-      <input 
+      <input
       id="page_id" type="text" name="page[id]" class="small"
-      value="<%= page.id %>" placeholder="ID" 
+      value="<%= page.id %>" placeholder="ID"
       />
 
       <%# ----------- Un bouton pour éditer l'ID rentré -------------- %>
 
-      <input 
+      <input
       type="button" class="small" style="font-variant:small-caps;"
       onclick="window.location.href='admin/narration/'+DOM('page_id').value+'?op=edit_data';"
       value="edit"
@@ -48,25 +48,11 @@ end
 
 
   <div style="width:100%;">
-    
+
     <%# --------- TITRE de la page -----------  %>
-    <input 
+    <input
     id="page_titre" type="text" name="page[titre]" class="long bigger"
     value="<%= page.titre %>" placeholder="Titre" />
-
-  </div>
-
-
-  <div style="width:100%">
-    
-    <%# --------- HANDLER de la page -----------  %>
-    
-    <input 
-    type="text" class="medium" 
-    name="page[handler]" id="page_handler" 
-    value="<%= page.handler %>" 
-    placeholder="handler (dossier)"
-    />
 
   </div>
 
@@ -74,14 +60,14 @@ end
 
     <%# --------- DESCRIPTION de la page -----------  %>
 
-    <textarea 
-      name="page[description]" id="page_description" 
+    <textarea
+      name="page[description]" id="page_description"
       class="long" placeholder="Description de la page"><%= page.description %></textarea>
 
   </div>
 
   <div style="width:100%">
-    
+
     <%# --------- OPTIONS de la page -----------  %>
 
     <div>
@@ -100,6 +86,6 @@ end
   <div class="buttons">
     <a href="admin/narration?op=edit_data" class="btn fleft">Init new</a>
     <input type="submit" class="main" value="<%= page.id ? 'Enregistrer' : 'Créer' %>" />
-    
+
   </div>
 </form>

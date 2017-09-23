@@ -11,19 +11,13 @@ class String
 
   # @syntax:    "texte".in_div([<hash attributes>])
   #
-  def in_div attrs = nil
-    self.buildtag('div',attrs)
-  end
-  def in_span attrs = nil
-    self.buildtag('span',attrs)
-  end
-  def in_a attrs = nil
-    self.buildtag('a',attrs)
-  end
-  def in_section attrs = nil
-    self.buildtag('section',attrs)
-  end
-
+  def in_div      a = nil ; self.buildtag('div',a)      end
+  def in_pre      a = nil ; self.buildtag('pre',a)      end
+  def in_a        a = nil ; self.buildtag('a',a)        end
+  def in_li       a = nil ; self.buildtag('li',a)       end
+  def in_ul       a = nil ; self.buildtag('ul',a)       end
+  def in_span     a = nil ; self.buildtag('span',a)     end
+  def in_section  a = nil ; self.buildtag('section',a)  end
 
 #private
 

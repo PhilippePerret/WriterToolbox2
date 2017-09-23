@@ -1,0 +1,20 @@
+<% 
+=begin
+
+Page principale d'affichage et de traitement d'un Quiz
+
+L'ID du quiz se trouve dans site.route.objet_id
+L'ID du travail-relatif correspondant à ce quiz se trouve dans param(:wid)
+
+=end
+%>
+<%= header(:small) %>
+<%= right_margin %>
+
+<h2 class="small">Programme Un An Un Script : QUIZ</h2>
+
+<p>
+[Affichage et traitement du quiz #<%= site.route.objet_id %> du travail-relatif <%= param(:wid) %>]
+</p>
+
+<%= footer %>

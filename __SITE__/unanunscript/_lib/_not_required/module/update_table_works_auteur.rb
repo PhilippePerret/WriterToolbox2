@@ -15,6 +15,12 @@ class Unan
       # exécuter, en jouant sur le statut (status) pour indiquer les travaux qui
       # sont à démarrer (travaux du jour) ou les travaux en dépassement et en
       # grand dépassement.
+      #
+      # Les options du travail relatif contiennent beaucoup d'informations qui
+      # doivent notamment permettre de ne pas charger obligatoirement le travail
+      # absolu. Voir le fichier suivant pour des informations sur ces options :
+      # ./__DEV__/App/UAUS/Taches.md
+      #
       # Cette méthode n'est appelée qu'une seule fois par jour-programme, lorsque
       # le jour-programme courant ne correspond pas au jour-programme des options
       # du programme.
@@ -28,6 +34,7 @@ class Unan
       # @param {Fixnum} pday_end
       #                 Le jour-programme de fin. Correspond normalement au
       #                 jour-programme courant de l'auteur.
+      #                 
       def update_table_works_auteur auteur, pday_start, pday_end
 
         auteur.is_a?(User) || raise(ArgumentError.new "La méthode `update_table_works_auteur` attend un User en premier argument.")
@@ -70,6 +77,9 @@ class Unan
         # données d'un seul coup :
         abs_works_ids = Array.new
 
+        # Pour mettre les données des pages cours éventuelles
+        pages_cours = Hash.new
+        
         # On peut boucler sur toutes les données pdays pour récupérer tous les
         # identifiants de travaux de la période donnée.
         where = "id >= #{pday_start} AND id <= #{pday_end}"
@@ -79,15 +89,58 @@ class Unan
           abs_works_ids += id_list
         end
 
+
         # On relève les données des travaux absolus (:id, :item_id et :type_w)
         # On a aussi besoin de la durée (en jours) pour savoir si les travaux-relatifs
         # sont en dépassement d'échéance.
         habsworks = Hash.new
-        site.db.select(:unan,'absolute_works',"id IN (#{abs_works_ids.join(', ')})",[:id, :item_id, :type_w, :duree])
+        site.db.select(:unan,'absolute_works',"id IN (#{abs_works_ids.join(', ')})",[:id, :item_id, :type_w, :duree, :points])
           .each do |habswork|
           habsworks.merge!( habswork[:id] => habswork )
+          habswork[:item_id] &&
+            begin
+              # Si :item_id est défini, ça peut être un quiz ou une page de cours (qui
+              # renvoie ou non à une page narration)
+              # C'est :type_w qui détermine la nature du travail
+              case Unan::Abswork::TYPES[habswork[:type_w]][:type]
+              when :page
+                pcid = habswork[:item_id]
+                pages_cours.key?(pcid) || pages_cours.merge!(pcid => {pcid: pcid, awids: Array.new})
+                pages_cours[pcid][:awids] << habswork[:id]
+              when :quiz
+              end
+          end
         end
 
+
+        # On doit charger aussi les données des pages cours éventuelles
+        #
+        # Elles permettent de renseigner le travail relatif avec l'identifiant
+        # éventuel de la page narration. Si c'est une page de cours UAUS, seul l'item_id
+        # du work-relatif est renseigné, si c'est une page narration, l'item_id contient
+        # l'ID de la page de cours UAUS et les bits 10 à 13 ([9..12]) contiennent l'ID de
+        # la page narration.
+        if pages_cours.keys.count > 0
+
+          # Liste avec seulement les IDs de page de cours (page de cours UAUS, pas les
+          # pages de cours narration)
+          pgids = pages_cours.collect{|pcid, pcdata| pcid}
+          
+          # On doit relever les pages dont le `type` est égal à 'N', ce qui
+          # correspond à la collection Narration
+          site.db.select(
+            :unan, 'pages_cours',
+            "narration_id IS NOT NULL AND id IN (#{pgids.join(', ')})",
+            [:id, :narration_id]
+          ).each do |hpagecours|
+            pgid   = hpagecours[:id]
+            pgdata = pages_cours[pgid]
+            pgdata[:awids].each do |awid|
+              habsworks[awid].merge!(pnarration_id: hpagecours[:narration_id])
+              debug "La page narration #{hpagecours[:narration_id]} est mise dans le travail ##{awid} qui contient la page cours ##{pgid}."
+            end
+          end
+        end
 
         # On a tout ce qu'il faut maintenant pour créer les travaux relatifs dans
         # la table de l'auteur. Pour accélerer la procédure, on va le faire avec
@@ -95,9 +148,9 @@ class Unan
         now = Time.now.to_i
 
         request = "INSERT INTO unan_works_#{auteur.id}"+
-          " (expected_at, abs_work_id, abs_pday, item_id, options, points, created_at, updated_at,"+
+          " (points, expected_at, abs_work_id, abs_pday, item_id, options, created_at, updated_at,"+
           " status, program_id)" +
-          " VALUES (?, ?, ?, ?, ?, 0, #{now}, #{now}, 0, #{auteur.program.id})"
+          " VALUES (?, ?, ?, ?, ?, ?, #{now}, #{now}, 0, #{auteur.program.id})"
 
         # Coefficiant durée, en fonction du rythme, pour calculer la date
         # de fin du travail attendue
@@ -131,12 +184,17 @@ class Unan
             maintenant   = Time.now.to_i
             real_depart  = maintenant - real_ago # Le timestamp du vrai départ du travail
 
+            # On met les points dans le travail. Noter que c'est ici purement indicatif (pour
+            # ne pas avoir à recharger la donnée absolue) et que ces points seront recalculés
+            # en fonction des retards éventuels.
+            points = habswork[:points] || 0
+
             # On obtient finalement la date escomptée de fin du travail en fonction
             # du rythme du programme de l'auteur
             expected_at  = real_depart + duree_real
 
             # Les valeurs pour la requête préparée
-            array_values << [expected_at, awork_id, pday_id, habswork[:item_id]||nil, options_for_work(habswork[:id])]
+            array_values << [points, expected_at, awork_id, pday_id, habswork[:item_id]||nil, options_for_work(habswork)]
 
           end # / fin de boucle sur tous les ids abs-work du pday
         end # / fin de boucle sur tous les pdays voulus
@@ -256,15 +314,23 @@ class Unan
 
       # Retourne la valeur d'option au démarrage du travail d'id +abswork_id+
       #
-      def options_for_work abswork_id
+      # Ces options, aujourd'hui, contiennent le maximum d'information qui
+      # peuvent éviter de charger la donnée absolu du travail ou empêcher des
+      # calculs fréquents, comme la date attendue de fin du travail.
+      #
+      def options_for_work habswork
+        abswork_id = habswork[:id]
         typew = typew_awork(abswork_id)
         itype = Unan::Abswork::TYPES[typew][:itype]
         c = String.new
         c << typew.to_s.rjust(2,'0')
         c << duree_awork(abswork_id).to_s.rjust(3,'0')
-        c << itype.to_s # sur un chiffre
+        c << itype.to_s # le itype, sur 1  chiffre
+        c << '00' # contiendra le nombre de jours de dépassement, if any
+        c << (habswork[:pnarration_id]||0).to_s.rjust(4,'0')
         return c
       end
+
       # Retourne le type de travail du travail absolu d'identifiant +abswork_id+
       def typew_awork abswork_id
         data_awork(abswork_id)[:type_w]

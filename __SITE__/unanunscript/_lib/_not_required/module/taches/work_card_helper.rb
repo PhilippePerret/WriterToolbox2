@@ -14,6 +14,8 @@ class Unan
       # Noter que ça peut être n'importe quel travail, une tâche normale
       # comme un quiz ou une page de cours à lire.
       #
+      # 
+      #
       # @param {User} auteur
       #               L'auteur du travail
       # @param {Hash} hwork
@@ -26,7 +28,7 @@ class Unan
       #               les envoyer ici à la méthode.
       def build_card_for_auteur auteur, hwork, habswork
         carte = String.new
-        carte << div_points(habswork)
+        carte << div_points(hwork)
         carte << "#{habswork[:titre]}".in_div(class:'titre')
         case hwork[:status]
         when 0, 2, 4
@@ -51,9 +53,8 @@ class Unan
           human_values = define_all_human_values(habswork, hwork) 
 
           carte << div_echeance(auteur, hwork, habswork)
-          carte << "#{MD2Page.transpile(nil,{code: habswork[:travail], dest: nil})}".in_div(class:'travail') 
-          # carte << section_details_tache(habswork)  # div.details
-          carte << ("Résultat attendu : ".in_span(class: 'libelle') + human_values['résultat attendu']).in_div(class: 'section_resultat_attendu')
+          carte << section_travail(hwork, habswork) 
+          carte << section_resultat_attendu(human_values)
           carte << section_exemples(habswork)       # div.exemples
           carte << section_suggestions_lectures(habswork) # div.section_suggestions_lectures
           carte << section_autres_infos(human_values) 
@@ -64,12 +65,73 @@ class Unan
           # Pour un travail accompli, rien n'a besoin d'être fait.
           # TODO Mais plus tard, on pourra mettre un lien pour voir ce travail
           # dans l'historique.
+          # carte << lien_revoir_ce_travail(hwork)
         end
         return "<li class=\"work\" id=\"work-#{hwork[:id]}\" data-id=\"#{hwork[:id]}\">#{carte}</li>"
       end
 
 
+      # Retourne l'objet_id de la route, plutôt que la task-type dans l'absolu.
+      # Cette propriété permet d'appeler l'url correcte pour démarrer ou finir
+      # le travail.
+      def task_type
+        @task_type ||= site.route.objet_id || TASK_TYPE
+      end
+
+      # Retourne le nombre 1 à 4 (parfois 0) qui correspond à l'itype de la
+      # tâche : 
+      # 1 = :task
+      # 2 = page de cours soit narration soit unan
+      # 3 = quiz
+      # 4 = forum
+      def itype hwork
+        hwork[:options][5].to_i
+      end
+
+      # Renvoie la section de travail
+      # Elle varie en fonction du type de la tâche et peut nécessiter, comme pour
+      # les quiz, de requérir un autre module.
+      def section_travail hwork, habswork
+        case itype(hwork)
+        when 1 # task
+          "#{MD2Page.transpile(nil,{code: habswork[:travail], dest: nil})}".in_div(class:'section_travail') 
+        when 2 # page
+          page_narration_id = hwork[:options][9..12].to_i(10)
+          is_page_narration = page_narration_id > 0
+          lien_vers_page =
+            if is_page_narration
+              href = "narration/page/#{page_narration_id}"
+              "Lire la page dans la collection Narration".in_a(href: href)
+            else
+              href = "unanunscript/page_cours/#{hwork[:item_id]}?wid=#{hwork[:id]}"
+              "Lire cette page du programme".in_a(href: href)
+            end
+          lien_vers_page.in_div(class: 'section_travail')
+        when 3 # quiz
+          "Procéder au quiz “#{habswork[:titre]}”"
+            .in_a(href: "unanunscript/quiz/#{hwork[:item_id]}?wid=#{hwork[:id]}")
+            .in_div(class: 'section_travail')
+        when 4 # forum
+          ''
+        else
+          ''
+        end
+      end
+
+
+      # Le résultat attendu, littéralement et humainement.
+      #
+      def section_resultat_attendu human_values
+        res = human_values['résultat attendu']
+        res != nil || (return '')
+        ("Résultat attendu : ".in_span(class: 'libelle') + res.in_div(class: 'contents'))
+            .in_div(class: 'section_resultat_attendu infos_sup')
+      end
+
+
       # Retourne le div des autres infos
+      # C'est, pour le moment, la ligne inférieure des fiches travaux, qui reprend l'intégralité
+      # des informations.
       def section_autres_infos human_values
         autres_infos =
           [
@@ -92,11 +154,22 @@ class Unan
       # Retourne le code HTML pour le div contenant le nombre de points
       # du travail, ou la marque "suivant résultat" pour les quiz
       #
-      def div_points habswork
+      def div_points hwork
         points =
           case task_type
-          when 'quiz' then 'suivant résultat'
-          else "#{habswork[:points]} points" 
+          when 'quiz' then 
+            # Pour un quiz, l'indication du nombre de points varie
+            # suivant le fait que c'est un travail achevé ou non. Si c'est
+            # un travail achevé, on connait déjà le nombre de points qu'à
+            # gagné l'auteur, donc on peut l'afficher. Dans le cas contraire, si
+            # c'est un quiz courant, on indique simplement 'suivant résultat'
+            if hwork[:status] == 9
+              "#{hwork[:points]} points"
+            else
+              'suivant résultat'
+            end
+          else
+            "#{hwork[:points]} points" 
           end
         "<div class=\"nbpoints\">#{points}</div>"
       end
@@ -120,10 +193,16 @@ class Unan
 
       # Retourne le formulaire (bouton) pour marquer le travail fini
       def end_form hwork
-        'Marquer ce travail fini'.in_a(
-            href: "unanunscript/bureau/#{task_type}?op=done_work&wid=#{hwork[:id]}"
-        )
-          #.in_div(class: 'buttons')
+        nom_bouton = 
+          case itype(hwork)
+          when 1
+            'Marquer ce travail fini'
+          when 2
+            'Marquer cette page lue'
+          else
+            'Marquer ce travail fini'
+          end
+        nom_bouton.in_a(href: "unanunscript/bureau/#{task_type}?op=done_work&wid=#{hwork[:id]}")
       end
 
       JOURS_SEMAINE = ['dimanche', 'lundi','mardi','mercredi','jeudi','vendredi','samedi']
@@ -180,14 +259,6 @@ class Unan
 
       end
 
-      # Retourne l'objet_id de la route, plutôt que la task-type dans l'absolu.
-      # Cette propriété permet d'appeler l'url correcte pour démarrer ou finir
-      # le travail.
-      def task_type
-        @task_type ||= site.route.objet_id || TASK_TYPE
-      end
-
-
 
       # ---------------------------------------------------------------------
       #   Propriétés au format humain
@@ -234,43 +305,6 @@ class Unan
       end
 
 
-      # Type de résultat au format humain
-      # Rappel : type_resultat est une donnée sur 3 bit dont chaque bit
-      # de 0 à 9 définit une valeur du travail :
-      # Le bit 1 (0) concerne le support (par exemple : un document)
-      # Le bit 2 (1) concerne le destinataire (p.e. soi-même ou un producteur)
-      # Le bit 3 (2) concerne le niveau d'exigence attendu
-      def human_type_resultat habswork
-        return 'human type resultat'
-        typeres = habswork[:type_resultat]
-        bit_res_support   = typeres[0].to_i
-        bit_res_destina   = typeres[1].to_i
-        bit_res_exigence  = typeres[2].to_i
-
-        c = String.new
-        if bit_res_destina > 0
-          destina   = Unan::DESTINATAIRES[bit_res_destina][1]
-          c << ('destinataire : '.in_span(class:'libelle')+destina.in_span)
-        end
-        if bit_res_support > 0
-          support   = Unan::SUPPORTS_RESULTAT[bit_res_support][1]
-          c << ('support : '.in_span(class:'libelle') + support.in_span)
-        end
-        if bit_res_exigence > 0
-          if bit_res_exigence < 10
-            exigence  = Unan::NIVEAU_DEVELOPPEMENT[bit_res_exigence][1]
-            c << ('développement : '.in_span(class:'libelle') + exigence.in_span)
-          else
-            # ERREUR
-            send_error_to_admin(
-              from: "Méthode `Unan::Program::AbsWork#human_type_resultat` : bit_res_exigence ne devrait pas pouvoir être > 9.",
-              extra: "User : #{user.infos_unan}"
-            )
-          end
-        end
-        return c.in_div
-      end
-
       # Retourne la section DIV contenant les suggestions de
       # lecture (pages cours) s'il y en a
       def section_suggestions_lectures habswork
@@ -285,27 +319,29 @@ class Unan
           [:id, :titre]
         ).each{|hp| hpagescours.merge! hp[:id] => hp }
 
-        debug "hpagescours = #{hpagescours.inspect}"
         # On fait la liste des pages (titres)
         listepages =
           pages_ids.collect do |pcid|
             titre = hpagescours[pcid][:titre]
-            "– #{titre}".in_a(href:"unanunscript/pages_cours/#{pcid}", target: '_blank').in_div
-          end.join
+            "#{titre}".in_a(href:"unanunscript/pages_cours/#{pcid}", target: '_blank').in_li
+          end.join.in_ul(class: 'suggestions_lectures')
 
         s = pages_ids.count > 1 ? 's' : ''
         (
           "Suggestion#{s} de lecture#{s} : ".in_span(class:'libelle') +
-          listepages
-        ).in_div(class:'section_suggestions_lectures')
+          listepages.in_div(class: 'contents')
+        ).in_div(class:'section_suggestions_lectures infos_sup')
       end
 
       # Retourne la section contenant les exemples s'ils existent
       def section_exemples habswork
         habswork[:exemples] != nil || (return '')
-        habswork[:exemples].as_id_list.collect do |eid|
-          "Exemple ##{eid}".in_a(href:"unanunscript/exemples/#{eid}", target:'_exemple_work_').in_span
-        end.join.in_div(class:'section_exemples')
+        (
+          'Exemples'.in_span(class: 'libelle') +
+          habswork[:exemples].as_id_list.collect do |eid|
+            "Exemple n°#{eid}".in_a(href:"unanunscript/exemples/#{eid}", target:'_exemple_work_').in_span
+          end.join.in_div(class: 'contents')
+        ).in_div(class:'section_exemples infos_sup')
       end
 
       # Retourne le DIV avec les liens vers des pages-cours s'il y

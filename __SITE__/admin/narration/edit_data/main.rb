@@ -13,15 +13,14 @@ class Narration
       @id = id
     end
 
-    #-------------------------------------------------------------------------------- 
+    #--------------------------------------------------------------------------------
     #
     #   DONNÉES
-    #   
-    #-------------------------------------------------------------------------------- 
+    #
+    #--------------------------------------------------------------------------------
     def titre       ; @titre        ||= id? ? data[:titre].gsub(/'/,'’') : nil end
     def livre_id    ; @livre_id     ||= data[:livre_id]     end
     def options     ; @options      ||= data[:options]      end
-    def handler     ; @handler      ||= data[:handler]      end
     def description ; @description  ||= data[:description]  end
 
     # Reseter les données, par exemple après l'enregistrement,
@@ -32,7 +31,6 @@ class Narration
       @titre        = nil
       @livre_id     = nil
       @options      = nil
-      @handler      = nil
       @description  = nil
       @priority     = nil
       @nivdev       = nil
@@ -50,7 +48,7 @@ class Narration
       @btype ||= id? ? options[0].to_i : nil
     end
     def type
-      @type ||= 
+      @type ||=
         begin
           case btype
           when 1 then :page
@@ -71,12 +69,12 @@ class Narration
     def only_web? ; @is_only_web  ||= id? ? options[2] == '1' : nil end
 
 
-    #-------------------------------------------------------------------------------- 
+    #--------------------------------------------------------------------------------
     #
-    #  METHODES D'ENREGISTREMENT 
-    #   
-    #-------------------------------------------------------------------------------- 
-    
+    #  METHODES D'ENREGISTREMENT
+    #
+    #--------------------------------------------------------------------------------
+
     # Méthode principale qui enregistre les données de la page
     #
     def save
@@ -117,24 +115,14 @@ class Narration
     end
 
     def md_file
-      @md_file ||= page? && in_livre? ? File.join(folder,"#{handler}.md") : nil
+      @md_file ||= page? && in_livre? ? File.join(folder_pages,livre_id.to_s, "#{id}.md") : nil
     end
     def dyn_file
-      @dyn_file ||= page? && in_livre? ? File.join(folder, "#{handler}.dyn.erb") : nil
+      @dyn_file ||= page? && in_livre? ? File.join(folder_pages,livre_id.to_s,"#{id}.dyn.erb") : nil
     end
 
-    # Le dossier du fichier.
-    # Si c'est une page est qu'elle est placée dans un livre, on définit le
-    # dossier en fonction de ce livre. Sinon, folder est nil.
-    def folder
-      @folder ||= 
-        begin
-          if page? && in_livre?
-            File.join('.','__SITE__','narration','_data', Narration::LIVRES[livre_id][:folder])
-          else
-            nil
-          end
-        end
+    def folder_pages
+      @folder_pages ||= File.join('.','__SITE__','narration','_data')
     end
 
     def require_building?
@@ -147,57 +135,36 @@ class Narration
       {
         titre:        dform[:titre],
         livre_id:     dform[:livre_id].to_i,
-        handler:      dform[:handler],
         options:      options_built,
         description:  dform[:description]
       }
     end
+
     def options_built
       o = dform[:type].to_s                 # page, sous-chapitre ou chapitre
       o << dform[:nivdev].to_s              # niveau de développement
       o << (dform[:only_web] ? '1' : '0')   # seulement pour livre en ligne
       o << dform[:priority].to_s            # priorité pour la correction
-
       debug "options : #{o}"
-
       return o
     end
 
-
     # Retourne true si les données sont valides, false dans le cas contraire
-    #
     ERRORS = {
-      titre_required:  "Il faut impérativement définir le titre.",
-      no_handler:      "Pour une page, il faut impérativement définir le handler (path au fichier).",
-      invalid_handler: "Le handler est un chemin invalide (autorisés : a-Z, 0-9, _, / et -)"
+      titre_required:  "Il faut impérativement définir le titre."
     }
     def data_valid?
       dform[:titre] || raise('titre_required')
-      if [1,5].include?(dform[:type])
-        handler_valide?(dform[:handler]) || (return false) 
-      else
-        dform[:handler] = nil
-      end
     rescue Exception => e
       debug e
-      __error ERRORS[e.message.to_sym] 
+      __error ERRORS[e.message.to_sym]
     else
       return true
     end
 
-    def handler_valide?(h)
-      h != nil || raise('no_handler')
-      h.gsub(/[a-zA-Z_0-9\-\/]/,'') == '' || raise('invalid_handler')
-    rescue Exception => e
-      debug e
-      __error ERRORS[e.message.to_sym] 
-    else
-      true
-    end
     # Retourne les données du formulaire, en les corrigeant si nécessaire
-    #
     def dform
-      @dform ||= 
+      @dform ||=
         begin
           d = param(:page)
           d.each { |k, v| d[k] = v.nil_if_empty }
@@ -211,7 +178,6 @@ class Narration
   end #/Page
 
 end #/Narration
-
 
 def page
   @page ||= Narration::Page.new(site.route.objet_id)
