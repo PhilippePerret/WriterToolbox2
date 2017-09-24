@@ -33,6 +33,7 @@
   - Tester les liens pour ouvrir une page de cours du programme
   - Tester les liens pour ouvrir un Quiz
   - Tester que le nombre de tâches dans l'onglet corresponde bien au nombre de tâches réel (ça ne fonctionnait pas avant mais ça a été réglé en traitant les opérations avant de construire les onglets).
+  - Tester la marque d'une page lue depuis la page quand c'est une page de cours UAUS : on démarre le travail, on rejoint la page de cours, on doit trouver le bouton pour marquer lue, on clique dessus, on doit revenir dans le bureau avec le bon message et la tâche marquée faite.
 
 * [NARRATION]
   Voir une page comme la page #530 du livre #1 (problème de titres, problèmes de schéma dans un PRE)

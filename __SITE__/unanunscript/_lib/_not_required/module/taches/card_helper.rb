@@ -63,14 +63,13 @@ class Unan
           # = Travail accompli =
           #
           # Pour un travail accompli, rien n'a besoin d'être fait.
-          # TODO Mais plus tard, on pourra mettre un lien pour voir ce travail
-          # dans l'historique.
-          # carte << lien_revoir_ce_travail(hwork)
+          carte << lien_revoir_ce_travail(hwork)
         end
         return "<li class=\"work\" id=\"work-#{hwork[:id]}\" data-id=\"#{hwork[:id]}\">#{carte}</li>"
       end
 
 
+      
       # Retourne l'objet_id de la route, plutôt que la task-type dans l'absolu.
       # Cette propriété permet d'appeler l'url correcte pour démarrer ou finir
       # le travail.
@@ -203,6 +202,18 @@ class Unan
             'Marquer ce travail fini'
           end
         nom_bouton.in_a(href: "unanunscript/bureau/#{task_type}?op=done_work&wid=#{hwork[:id]}")
+      end
+
+      # Retourne le bouton dans son div pour revoir le travail achevé
+      def lien_revoir_ce_travail hwork
+        case itype(hwork)
+        when 1 then 'Revoir ce travail'
+        when 2 then 'Relire cette page'
+        when 3 then 'Revoir ce quiz'
+        else 'Revoir ce travail'
+        end.in_a(
+          href: "unanunscript/history/#{hwork[:id]}"
+        ).in_div(class: 'buttons')
       end
 
       JOURS_SEMAINE = ['dimanche', 'lundi','mardi','mercredi','jeudi','vendredi','samedi']

@@ -21,6 +21,19 @@ li.work
       font-size         : inherit
       border            : 1px solid green
 
+ul#work_list-current
+  li.work
+    div.titre
+      margin-bottom     : 1.7em
+ul.work_list
+  &:not(#work_list-current)
+    li.work
+      div.titre
+        margin-bottom   : 0.5em 
+ul#work_list-done
+  opacity     : 0.4
+
+
 
 li.work
   padding           : 1em
@@ -38,7 +51,6 @@ li.work
   // Le titre principal du travail
   div.titre
     font-size         : 1.6em
-    margin-bottom     : 1.7em
     max-width         : 80%
     text-align        : left
 
@@ -83,6 +95,7 @@ li.work
     margin-bottom : 0.4em !important
 
   a, a:hover, a:link, a:visited
+    text-decoration  : none!important
     &.inwork
       color             : white
       background-color  : #173

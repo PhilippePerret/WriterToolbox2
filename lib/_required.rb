@@ -32,3 +32,6 @@ param(:tckid) && begin
   require_folder('./lib/procedure/ticket')
   Ticket.exec(param(:tckid))
 end
+
+# Exécution d'un script quelconque
+# require './lib/procedure/scripts/NOM DU SCRIPT'
