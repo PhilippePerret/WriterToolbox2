@@ -70,6 +70,7 @@ class Unan
     <span class="lien_prev_page">#{prev_page_link}</span>
     <span class="lien_main_page">#{lien_bureau}</span>
     <span class="lien_next_page">#{next_page_link}</span>
+    #{ where == :bottom ? boutons_marquages : '' }
   </div>
 </div>
       HTML
@@ -88,6 +89,28 @@ class Unan
     def next_page_link
       next_page_id != nil || (return '')
       "<a href=\"unanunscript/page_cours/#{next_page_id}\">→</a>"
+    end
+
+    # Retourne le code HTML des boutons qui permettent de :
+    # - marquer la page lue (= marquer le travail fini)
+    # - mettre la page de côté (pour consultation ultérieur)
+    def boutons_marquages
+      '<div class="buttons boutons_marquages right">'+
+      (
+        bouton_mettre_de_cote +
+        bouton_marquer_lue
+      )+'</div>'
+    end
+    def bouton_mettre_de_cote
+      "<a href=\"unanunscript/page_cours/#{id}?wid=<%= param(:wid) %>&op=set_aside\" class=\"medium btn\">"+
+        'Mettre la page de côté'+
+        '</a>'
+    end
+
+    def bouton_marquer_lue
+      "<a href=\"unanunscript/bureau/pages?op=done_work&wid=<%=param(:wid)%>\" class=\"medium btn main\">"+
+        'Marquer la page lue'+
+        '</a>'
     end
 
     # ---------------------------------------------------------------------

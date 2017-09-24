@@ -10,6 +10,11 @@ class User
   end
 
   def f_elle
-    @f_elle ||= (homme? ? 'il' : 'elle') 
+    @f_elle ||= (homme? ? 'il' : 'elle')
   end
+
+  def f_ve
+    @f_ve ||= (homme? ? 'f' : 've')
+  end
+  
 end #/User

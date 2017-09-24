@@ -10,12 +10,20 @@ a.btn
   border          : 1px solid #777
   background      : linear-gradient(#fcfcfc,#AAAAAA)
   color           : #525252 !important
+
+  + a.btn
+    margin-left : 1em
+
   &:not(.small)
     padding         : 10px 33px
   &.small
     padding         : 2px 12px
     font-size       : 11pt
     letter-spacing  : 2px
+  &.medium
+    padding         : .65em .9em
+    font-size       : .8em
+    letter-spacing  : .06em
 
 input[type="submit"], input[type="button"], a.btn
   font-family       : Arial, Helvetica
@@ -24,9 +32,9 @@ input[type="submit"], input[type="button"], a.btn
 // Les boutons submit/button
 input[type="submit"], input[type="button"], a.btn
   &.main
-    color             : white
+    color             : white!important
     background        : linear-gradient(#4CE54C,#079007)
-    border            : 0
+    border            : 1px solid green
   &.small
     font-size         : 0.61em !important
 

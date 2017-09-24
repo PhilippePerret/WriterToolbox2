@@ -1,0 +1,61 @@
+<div class="liens_next_previous_pages top">
+  <div class="cadre_links">
+    <span class="lien_prev_page"></span>
+    <span class="lien_main_page"><a href="unanunscript/bureau/pages">Votre bureau</a></span>
+    <span class="lien_next_page"></span>
+    
+  </div>
+</div>
+
+<section id="unan_page_cours-42" class="page_cours">
+<h2 class="titre_page">Création du dossier pour les personnages</h2>
+
+<!-- #42 Création du dossier pour les personnages -->
+<p><%
+
+require './lib/extensions_sup/site_os'
+titre_projet = user.projet.get(:titre) || "Titre Projet"
+titre_as_folder = titre_projet.gsub(/[^a-zA-Z_\-]/,'')
+
+%></p>
+
+<p>De la même manière que nous avons créé le dossier <code>Structure</code> pour y placer nos documents concernant la structure, nous allons créer le dossier <code>Personnages</code> pour y placer, évidemment, tout ce qui concerne… les personnages.</p>
+
+<p>Ce dossier doit être placé dans le dossier <code>0-Pre_version</code> du dossier de votre projet :</p>
+
+<p>-&gt; Créer le dossier <%= site.os_path(['...', 'Projets_persos', titre_as_folder, '0-Pre_version', 'Personnages', '']) %>.</p>
+
+<p>Dans ce dossier, nous allons placer notre premier document personnages, que nous pouvons appeler <code>Apercu.ext</code> :</p>
+
+<p>-&gt; Créer un document : <%= site.os_path(['...', '0-Pre_version','Personnages', 'Apercu.ext']) %>.</p>
+
+<blockquote>
+  <p>Note : là aussi, comme nous l’avons déjà vu, l’extension du fichier (le texte après le point dans le nom du fichier) dépend de votre éditeur de texte.</p>
+</blockquote>
+
+<p>La hiérarchie de vos dossiers/fichiers dans votre dossier projet doit donc, maintenant, ressembler à :</p>
+
+<pre><code>- 0_Pre_version/
+               |
+               | Personnages/
+               |            |
+               |            | - apercu.ext
+               |
+               | Structure/
+                          |
+                          | - scenes_cles.ext
+</code></pre>
+
+<p>C’est dans ce fichier que nous allons placer les premiers éléments sur les personnages principaux de l’histoire.</p>
+
+<p>Vous trouverez associés à cette page de cours des exemples vous permettant de réfléchir vos personnages.</p>
+</section>
+<div class="liens_next_previous_pages bottom">
+  <div class="cadre_links">
+    <span class="lien_prev_page"></span>
+    <span class="lien_main_page"><a href="unanunscript/bureau/pages">Votre bureau</a></span>
+    <span class="lien_next_page"></span>
+    <div class="buttons boutons_marquages right"><a href="unanunscript/page_cours/42?wid=<%= param(:wid) %>&op=set_aside" class="medium btn">Mettre la page de côté</a><a href="unanunscript/bureau/pages?op=done_work&wid=<%=param(:wid)%>" class="medium btn main">Marquer la page lue</a></div>
+  </div>
+</div>
+

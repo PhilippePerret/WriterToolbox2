@@ -15,10 +15,13 @@ section
 
 
 pre
-  padding           : 1em 0
-  background-color  : #333
-  color             : white
-  overflow          : auto
-  max-width         : 98%
-  code
-    padding-right     : 2em
+  &.document
+    font-size         : 0.85em
+  &:not(.document)
+    padding           : 1em
+    background-color  : #333
+    color             : white
+    overflow          : auto
+    max-width         : 98%
+    code
+      padding-right     : 2em
