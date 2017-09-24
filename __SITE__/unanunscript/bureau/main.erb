@@ -20,10 +20,9 @@ user.unanunscript? || user.admin? || raise('Vous n’êtes pas autorisé à rejo
 # dépassements.
 Unan::UUProgram.check_if_table_works_auteur_uptodate(program)
 
-# Note : les opérations sur les taches, comme start_work ou done_work sont traitées
-# par le fichier `task_listing.erb` qui est le partiel des partiels de tâches et seulement
-# de tâches donc il est raisonnable que ce soit là qu'on le traite plutôt qu'ici où sont
-# traités tous les onglets.
+# Cf. N0001 dans ./__DEV__/App/UAUS/NOTES.md
+
+Unan.traite_operation param(:op)
 
 %>
 <%= header(:small) %>

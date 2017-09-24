@@ -4,6 +4,11 @@ class Unan
   # Le type du projet développé par l'auteur
   #
   # Consigné dans le 5e bit (4) de la propriété `type` du projet
+  #
+  # Noter qu'on se sert de cette constante, dans task_listings.erb, pour savoir
+  # si le module non requis 'taches' a été chargé. Si par hasard il devait être
+  # déplacé, il faut se servir d'un autre constantes.
+  #
   PROJET_TYPES = {
     0 => {hname:'Tous',                   value:0, shorthname: 'Projet',          pages: 300  },
     1 => {hname:'Film (scénario)',        value:1, shorthname: 'Scénario',        pages: 90   },

@@ -1,6 +1,39 @@
 # encoding: utf-8
 
 class Unan
+  class << self
+
+      # Traite l'opération peut-être demandée
+      # Note : ne le fait que lorsque `param(:op)` est défini.
+      # 
+      # Lire la N0001
+      #
+      # Cette méthode est une des premières appelée quand on arrive sur le
+      # bureau, quel que soit l'onglet choisi. Elle suit la méthode qui checke
+      # pour voir si les listes de tâche de l'auteur sont à jour.
+      #
+      def traite_operation ope
+        ope != nil || return
+        case ope
+          # Les méthodes ci-dessous sont définies dans le fichier :
+          # ./__SITE__/unanunscript/_lib/_not_required/module/taches/work_class.rb
+          # ('gf' pour l'ouvrir)
+          #
+          # L'URL doit aussi contenir :wid qui définit l'IDentifiant du
+          # travail-relatif concerné.
+        when 'start_work' 
+          # => Démarrer un travail (en cliquant sur son bouton)
+          self.require_module 'taches'
+          Work.start(user, param(:wid))
+        when 'done_work'  
+          # => Finir un travail (en cliquant sur son bouton)
+          self.require_module 'taches'
+          Work.done(user, param(:wid))
+        end
+      end
+
+
+  end #/<< self Unan
 
   class UUProgram
     class << self

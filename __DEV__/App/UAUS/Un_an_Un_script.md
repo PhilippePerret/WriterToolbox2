@@ -156,15 +156,6 @@ Les [options](#unan_options_work), pour le moment, ne contient que le type du tr
 
 ```
 
-### Options du travail (`Work@options`) {#unan_options_work}
-
-```
-
-  Bits 0-1        Type du travail absolu.
-  bits 2-4        Durée, en jours-programme, du travail absolu.
-
-
-```
 
 ## Les P-Days, jours-programme {#unan_jour_programme}
 

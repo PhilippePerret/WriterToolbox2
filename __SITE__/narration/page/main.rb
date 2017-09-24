@@ -107,14 +107,9 @@ class Narration
       def def_paths
         case type
         when :page
-          # # ANCIENNE FORMULE
-          # affixe_path = File.join(folder_pages,livre_folder, data[:handler])
-          # NOUVELLE FORMULE :
           affixe_path = File.join(folder_pages,livre_id.to_s,id.to_s)
-
           @md_file  = "#{affixe_path}.md"
           @dyn_file = "#{affixe_path}.dyn.erb"
-
         else
           # Pour les chapitres et sous-chapitres
           @dyn_file = File.join(folder_pages, 'xdyn', "#{type}_#{id}.dyn.erb")

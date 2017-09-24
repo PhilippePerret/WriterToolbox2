@@ -11,20 +11,10 @@
   # construction ainsi que des méthodes de gestion des tâches (comme
   # par exemple les méthodes qui permettent de démarrer les tâches
   # ou de les terminer)
-  Unan.require_module 'taches'
+  # Note : sauf si cela a déjà été fait à cause d'une opération à 
+  # exécuter.
+  defined?(Unan::PROJET_TYPES) || Unan.require_module('taches')
 
-  # Une opération a peut-être été demandée
-  # Elle est contenue dans les paramètres, dans op pour l'opération et dans
-  # wid pour l'identifiant du travail. Noter que seul l'auteur ou un administrateur
-  # peuvent opérer.
-# Les méthodes ci-dessous sont définies dans le fichier :
-# ./__SITE__/unanunscript/_lib/_not_required/module/taches/work_class.rb
-# ('gf' pour l'ouvrir)
-  case param(:op)
-  when 'start_work' then Unan::Work.start(user, param(:wid))
-  when 'done_work'  then Unan::Work.done(user, param(:wid))
-  end
-  
 %>
 
 <% 

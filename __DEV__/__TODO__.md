@@ -1,6 +1,5 @@
 * [UNAN]
-  - Traiter l'affichage des onglets APRÈS avoir exécuté les opérations (pour que les chiffres correspondent à la réalité).
-  - Traiter l'affichage d'une page de cours. Tout se joue dans la méthode 'div_travail' de l'affichage de la carte. Faut-il un sous-module propre ou est-ce simple, comme affichage ?
+  - Traiter l'affichage d'une page de cours. Tout se joue dans la méthode 'section_travail' de l'affichage de la carte. Faut-il un sous-module propre ou est-ce simple, comme affichage ?
   - Traiter l'affichage d'un quiz. Tout se joue dans la méthode 'div_travail' de l'affichage de la carte. Peut-être faut-il charger un sous-module propre pour les quiz.
 
 * [UNAN]
@@ -31,6 +30,7 @@
   - Tester les liens pour ouvrir une page narration
   - Tester les liens pour ouvrir une page de cours du programme
   - Tester les liens pour ouvrir un Quiz
+  - Tester que le nombre de tâches dans l'onglet corresponde bien au nombre de tâches réel (ça ne fonctionnait pas avant mais ça a été réglé en traitant les opérations avant de construire les onglets).
 
 * [NARRATION]
   Voir une page comme la page #530 du livre #1 (problème de titres, problèmes de schéma dans un PRE)
