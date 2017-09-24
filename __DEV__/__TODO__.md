@@ -1,4 +1,5 @@
 * [UNAN]
+  - Pour l'affichage d'une page de cours, il faut également envoyer `wid`. Cela permettra d'ajouter des boutons à la fin de la page pour directement la marquer lue.
   - Traiter l'affichage d'une page de cours. Tout se joue dans la méthode 'section_travail' de l'affichage de la carte. Faut-il un sous-module propre ou est-ce simple, comme affichage ?
   - Traiter l'affichage d'un quiz. Tout se joue dans la méthode 'div_travail' de l'affichage de la carte. Peut-être faut-il charger un sous-module propre pour les quiz.
 

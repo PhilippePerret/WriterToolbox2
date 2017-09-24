@@ -1,0 +1,64 @@
+<div class="liens_next_previous_pages top">
+  <div class="cadre_links">
+    <span class="lien_prev_page"></span>
+    <span class="lien_main_page"><a href="unanunscript/bureau/pages">Votre bureau</a></span>
+    <span class="lien_next_page"></span>
+  </div>
+</div>
+
+<section id="unan_page_cours-40" class="page_cours">
+<h2 class="titre_page">Installation du projet sur l'ordinateur</h2>
+
+<!-- #40 Installation du projet sur l'ordinateur  -->
+
+<p><%
+
+require './lib/extensions_sup/site_os'
+
+titre_projet = user.projet.get(:titre) || "TitreProjet"
+titre_as_folder = titre_projet.gsub!(/[^a-zA-Z_\-]/,'')
+
+%></p>
+
+<h3 id="installation-du-projet-sur-lordinateur">Installation du projet sur l’ordinateur</h3>
+
+<p>Le travail sur un projet représente un challenge particulier au niveau de l’organisation. Cette organisation n’écrira jamais le projet à votre place, mais trop la négliger peut conduire à se laisser étouffer par son propre projet à mesure que les jours passent.</p>
+
+<p>Cependant, il convient de noter que s’organiser trop bien trop tôt peut être néfaste, comme cela est expliqué dans la page <a href="narration/page/276" class="page">Entretenir le chaos</a> dans <a href="narration/livre/6" class="livre">Le Travail de l’auteur</a> du livre sur le travail de l’auteur dans la <a href="narration">Collection Narration</a>. Il faut laisser un temps le chaos s’exprimer dans les prémisses du projet.</p>
+
+<p>Cela n’empêche pas, pourtant, de commencer un semblant d’organisation sur son ordinateur, histoire de ne pas passer plusieurs minutes chaque jour à retrouver ses fichiers.</p>
+
+<p>Le nom de dossier principal s’inspirera du titre de votre projet : “<%= titre_projet %>”.</p>
+
+<p>Nous allons commencer par créer un dossier pour ce nouveau projet que vous allez travailler. Vous allez créer cette hiérarchie de dossier à partir de votre dossier principal de documents (le dossier <code><%= site.os_folder_documents %></code> puisque vous êtes sur <%= site.os %>)  :</p>
+
+<pre><code>    <%= site.os_path([site.os_folder_documents, 'Ecriture','Projets_persos', '']) %><%= titre_projet %><%= site.os_delimiteur %>
+</code></pre>
+
+<ul>
+  <li>Créez le dossier <code>Ecriture</code> dans votre dossier <code><%= site.os_folder_documents %></code>,</li>
+  <li>Créez le dossier <code>Projets_persos</code> dans ce dossier <code>Ecriture</code>,</li>
+  <li>Créez le dossier <code><%= titre_projet %></code> dans ce dossier.</li>
+</ul>
+
+<p>Vous pouvez bien entendu créer un raccourci de ce dossier sur votre bureau (celui de votre ordinateur, pas celui du site ;-) ).</p>
+
+<p>Nous trouverons à la racine de ce dossier du projet les <em>dossiers de version</em>. Puisque vous en êtes au tout début du développement, nous allons travailler dans le dossier :</p>
+
+<pre><code>    [chemin vers projet]<%= site.os_delimiteur %><%= titre_projet %><%= site.os_delimiteur %>0-Pre_version<%= site.os_delimiteur %>
+</code></pre>
+
+<ul>
+  <li>Créez ce dossier <code>0-Pre_version</code> à la racine du dossier de votre projet.</li>
+</ul>
+
+<p>C’est dans ce dossier que vous pouvez dorénavant placer ou créer tous vos documents.</p>
+</section>
+<div class="liens_next_previous_pages bottom">
+  <div class="cadre_links">
+    <span class="lien_prev_page"></span>
+    <span class="lien_main_page"><a href="unanunscript/bureau/pages">Votre bureau</a></span>
+    <span class="lien_next_page"></span>
+  </div>
+</div>
+
