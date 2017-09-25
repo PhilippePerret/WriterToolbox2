@@ -15,7 +15,7 @@ describe Quiz do
     end
   end
   describe 'Instance' do
-    let(:q) { @q ||= Quiz.new(1) }
+    let(:q) { @q ||= Quiz.new(21) }
     it 'on peut instancier un quiz avec son ID' do
       tq = Quiz.new(1)
       expect(tq).to be_a(Quiz)
@@ -34,7 +34,17 @@ describe Quiz do
         expect(q).to respond_to :get
       end
       it 'retourne une valeur du quiz' do
-        expect(q.get(:titre)).to eq 'Quiz test'
+        expect(q.get(:titre)).to eq 'Test quiz'
+      end
+    end
+
+
+    describe '#output' do
+      it 'répond' do
+        expect(q).to respond_to :output
+      end
+      it 'retourne le code HTML du questionnaire' do
+        expect(q.output).to have_tag('div',with: {class: 'quiz'})
       end
     end
   end

@@ -59,15 +59,16 @@ CREATE TABLE questions
     # Note : avant, c'était `type`
     #   BIT   OFFSET  DESCRIPTION
     #   1       0     r: un seul choix possible, c: choix multiple
-    #                 => donne `type_c` dans le programme
     #   2       1     Type d'affichage l: en ligne, c: en colonne, m: menu
-    #                 => produit `type_a` dans le programme
     #   3       2     Groupe de la question, en base 36
     #                 0  non défini
     #                 1  Scénodico
     #                 2  Filmodico
     #                 3  Un an un script
     #                 4  Narration
+    #   4       3     Si 1, l'ordre des réponses doit être celui fixé. Sinon,
+    #                 par défaut, les réponses sont mélangées chaque fois.
+    #
     specs VARCHAR(16) DEFAULT '00000000',
 
     #  RAISON
