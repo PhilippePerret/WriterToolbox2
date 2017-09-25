@@ -38,3 +38,10 @@ Pour ajouter les colonnes :
 ```
 
 * Actualiser les données ONLINE avec les données OFFLINE de la table `absolute_work` dont un grand nombre de titres et de données ont été modifiées.
+
+
+# QUIZ
+
+* Créer la base `boite-a-outils_quiz` sur AlwaysData.
+* Copier le contenu de la base locale vers la base distante.
+* Transformer les données résultats en données dans les tables des users.

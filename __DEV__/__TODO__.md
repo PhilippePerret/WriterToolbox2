@@ -1,8 +1,36 @@
+* [UNAN][QUIZ]
+  Les traitements à faire sont :
+  - affichage du quiz (la toute première fois)
+  - ré-affichage du quiz (après soumission)
+  - ré-affichage du quiz (historique)
+  - affichage des résultats du quiz
+  * On enregistre les résultats non pas dans une table des quiz mais dans
+  une table de :users_tables ("quiz_<id user>")
+  * On utilise le module général qui permet de gérer les quiz
+  On va simplifier énormément la gestion des quiz :
+    - une seule BASE `boite-a-outils_quiz` (ne pas oublier de la créer sur AlwaysData)
+    - les questions appartiennent à chacun des quiz. Si je prends une table, elle contiendra
+      trop de questions et ça complique la démarche inutilement.
+      L'important est de trouver la manière de faire, d'enregistrer les questions.
+      QUESTION
+        RÉPONSE ID        CONTENU    NB_POINTS   PERTINENCE   RAISON
+                                                  0: false
+                                                  1: juste
+                                                  2: ni l'un ni l'autre
+      Quelle couleur aimez-vous ?
+        1   Bleu    12    0     C'est une couleur comme les autres
+        2   Rouge   12    0     idem
+
+      Qu'est-ce qui est important pour parvenir à écrire ?
+        ID  CONTENU                 NB_POINTS       PERTINENCE        RAISON
+        1   De travailler           50              1                 Sans travail, on ne parvient rien.
+        2   De prendre du recul     10              2                 Oui il faut, mais pas trop
+        3   D'attendre d'être prêt  0               0                 Si on attend, on ne fait rien.
+
+
 * [UNAN]
-  - Atténuer l'affichage des travaux récemment finis
-  - Pour l'affichage d'une page de cours, il faut également envoyer `wid`. Cela permettra d'ajouter des boutons à la fin de la page pour directement la marquer lue.
-  - Traiter l'affichage d'une page de cours. Tout se joue dans la méthode 'section_travail' de l'affichage de la carte. Faut-il un sous-module propre ou est-ce simple, comme affichage ?
   - Traiter l'affichage d'un quiz. Tout se joue dans la méthode 'div_travail' de l'affichage de la carte. Peut-être faut-il charger un sous-module propre pour les quiz.
+  - Traiter l'affichage de l'historique. Rappelle : une adresse conduisant à l'historique est très simple : unanunscript/history/<id travail relatif>. En fonction du travail relatif, on peut afficher le travail, renvoyer vers narration, vers une page de cours, un message de forum ou un quiz.
 
 * [UNAN]
   - Implémenter et tester unanunscript/page_cours/ qui permet de lire une page de cours du programme. S'inspirer très exactement de narration.
