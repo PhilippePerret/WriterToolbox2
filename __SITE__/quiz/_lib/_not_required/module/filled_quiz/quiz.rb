@@ -11,7 +11,7 @@ class Quiz
     # Retourne l'instance Quiz du quiz pour le visiteur courant
     def [] quiz_id
       @allquiz ||= Hash.new
-      @allquiz[quiz_id] ||= Quiz.new(quiz_id, user_id)
+      @allquiz[quiz_id] ||= Quiz.new(quiz_id, user.id)
       @allquiz[quiz_id]
     end
 

@@ -16,7 +16,9 @@ class Quiz
   # un code ERB dynamique.
   #
   def build_output
-    
+    data[:questions_ids].as_id_list.collect do |question_id|
+      Question.new(question_id, self).output
+    end.join('').in_div(class: 'quiz', id: "quiz-#{id}")
   end
 
 end #/Quiz

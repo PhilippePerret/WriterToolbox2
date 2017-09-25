@@ -33,7 +33,16 @@ class Quiz
    # qui ne produit rien.
    require_module "#{resultats.nil? ? 'un' : ''}filled_quiz"
    
-   deserb(data[:output])
+   <<-HTML
+   <form id="quiz_form-#{self.id}" class="quiz_form">
+    <input type="hidden" name="quiz[id]" id="quiz_id" value="#{self.id}" />
+    <input type="hidden" name="quiz[owner]" id="quiz_owner" value="#{user.id}" />
+    #{ERB.new(data[:output]).result()}
+    <div class="buttons">
+      <input type="submit" value="Soumettre ce quiz" />
+    </div>
+   </form>
+   HTML
   end
 
   def folder        ; @folder       ||= File.join('.','__SITE__','quiz')  end
