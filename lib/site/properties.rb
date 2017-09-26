@@ -14,5 +14,8 @@ class Site
     configuration.send("url_#{offline? ? 'offline' : 'online'}")
   end
 
+  # Juste pour la table des variables qui sont propres au site
+  def id ; 0 end
+
 
 end #/Site

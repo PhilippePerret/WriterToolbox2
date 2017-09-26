@@ -120,6 +120,7 @@ module VarsMethodsModule
 
     # Demande la création de la table si nécessaire
     def create_table_if_needed( err, counter )
+      counter ||= 0
       counter += 1
       counter < 5 || (return false)
       if err.message.match(/Table(.*)doesn't exist/)

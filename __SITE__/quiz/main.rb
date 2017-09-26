@@ -109,13 +109,23 @@ class Quiz
   # évaluation du quiz courant
   #
   def try_get_resultats_in_table_owner
+    # debug "-> try_get_resultats_in_table_owner"
     begin
       where = "quiz_id = #{id} ORDER BY created_at DESC LIMIT 1"
       res = site.db.select(:users_tables,"quiz_#{owner.id}",where).first
     rescue Mysql2::Error => e
+      # debug "ERREUR Mysql : #{e.message}"
       return
     end
-    @resultats = JSON.parse(res[:resultats], symbolize_keys: true)
+    res = JSON.parse(res[:resultats], symbolize_names: true)
+    # Il faut remettre les identifiants des questions (:"12" => 12)
+    reps = Hash.new 
+    res[:reponses].each do |quid_symstr, qudata|
+      reps.merge!(quid_symstr.to_s.to_i => qudata)
+    end
+    res[:reponses] = reps
+
+    @resultats = res
     debug "@resultats depuis la base : #{resultats.inspect}"
   end
 
