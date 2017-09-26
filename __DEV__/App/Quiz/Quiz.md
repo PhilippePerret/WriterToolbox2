@@ -11,7 +11,7 @@ CREATE TABLE quiz
   (
     id INTEGER AUTO_INCREMENT,
     titre VARCHAR(200) NOT NULL,
-    SPECS VARCHAR(32),
+    specs VARCHAR(32),
     questions_ids VARCHAR(255),
     output BLOB,
     description TEXT,
@@ -42,21 +42,33 @@ CREATE TABLE quiz
     #  SPECS
     # -------
     # Spécification du quiz. Remplace GROUPE et TYPE
-    #   BIT   OFFSET        DESCRIPTION
-    #   1     0             Type du quiz, simple quiz, sondage, etc.
-    #                       Cf. la table Quiz::TYPES
-    #   2     1             Inusité
-    #   3     2             Ancien groupe.
-    #                       Note : on le met en 3 pour que ça corresponde au
-    #                       bit des questions
-    #   9     8             1 si quiz courant
-    #   10    9             1 : question dans un ordre aléatoire
-    #   11-13   10-12       Nombre max de question (0 si toutes). N'a de sens
-    #                       que si les questions sont dans un ordre aléatoire.
-    #   14      13          Obsolète
-    #   15      14          1: Réutilisable. C'est-à-dire qu'on peut le faire
-    #                       autant de fois qu'on le veut, mais qu'il ne génère
-    #                       pas de points pour l'user.
+    #   BIT     OFFSET        DESCRIPTION
+    #   1       0             Type du quiz, simple quiz, sondage, etc.
+    #                         Cf. la table Quiz::TYPES
+    #   2       1             Inusité
+    #   3       2             Ancien groupe.
+    #                         Note : on le met en 3 pour que ça corresponde au
+    #                         bit des questions
+    #   9       8             1 si quiz courant
+    #   10      9             1 : question dans un ordre aléatoire
+    #   11-13   10-12         Nombre max de questions (0 si toutes). N'a de sens
+    #                         que si les questions sont dans un ordre aléatoire.
+    #   14      13            Obsolète
+    #   15      14            Bit qui détermine la réusabilité et l'enregistrement
+    #                         des résultats :
+    #                         Bit 1     1 : réutilisable. Le user peut le faire
+    #                                       autant de fois qu'il veut.
+    #                                   0 : ce questionnaire ne se fait qu'une
+    #                                       fois.
+    #                         Bit 2     1 : Ne pas enregistrer les résultats
+    #                                   0 : enregistrer les résultats
+    #                         Bit 4     Non utilisé
+    #                         Donc, si valeur égale… alors :
+    #                           0   Une seule fois, résultats sauvés
+    #                           1   Réutilisable, résultats sauvés
+    #                           2   Une seule fois, pas de résultats sauvés
+    #                           3   Réutilisable, résultats non sauvés
+    #                         
     specs VARCHAR(32),
 
     #  TYPE

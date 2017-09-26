@@ -112,32 +112,60 @@ end
 
 
 all_questions.each do |hquestion|
-  opts = hquestion[:type] || ''
-  hquestion[:specs][0] = opts[0] || '0'
-  hquestion[:specs][1] = opts[1] || '0'
+  type = hquestion[:type] || ''
+  case type[1]
+  when 'c', 'r' then true
+  else raise("Le choix multiple/unique est mauvaise (devrait être c ou r, est #{type[1]})")
+  end
+  alignement =
+    case type[2]
+    when 'v', 'c' then 'c'
+    when 'h','l'  then 'l'
+    when 'm'      then 'm'
+    else raise("La valeur d'alignement est mauvaise. Devrait être c, l ou m, est #{type[2]}")
+    end
+  hquestion[:specs][0] = type[1]
+  hquestion[:specs][1] = alignement
+
+  # Pour calculer la valeur max de points
+  choix_multiple = type[1] == 'c'
 
   raison = hquestion.delete(:raison)
+
+  # Nombre de points max pour la question
+  max_points = 0
 
   # IL faut modifier toutes les réponses pour les mettre dans un autre format
   # qui prendra moins de place
   reponses = JSON.parse(hquestion[:reponses])
   # Si une raison est donnée, on la met dans la réponse qui vaut le plus
   # de points.
-  if raison
-    pts_max_reponse   = -1
-    ind_max_reponse = nil
-    reponses.each_with_index do |hreponse, ireponse|
-      if hreponse['pts'].to_i > pts_max_reponse
-        # Cette réponse a le max de points pour le moment
-        pts_max_reponse = hreponse['pts'].to_i
-        ind_max_reponse = ireponse
-      end
+  pts_max_reponse   = -1
+  ind_max_reponse = nil
+  reponses.each_with_index do |hreponse, ireponse|
+    points_rep = hreponse['pts'].to_i
+    if points_rep > pts_max_reponse
+      # Cette réponse a le max de points pour le moment
+      pts_max_reponse = points_rep
+      ind_max_reponse = ireponse
     end
-    # ind_max_reponse contient l'index de la réponse qui a le
-    # plus de points, on met la raison dedans
-    reponses[ind_max_reponse].merge!('raison' => raison)
+
+    if choix_multiple && points_rep > 0
+      max_points += points_rep
+    end
+
   end
 
+  unless choix_multiple
+    max_points = pts_max_reponse
+  end
+
+  if raison
+    # ind_max_reponse contient l'index de la réponse qui a le
+    # plus de points, on met la raison dedans. Penser quand même que
+    # ça peut être une question à choix multiple
+    reponses[ind_max_reponse].merge!('raison' => raison)
+  end
 
   hquestion[:reponses] =
     reponses.collect do |hreponse|
@@ -145,6 +173,9 @@ all_questions.each do |hquestion|
       "#{hreponse['lib']}:::#{hreponse['pts']}#{rai.nil? ? '' : ':::'+rai}"
     end.join("\n")
 
+
+  # On met le max de points dans les specs
+  hquestion[:specs][4..6] = max_points.to_s.rjust(3,'0')
 
   hquestion.delete(:groupe)
   hquestion.delete(:type)
@@ -165,7 +196,7 @@ end
 #   site.db.insert(:quiz,'quiz',hquiz)
 # end
 
-
+#
 # # ---------------------------------------------------------------------
 # #   ON ENREGISTRE LES QUESTIONS
 # # ---------------------------------------------------------------------

@@ -43,7 +43,7 @@ class Quiz
     # ou du fait qu'elle n'a pas encore été répondue.
     def div_class
       quiz != nil || (return 'question')
-      "<%= Quiz[#{quiz.id}].class_question(#{id}) %>"
+      "<%=quiz.class_question(#{id})%>"
     end
 
     # {String} Identifiant pour le DOM, qui sera aussi utilisé pour les
@@ -54,6 +54,7 @@ class Quiz
 
 
     # Code HTML du UL des réponses possibles
+    #
     def reponses_output
       # TODO Faut-il mélanger les réponses ou les garder dans le même ordre ?
       reps = reponses.collect{|r|r}

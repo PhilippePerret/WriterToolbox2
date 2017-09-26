@@ -177,7 +177,7 @@ describe Quiz::Question do
                 with_tag('input', with: {type: 'checkbox', id: rep_id, name: rep_id})
               else
                 # Un RADIO avec le bon ID et le bon NAME
-                with_tag('input', with: {type: 'radio', id: rep_id, name: "qz-21-q-#{question.id}"})
+                with_tag('input', with: {type: 'radio', id: rep_id, name: "quiz[qz-21-q-#{question.id}]"})
               end
             end
 

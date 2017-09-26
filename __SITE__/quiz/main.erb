@@ -1,0 +1,20 @@
+<% 
+  #
+  # Page principale qui affiche le formulaire et le gère
+  #
+  # Noter que c'est cette même page qui gère les formulaires pour
+  # le programme UN AN UN SCRIPT. La seule différence, c'est qu'au
+  # retour dans le bureau, on peut voir le questionnaire fait.
+  #
+  
+  # Il faut vérifier s'il faut soumettre le questionnaire
+  case param(:operation)
+  when 'evaluate_quiz' then quiz.evaluate
+  end
+
+%>
+<%= header %>
+<h2>Les quiz</h2>
+<%= right_margin %>
+<%= quiz.output %>
+<%= footer %>

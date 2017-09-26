@@ -9,7 +9,7 @@ class Quiz
 
       DELIMITEUR_DATA = ':::'
 
-      
+
       # {String} Donnée brut de la réponse
       attr_reader :raw_data
 
@@ -21,7 +21,7 @@ class Quiz
       attr_reader :points
       # {String|Nil} La raison pour laquelle cette réponse est la meilleure
       attr_reader :raison
-      
+
       # Instance {Quiz::Question} de la question de cette réponse
       attr_reader :question
 
@@ -40,7 +40,7 @@ class Quiz
         "<li id=\"li-#{dom_id}\" class=\"#{li_class}\">"+
           "<input"+
           " id=\"#{dom_id}\"" +
-          " name=\"#{for_cb ? dom_id : question.dom_id }\"" +
+          " name=\"quiz[#{for_cb ? dom_id : question.dom_id }]\"" +
           " type=\"#{for_cb ? 'checkbox' : 'radio'}\"" +
           " value=\"#{index}\"" +
           "#{checked_code_erb}" +
@@ -53,14 +53,14 @@ class Quiz
       # résultat de l'user qui l'aurait rempli.
       def li_class
         question.quiz != nil || (return '')
-        "<%=Quiz[#{question.quiz.id}].class_li_reponse(#{question.id},#{index})%>"
+        "<%=quiz.class_li_reponse(#{question.id},#{index})%>"
       end
 
       # Retourne le code ERB permettant de régler cette réponse si elle est
       # choisie et que c'est un réaffichabe d'un quiz déjà fait.
       def checked_code_erb
         question.quiz != nil || (return '')
-        "<%=Quiz[#{question.quiz.id}].code_checked(#{question.id},#{index})%>"
+        "<%=quiz.code_checked(#{question.id},#{index})%>"
       end
 
       def dom_id
@@ -76,7 +76,6 @@ class Quiz
         @points  = d[1].to_i          # peut être négatif
         @raison  = d[2].nil_if_empty  # seulement si bonne réponse
       end
-
     end #/Reponse
   end #/Question
 end #/Quiz

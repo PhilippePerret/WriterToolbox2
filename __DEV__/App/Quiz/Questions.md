@@ -68,7 +68,8 @@ CREATE TABLE questions
     #                 4  Narration
     #   4       3     Si 1, l'ordre des réponses doit être celui fixé. Sinon,
     #                 par défaut, les réponses sont mélangées chaque fois.
-    #
+    #   5-7     4-6   Nombre de points maximum qu'on peut marquer avec
+    #                 cette question
     specs VARCHAR(16) DEFAULT '00000000',
 
     #  RAISON

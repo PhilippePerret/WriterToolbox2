@@ -39,6 +39,7 @@ class Quiz
 
   # Aucune réponse n'ayant encore été données, on retourne toujours ''  
   def code_checked question_id, index_reponse
+    debug "-> code_checked de UNfilled_quiz"
     ''
   end
 end #/Quiz

@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
-# Pour le benchmarking, on inscrit le temps courant dans un
-# fichier
 begin
   require './lib/_required'
   site.output

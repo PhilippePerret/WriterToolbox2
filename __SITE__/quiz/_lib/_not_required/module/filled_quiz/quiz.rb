@@ -1,21 +1,5 @@
 # encoding: utf-8
 class Quiz
-  # --------------------------------------------------------------------------------
-  #
-  #   CLASSE
-  #
-  # --------------------------------------------------------------------------------
-
-  class << self
-
-    # Retourne l'instance Quiz du quiz pour le visiteur courant
-    def [] quiz_id
-      @allquiz ||= Hash.new
-      @allquiz[quiz_id] ||= Quiz.new(quiz_id, user.id)
-      @allquiz[quiz_id]
-    end
-
-  end #/<< self
   
   # --------------------------------------------------------------------------------
   #
@@ -31,11 +15,22 @@ class Quiz
   # - la question n'a pas été répondue        => ''
   # - la question a été correctement répondue => 'bon'
   # - la question n'a pas reçue une réponse correcte => 'bad'
-  #
+  # - la question a été oubliée                      => 'unanswered'
   # On ajoute aussi toujours 'question' au div
+  #
   def class_question question_id
     c = ['question']
     
+    # Si on ne doit pas afficher les résultats bon/mauvais, on ne fait rien.
+    # Cela arrive par exemple lorsque le quiz n'a pas été rempli entièrement
+    if resultats[:not_evaluated]
+      if false == resultats[:reponses].key?(question_id)
+        c << 'unanswered'
+      end
+    else
+      # TODO Étudier la question
+    end
+
     return c.join(' ')
   end
 
@@ -49,7 +44,11 @@ class Quiz
   # - C'est une réponse choisie, et est elle bonne    => 'bonchoix'
   # - Ça n'est pas une réponse choisie                => ''
   def class_li_reponse question_id, index_reponse
-    '' 
+    if resultats[:not_evaluated]
+      ''
+    else
+      '' 
+    end
   end
 
   # Renvoie '' ou 'checked=CHECKED' pour indiquer que la réponse d'index
@@ -57,6 +56,8 @@ class Quiz
   # lors du remplissage du questionnaire.
   #
   def code_checked question_id, index_reponse
-    ''
+    debug "-> code_checked de filled_quiz"
+    ck = resultats[:reponses][question_id] && resultats[:reponses][question_id].include?(index_reponse)
+    ck ? ' checked="CHECKED"' : ''
   end
 end #/Quiz
