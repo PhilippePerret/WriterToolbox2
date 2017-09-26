@@ -1,3 +1,43 @@
+form.quiz_form
+  padding-top : 1em
+
+div.quiz_header
+  margin      : 0 0 3em 3em
+  float       : right
+  div.encart_note_finale
+    display         : inline-block
+    padding         : .45em 2em 1em 2em
+    border          : 2px solid
+    border-radius   : 2em
+    font-size       : 1.4em
+    text-align      : center
+    letter-spacing  : 2px
+    &.medquiz
+      background-color  : orange
+      border-color      : orange
+      color             : white
+    &.badquiz
+      background-color  : red
+      border-color      : red
+      color             : white
+    &.bonquiz
+      background-color  : green
+      border-color      : green
+      color             : white
+    > span
+      display   : block
+      &.note_finale
+        font-weight   : bold
+        font-size     : 1.4em
+      &.date
+        font-size     : 13pt
+        text-align    : right
+        font-family   : Georgia, 'Sans serif'
+        margin-bottom : 2em
+      &.points
+        font-size     : 0.75em
+        margin-top    : 1em
+
 div.quiz
   // Le titre du quiz
   > h3.titre

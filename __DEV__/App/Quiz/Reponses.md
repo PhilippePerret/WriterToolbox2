@@ -85,14 +85,13 @@ Format réduit de la table MySQL des résultats :
 
 ```
 
-CREATE TABLE quiz___USER_ID__
+CREATE TABLE quiz_<__USER_ID__>
   (
     id INTEGER AUTO_INCREMENT,
     user_id INTEGER,
     quiz_id INTEGER NOT NULL,
-    reponses BLOB NOT NULL,
+    resultats BLOB NOT NULL,
     note INTEGER(3) NOT NULL,
-    points INTEGER(4) NOT NULL,
     options VARCHAR(8) DEFAULT '00000000',
     updated_at INTEGER(10),
     created_at INTEGER(10),
@@ -136,9 +135,7 @@ CREATE TABLE quiz_<id user>
 
     # POINTS
     # ------
-    # Nombre de points marqué pour ce questionnaire, pour éviter
-    # d'avoir à les recalculer.
-    points INTEGER(4) NOT NULL,
+    # OBSOLÈTE
 
     # OPTIONS
     # -------

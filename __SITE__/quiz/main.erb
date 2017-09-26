@@ -14,8 +14,11 @@
 
   require_form_support
 %>
-<%= header %>
-<h2>Les quiz</h2>
-<%= right_margin %>
+<%= header(:small) %>
+<h2 class="small">Les quiz</h2>
+<% 
+# Pas de marge droite, parce qu'on n'en a pas besoin et pour ne pas
+# empiéter sur le quiz
+%>
 <%= quiz.output %>
 <%= footer %>

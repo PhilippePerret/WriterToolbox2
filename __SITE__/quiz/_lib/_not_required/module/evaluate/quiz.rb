@@ -43,9 +43,7 @@ class Quiz
   # Le "cas contraire", c'est surtout lorsque le quiz n'a pas été entièrement
   # rempli.
   def proceed_evaluation
-    debug "Quiz : #{param(:quiz).inspect}"   
     parse_ok = parse_param_quiz 
-    debug "@resultats = #{@resultats.inspect}"
     return parse_ok
   end
 
@@ -120,20 +118,30 @@ class Quiz
         raise e
       end
     end
-    newdata = {resultats: resultats.to_json}
+    data2save = Hash.new
+    not_saved_props = [:not_evaluate, :evaluating, :quiz_id, :owner_id]
+    resultats.each do |prop, propvalue|
+      not_saved_props.include?(prop) && next
+      data2save.merge!(prop => propvalue)
+    end
+    newdata = {
+      quiz_id:   resultats[:quiz_id], 
+      user_id:   owner.id, 
+      note:      resultats[:note_finale],
+      resultats: data2save.to_json
+    }
     resultats_id = site.db.insert(:users_tables, table_quiz_owner, newdata)
   end
 
   def create_table_owner
     request = <<-SQL
-    CREATE TABLE quiz__#{owner.id}
+    CREATE TABLE quiz_#{owner.id}
     (
       id INTEGER AUTO_INCREMENT,
       user_id INTEGER,
       quiz_id INTEGER NOT NULL,
       resultats BLOB NOT NULL,
       note INTEGER(3) NOT NULL,
-      points INTEGER(4) NOT NULL,
       options VARCHAR(8) DEFAULT '00000000',
       updated_at INTEGER(10),
       created_at INTEGER(10),
@@ -176,6 +184,7 @@ class Quiz
     owid = owid.nil? ? nil : owid.to_i
     
     hres = {
+      date:     Time.now.strftime('%d %m %Y - %H:%M'),
       quiz_id:  q[:id].to_i,
       owner_id: owid,
       reponses: Hash.new     
@@ -273,9 +282,13 @@ class Quiz
   # Retourne true si l'owner a soumis le même quiz il y a moins
   # de 5 minutes
   def last_time_recent?
-    where = "quiz_id = #{self.id} ORDER BY created_at DESC LIMIT 1"
-    res = site.db.select(:users_tables,table_quiz_owner,where,[:id, :created_at]).first
-    Time.now.to_i - res[:created_at] < 5 * 60
+    begin
+      where = "quiz_id = #{self.id} ORDER BY created_at DESC LIMIT 1"
+      res = site.db.select(:users_tables,table_quiz_owner,where,[:id, :created_at]).first
+      Time.now.to_i - res[:created_at] < 5 * 60
+    rescue Mysql2::Error => e
+      return false
+    end
   end
 
   # Retourne true si l'owner a déjà fait ce quiz
@@ -283,7 +296,11 @@ class Quiz
   # avant que l'owner n'était pas nil. Sinon, la question n'a pas
   # de sens
   def deja_fait_par_owner?
-    site.db.count(:users_tables,table_quiz_owner,{quiz_id: self.id}) > 0
+    begin
+      site.db.count(:users_tables,table_quiz_owner,{quiz_id: self.id}) > 0
+    rescue Mysql2::Error => e
+      return false
+    end
   end
   # Retourne true si on peut sauver les résultats
   #
