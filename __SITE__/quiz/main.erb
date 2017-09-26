@@ -1,4 +1,4 @@
-<% 
+<%
   #
   # Page principale qui affiche le formulaire et le gère
   #
@@ -6,12 +6,13 @@
   # le programme UN AN UN SCRIPT. La seule différence, c'est qu'au
   # retour dans le bureau, on peut voir le questionnaire fait.
   #
-  
+
   # Il faut vérifier s'il faut soumettre le questionnaire
   case param(:operation)
   when 'evaluate_quiz' then quiz.evaluate
   end
 
+  require_form_support
 %>
 <%= header %>
 <h2>Les quiz</h2>

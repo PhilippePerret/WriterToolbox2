@@ -1,0 +1,57 @@
+div.quiz
+  // Le titre du quiz
+  > h3.titre
+    color           : black
+
+  > div.description
+    font-size       : .89em
+    font-style      : italic
+    margin          : 3em 4em 4em 13em
+    text-align      : justify
+
+  div.question
+    border    : 2px solid transparent
+    padding   : 1em
+    // Une question oubliée
+    &.unanswered
+      border    : 2px solid red
+    // Une question erronée
+    &.bad
+      > div.libelle
+        background-color  : red
+        color             : white
+    // Une question bonne
+    &.bon
+      > div.libelle
+        background-color    : #070
+        color               : white
+
+    // --- LA QUESTION ---
+    > div.libelle
+      padding       : 0.3em 1em
+      font-size     : 1.1em
+      font-family   : Arial
+      font-weight   : bold
+
+    // La liste des réponses possibles
+    ul.reponses
+      list-style    : none
+      // Les LI des réponses
+      li
+        vertical-align  : middle
+        border          : 2px solid transparent
+        // Un mauvais choix
+        &.badchoix
+          background-color    : #FCC
+          border-color        : red
+        // Un bon choix qui n'a pas été choisi
+        &.bonchoixmissing
+          border-color : #090
+        // Un bon choix
+        &.bonchoix
+          background-color    : #DFD
+        > input[type="checkbox"], > input[type="radio"]
+          margin-right    : 1em
+          vertical-align  : unset
+        > label
+          vertical-align  : middle

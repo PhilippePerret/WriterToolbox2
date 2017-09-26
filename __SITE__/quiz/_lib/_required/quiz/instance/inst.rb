@@ -4,6 +4,10 @@ class Quiz
   include PropsAndDbMethods
   include MainSectionMethods
 
+  # Le délimiteur de données dans les réponses des questions
+  DELIM_REPONSE_DATA = ':::'
+
+
   # Identifiant unique du quiz dans la table 'quiz.quiz'
   attr_reader :id
 
@@ -54,7 +58,7 @@ class Quiz
     <input type="hidden" name="quiz[id]" id="quiz_id" value="#{self.id}" />
     <input type="hidden" name="quiz[owner]" id="quiz_owner" value="#{owner.id}" />
     #{ERB.new(data[:output].force_encoding('utf-8')).result()}
-    <div class="right">
+    <div class="buttons">
       <input type="submit" class="main btn" value="Soumettre ce quiz" />
     </div>
    </form>

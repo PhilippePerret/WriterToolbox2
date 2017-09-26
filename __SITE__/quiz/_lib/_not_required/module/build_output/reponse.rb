@@ -7,9 +7,6 @@ class Quiz
   class Question
     class Reponse
 
-      DELIMITEUR_DATA = ':::'
-
-
       # {String} Donnée brut de la réponse
       attr_reader :raw_data
 
@@ -71,7 +68,7 @@ class Quiz
       #
       # Cette méhtode est appelée dès l'instanciation.
       def parse
-        d = raw_data.force_encoding('utf-8').split(DELIMITEUR_DATA)
+        d = raw_data.force_encoding('utf-8').split(DELIM_REPONSE_DATA)
         @libelle = d[0]
         @points  = d[1].to_i          # peut être négatif
         @raison  = d[2].nil_if_empty  # seulement si bonne réponse

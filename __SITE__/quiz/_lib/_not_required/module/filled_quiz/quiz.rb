@@ -28,7 +28,8 @@ class Quiz
         c << 'unanswered'
       end
     else
-      # TODO Étudier la question
+      hrep = resultats[:reponses][question_id]
+      c << (hrep[:points] == hrep[:points_max] ? 'bon' : 'bad')
     end
 
     return c.join(' ')
@@ -47,7 +48,18 @@ class Quiz
     if resultats[:not_evaluated]
       ''
     else
-      '' 
+      hrep = resultats[:reponses][question_id]
+      is_owner_choix = hrep[:choix].include?(index_reponse)
+      is_bon_choix   = hrep[:bons_choix].include?(index_reponse)
+      if is_owner_choix && is_bon_choix
+        'bonchoix'
+      elsif is_owner_choix && !is_bon_choix
+        'badchoix'
+      elsif is_bon_choix && !is_owner_choix
+        'bonchoixmissing'
+      elsif !is_bon_choix && !is_owner_choix 
+        ''
+      end
     end
   end
 
@@ -56,8 +68,7 @@ class Quiz
   # lors du remplissage du questionnaire.
   #
   def code_checked question_id, index_reponse
-    debug "-> code_checked de filled_quiz"
-    ck = resultats[:reponses][question_id] && resultats[:reponses][question_id].include?(index_reponse)
+    ck = resultats[:reponses][question_id] && resultats[:reponses][question_id][:choix].include?(index_reponse)
     ck ? ' checked="CHECKED"' : ''
   end
 end #/Quiz

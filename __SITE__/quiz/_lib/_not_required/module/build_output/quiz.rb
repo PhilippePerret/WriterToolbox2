@@ -16,9 +16,23 @@ class Quiz
   # un code ERB dynamique.
   #
   def build_output
-    quiz_str = questions_ids_for_quiz.collect do |question_id|
+    quiz_str = String.new
+
+    # Le titre du quiz
+    quiz_str << "<h3 class=\"titre\">#{data[:titre]}</h3>"
+
+    # L'indication, si elle existe
+    if data[:description]
+      quiz_str << data[:description].in_div(class: 'description')
+    end
+
+    # La liste des questions
+    quiz_str += questions_ids_for_quiz.collect do |question_id|
       Question.new(question_id, self).output
-    end.join('').in_div(class: 'quiz', id: "quiz-#{id}")
+    end.join('')
+      
+    # On le met dans son DIV
+    quiz_str = quiz_str.in_div(class: 'quiz', id: "quiz-#{id}")
 
 
     # On l'enregistre dans la table pour s'en souvenir plus

@@ -1,4 +1,7 @@
 * [UNAN][QUIZ]
+  - Ajouter le titre du quiz
+  - Ajouter les indications s'il y en a (build_output)
+
   Les traitements à faire sont :
   - affichage du quiz (la toute première fois)
   - ré-affichage du quiz (après soumission)

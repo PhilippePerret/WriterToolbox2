@@ -13,7 +13,17 @@ class Quiz
     evaluable? || return
 
     # On évalue vraiment le questionnaire, en regardant les résultats
-    proceed_evaluation
+    # C'est avec cette méthode que sera produit @resultats, la donnée
+    # contenant les résultats.
+    proceed_evaluation || return
+
+    # On procède au calcul de la note et à l'affinement des résultats
+    # avec, notamment, le remplissage des données de chaque question pour 
+    # pouvoir attribuer une note générale et un nombre de points
+    calcul_resultat || return
+
+    # Note : on ne construit pas l'encart pour le résultat, pour 
+    # permettre d'ajuster l'affichage suivant les versions.
 
     # Si on peut sauver les résultats
     saving_enabled? && save_resultats
@@ -28,14 +38,117 @@ class Quiz
   
   # Méthode principale procédant à l'évaluation et donc la génération
   # du résultat pour ce quiz.
+  #
+  # @return true si tout s'est bien passé, false dans le cas contraire
+  # Le "cas contraire", c'est surtout lorsque le quiz n'a pas été entièrement
+  # rempli.
   def proceed_evaluation
     debug "Quiz : #{param(:quiz).inspect}"   
     parse_ok = parse_param_quiz 
     debug "@resultats = #{@resultats.inspect}"
-    parse_ok || return
-
+    return parse_ok
   end
 
+
+  # --------------------------------------------------------------------------------
+  #
+  #   MÉTHODES DE CALCUL DU QUIZ
+  #   
+  # --------------------------------------------------------------------------------
+
+  # Méthode principale procédant au calcul du quiz
+  #
+  # @return true si tout s'est bien passé, false dans le cas contraire
+  #
+  def calcul_resultat
+
+    # Ajout d'autres propriétés
+    resultats.merge!(
+      nombre_questions: resultats[:reponses].keys.count,
+      total_points:     0,        # Le nombre total de points de l'owner
+      total_points_max: 0         # Le nombre total de points gagnables
+    )
+
+    # Boucle sur chaque réponse
+    resultats[:reponses].each do |quid, qudata|
+      qu = Question.new(quid)
+      resultats[:reponses][quid] = qu.traite_reponse(qudata)
+      # Incrémentation du total des points
+      resultats[:total_points]      += resultats[:reponses][quid][:points]
+      resultats[:total_points_max]  += resultats[:reponses][quid][:points_max]
+    end
+    
+    calcul_note_finale
+
+    debug "@resultats après calcul : #{resultats.inspect}"
+    return true
+  end
+
+
+  # Calcul de la note finale. Elle sera mise dans les résultats.
+  # Noter qu'elle est multipliée par dix, donc pour obtenir la vraie note
+  # sur 20, il faut diviser la note par 10.
+  def calcul_note_finale
+    points = resultats[:total_points]
+    maxpts = resultats[:total_points_max]
+    is_pos = points >= 0
+    is_pos || points = -points
+      
+    # Calcul précis de la note finale
+    note = ((20.0 * points / maxpts).round(1) * 10).to_i
+    resultats[:note_finale] = note # noter qu'elle est multipliée par 10
+    
+  end
+
+  # --------------------------------------------------------------------------------
+  #
+  #   MÉTHODES D'ENREGISTREMENT
+  #   
+  # --------------------------------------------------------------------------------
+  # Pour enregistrer les résultats
+  #
+  def save_resultats
+    # Il faut s'assurer que la table de user existe.
+    begin
+      site.db.count(:users_tables, table_quiz_owner)
+    rescue Mysql2::Error => e
+      if e.message.match(/Table(.*?)doesn't exist/)
+        create_table_owner
+        retry
+      else
+        # Une autre erreur non gérée.
+        raise e
+      end
+    end
+    newdata = {resultats: resultats.to_json}
+    resultats_id = site.db.insert(:users_tables, table_quiz_owner, newdata)
+  end
+
+  def create_table_owner
+    request = <<-SQL
+    CREATE TABLE quiz__#{owner.id}
+    (
+      id INTEGER AUTO_INCREMENT,
+      user_id INTEGER,
+      quiz_id INTEGER NOT NULL,
+      resultats BLOB NOT NULL,
+      note INTEGER(3) NOT NULL,
+      points INTEGER(4) NOT NULL,
+      options VARCHAR(8) DEFAULT '00000000',
+      updated_at INTEGER(10),
+      created_at INTEGER(10),
+      PRIMARY KEY (id)
+    );
+
+    SQL
+    site.db.use_database(:users_tables)
+    site.db.execute(request)
+  end
+  # --------------------------------------------------------------------------------
+  #
+  #   SOUS-MÉTHODES D'ÉVALUATION DU QUIZ
+  #   
+  # --------------------------------------------------------------------------------
 
   # Méthode qui parse le paramètre :quiz pour en tire tous les éléments.
   # @return un Hash qui contient :
@@ -48,6 +161,14 @@ class Quiz
   #       <id question> : [liste choix]
   #       etc.
   #     }
+  #   }
+  #   Le hash de la question (hquestion) contient :
+  #   {
+  #     choix: Liste des choix,
+  #     points: nil, # sera renseigné plus tard
+  #     points_max: nil # idem
+  #     bons_choix: nil # idem
+  #     best_choix: nil # idem
   #   }
   def parse_param_quiz
     q = param(:quiz)
@@ -69,8 +190,8 @@ class Quiz
       key.start_with?(key_prefix) || next
       qz, qzid, q, quid, r, rid = key.split('-')
       quid = quid.to_i
-      hres[:reponses].key?(quid) || hres[:reponses].merge!(quid => Array.new)
-      hres[:reponses][quid] << value.to_i
+      hres[:reponses].key?(quid) || hres[:reponses].merge!(quid => {choix:Array.new,points:nil,points_max:nil,bons_choix:nil,best_choix:nil})
+      hres[:reponses][quid][:choix] << value.to_i
     end
 
     # Quelle que soit la suite à donner, on met la table des résultats
@@ -181,11 +302,7 @@ class Quiz
   def savable?
     data[:specs][14].to_i & 2 == 0 # Il ne faut pas qu'il y ait 2
   end
-  # Pour enregistrer les résultats
-  #
-  def save_resultats
-    resultats_id = site.db.insert(:users_tables, table_quiz_owner, resultats)
-  end
+
   # La table de l'user, dans laquelle sont enregistrés tous ses quiz
   # Attention : il faut forcément que l'user soit identifié
   def table_quiz_owner
