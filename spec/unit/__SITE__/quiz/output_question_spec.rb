@@ -148,7 +148,7 @@ describe Quiz::Question do
       end
 
       it 'le code ERB pour déterminer si la question est OK ou non' do
-        classe = "class=\"<%= Quiz[21].class_question(#{question.id}) %>\""
+        classe = "class=\"<%=quiz.class_question(#{question.id})%>\""
         expect(code).to include(classe)
       end
       it 'le div du texte de la question' do
@@ -182,10 +182,10 @@ describe Quiz::Question do
             end
 
             # Le sous-code pour régler la class du LI de réponse
-            souscode = "<%=Quiz[21].class_li_reponse(#{question.id},#{reponse.index})"
+            souscode = "<%=quiz.class_li_reponse(#{question.id},#{reponse.index})"
             expect(code).to include souscode
             # Le sous-code pour régler le checked du checkbox ou du radio
-            souscode = "<%=Quiz[21].code_checked(#{question.id},#{reponse.index})"
+            souscode = "<%=quiz.code_checked(#{question.id},#{reponse.index})"
             expect(code).to include souscode
           end
         end

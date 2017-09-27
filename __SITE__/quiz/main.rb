@@ -33,7 +33,7 @@ class Quiz
    # (note : pour le moment, seulement la note obtenue)
    # Note : Il faut faire ce test avant de charger le module `filled` ou
    # `unfilled` qui se chargent en fonction de la présence ou non de résultat.
-   if resultats == nil && owner.id != nil && param(:operation) != 'redo'
+   if resultats == nil && owner && owner.id != nil && param(:operation) != 'redo'
      try_get_resultats_in_table_owner
    end
    
@@ -47,7 +47,7 @@ class Quiz
    <form id="quiz_form-#{self.id}" class="quiz_form">
     <input type="hidden" name="operation" value="evaluate_quiz" />
     <input type="hidden" name="quiz[id]" id="quiz_id" value="#{self.id}" />
-    <input type="hidden" name="quiz[owner]" id="quiz_owner" value="#{owner.id}" />
+    <input type="hidden" name="quiz[owner]" id="quiz_owner" value="#{owner ? owner.id : ''}" />
     #{bloc_note_finale}
     #{ERB.new(data[:output].force_encoding('utf-8')).result()}
     <div class="buttons">

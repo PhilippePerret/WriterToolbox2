@@ -10,8 +10,9 @@ site.load_folder 'quiz'
 describe Quiz do
   describe 'Class' do
     it 'définit la base et la table des quiz' do
-      expect(Quiz).to respond_to :base_n_table
-      expect(Quiz.base_n_table).to eq [:quiz, 'quiz']
+      q = Quiz.new(21)
+      expect(q).to respond_to :base_n_table
+      expect(q.base_n_table).to eq [:quiz, 'quiz']
     end
   end
   describe 'Instance' do

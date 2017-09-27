@@ -7,6 +7,9 @@ class Site
     @admin ||= User.get(1)
   end
 
+  # Raccourci
+  def name ; configuration.name end
+
   # @return {String} url
   #         L'URL courante, en fonction du fait qu'on est en offline
   #         ou en online.

@@ -111,10 +111,10 @@ describe 'Quiz#output' do
       q.data[:specs][9] = '1'
 
       [4, 8, 5].each do |nombre_questions_expected|
+        q.data[:output] = nil
         q.data[:specs][10..12] = nombre_questions_expected.to_s.rjust(3,'0')
         code = q.output
         expect(nombre_questions_in(code)).to eq nombre_questions_expected
-        q.data[:output] = nil
       end
     end
   end
@@ -138,18 +138,6 @@ describe 'Quiz#output' do
       q.data[:specs][9] = '1' # => dans le désordre
       code = q.output
       expect(ids_questions_in(code)).not_to eq questions_ids
-    end
-  end
-
-  context 'sans résultats déjà fournis' do
-    it 'ne met aucun résultat' do
-      pending
-    end
-  end
-
-  context 'avec des résultats fournis' do
-    it 'remet ces résultats' do
-      pending
     end
   end
 end
