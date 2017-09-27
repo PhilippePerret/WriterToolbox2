@@ -91,12 +91,8 @@ class Quiz
   end
 
   # Appelée quand on clique sur le bouton 'Recommencer ce quiz'
-  #
+  # Seuls quelques contrôles sont nécessaires ici.
   def redo
-    # Il n'y a rien à faire pour le moment, puisque c'est le test
-    # de param(:operation) qui empêche d'essayer de charger les
-    # résultat. On met juste une protection pour s'assure que c'est
-    # bien un user identifié et que c'est bien un quiz réutilisable
     owner.id != nil || raise('Pas cool, d’essayer de pirater ce site…')
     data[:specs][14].to_i & 1 > 0 || raise('Ce quiz ne peut pas être recommencé.')
   end
@@ -106,11 +102,20 @@ class Quiz
   # Méthode qui tente de récupérer un résultat enregistré dans la base de données,
   # dans la table de l'owner, qui doit être identifié.
   # On ne doit venir ici que si l'owner est identifié et si ce n'est pas une
-  # évaluation du quiz courant
+  # évaluation du quiz courant.
+  #
+  # Si l'opération est 'revoir', on prend la valeur de param(:quiz)[:resultats_id]
+  # qui définit l'identifiant de l'enregistrement des résultats précédents de ce
+  # quiz, lorsqu'il y en a plusieurs.
   #
   def try_get_resultats_in_table_owner
     begin
-      where = "quiz_id = #{id} ORDER BY created_at DESC LIMIT 1"
+      where =
+        if param(:operation) == 'revoir'
+          {id: param(:quiz)[:resultats_id].to_i}
+        else
+          "quiz_id = #{id} ORDER BY created_at DESC LIMIT 1"
+        end
       res = site.db.select(:users_tables,"quiz_#{owner.id}",where).first
     rescue Mysql2::Error => e
       # Survient lorsque l'user n'a pas encore de table

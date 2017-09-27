@@ -8,10 +8,13 @@
   #
 
   # Il faut vérifier s'il faut soumettre le questionnaire
-  debug "param(:operation) = #{param(:operation).inspect}"
+  # debug "param(:operation) = #{param(:operation).inspect}"
   case param(:operation)
   when 'evaluate_quiz' then quiz.evaluate
   when 'redo'          then quiz.redo
+  when 'revoir'
+    # rien à faire pour le moment. Dit juste à l'application qu'il
+    # faut charger le résultat param(:quiz)[:resultats_id]
   end
 
   require_form_support

@@ -5,15 +5,17 @@ a
     color : orange!important
 
 // lien de type bouton
-a.btn
+a.btn, button.btn
   text-decoration : none !important
   border          : 1px solid #777
   background      : linear-gradient(#fcfcfc,#AAAAAA)
   color           : #525252 !important
 
-  + a.btn
+  + a.btn, + button.btn
     margin-left : 1em
 
+  &:not(.small), &:not(.medium)
+    font-size       : inherit!important
   &:not(.small)
     padding         : 10px 33px
   &.small
@@ -25,12 +27,12 @@ a.btn
     font-size       : .8em
     letter-spacing  : .06em
 
-input[type="submit"], input[type="button"], a.btn
+input[type="submit"], input[type="button"], a.btn, button.btn
   font-family       : Arial, Helvetica
   letter-spacing    : 2.4px
 
 // Les boutons submit/button
-input[type="submit"], input[type="button"], a.btn
+input[type="submit"], input[type="button"], a.btn, button.btn
   &.main
     color             : white!important
     background        : linear-gradient(#4CE54C,#079007)

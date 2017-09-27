@@ -58,3 +58,30 @@ def click_bouton_by_id bouton_id, sleep_time = nil
   page.execute_script("document.getElementById('#{bouton_id}').click();")
   sleep (sleep_time || 1) # car capybara ne gère pas l'arrêt, ici
 end
+alias :click_vraiment_bouton :click_bouton_by_id
+
+
+# Choisis une valeur dans un menu select, autrement que par le texte
+#
+# @param {Hash} params
+#     :selector       Le JID du menu (p.e. select#mon_menu)
+#     On définit l'option à sélectionner d'une des trois façons suivantes :
+#     :selectedIndex    L'index de l'option
+#     :value            La value de l'option
+#     :text             Le texte
+#
+# @param {Fixnum} sleep_time
+#                 Temps d'attente ensuite, en sachant qu'ici ça n'est
+#                 pas Capybara qui gère ça
+def selectionne params, sleep_time = nil
+  code = "let m = document.querySelector('#{params[:selector]}');"
+  if params.key?(:selectedIndex)
+    code << "m.selectedIndex = #{params[:selectedIndex]};"
+  elsif params.key?(:value)
+    code << "m.value = '#{params[:value]}';"
+  elsif params.key?(:text)
+    code << "let v = m.querySelector('option[text=\"#{params[:text]}\"]');"
+    code << "m.value = '#{v}';"
+  end
+  sleep (sleep_time || 1)
+end

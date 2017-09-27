@@ -58,8 +58,8 @@ feature 'Un user identifié' do
           (10..12).each do |quid|
             with_tag('div', with: {class: 'question', id:"qz-21-q-#{quid}"})
           end
-          with_tag('input', with:{type: 'submit', value: 'Soumettre ce quiz'})
         end
+        with_tag('input', with:{type: 'submit', value: 'Soumettre ce quiz'})
       end
     end
     scenario 'doit remplir entièrement le quiz avant de pouvoir le soumettre' do
@@ -283,7 +283,8 @@ feature 'Un user identifié' do
           expect(page).to have_tag('form#quiz_form-21')
           expect(page).not_to have_tag('div.error')
 
-          nombre = site.db.count(:users_tables,"quiz_#{auteur.id}",{quiz_id: 21})
+          allresultats = site.db.select(:users_tables,"quiz_#{auteur.id}",{quiz_id: 21})
+          nombre = allresultats.count
           expect(nombre).to eq 2
           success 'Deux questionnaires sont maintenant enregistrés'
 
@@ -311,15 +312,22 @@ feature 'Un user identifié' do
           success 'Quand il revient plus tard, c’est la dernière version qui est affichée'
 
           expect(page).to have_tag('form#quiz_form-21') do
-            with_tag('select', with: {class: 'all_owner_resultats'})
-            with_tag('input', with: {type: 'button', value: 'Revoir'})
+            shot 'retour-quiz-with-deux-resultats'
+            with_tag('select', with: {name: 'quiz[resultats_id]', class: 'all_owner_resultats'}) do
+              allresultats.each do |hresultats|
+                date_str = Time.at(hresultats[:created_at]).strftime('%d %m %Y - %H:%M')
+                with_tag('option', text: "Réponses du #{date_str}")
+              end
+            end
+            with_tag('button', text: 'Revoir')
           end
           success 'La page contient un menu pour choisir un ancien formulaire'
 
           # ==========> TEST <=============
-          page.all('form#quiz_form-21 select.all_owner_resultats option')[0].select
-          click_button 'Revoir'
+          selectionne(selector: 'select.all_owner_resultats', selectedIndex: 0)
+          click_vraiment_bouton('btn_revoir')
           expect(page).to have_tag('form#quiz_form-21') do
+            shot 'after-choix-resultats-un'
             with_tag('div.quiz_header') do
               with_tag('span', with: {class: 'note_finale'}, text: '11,1 / 20')
               with_tag('span', with: {class: 'points'}, text: 'Points : 25 / 45')
@@ -329,12 +337,5 @@ feature 'Un user identifié' do
         end
       end
     end
-
-    context 'qui n’a pas encore répondu au quiz courant' do
-      scenario 'il trouve un quiz à remplir, sans réponse qu’il peut soumettre' do
-        pending
-      end
-    end
   end
-
 end

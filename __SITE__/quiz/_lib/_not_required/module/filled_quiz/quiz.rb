@@ -49,13 +49,17 @@ class Quiz
     # évaluations enregistrées du quiz courant, et qu'il faut donc lui préparer
     # un menu pour en revoir.
     select_id = "all_owner_resultats-#{owner.id}"
-    "<select id=\"#{select_id}\" class=\"all_owner_resultats\">"+
-    quizes.collect do |hresultats|
-      "<option value=\"#{hresultats[:id]}\">Réponses du #{hresultats[:date]}</option>"
-    end.join('') +
-    '</select>'+
-    '<button class="btn small" onclick="this.form.operation.value=\'revoir\';this.form.submit()">Revoir</button>'
+    m = String.new
+    m << "<select id=\"#{select_id}\" name=\"quiz[resultats_id]\" class=\"all_owner_resultats\">"
+    m << quizes.collect do |hr|
+      date_str = Time.at(hr[:created_at]).strftime('%d %m %Y - %H:%M')
+      "<option value=\"#{hr[:id]}\">Réponses du #{date_str}</option>"
+    end.join('')
+    m << '</select>'
+    m << '<button id="btn_revoir" class="btn small" onclick="this.form.operation.value=\'revoir\';this.form.submit();">Revoir</button>'
+    return "<div id=\"menu_autres_resultats\">#{m}</div>"
   end
+
   # Les méthodes qui vont permettre de régler les valeurs du questionnaire
 
   # Renvoie la class pour le DIV de la question d'identifiant +question_id+
