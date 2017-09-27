@@ -6,6 +6,7 @@
 class Quiz
 
   # Méthode principale d'évaluation du quiz
+  # (ou de ré-évaluation, pour un quiz ré-utilisable)
   def evaluation_quiz
     
     # Dans un premier temps, il faut s'assurer que l'user peut accomplir 
@@ -84,7 +85,7 @@ class Quiz
 
 
   # Calcul de la note finale. Elle sera mise dans les résultats.
-  # Noter qu'elle est multipliée par dix, donc pour obtenir la vraie note
+  # Noter qu'elle est reusable?iée par dix, donc pour obtenir la vraie note
   # sur 20, il faut diviser la note par 10.
   def calcul_note_finale
     points = resultats[:total_points]
@@ -94,7 +95,7 @@ class Quiz
       
     # Calcul précis de la note finale
     note = ((20.0 * points / maxpts).round(1) * 10).to_i
-    resultats[:note_finale] = note # noter qu'elle est multipliée par 10
+    resultats[:note_finale] = note # noter qu'elle est reusable?iée par 10
     
   end
 
@@ -258,18 +259,18 @@ class Quiz
     owner.id != nil || (return true)
 
     # Si l'utilisateur a déjà fait ce questionnaire et que ce
-    # n'est pas un questionnaire à usage multiple, on retourne
+    # n'est pas un questionnaire à usage reusable?, on retourne
     # false en affichant un message d'erreur
-    if deja_fait_par_owner? && !multiple?
+    if deja_fait_par_owner? && !reusable?
       __error("C'est un quiz à usage unique et vous l’avez déjà soumis.")
       return false
     end
 
     # Si l'utilisateur a déjà fait ce questionnaire, qu'il est
-    # à usage multiple, mais qu'il a été soumis il y a moins de
+    # à usage reusable?, mais qu'il a été soumis il y a moins de
     # 5 minutes, on considère que c'est un rechargement de page
-    if deja_fait_par_owner? && multiple? && last_time_recent?
-      __error("Vous ne pouvez pas resoumettre le même quiz aussi vite…")
+    if deja_fait_par_owner? && reusable? && last_time_recent?
+      __error("Vous devez attendre avant de soumettre ce quiz à nouveau.")
       return false
     end
 
@@ -306,14 +307,13 @@ class Quiz
   #
   def saving_enabled?
     owner.id != nil || (return false)
-     savable? || (return false)
+    savable? || (return false)
+    if deja_fait_par_owner? # on teste à nouveau
+      reusable? || (return false)
+    end
+    return true
   end
 
-  # Retourne true si c'est un quiz qu'on peut soumettre plusieurs
-  # fois
-  def multiple?
-    data[:specs][14].to_i & 1 > 0 # il faut qu'il y ait 1
-  end
   # Retourne true si c'est un questionnaire dont il faut sauver
   # les résultats
   def savable?

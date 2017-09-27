@@ -1,7 +1,28 @@
 # Les quiz {#quiz_quiz}
 
+## Réaffichage des résultats {#quiz_quiz_resultats}
 
-# Table de base de données {#quiz_quiz_table}
+Lorsque des résultats existent, soit parce que l'user vient de soumettre le quiz soit parce qu'ils ont été enregistrés, le questionnaire les affiche à nouveau.
+
+Cela est possible grâce au code `ERB` qui est contenu dans le code `output` du quiz, et qui permet de définir dynamiquement la classe des réponses, questions, etc.
+
+Pour ce faire, la méthode `Quiz#output` charge soit le module `unfilled` — qui laisse le quiz vierge — soit le module `filled` qui va renseigner les méthodes en fonction du résultat.
+
+### Fonctionnement général
+
+Par exemple, le `LI` d'une question est défini ainsi :
+
+```html
+
+<li id="question-12" class="question <%= quiz.li_class(12) %>">
+  ...
+</li>
+
+```
+
+Dans le module `filled_quiz`, la méthode `Quiz#li_class` reçoit l'identifiant de la question et vérifie les réponses dans `Quiz@resultats`. Si les réponses sont justes, elle retourne la classe `bonnequestion` (ou équivalent), si les réponses sont mauvaises, elle retourne la classe `badquestion`.
+
+## Table de base de données {#quiz_quiz_table}
 
 Version réduite (pour création effective) :
 

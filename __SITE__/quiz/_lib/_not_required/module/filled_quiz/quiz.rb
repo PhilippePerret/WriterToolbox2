@@ -7,6 +7,55 @@ class Quiz
   #
   # --------------------------------------------------------------------------------
 
+
+  # Retourne le code HTML de la note finale, si le résultat existe
+  #
+  # Note : c'est la version de la méthode quand des résultats existent,
+  # et qu'ils sont évalués (rappel : ils ne sont pas évalués lorsque le
+  # formulaire a été rempli de façon incomplète)
+  def bloc_note_finale
+    resultats[:not_evaluated] && (return '')
+    nfinale = resultats[:note_finale]
+    class_encart =
+      if nfinale < 80
+        'bad'
+      elsif nfinale < 120
+        'med'
+      else
+        'bon'
+      end
+    (
+      resultats[:date].in_span(class: 'date') +
+      "#{resultats[:note_finale].to_f/10} / 20".sub(/\.0/,'').sub(/\./,',').in_span(class: 'note_finale')+
+      ("Points : #{resultats[:total_points]} / #{resultats[:total_points_max]}").in_span(class:'points')
+    ).in_div(class: "encart_note_finale #{class_encart}quiz").in_div(class: 'quiz_header')
+    
+  end
+
+  # Le menu des quiz déjà soumis, si c'est un quiz réutilisable et que
+  # l'owner courant, identifié, l'a soumis plusieurs fois
+  #
+  def menu_old_owner_resultats
+    reusable? || (return '') 
+    owner.id != nil || (return '')
+    begin
+      # On met dans un test car la table de l'user n'existe pas forcément
+      quizes = site.db.select(:users_tables,"quiz_#{owner.id}",{quiz_id: id})
+    rescue Mysql2::Error => e
+      return ''
+    end
+    quizes.count > 1 || (return '')
+    # Si l'on arrive jusqu'ici, c'est que l'user courant a déjà réaliser plusieurs
+    # évaluations enregistrées du quiz courant, et qu'il faut donc lui préparer
+    # un menu pour en revoir.
+    select_id = "all_owner_resultats-#{owner.id}"
+    "<select id=\"#{select_id}\" class=\"all_owner_resultats\">"+
+    quizes.collect do |hresultats|
+      "<option value=\"#{hresultats[:id]}\">Réponses du #{hresultats[:date]}</option>"
+    end.join('') +
+    '</select>'+
+    '<button class="btn small" onclick="this.form.operation.value=\'revoir\';this.form.submit()">Revoir</button>'
+  end
   # Les méthodes qui vont permettre de régler les valeurs du questionnaire
 
   # Renvoie la class pour le DIV de la question d'identifiant +question_id+

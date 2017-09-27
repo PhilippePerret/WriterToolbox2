@@ -23,6 +23,21 @@ class Quiz
   #
   # --------------------------------------------------------------------------------
 
+  # Retourne le code HTML pour le bloc de note finale.
+  # S'il n'y a pas de résultat (rappel : ce module est chargé quand c'est
+  # le cas) alors il n'y a pas de bloc
+  def bloc_note_finale
+    return ''
+  end
+
+  # Le menu des quiz déjà soumis, si c'est un quiz réutilisable et que
+  # l'owner courant, identifié, l'a soumis plusieurs fois
+  # Si ce module est chargé, c'est qu'il n'y a encore aucun résultat
+  # pour ce quiz (donc aucun menu)
+  def menu_old_owner_resultats
+    ''  
+  end
+  
   # Les méthodes qui vont permettre de régler les valeurs du questionnaire
   # quand le questionnaire n'a pas encore été répondu
 

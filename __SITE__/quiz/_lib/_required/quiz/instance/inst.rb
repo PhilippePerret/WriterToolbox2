@@ -29,6 +29,11 @@ class Quiz
     @owner  = owner
   end
 
+  # Retourne true si c'est un quiz qu'on peut soumettre plusieurs
+  # fois. La méthode est mise ici car elle sert à de nombreux endroits
+  def reusable?
+    data[:specs][14].to_i & 1 > 0 # il faut qu'il y ait 1
+  end
   # Pour les main méthodes
   def folder        ; @folder       ||= File.join('.','__SITE__','quiz')  end
   # Pour les DB méthodes

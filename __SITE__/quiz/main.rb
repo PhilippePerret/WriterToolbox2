@@ -18,6 +18,9 @@ class Quiz
   #     complet du quiz
   #   - Quiz avec un résultat qu'on recharge depuis la table.
   #
+  # Si c'est un quiz réutilisable, et que l'user l'a fait plusieurs fois,
+  # on affiche un menu lui permettant de revoir un quiz en particulier.
+  #
   def output
 
    data[:output] || 
@@ -26,20 +29,19 @@ class Quiz
        data[:output] = build_output
    end
 
-   # Si des résultats sont fournis, il faut charger le module qui va permettre
-   # de régler à nouveau le questionnaire. Sinon, on charge le module par défaut
-   # qui ne produit rien.
-   # Noter que des résultats sont toujours fournis lorsqu'on vient de soumettre
-   # le questionnaire.
-   filled_folder = "#{resultats.nil? ? 'un' : ''}filled_quiz" 
-   require_module filled_folder
-   Dir["#{folder}/_lib/_not_required/module/#{filled_folder}/*.rb"].each{|m| load m}
-   
-   # Si des résultats existent, on affiche la note obtenue et le commentaire
+   # Si des résultats existent, on affiche la note obtenue 
    # (note : pour le moment, seulement la note obtenue)
+   # Note : Il faut faire ce test avant de charger le module `filled` ou
+   # `unfilled` qui se chargent en fonction de la présence ou non de résultat.
    if resultats == nil && owner.id != nil && param(:operation) != 'redo'
      try_get_resultats_in_table_owner
    end
+   
+   # Si des résultats sont fournis, il faut charger le module qui va permettre
+   # de renseigner à nouveau le questionnaire. Cf. le manuel.
+   filled_folder = "#{resultats.nil? ? 'un' : ''}filled_quiz" 
+   require_module filled_folder
+   Dir["#{folder}/_lib/_not_required/module/#{filled_folder}/*.rb"].each{|m| load m}
    
    <<-HTML
    <form id="quiz_form-#{self.id}" class="quiz_form">
@@ -49,6 +51,7 @@ class Quiz
     #{bloc_note_finale}
     #{ERB.new(data[:output].force_encoding('utf-8')).result()}
     <div class="buttons">
+      #{menu_old_owner_resultats}
       #{bouton_soumission}
     </div>
    </form>
@@ -63,7 +66,7 @@ class Quiz
       # qu'une seule fois
       if data[:specs][14].to_i & 1 > 0
         # C'est un quiz réutilisable
-        '<a class="main btn" href="?operation=redo">Refaire</a>'
+        '<button id="redo_quiz" class="btn main" onclick="this.form.operation.value=\'redo\';this.form.submit()">Recommencer ce quiz</button>'
       else
         # Quiz non réutilisable, donc pas de bouton
         ''
@@ -73,35 +76,32 @@ class Quiz
     end
   end
 
-  # Retourne le code HTML de la note finale, si le résultat existe
-  def bloc_note_finale
-    resultats && !resultats[:not_evaluated] || (return '')
-    nfinale = resultats[:note_finale]
-    class_encart =
-      if nfinale < 80
-        'bad'
-      elsif nfinale < 120
-        'med'
-      else
-        'bon'
-      end
-    (
-      resultats[:date].in_span(class: 'date') +
-      "#{resultats[:note_finale].to_f/10} / 20".sub(/\.0/,'').sub(/\./,',').in_span(class: 'note_finale')+
-      ("Points : #{resultats[:total_points]} / #{resultats[:total_points_max]}").in_span(class:'points')
-    ).in_div(class: "encart_note_finale #{class_encart}quiz").in_div(class: 'quiz_header')
-    
-  end
   # Méthode appelée quand on soumet le questionnaire
   #
   # Elle appelle le module d'évaluation et évalue les réponses données.
   # Dans le meilleur des cas, un enregistrement est créé pour l'user
   # avec ses résultats.
   #
+  # Noter que cette méthode peut être aussi appelée pour une ré-évaluation
+  # d'un quiz réutilisable.
+  #
   def evaluate
     require_module 'evaluate'
     evaluation_quiz
   end
+
+  # Appelée quand on clique sur le bouton 'Recommencer ce quiz'
+  #
+  def redo
+    # Il n'y a rien à faire pour le moment, puisque c'est le test
+    # de param(:operation) qui empêche d'essayer de charger les
+    # résultat. On met juste une protection pour s'assure que c'est
+    # bien un user identifié et que c'est bien un quiz réutilisable
+    owner.id != nil || raise('Pas cool, d’essayer de pirater ce site…')
+    data[:specs][14].to_i & 1 > 0 || raise('Ce quiz ne peut pas être recommencé.')
+  end
+
+
 
   # Méthode qui tente de récupérer un résultat enregistré dans la base de données,
   # dans la table de l'owner, qui doit être identifié.
@@ -109,12 +109,11 @@ class Quiz
   # évaluation du quiz courant
   #
   def try_get_resultats_in_table_owner
-    # debug "-> try_get_resultats_in_table_owner"
     begin
       where = "quiz_id = #{id} ORDER BY created_at DESC LIMIT 1"
       res = site.db.select(:users_tables,"quiz_#{owner.id}",where).first
     rescue Mysql2::Error => e
-      # debug "ERREUR Mysql : #{e.message}"
+      # Survient lorsque l'user n'a pas encore de table
       return
     end
     res = JSON.parse(res[:resultats], symbolize_names: true)
@@ -125,11 +124,14 @@ class Quiz
     end
     res[:reponses] = reps
 
+    # On met les résultats dans la propriété du quiz
     @resultats = res
-    debug "@resultats depuis la base : #{resultats.inspect}"
   end
 
 end #/Quiz
+
+
+
 
 # Le quiz courant, défini par l'URL
 # 
