@@ -48,6 +48,7 @@ class Quiz
     <input type="hidden" name="operation" value="evaluate_quiz" />
     <input type="hidden" name="quiz[id]" id="quiz_id" value="#{self.id}" />
     <input type="hidden" name="quiz[owner]" id="quiz_owner" value="#{owner ? owner.id : ''}" />
+    #{hidden_field_for_unan_work}
     #{bloc_note_finale}
     #{ERB.new(data[:output].force_encoding('utf-8')).result()}
     <div class="buttons">
@@ -132,6 +133,14 @@ class Quiz
     # On met les résultats dans la propriété du quiz
     @resultats = res
   end
+
+  # Retourne le champ hidden pouvant contenir la propriété wid si
+  # c'est un quiz appelé pour le programme UN AN UN SCRIPT
+  def hidden_field_for_unan_work
+    param(:wid) || (return '')
+    "<input type=\"hidden\" name=\"wid\" value=\"#{param :wid}\" />"
+  end
+
 
 end #/Quiz
 

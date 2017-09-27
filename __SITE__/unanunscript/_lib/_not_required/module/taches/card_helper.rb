@@ -108,7 +108,7 @@ class Unan
           lien_vers_page.in_div(class: 'section_travail')
         when 3 # quiz
           "Procéder au quiz “#{habswork[:titre]}”"
-            .in_a(href: "unanunscript/quiz/#{hwork[:item_id]}?wid=#{hwork[:id]}")
+            .in_a(id: "lk_work-#{hwork[:id]}", href: "quiz/#{hwork[:item_id]}?wid=#{hwork[:id]}")
             .in_div(class: 'section_travail')
         when 4 # forum
           ''

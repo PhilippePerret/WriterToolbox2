@@ -39,7 +39,18 @@ class Unan
 
       # Marquer un travail fini
       #
-      def done auteur, work_id
+      # @param {User} auteur
+      #               L'auteur du travail
+      # @param {Fixnum} work_id
+      #                 ID unique du travail
+      # @param {Hash}   options
+      #                 Éventuellement des options
+      #                 Par exemple, pour un quiz du programme, l'évaluation du
+      #                 quiz appelle cette méthode avec {points: <nombre de points>}
+      #                 pour substituer au nombre de points "normaux" le véritable
+      #                 nombre de points en fonction des réponses données
+      def done auteur, work_id, options = nil
+        options ||= Hash.new
         base, table_works = [:users_tables, "unan_works_#{auteur.id}"]
         is_auteur_unanunscript?(auteur)
         hwork = get_and_check_work(auteur, table_works, work_id)
@@ -58,7 +69,8 @@ class Unan
         # 
         # Rappel : le nombre de points est défini à la création du travail, mais
         # il peut diminuer si le travail est exécuté en retard.
-        points_init = hwork[:points] || 0
+        # Rappel : il est envoyé par les options lorsque c'est un quiz
+        points_init = options[:points] || hwork[:points] || 0
         
         # Si le travail est en dépassement, il faut conserver le nombre de jours
         # de dépassement. Ça ne sert pas encore pour le moment, mais ça pourra

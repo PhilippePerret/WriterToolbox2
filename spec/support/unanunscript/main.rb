@@ -104,3 +104,10 @@ def unanunscript_create_auteur params = nil
 
   return params.merge(huser)
 end
+
+
+def goto_bureau_unan onglet = nil
+  url = "#{base_url}/unanunscript/bureau"
+  onglet && url << "/#{onglet}"
+  visit url
+end

@@ -29,6 +29,11 @@ class Quiz
     # Si on peut sauver les résultats
     saving_enabled? && save_resultats
 
+    # Si c'est un quiz du programme UN AN UN SCRIPT,
+    # on marque le travail achevé en attribuant le nombre
+    # de points voulus
+    unanunscript? && marque_work_done
+
   end
 
   # --------------------------------------------------------------------------------
@@ -104,6 +109,32 @@ class Quiz
   #   MÉTHODES D'ENREGISTREMENT
   #   
   # --------------------------------------------------------------------------------
+
+  # Pour marquer le travail fini et enregistrer les points lorsqu'un
+  # quiz du programme UN AN est évalué
+  def marque_work_done
+    work_id = param(:wid).to_i
+
+    # On doit calculer le nombre de points que va rapporter ce quiz (noter
+    # que le problème des retards éventuels sera réglé dans la méthode :done)
+    points_init = site.db.select(
+      :users_tables,
+      "unan_works_#{owner.id}", 
+      {id: work_id},
+      [:points]
+    ).first[:points]
+
+    # Calcul du nombre de points marqués par l'auteur
+    points = (points_init.to_f * resultats[:total_points].to_f / resultats[:total_points_max]).to_i
+
+    # On requiert le module qui va permettre de marquer le travail
+    # accompli et enregistrer les points.
+    site.load_folder 'unanunscript'
+    require './__SITE__/unanunscript/_lib/_not_required/module/taches/work_class'
+    Unan::Work.done(owner, work_id, {points: points})
+  end
+
+  
   # Pour enregistrer les résultats
   #
   def save_resultats
@@ -249,6 +280,11 @@ class Quiz
   #   
   # --------------------------------------------------------------------------------
 
+  # Retourne true si le questionnaire est exécuté pour le
+  # programme UN AN UN SCRIPT
+  def unanunscript?
+    return param(:wid) != nil
+  end
 
   # Retourne true si ce questionnaire peut être évalué
   #
