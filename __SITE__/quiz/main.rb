@@ -5,6 +5,13 @@
 class Quiz
   class << self
     attr_accessor :current
+
+    # List des quiz affichée lorsque l'URL est simplement 'quiz', sans
+    # ID de quiz à afficher.
+    def list
+      '[Bientôt ici la liste des quiz]'
+    end
+
   end #/<< self
 
   # Retourne le code HTML du quiz, en le construisant si nécessaire.

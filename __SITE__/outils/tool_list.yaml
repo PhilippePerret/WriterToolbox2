@@ -1,0 +1,88 @@
+---
+narration:
+  name:       La collection Narration
+  folder:     narration
+  home:       narration
+  description: |
+    Les cours de dramaturgie de <strong><a href="site/phil">Philippe Perret</a></strong>. Profitez de la future version papier des cours de narration Philippe Perret, auteur et pédagogue œuvrant depuis plus de vingt ans dans le monde du cinéma et de l'audiovisuel, qui accompagne de nombreux auteurs jusqu’à la réalisation de leur projet.
+
+unan:
+  name:       Le programme UN AN UN SCRIPT
+  shortname:  Prog. Un An Un Script
+  folder:     unanunscript
+  home:       unanunscript/home
+  description: |
+    Ce programme unique en son genre permet à tout auteur, expérimenté ou non, de <strong>mener à bien l'écriture de votre film ou de votre roman</strong>, depuis l'idée génératrice jusqu'au scénario ou manuscrit définitif, tout en abordant de façon approfondie l'art de la narration (l'art de raconter des histoires).
+    Ce programme spécial nécessite une <a href="unan/paiement">inscription séparée</a> et possède son propre coût complet de #{Unan.tarif}0 € pour une année (ce qui représente à peine #{(Unan.tarif.to_f * 10 / 12).to_i.to_f / 10}0 € par mois). Noter que l'inscription à ce programme d'apprentissage et de développement ouvre un accès gratuit et complet à tous les autres outils du site pendant deux ans.
+
+analyse:
+  name:       Les Analyses de films
+  folder:     analyse
+  home:       analyse/home
+  description: |
+    Cette section vous permet de tirer le maximum de profit des films de tout genre et de toute provenance, grâce à des analyses approfondies, instructives, indispensables et des outils informatiques adaptés.
+
+scenodico:
+  name:       Le Scénodico
+  folder:     scenodico
+  home:       scenodico/list/1
+  description: |
+    <strong>Dictionnaire encyclopédique</strong> indispensable au scénariste, comportant des centaines de définitions de tous les termes propres à l'écriture, au scénario, au roman ou à la BD.
+    En plus des définitions complètes, il comporte également de nombreux liens vers les pages de cours en ligne pour parfaire sa connaissance du sujet abordé.
+
+filmodico:
+  name:       Le Filmodico
+  folder:     filmodico
+  home:       filmodico/home
+  description: |
+    Dictionnaire non exhaustif de tous les films utilisés sur le site, pour les analyses, les cours (<a href="narration/home">collection Narration</a>), les illustrations ou encore les définitions de mots (<a href="scenodico/home">Scénodico</a>).
+
+citation:
+  name:       Les Citations d’auteurs
+  folder:     citation
+  home:       'citation/show/1'
+  description: |
+    Les citations d'auteurs sont un outil auquel on ne pense pas spontanément et qui pourtant peut être d'une grande aide, aussi bien dans le travail très concret de l'écriture que dans la réflexion qu'on peut en avoir.<br/>
+    Ces citations, ici, sont pour la plupart explicitées, ce qui offre encore d'autres perspectives inédites.
+
+calculateur:
+  name:       Le Calculateur de structure
+  folder:     outils
+  home:       outils/calculateur
+  description: |
+    Utilisé par de nombreux auteurs depuis de nombreuses années, cet outil vous permet de calculer, en pages, en minutes, la durée de chaque partie de votre histoire ou de votre scénario, ainsi que l'emplacement de toutes les scènes-clés indispensables.
+
+screencasts:
+  name:       Les Tutoriels-vidéos
+  folder:     video
+  home:       video
+  description: |
+    Des tutoriels en vidéo qui permettent d'améliorer de façon significative son écriture, aussi bien au niveau de la qualité de ce qui est produit que de la quantité. Indispensable si l’on veut devenir un véritable auteur professionnel et productif.
+
+quiz:
+  name:       Les Quiz
+  folder:     quiz
+  home:       quiz
+  description: |
+    Des quiz et autres questionnaires pour tester ses connaissances en narration et en jargon scénaristique. Ces quiz peuvent aussi bien servir à s’amuser qu’à tester et développer ses connaissances en narration et en audiovisuel.
+
+facture:
+  name:       Les Factures d’auteur
+  folder:     outils
+  home:       outils/facture
+  description: |
+    Outil pour concevoir vos factures d'écriture, factures d'auteur, en fournissant la valeur HT (Hors-Taxe), TTC (Toute Taxe Comprise) ou nette, donc permettant des calculs rapides quel que soit l'accord passé avec l'autre partie.
+
+forum:
+  name:       Forum d’écriture
+  folder:     forum
+  home:       forum/home
+  description: |
+    Ce forum, réservé exclusivement aux membres inscrits de la “Boite à outils”, offre un espace inédit où chaque auteur peut trouver de vraies réponses aux questions qu'il se pose, qu'elles soient générales ou particulières à son projet. Par son système de modération inspiré des meilleurs sites de connaissances (et notamment le site <a href="http://stackoverflow.com" target="_new">StackOverflow</a> pour les programmeurs), ce forum d'écriture se distingue par la pertinence et la véracité des connaissances véhiculées.
+
+autres:
+  name:         Autres outils
+  # Pour les tests (car cet outil revient à la liste des outils) :
+  section_name: Outils d’écriture
+  description: |
+    D'autres outils pratiques sont à venir, n'hésitez pas à consulter régulièrement ce listing qu'on peut atteindre rapidement en cliquant sur le mot “OUTILS” du titre du site (en haut à gauche).
