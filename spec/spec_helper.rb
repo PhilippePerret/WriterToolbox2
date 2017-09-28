@@ -69,6 +69,10 @@ RSpec.configure do |config|
     require_folder './spec/support/unanunscript'
   end
 
+  def require_support_quiz
+    require_folder './spec/support/quiz'
+  end
+
   # Pour les tests have_tag etc.
   config.include RSpecHtmlMatchers
 

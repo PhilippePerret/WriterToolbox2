@@ -110,8 +110,13 @@ class Quiz
   #   
   # --------------------------------------------------------------------------------
 
-  # Pour marquer le travail fini et enregistrer les points lorsqu'un
-  # quiz du programme UN AN est évalué
+  # Pour marquer le travail fini et enregistrer les points lorsque c'est un
+  # quiz du programme UN AN qui est évalué
+  #
+  # Noter que le nombre de points peut ne pas avoir été établi, ou peut avoir
+  # été mis à 0. Dans ce cas, c'est le nombre réel de points du quiz qui est 
+  # utilisé.
+  #
   def marque_work_done
     work_id = param(:wid).to_i
 
@@ -122,10 +127,19 @@ class Quiz
       "unan_works_#{owner.id}", 
       {id: work_id},
       [:points]
-    ).first[:points]
+    ).first[:points].to_i
+    
+    # Si le nombre de points est à zéro, il faut prendre le nombre réel
+    # de points marqués par ce quiz
+    points =
+      if points_init && points_init > 0 
+        # Calcul du nombre de points marqués par l'auteur
+        (points_init.to_f * resultats[:total_points].to_f / resultats[:total_points_max]).to_i
+      else
+        resultats[:total_points]
+      end
 
-    # Calcul du nombre de points marqués par l'auteur
-    points = (points_init.to_f * resultats[:total_points].to_f / resultats[:total_points_max]).to_i
+    # debug "Points marqués pour ce quiz UAUS : #{points}"
 
     # On requiert le module qui va permettre de marquer le travail
     # accompli et enregistrer les points.

@@ -70,8 +70,10 @@ class Unan
         # Rappel : le nombre de points est défini à la création du travail, mais
         # il peut diminuer si le travail est exécuté en retard.
         # Rappel : il est envoyé par les options lorsque c'est un quiz
-        points_init = options[:points] || hwork[:points] || 0
+        won_points = points_init = options[:points] || hwork[:points] || 0
         
+        debug "Points de départ dans Unan::Work::done : #{won_points}"
+
         # Si le travail est en dépassement, il faut conserver le nombre de jours
         # de dépassement. Ça ne sert pas encore pour le moment, mais ça pourra
         # servir ensuite lors de rapports ou autres.
@@ -82,6 +84,8 @@ class Unan
         status = hwork[:status]
         depassement = status & (2|4) > 0
         if depassement
+          # On calcule le dépassement exact avant de recalculer le
+          # nombre de points qui seront attribués.
           duree_jours = hwork[:options][2..4].to_i(10)
           coef_duree  = 5.0 / auteur.program.rythme
           real_duree_seconds = duree_jours.jours.to_f / coef_duree
@@ -90,10 +94,10 @@ class Unan
           opts = hwork[:options].ljust(9,'0')
           opts[6..8] = depassement_jours.to_s.rjust(3,'0')
           hwork[:options] = opts
-          won_points = points_recus_pour( hwork )
-        else
-          won_points = hwork[:points]
+          won_points = points_recus_pour( hwork, won_points)
         end
+
+        debug "Nombre de points finalement attribués : #{won_points}"
 
         # Rectification des points, on ne met jamais de points négatifs.
         won_points >= 0 || won_points = 0
@@ -166,8 +170,13 @@ class Unan
       # tache. Dans le cadre normal, ce nombre de points est celui défini
       # dans les données absolues du travail. Mais s'il y a dépassement, 
       # ce nombre de points diminue.
-      def points_recus_pour hwork
-        points = hwork[:points] 
+      #
+      # Noter que +points+ n'est pas nécessairement le nombre de points consignés pour
+      # mémoire dans +hwork+. Pour les quiz, ce nombre est souvent 0 quand il faut prendre
+      # le nombre de points du quiz plutôt que du travail absolu. Dans ce cas, +points+
+      # est celui reçu par le quiz au moment de l'évalusation.
+      #
+      def points_recus_pour hwork, points
         points > 0 || (return 0)
         fin_expected = hwork[:expected_at]
         fin_expected >= Time.now.to_i && (return points)

@@ -30,14 +30,6 @@ def coche element_jid, form_id = nil
   end
 end
 
-# Permet de cliquer un bouton en jouant aussi son 'onclick' qui n'est
-# pas joué lorsqu'on utilise simplement 'click_button'
-def click_bouton_by_id bouton_id, sleep_time = nil
-  page.execute_script("document.getElementById('#{bouton_id}').click();")
-  sleep (sleep_time || 1) # car capybara ne gère pas l'arrêt, ici
-end
-alias :click_vraiment_bouton :click_bouton_by_id
-
 
 # Choisis une valeur dans un menu select, autrement que par le texte
 #

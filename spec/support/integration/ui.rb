@@ -1,3 +1,16 @@
+def click_link_by_href link_href, sleep_time = nil
+  page.execute_script("document.querySelector('a[href=\"#{link_href}\"]').click();")
+end
+
+# Permet de cliquer un bouton en jouant aussi son 'onclick' qui n'est
+# pas joué lorsqu'on utilise simplement 'click_button'
+def click_bouton_by_id bouton_id, sleep_time = nil
+  scrollTo bouton_id
+  page.execute_script("document.getElementById('#{bouton_id}').click();")
+  sleep (sleep_time || 1) # car capybara ne gère pas l'arrêt, ici
+end
+alias :click_vraiment_bouton :click_bouton_by_id
+alias :click_link_by_id :click_bouton_by_id
 
 def scrollTo element_jid
   if element_jid.match(/ /)
