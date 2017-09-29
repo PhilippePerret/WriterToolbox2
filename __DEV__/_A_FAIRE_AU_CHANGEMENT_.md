@@ -45,3 +45,11 @@ Pour ajouter les colonnes :
 * Créer la base `boite-a-outils_quiz` sur AlwaysData.
 * Copier le contenu de la base locale vers la base distante.
 * Transformer les données résultats en données dans les tables des users.
+
+# FORUM
+
+* Détruire la colonne CATEGORIE dans la table sujets
+* Remplacer la colonne 'options' par la colonne 'specs' :
+
+      use `boite-a-outils_forum`
+      ALTER TABLE sujets CHANGE COLUMN options specs VARCHAR(16);

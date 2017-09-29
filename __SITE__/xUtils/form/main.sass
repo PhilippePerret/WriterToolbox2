@@ -46,10 +46,11 @@ form
     div.explication
       font-size       : 10.4pt
       font-style      : italic
-      opacity         : .115
       line-height     : 1.2em !important
-      &:hover
-        opacity       : 1
+      &:not(.visible)
+        opacity         : .115
+        &:hover
+          opacity       : 1
 
     > label
       font-size       : 0.9em
@@ -96,7 +97,7 @@ form
 
         input[type="text"], textarea, input[type="password"]
           width             : 98%
-          background-color  : #EDF6FF 
+          background-color  : #EDF6FF
           border            : 0
           padding           : 10px
 

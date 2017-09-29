@@ -44,6 +44,11 @@ def redirect_to cible, hmessage = nil
   puts site.cgi.header('status'=>'REDIRECT', 'location'=>"http://#{site.url}/#{cible}")
 end
 
+# Pour produire un lien simple, à partir du href et
+# du titre
+def simple_link href, titre
+  "<a href=\"#{href}\">#{titre}</a>"
+end
 
 # Raccourci pour faire un débug
 # Cf. ./lib/site/debug.rb

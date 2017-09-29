@@ -61,9 +61,11 @@ class Site
       fullpath = "./__SITE__/#{relpath}/main.erb"
       File.exist?(fullpath) || return # (1)
       deserb(fullpath)
+    rescue NotAccessibleViewError => e
+      load_error_page('not_accessible', e)
     rescue Exception => e
       debug "PROBLÈME AVEC LA VUE : #{relpath}"
-      raise e
+      load_error_page('erb_error', e)
     end
   end
 

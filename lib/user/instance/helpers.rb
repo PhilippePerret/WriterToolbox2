@@ -16,5 +16,13 @@ class User
   def f_ve
     @f_ve ||= (homme? ? 'f' : 've')
   end
-  
+
+  def f_rice # p.e. rédact<eur|rice>
+    @f_rice ||= (homme? ? 'eur' : 'rice')
+  end
+
+  def f_sse # p.e. maitre<sse>
+    @f_sse ||= (homme? ? '' : 'sse')
+  end
+
 end #/User

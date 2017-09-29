@@ -1,0 +1,52 @@
+<% 
+# Partiel pour créer un nouveau sujet
+
+  require_form_support
+
+raise NotAccessibleViewError.new("Vous n'avez pas le grade suffisant pour créer un nouveau sujet ou poser une question technique.") if user.grade == 0
+%>
+<h3>Nouveau sujet</h3>
+<form id="forum_sujet_form" action="forum/sujet/create" method="POST">
+  <div>
+    <% 
+        titre =
+        case true
+        when user.grade < 5 then "Poser une question"
+        else "Titre de sujet ou question technique"
+        end
+
+    %>
+    <label for="sujet_titre"><%= titre %></label>
+    <span class="field">
+      <input type="text" name="sujet[titre]" id="sujet_titre" value="" />
+    </span>
+    <div class="explication visible">
+      <% if user.grade < 5 %>
+        Votre grade ne vous permet que de poser une question (qui devra être validée).
+      <% elsif user.grade < 7 %>
+        Votre grade vous permet de créer un sujet, mais il devra être validé avant de pouvoir être diffusé.
+      <% else %>
+        Votre grade est suffisant pour initier un nouveau sujet ou poser une question technique sans validation requise.
+      <% end  %>
+    </div>
+  </div>
+
+  <% 
+      # Si le grade de l'utilisateur est au moins de 5, il peut définir le
+    # type s de son sujet.
+    if user.grade > 4
+  %>
+    <div>
+      <label for="sujet_type_s">Type du sujet</label>
+      <span class="field">
+        <%= Form.build_select(id: 'sujet_type_s', name: 'sujet[type_s]', values: Forum::Sujets::TYPES_S) %>
+      </span>
+    </div>
+
+  <% else %>
+    <input type="hidden" name="sujet[type_s]" id="sujet_type_s" value="1" />
+  <% end %>
+  <div class="buttons">
+    <input type="submit" class="main btn" value="Créer" />
+  </div>
+</form>

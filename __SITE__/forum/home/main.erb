@@ -1,5 +1,20 @@
 <%= header %>
 <h2>Forum d’écriture</h2>
 
+<div>Bienvenue sur le forum d’écriture du site.</div>
+
+<%= Forum.boutons(:top) %>
+
+<% 
+# Derniers messages
+%>
+<fieldset id="last_<%=user.grade < 1 ? 'public_' : ''%>messages">
+  <legend>Derniers messages<%=user.grade < 1 ? ' publics' : '' %></legend>
+  <%= Forum.last_messages %>
+</fieldset>
+
+
+<%= Forum.boutons(:bottom) %>
+
 
 <%= footer %>

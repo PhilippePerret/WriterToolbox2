@@ -1,8 +1,17 @@
+* [FORUM]
+  Quand on valide une question ou un sujet, il faut penser à mettre le 5e bit des specs du sujet à 1, pour que la question ou le sujet soit annoncé (note : je parle ici de "question" et de "sujet", mais c'est la même chose, au niveau du programme)
+
 * [UNAN][QUIZ]
   - Ne pas rafficher le bouton du quiz si…
   - Enregistrer les résultats dans la base
   - Recharger les résultats s'ils existent (comment faire la distinction : simplement en traitant par rapport à l'opération. Si évaluation : pas de recherche dans la table, sinon oui).
 
+* Dès qu'un visiteur est inscrit, son grade forum doit être de 1.
+  -> Tester
+* Quand on joue user/profil/<id user>, on affiche :
+  * le profil éditable si l'user courant correspond à <id user>
+  * le profil simplifié sinon (consultation d'un profil, par exemple depuis le forum)
+  -> Tester
 
 * [UNAN]
   - Traiter l'affichage d'un quiz. Maintenant que le traitement des quiz est presque terminé, on procède ainsi : si un quiz doit être traité :

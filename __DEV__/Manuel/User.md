@@ -1,4 +1,4 @@
-# Utilisateur
+# Utilisateur {#user}
 
 ## Identification {#user_identification}
 
@@ -13,5 +13,76 @@ La propriété interrogative `identified?` renvoie le statut du visiteur courant
   user.identified?
   # => Return true si l'user est identifié
   #    False dans le cas contraire.
-  
+
+```
+
+## Options de l'user {#user_options}
+
+```
+BIT   OFFSET    DESCRIPTION
+1     0         1 si administrateur
+2     1         Grade sur le forum. Cf. ci-dessous "Grade sur le forum"
+3     2         1 si le mail a été confirmé
+4     3         1 si l'user a été détruit (mais je crois que pour le
+                moment l'user est vraiment détruit)
+5     4         Définit comment l'user veut être contacté. Cf. ci-dessous
+                la rubrique "Contact de l’user"
+32    31        1: C'est un icarien
+                2: C'est un icarien actif
+```
+
+## Grade sur le forum {#user_grade_forum}
+
+Les users ont des grades différents en fonction de leur ancienneté et leurs compétences.
+
+C'est le 2e bit (options[1]) qui détermine ce grade.
+
+> Noter que 0 correspond à un visiteur non inscrit, alors qu'un inscrit est automatiquement mis à 1.
+
+Les valeurs sont les suivantes :
+
+```ruby
+
+# Grade d'un utilisateur par rapport au forum
+# Ces valeurs correspondent au bit 1 (donc le deuxième) des options de l'user.
+GRADES_FORUM = {
+  # Note par rapport aux privilèges forum : ils sont additionnés, donc
+  # par exemple le privilège du 3 reprend toujours les privilèges des
+  # 0, 1 et 2
+  # Si la description commence par "!!!", elle ne sera ajoutée que pour
+  # ce grade.
+  0 => {hname:'Padawan de l’écriture',                  privilege_forum:'!!!lire les messages publics'},
+  1 => {hname:'Simple audit<%= user.f_rice %>',         privilege_forum:'lire tous les messages'},
+  2 => {hname:'Audit<%= user.f_rice %> patient',        privilege_forum:'noter les messages'},
+  3 => {hname:'Apprenti<%= user.f_e %> surveillé<%= user.f_e %>',     privilege_forum:'!!!écrire des réponses qui seront modérées'},
+  4 => {hname:'Simple rédact<%= user.f_rice %>',        privilege_forum:'répondre librement aux messages'},
+  5 => {hname:'Rédact<%= user.f_rice %>',               privilege_forum:'initier un sujet'},
+  6 => {hname:'Rédact<%= user.f_rice %> émérite',       privilege_forum:'supprimer des messages'},
+  7 => {hname:'Rédact<%= user.f_rice %> confirmé<%= user.f_e %>',     privilege_forum:'valider ou clore un sujet'},
+  8 => {hname:'Maitre<%=sse%> rédact<%=user.f_rice%>',       privilege_forum:'supprimer des sujets'},
+  9 => {hname:'Expert<%= user.f_e %> d’écriture',      privilege_forum:'bannir des utilisateurs'}
+} unless defined?(GRADES) # quand tests, car on reload ce module
+
+```
+
+## Contact de l’user {#user_contact}
+
+Ce contact est défini par le 5e bit d'option de l'user (options[4]).
+
+C'est une valeur en base 26. Donc, pour l'obtenir, on doit faire :
+
+```ruby
+val = user.data[:options][4].to_i(26)
+```
+
+Valeurs possibles :
+
+```
+0     L'auteur ne veut aucun contact
+2     L'auteur accepte d'être contacté par l'administration du site
+4     L'auteur accepte d'être contacté par d'autres inscrits
+8     L'auteur accepte d'être contacté par n'importe qui
+
+  15 => Tout le monde peut le contacter (1+2+4+8)
+
 ```

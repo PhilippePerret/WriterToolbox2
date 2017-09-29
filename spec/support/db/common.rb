@@ -85,55 +85,6 @@ def truncate_table_tickets
   site.db.execute('TRUNCATE TABLE tickets;')
 end
 
-# Détruit tous les users, sauf les administrateurs (de 1 à 50) et met
-# le prochain ID à 51.
-# Détruit également toutes les tables qui peuvent être associées
-def truncate_table_users
-
-  # On commence par faire un backup de toutes les données actuelles,
-  # mais seulement si ce backup "du jour" n'a pas encore été fait.
-  backup_all_data_si_necessaire
-
-  db_client.query('use `boite-a-outils_hot`;')
-  db_client.query('DELETE FROM users WHERE id > 9;')
-  db_client.query('ALTER TABLE users AUTO_INCREMENT=51;')
-
-  db_client.query('use `boite-a-outils_users_tables`;')
-  db_client.query('SHOW TABLES;').each do |row|
-    table_name = row.values.first
-    if table_name.start_with?('variables_')
-      if table_name.split('_')[1].to_i < 10
-        next
-      end
-    end
-    db_client.query("DROP TABLE #{table_name};")
-    puts "Table `#{table_name}` détruite"
-  end
-
-  # Destruction de tous les projets et tous les programmes
-  db_client.query('use `boite-a-outils_unan`;')
-  db_client.query('DELETE FROM programs;')
-  db_client.query('ALTER TABLE programs AUTO_INCREMENT=1;')
-  db_client.query('DELETE FROM projets;')
-  db_client.query('ALTER TABLE projets AUTO_INCREMENT=1;')
-
-  # Destruction de tous les résultats de tous les quiz
-  db_client.query('SHOW DATABASES;').each do |row|
-    dbname = row.values.first
-    dbname.start_with?('boite-a-outils_quiz') || next
-    db_client.query("use `#{dbname}`;")
-    db_client.query('DELETE FROM resultats;')
-    db_client.query('ALTER TABLE resultats AUTO_INCREMENT=1;')
-  end
-
-  # Destruction de tous les tickets
-  db_client.query('use `boite-a-outils_hot`;')
-  db_client.query('DELETE FROM tickets;')
-  db_client.query('ALTER TABLE tickets AUTO_INCREMENT=1;')
-
-
-end
-
 # Méthode qui resette les tables tests de la base de données
 def init_db_for_test options = nil
 
