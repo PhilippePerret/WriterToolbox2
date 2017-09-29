@@ -7,6 +7,7 @@
     new_sujet_id = Forum::Sujets.create hsujet, user
 
 %>
+<h2><a href="forum/home">Forum</a> : <a href="forum/sujets/list">sujets</a></h2>
 <%= Forum.boutons(:top) %>
 <div>
   <strong>Le nouveau sujet est créé</strong>. Merci à vous. Vous pouvez déposer <a href="forum/post/new?sid=<%=new_sujet_id%>" class="exergue">un premier message</a> dans ce sujet.
@@ -14,5 +15,4 @@
 <% if user.grade < 7 %>
   <div>Notez cependant que ce sujet doit être validé avant de pouvoir être annoncé et apparaitre dans la liste des sujets.</div>
 <% end %>
-<%= Forum.boutons(:bottom) %>
 
