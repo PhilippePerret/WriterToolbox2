@@ -53,3 +53,8 @@ Pour ajouter les colonnes :
 
       use `boite-a-outils_forum`
       ALTER TABLE sujets CHANGE COLUMN options specs VARCHAR(16);
+* Ajouter la colonne 'created_at' à la table `posts_content` et à la table `posts_votes`
+
+     use `boite-a-outils_forum`
+     ALTER TABLE posts_content ADD COLUMN created_at INTEGER(10);
+     ALTER TABLE posts_votes ADD COLUMN created_at INTEGER(10);

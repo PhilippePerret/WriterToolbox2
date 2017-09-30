@@ -12,6 +12,9 @@
   3-4   2-3         Sujet plus précis (à définir)
   5     4           1= il faut annoncer ce nouveau sujet
                     0= le sujet a été annoncé
+  6     5           0= Accessible à tout le monde
+                    Autre valeur : correspond au grade que doit avoir l'user
+                    pour consulter le sujet en question.
 
 ```
 

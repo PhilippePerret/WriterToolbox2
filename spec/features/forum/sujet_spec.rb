@@ -11,17 +11,6 @@ require_support_integration
 require_support_db_for_test
 require_support_forum
 
-def all_sujets from = 0
-  req = String.new
-  req << 'SELECT tsujets.*, tusers.pseudo AS creator_pseudo'
-  req << ' FROM sujets tsujets'
-  req << ' INNER JOIN `boite-a-outils_hot`.users tusers'
-  req << ' WHERE tsujets.creator_id = tusers.id'
-  req << ' ORDER BY updated_at DESC'
-  req << " LIMIT #{from}, 20"
-  site.db.use_database(:forum)
-  site.db.execute(req)
-end
 feature "Liste des sujets" do
   before(:all) do
     # Effacement de toutes les tables
@@ -49,7 +38,7 @@ feature "Liste des sujets" do
         without_tag('a', text: 'Sujets précédents')
       end
       with_tag('div', with: {class: 'sujet'}, match: 20)
-      all_sujets.each do |hsujet|
+      all_sujets_forum(0,20).each do |hsujet|
         sid = hsujet[:id]
         with_tag('div', with: {class: 'sujet', id: "sujet-#{sid}"}) do
           with_tag('a', with:{ href: "forum/sujet/#{sid}"}, text: hsujet[:titre])
@@ -75,7 +64,7 @@ feature "Liste des sujets" do
         with_tag('a', with:{href: "forum/sujet/list?from=0"}, text: 'Sujets précédents')
       end
       with_tag('div', with: {class: 'sujet'}, match: 20)
-      all_sujets(20).each do |hsujet|
+      all_sujets_forum(20,20).each do |hsujet|
         sid = hsujet[:id]
         with_tag('div', with: {class: 'sujet', id: "sujet-#{sid}"}) do
           with_tag('a', with:{ href: "forum/sujet/#{sid}"}, text: hsujet[:titre])
@@ -96,7 +85,7 @@ feature "Liste des sujets" do
         without_tag('a', text: 'Sujets suivants')
         with_tag('a', with:{href: "forum/sujet/list?from=20"}, text: 'Sujets précédents')
       end
-      derniers_sujets = all_sujets(40)
+      derniers_sujets = all_sujets_forum(40,20)
       with_tag('div', with: {class: 'sujet'}, match: 10)
       derniers_sujets.each do |hsujet|
         sid = hsujet[:id]
@@ -121,7 +110,7 @@ feature "Liste des sujets" do
         with_tag('a', with:{href: "forum/sujet/list?from=0"}, text: 'Sujets précédents')
       end
       with_tag('div', with: {class: 'sujet'}, match: 20)
-      all_sujets(20).each do |hsujet|
+      all_sujets_forum(20,20).each do |hsujet|
         sid = hsujet[:id]
         with_tag('div', with: {class: 'sujet', id: "sujet-#{sid}"}) do
           with_tag('a', with:{ href: "forum/sujet/#{sid}"}, text: hsujet[:titre])
@@ -152,7 +141,7 @@ feature "Liste des sujets" do
         without_tag('a', with:{href: "forum/sujet/list?from=0"}, text: 'Sujets précédents')
       end
       with_tag('div', with: {class: 'sujet'}, match: 20)
-      all_sujets.each do |hsujet|
+      all_sujets_forum(0,20).each do |hsujet|
         sid = hsujet[:id]
         with_tag('div', with: {class: 'sujet', id: "sujet-#{hsujet[:id]}"}) do
           with_tag('a', with:{ href: "forum/sujet/#{sid}"}, text: hsujet[:titre])

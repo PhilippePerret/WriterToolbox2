@@ -2,15 +2,17 @@
 <h2>Forum d’écriture</h2>
 
 <div>Bienvenue sur le forum d’écriture du site.</div>
+<% 
 
+  # Les boutons qui permettent de consulter les autres sujets
+  Forum.add_boutons_sujets_next_previous(param(:from), 20)
+
+%>
 <%= Forum.boutons(:top) %>
 
-<% 
-# Derniers messages
-%>
 <fieldset id="last_<%=user.grade < 1 ? 'public_' : ''%>messages">
   <legend>Derniers messages<%=user.grade < 1 ? ' publics' : '' %></legend>
-  <%= Forum.last_messages %>
+  <%= Forum.last_messages(param(:from), 20, {grade: user.grade}) %>
 </fieldset>
 
 

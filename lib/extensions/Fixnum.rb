@@ -13,4 +13,8 @@ class Fixnum
   def annee ; self.jours * 365 end
   alias :annees :annee
 
+  def as_human_date format = '%d %m %Y - %H:%M'
+    Time.at(self).strftime(format)
+  end
+
 end #/Fixnum

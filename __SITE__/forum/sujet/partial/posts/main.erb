@@ -1,7 +1,7 @@
 <% 
 # Module pour afficher tous les messages d'un sujet donné
 %>
-<h2><a href="forum/home">Forum</a> — <%=sujet.data[:titre]%></h2>
+<h2><a href="forum/home">Forum</a> — #<%= sujet.id %></h2>
 <%= Forum.boutons(:top) %>
 <%= sujet.encart_data %>
 <fieldset>

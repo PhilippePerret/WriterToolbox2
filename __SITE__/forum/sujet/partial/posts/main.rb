@@ -23,7 +23,9 @@ class Forum
     end
 
     # Retourne le code HTML de la liste des messages du sujet
-    def post_list
+    def post_list from = 0, nombre = 20, options = nil
+      from   = from.to_i
+      nombre = nombre.to_i
       '[Liste des messages de ce sujet]'
     end
 
@@ -37,11 +39,11 @@ class Forum
       @data ||=
         begin
           req = String.new
-          req << "SELECT sujets.*, tusers.pseudo AS creator_pseudo"
-          req << ' FROM sujets'
-          req << ' INNER JOIN `boite-a-outils_hot`.users tusers'
-          req << ' WHERE sujets.creator_id = tusers.id'
-          req << " AND sujets.id = #{id}"
+          req << "SELECT s.*, u.pseudo AS creator_pseudo"
+          req << ' FROM sujets s'
+          req << ' INNER JOIN `boite-a-outils_hot`.users u'
+          req << '   ON s.creator_id = u.id'
+          req << " WHERE s.id = #{id}"
           site.db.use_database(:forum)
           site.db.execute(req).first
         end
