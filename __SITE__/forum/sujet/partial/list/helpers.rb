@@ -21,7 +21,7 @@ class Forum
 
   end #/<< self Forum
 
-  class Sujets
+  class Sujet
     MAX_SUJETS = 20
     class << self
 
@@ -58,14 +58,14 @@ class Forum
       #
       def list from
         from = from.to_i
-        req = String.new
-        req << 'SELECT tsujets.*, tusers.pseudo AS creator_pseudo'
-        req << ' FROM sujets tsujets'
-        req << ' INNER JOIN `boite-a-outils_hot`.users tusers'
-        req << ' WHERE tsujets.creator_id = tusers.id'
-        req << ' AND SUBSTRING(specs,1,1) = "1"' # seulement les validés
-        req << ' ORDER BY updated_at DESC'
-        req << " LIMIT #{from}, #{max_sujets}"
+        req = 'SELECT s.*, u.pseudo AS creator_pseudo ' +
+              ', uu.pseudo AS auteur_pseudo, uu.id AS auteur_id' +
+              ' FROM sujets s' +
+              ' INNER JOIN `boite-a-outils_hot`.users u ON s.creator_id = u.id' +
+              ' INNER JOIN posts p ON s.last_post_id = p.id' +
+              ' INNER JOIN `boite-a-outils_hot`.users uu ON p.user_id = uu.id' +
+              ' WHERE SUBSTRING(specs,1,1) = "1"' + # seulement les validés
+              " ORDER BY updated_at DESC LIMIT #{from}, #{max_sujets}"
         site.db.use_database(:forum)
         site.db.execute(req).collect do |hsujet|
           div_sujet hsujet
@@ -76,27 +76,37 @@ class Forum
       def div_sujet hsujet
         sid = hsujet[:id]
         lien = simple_link("forum/sujet/#{sid}", hsujet[:titre])
-        last_post_date =
+        last_post_date = 
           if hsujet[:last_post_id]
-            Time.at(hsujet[:updated_at]).strftime("%d %m %Y - %H:%M")
+            "#{hsujet[:updated_at].as_human_date} <span class='small'>(#{hsujet[:updated_at].ago})</span>"
           else
             '---'
           end
         lien_last_post = 
           if hsujet[:last_post_id] 
-            simple_link("forum/message/#{hsujet[:last_post_id]}", 'Dernier message')
+            simple_link("forum/sujet/#{hsujet[:id]}?from=-1#post-#{hsujet[:last_post_id]}", 'Lire le dernier message')
           else
             ''
           end
         lien_creator = simple_link("user/profil/#{hsujet[:creator_id]}", hsujet[:creator_pseudo])
+        lien_auteur  = simple_link("user/profil/#{hsujet[:auteur_id]}", hsujet[:auteur_pseudo])
         <<-HTML
 <div id='sujet-#{sid}' class='sujet'>
-  #{lien}
-  #{lien_last_post}
-  <span class='messages_count' id='messages_count-#{sid}'>#{hsujet[:count]}</span>
-  <span class='last_message_date' id='last_message_date-#{sid}'>#{last_post_date}</span>
-  <span class='created_at'>#{Time.at(hsujet[:created_at]).strftime('%d %m %Y - %H:%M')}</span>
-  <span class='creator' id='creator-#{sid}'>#{lien_creator}</span>
+  <div class="titre">#{lien}</div>
+  <div class="last_message">
+    #{lien_last_post}
+    <span class="libelle">de</span><span class="last_post_auteur">#{lien_auteur}</span>
+    <span class="libelle">datant du</span>
+    <span class='date last_message_date' id='last_message_date-#{sid}'>#{last_post_date}</span>
+  </div>
+  <div class="infos_sujet">
+    <span class="libelle">sujet initié par</span>
+    <span class='creator' id='creator-#{sid}'>#{lien_creator}</span>
+    <span class="libelle">le</span>
+    <span class='date created_at'>#{hsujet[:created_at].as_human_date}</span>
+    <span class="libelle">Nombre de messages</span>
+    <span class='messages_count' id='messages_count-#{sid}'>#{hsujet[:count]}</span>
+  </div>
 </div>
         HTML
 
@@ -110,6 +120,6 @@ class Forum
       def max_sujets
         @max_sujets ||= MAX_SUJETS
       end
-    end #/<< self Sujets
+    end #/<< self Sujet
   end #/Sujet
 end #/Forum

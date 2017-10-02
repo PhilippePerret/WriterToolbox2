@@ -5,7 +5,7 @@ if user.grade < 1
 end
 
 class Forum
-  class Sujets
+  class Sujet
     class << self
 
       # Méthode créant le sujet avec les paramètres +hsujet+
@@ -94,6 +94,6 @@ class Forum
       end
 
 
-    end #/<< self Sujets
-  end #/Sujets
+    end #/<< self Sujet
+  end #/Sujet
 end #/Forum

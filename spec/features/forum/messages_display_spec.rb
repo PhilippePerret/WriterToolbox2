@@ -182,8 +182,10 @@ feature "Affichage des messages" do
       page.find("div#sujet-#{hsujet_un[:id]} span.titre a").click
     end
 
-    sleep 60
-    expect(page).to have_tag('h2', text: "Forum : sujet ##{hsujet_un[:id]}")
+    expect(page).to have_tag('h2') do
+      with_tag('a', with: {href: "forum/home"}, text: 'Forum')
+      with_tag('a', with: {href: "forum/sujet/#{hsujet_un[:id]}?from=1"}, text: "sujet ##{hsujet_un[:id]}")
+    end
     expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_un[:id]}"}) do
       # TODO La liste des derniers messages du sujet
     end

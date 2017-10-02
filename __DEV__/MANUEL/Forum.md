@@ -33,3 +33,15 @@ les valeurs possibles sont :
   9     Non défini
 
 ```
+
+
+## Posts (#forum_posts)
+
+### Options des messages
+
+```
+
+ BIT      OFFSET        DESCRIPTION
+ 1        0             1= message validé, 0= message non validé
+
+```

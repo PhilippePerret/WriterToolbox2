@@ -178,3 +178,24 @@ def forum_get_post post_id
   site.db.use_database(:forum)
   site.db.execute(req).first
 end
+
+# Retourne les posts de +from+ pour un nombre +nombre+ en respectant la
+# clause +clause+
+#
+# @param {Hash} clause
+#   :where      le 'where'
+#   :order      le 'order by'
+def forum_get_posts clause = nil, from = nil, nombre = nil
+  req = 'SELECT p.*, u.*, c.content, v.*' +
+        ' FROM posts p' +
+        ' INNER JOIN `boite-a-outils_hot`.users u' +
+        '   ON p.user_id = u.id' +
+        ' INNER JOIN posts_content c' +
+        '   ON p.id = c.id' +
+        ' INNER JOIN posts_votes v' +
+        '   ON p.id = v.id'
+  clause[:where]  && req << " WHERE #{clause[:where]}"
+  clause[:order]  && req << " ORDER BY #{clause[:order]}"
+  nombre  && req << " LIMIT #{nombre}"
+  from    && req << " OFFSET #{from}"
+end

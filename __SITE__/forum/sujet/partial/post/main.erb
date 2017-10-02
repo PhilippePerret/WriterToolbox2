@@ -1,0 +1,10 @@
+<% 
+# Module pour afficher tous les messages d'un sujet donné
+%>
+<h2><%= simple_link('forum/home', 'Forum') %> — <%= simple_link("forum/sujet/#{sujet.id}?from=1", "sujet ##{sujet.id}") %></h2>
+<%= Forum.boutons(:top) %>
+<%= sujet.encart_data %>
+<fieldset class="post_list" id="post_list-<%=sujet.id%>">
+  <legend>Liste des messages</legend>
+  <%= sujet.post_list(param(:from), param(:nombre)) %>
+</fieldset>

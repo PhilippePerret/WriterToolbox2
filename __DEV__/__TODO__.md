@@ -1,5 +1,11 @@
 * [FORUM]
+  [LISTE MESSAGES]
+    - les boutons pour tableau d'avant, revoir au début, etc.
+    - les boutons pour upvoter ou downvoter
   Quand on valide une question ou un sujet, il faut penser à mettre le 5e bit des specs du sujet à 1, pour que la question ou le sujet soit annoncé (note : je parle ici de "question" et de "sujet", mais c'est la même chose, au niveau du programme)
+
+* [UNAN]
+  Utiliser la méthode `Fixnum#ago` pour savoir combien de temps reste pour accomplir le travail ou depuis combien de temps il est en dépassement.
 
 * [UNAN][QUIZ]
   - Ne pas rafficher le bouton du quiz si…

@@ -2,11 +2,8 @@
 # Module principal de gestion des sujets
 %>
 
-<%=header(:small)%>
+<%= header(:small) %>
 
+<%= partial(site.route.objet_id.is_a?(Fixnum) ? 'post' : site.route.objet_id) %>
 
-<%=partial(site.route.objet_id.is_a?(Fixnum) ? 'posts' : site.route.objet_id)%>
-
-<%= Forum.boutons(:bottom) %>
-
-<%=footer%>
+<%= footer %>

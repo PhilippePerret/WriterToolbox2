@@ -5,7 +5,7 @@
 
 raise NotAccessibleViewError.new("Vous n'avez pas le grade suffisant pour créer un nouveau sujet ou poser une question technique.") if user.grade == 0
 %>
-<h2><a href="forum/home">Forum</a> : <a href="forum/sujets/list">sujets</a></h2>
+<h2><a href="forum/home">Forum</a> : <a href="forum/sujet/list">sujets</a></h2>
 <h3>Nouveau sujet</h3>
 <form id="forum_sujet_form" action="forum/sujet/create" method="POST">
   <div>

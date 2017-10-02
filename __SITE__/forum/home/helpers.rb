@@ -28,9 +28,9 @@ class Forum
       from = from.to_i
       nombre = nombre.to_i
       lm = String.new
-      Sujets.x_derniers_sujets(from, nombre, options).each do |hsujet|
+      Sujet.x_derniers_sujets(from, nombre, options).each do |hsujet|
         debug "sujet #{hsujet[:id].to_s.rjust(3)} - #{hsujet[:updated_at]}"
-        lm << Sujets.div_sujet(hsujet)
+        lm << Sujet.div_sujet(hsujet)
       end
       return lm
     end
@@ -38,7 +38,7 @@ class Forum
 
   end #/<< self Forum
 
-  class Sujets
+  class Sujet
     class << self
 
       # Retourne le code HTML pour l'affichage d'un sujet de données +hsujet+
@@ -118,6 +118,6 @@ class Forum
         site.db.use_database(:forum)
         site.db.execute(req)
       end
-    end #/self Sujets
-  end #/Sujets
+    end #/self Sujet
+  end #/Sujet
 end #/Forum

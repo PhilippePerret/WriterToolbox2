@@ -3,11 +3,11 @@
     # On tente de créer le sujet
   #
   # Noter qu'en cas d'erreur l'user sera reconduit au formulaire
-    hsujet = Forum::Sujets.get_in_params
-    new_sujet_id = Forum::Sujets.create hsujet, user
+    hsujet = Forum::Sujet.get_in_params
+    new_sujet_id = Forum::Sujet.create hsujet, user
 
 %>
-<h2><a href="forum/home">Forum</a> : <a href="forum/sujets/list">sujets</a></h2>
+<h2><a href="forum/home">Forum</a> : <a href="forum/sujet/list">sujets</a></h2>
 <%= Forum.boutons(:top) %>
 <div>
   <strong>Le nouveau sujet est créé</strong>. Merci à vous. Vous pouvez déposer <a href="forum/post/new?sid=<%=new_sujet_id%>" class="exergue">un premier message</a> dans ce sujet.
