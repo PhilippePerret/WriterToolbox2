@@ -27,7 +27,7 @@ GRADES_FORUM = {
   3 => {hname:'Apprenti<%= user.f_e %> surveillé<%= user.f_e %>',     privilege_forum:'!!!écrire des réponses qui seront modérées'},
   4 => {hname:'Simple rédact<%= user.f_rice %>',        privilege_forum:'répondre librement aux messages'},
   5 => {hname:'Rédact<%= user.f_rice %>',               privilege_forum:'initier un sujet'},
-  6 => {hname:'Rédact<%= user.f_rice %> émérite',       privilege_forum:'supprimer des messages'},
+  6 => {hname:'Rédact<%= user.f_rice %> émérite',       privilege_forum:'supprimer ou valider des messages'},
   7 => {hname:'Rédact<%= user.f_rice %> confirmé<%= user.f_e %>',     privilege_forum:'valider ou clore un sujet'},
   8 => {hname:'Maitre<%=sse%> rédact<%=user.f_rice%>',       privilege_forum:'supprimer des sujets'},
   9 => {hname:'Expert<%= user.f_e %> d’écriture',      privilege_forum:'bannir des utilisateurs'}

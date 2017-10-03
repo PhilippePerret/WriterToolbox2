@@ -25,6 +25,9 @@ class Forum
         <div class="buttons">
           #{div_bouton_suscribe}
         </div>
+        <div class="buttons">
+          #{div_boutons_sujets}
+        </div>
       </div>
       HTML
     end
@@ -35,6 +38,15 @@ class Forum
       op = (is_following ? 'un' : '') + 'suscribe'
       ti = (is_following ? 'ne plus ' : '') + 'suivre'
       simple_link("forum/sujet/#{id}?op=#{op}", ti)
+    end
+
+    def div_boutons_sujets
+      bs = String.new
+      bs << simple_link('forum/sujet/new', user.grade >= 5 ? 'Nouveau sujet' : 'Nouvelle question')      
+      user.grade >= 7 && bs << simple_link("forum/sujet/#{id}?op=validate", 'Valider ce sujet')
+      user.grade >= 7 && bs << simple_link("forum/sujet/#{id}?op=clore", 'Clore ce sujet')
+      user.grade >= 8 && bs << simple_link("forum/sujet/#{id}?op=kill", 'Détruire ce sujet')
+      return bs
     end
 
     # Retourne le code HTML de la liste des messages du sujet
@@ -145,20 +157,22 @@ class Forum
         # signaler le message (en fonction du grade de l'user)
         def bloc_boutons_footer hpost
           user.identified? || (return '')
+          user_is_auteur = user.id == hpost[:auteur_id]
+          debug "POST ##{hpost[:id]} - auteur_id: #{hpost[:auteur_id].inspect} (user: #{user.id.inspect}) - user_is_auteur est #{user_is_auteur.inspect}"
           bs = String.new
           url = "forum/post/#{hpost[:id]}"
           user.grade > 2 && bs <<  simple_link("#{url}?op=n", 'Signaler')
-          can_answer = user.id != hpost[:auteur_id] && user.grade > 4
+          can_answer = !user_is_auteur && user.grade >= 3
           can_answer && bs <<  simple_link("#{url}?op=a", 'Répondre')
           user.grade > 6 && bs <<  simple_link("#{url}?op=u", '+1')
           user.grade > 6 && bs <<  simple_link("#{url}?op=d", '-1')
-          user.grade > 8 && bs <<  simple_link("#{url}?op=k", 'Supprimer')
-          can_modify = user.admin? || user.id == hpost[:auteur_id]
+          user.grade >= 6 && bs <<  simple_link("#{url}?op=k", 'Supprimer')
+          can_modify = user.grade >= 9 || user_is_auteur
           can_modify && bs << simple_link("#{url}?op=m", 'Modifier')
-
+          can_validate = user.grade >= 6 && !user_is_auteur
+          can_validate && bs << simple_link("#{url}?op=v", 'Valider')
           return "<div class=\"buttons\">#{bs}</div>"
         end
-
 
       end #/<< self Post
     end #/Post

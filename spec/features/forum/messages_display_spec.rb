@@ -7,6 +7,9 @@ require_support_forum
 # le faire chaque fois qu'on lance le test.
 PREMIERE_FOIS_MESS_DISP_SPEC = false
 
+def get_user_by_pseudo pseudo
+  site.db.select(:hot,'users',{pseudo: pseudo}).first
+end
 feature "Affichage des messages" do
   before(:all) do
     if PREMIERE_FOIS_MESS_DISP_SPEC
@@ -15,10 +18,18 @@ feature "Affichage des messages" do
     else
 
       # Si ce n'est pas la première fois
-      @drene    = site.db.select(:hot,'users',{pseudo: 'René'}).first.merge(password: 'motdepasserene')
-      @dmaude   = site.db.select(:hot,'users',{pseudo: 'Maude'}).first.merge(password: 'motdepassemaude')
-      @dbenoit  = site.db.select(:hot,'users',{pseudo: 'Benoit'}).first.merge(password: 'motdepassebenoit')
-      @dlise  = site.db.select(:hot,'users',{pseudo: 'Lise'}).first.merge(password: 'motdepasselise')
+      @drene                = get_user_by_pseudo('René').merge(password: 'motdepasserene')
+      @dmaude               = get_user_by_pseudo('Maude').merge(password: 'motdepassemaude')
+      @dbenoit              = get_user_by_pseudo('Benoit').merge(password: 'motdepassebenoit')
+      @dlise                = get_user_by_pseudo('Lise').merge(password: 'motdepasselise')
+      @dApprentiSurveilled  = get_user_by_pseudo('ApprentiSurveillé').merge(password:'motdepasse')
+      @dSimpleRedactrice    = get_user_by_pseudo('SimpleRedactrice').merge(password:'simpleredactrice')
+      @dRedacteur           = get_user_by_pseudo('Rédacteur').merge(password:'vrairedacteur')
+      @dRedacteurEmerite    = get_user_by_pseudo('RédacteurEmérite').merge(password:'motdepasse')
+      @dRedactriceConfirmee = get_user_by_pseudo('RédactriceConfirmée').merge(password:'motdepasse')
+      @dMaitreRedacteur     = get_user_by_pseudo('MaitreRédacteur').merge(password:'motdepasse')
+      @dExperteEcriture     = get_user_by_pseudo('ExperteEcriture').merge(password:'motdepasse')
+
       @all_sujets = all_sujets_forum
     end
   end
@@ -278,21 +289,1185 @@ feature "Affichage des messages" do
 
 
 
-
-
-
-  scenario '=> un ADMINISTRATEUR trouve un listing de messages conforme' do
+  scenario '=> un APPRENTI SURVEILLÉ trouve un listing de messages conforme (il peut répondre)' do
 
     # On va vérifier l'affichage de tous les messages du premier sujet
     # qu'on trouve, avec des liens qui permettent de tout faire puisque
     # c'est un administrateur.
 
-    user_current = phil
+    huser_current = @dApprentiSurveilled
+    user_current  = User.get(huser_current[:id])
+    user_grade    = user_current.data[:options][1].to_i
+    puts "User courant : #{user_current.pseudo} (##{user_current.id})"
+    puts "Grade de #{user_current.pseudo} : #{user_grade}"
+
+    # On vérifie le grade ici
+    expect(user_grade).to eq 3
+
+    hsujet_cur = all_sujets_forum(0,2,{grade: user_grade}).last
+
+    sid = hsujet_cur[:id]
+
+    # On récupère seulement quatre messages
+    request = <<-SQL
+    SELECT p.*,
+      uf.upvotes AS auteur_upvotes, uf.downvotes AS auteur_downvotes,
+      uf.last_post_id AS auteur_last_post_id, uf.count AS auteur_post_count,
+      p2.sujet_id AS auteur_last_post_sujet_id,
+      p2.created_at AS auteur_last_post_date,
+      u.pseudo AS auteur_pseudo, u.id AS auteur_id, u.created_at AS auteur_created_at,
+      c.content, v.upvotes, v.downvotes
+      FROM posts p
+      INNER JOIN `boite-a-outils_hot`.users u ON p.user_id = u.id
+      INNER JOIN `boite-a-outils_forum`.users uf ON p.user_id = uf.id
+      INNER JOIN posts_content c  ON p.id = c.id
+      INNER JOIN posts_votes v    ON p.id = v.id
+      INNER JOIN posts p2         ON uf.last_post_id = p2.id
+      WHERE p.sujet_id = #{hsujet_cur[:id]}
+      ORDER BY p.created_at DESC
+      LIMIT 4
+    SQL
+    site.db.use_database(:forum)
+    hposts = site.db.execute(request)
+
+
+    identify huser_current
+    visit forum_page
+    expect(page).to have_tag('h2', text: 'Forum d’écriture')
+
+    # Il clique pour voir le sujet choisi
+    expect(page).to have_tag('fieldset', with:{ id: 'last_messages'})
+    within('fieldset#last_messages') do
+      page.find("div#sujet-#{hsujet_cur[:id]} span.titre a").click
+    end
+
+    # Il arrive sur le listing des messages
+    expect(page).to have_tag('h2') do
+      with_tag('a', with: {href: "forum/home"}, text: 'Forum')
+      with_tag('a', with: {href: "forum/sujet/#{hsujet_cur[:id]}?from=1"}, text: "sujet ##{hsujet_cur[:id]}")
+    end
+
+    # Les liens pour souscrire au sujet ou non
+    expect(page).to have_tag('div', with: {id: "entete_sujet-#{sid}", class: 'entete_sujet'}) do
+      with_tag('span', with: {class: 'titre'}, text: hsujet_cur[:titre])
+      with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
+      with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
+      # Liens pour souscrire au sujet ou contraire
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
+      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
+
+      # Lien pour valider le sujet (grade 7) : NON
+      without_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"})
+
+      # Lien pour clore le sujet (grade 7) : NON
+      without_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
+
+
+      # Lien pour détruire le sujet : NON
+      without_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"})
+
+      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouvelle question")
+      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouvelle question')
+      success "#{user_current.pseudo} possède un lien pour créer une nouvelle question"
+
+    end
+
+    expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
+      with_tag('legend', text: 'Liste des messages')
+
+      # La liste des messages actuels
+      # ------------------------------
+      hposts.each do |hpost|
+        # puts "POST #{hpost[:id]}"
+
+        # Les votes pour le message
+        upvotes   = hpost[:upvotes].as_id_list.count
+        downvotes = hpost[:downvotes].as_id_list.count
+
+        # Le DIV contenant tout le message
+        with_tag('div', with: {class: 'post', id: "post-#{hpost[:id]}"}) do
+
+          # Le DIV de la carte de l'auteur du message
+          with_tag('div', with: {class: 'user_card'}) do
+            with_tag('span', with: {class: 'pseudo'}, text: hpost[:auteur_pseudo])
+            with_tag('span', with: {class: 'created_at'}, text: hpost[:auteur_created_at].as_human_date)
+            fame = hpost[:auteur_upvotes] - hpost[:auteur_downvotes]
+            with_tag('span', with: {class: "fame #{fame > 0 ? 'bon' : 'bad'}"}, text: fame.to_s)
+            with_tag('span', with: {class: 'ups'}, text: hpost[:auteur_upvotes].to_s)
+            with_tag('span', with: {class: 'downs'}, text: hpost[:auteur_downvotes].to_s)
+            with_tag('span', with: {class: 'post_count'}, text: hpost[:auteur_post_count].to_s)
+            with_tag('span', with: {class: 'last_post'}) do
+              with_tag('a', with: {href: "forum/sujet/#{hpost[:auteur_last_post_sujet_id]}?pid=#{hpost[:auteur_last_post_id]}"}, text: hpost[:auteur_last_post_date].as_human_date)
+            end
+          end
+
+          # L'entête du message
+          # Note : pour le moment, ne contient que la marque de vote, au-dessus
+          # pour savoir tout de suite comment est coté le message.
+          with_tag('div', with: {class: 'post_header'}) do
+            with_tag('span', with: {class: 'post_upvotes'}, text: upvotes)
+            with_tag('span', with: {class: 'post_downvotes'}, text: downvotes)
+          end
+
+          # Le contenu du message
+          # Note : on vérifie seulement les x premiers caractères
+          c = hpost[:content].gsub(/<(.*?)>/, '')
+          c = c[0..50]
+          with_tag('div', with: {class: 'content'}, text: /#{c}/)
+
+          # Le pied de page du message
+          # --------------------------
+          # Avec le contenu, c'est lui le plus important puisqu'il permet de
+          # plébisciter le message, de lui répondre, etc.
+          with_tag('div', {class: 'post_footer'}) do
+            with_tag('span', with: {class: 'post_upvotes'}, text: upvotes)
+            with_tag('span', with: {class: 'post_downvotes'}, text: downvotes)
+          end
+
+
+        end #/dans le listing
+
+        # ----------------------------------------
+        # CE QU'IL PEUT Y AVOIR OU NE PAS Y AVOIR
+        # ----------------------------------------
+          expect(page).to have_tag('fieldset', with: {class: 'post_list'}) do
+          with_tag('div', {class: 'post_footer'}) do
+            url = "forum/post/#{hpost[:id]}"
+
+            # Lien pour répondre au message : OUI (si autre auteur)
+            if hpost[:auteur_id] != user_current.id
+              with_tag('a', with: {href: "#{url}?op=a"})
+            else
+              without_tag('a', with: {href: "#{url}?op=a"})
+            end
+
+            # Lien pour valider : NON
+            # if hpost[:auteur_id] != user_current.id
+            #   with_tag('a', with: {href: "#{url}?op=v"})
+            # else
+              without_tag('a', with: {href: "#{url}?op=v"})
+            # end
+
+            # Liens pour voter pour ou contre : NON
+            without_tag('a', with: {href: "#{url}?op=u"})
+            without_tag('a', with: {href: "#{url}?op=d"})
+            # Lien pour détruire le message : NON
+            without_tag('a', with: {href: "#{url}?op=k"})
+            # Lien pour signaler le message : OUI
+            with_tag('a', with: {href: "#{url}?op=n"})
+            # Lien pour modifier le message
+            # Admin ou auteur du message
+            can_modify = user_current.admin? || user_current.id == hpost[:auteur_id]
+            if can_modify
+              with_tag('a', with: {href: "#{url}?op=m"})
+            else
+              without_tag('a', with: {href: "#{url}?op=m"})
+            end
+          end
+        end
+
+      end
+      #/Fin de boucle sur les 20 messages
+      success 'contient listing valide (avec les bons boutons pour le grade donné)'
+
+    end
+  end
+  #/Fin de scénario de listing de sujet pour un APPRENTI SURVEILLÉ (grade 3)
+
+
+
+
+
+
+
+
+
+
+    scenario '=> une SIMPLE RÉDACTRICE trouve un listing de messages conforme (elle peut répondre)' do
+
+      huser_current = @dSimpleRedactrice
+      user_current  = User.get(huser_current[:id])
+      user_grade    = user_current.data[:options][1].to_i
+      puts "User courant : #{user_current.pseudo} (##{user_current.id})"
+      puts "Grade de #{user_current.pseudo} : #{user_grade}"
+
+      # On vérifie le grade ici
+      expect(user_grade).to eq 4
+
+      hsujet_cur = all_sujets_forum(0,2,{grade: user_grade}).last
+
+      sid = hsujet_cur[:id]
+
+      # On récupère seulement quatre messages
+      request = <<-SQL
+      SELECT p.*,
+        uf.upvotes AS auteur_upvotes, uf.downvotes AS auteur_downvotes,
+        uf.last_post_id AS auteur_last_post_id, uf.count AS auteur_post_count,
+        p2.sujet_id AS auteur_last_post_sujet_id,
+        p2.created_at AS auteur_last_post_date,
+        u.pseudo AS auteur_pseudo, u.id AS auteur_id, u.created_at AS auteur_created_at,
+        c.content, v.upvotes, v.downvotes
+        FROM posts p
+        INNER JOIN `boite-a-outils_hot`.users u ON p.user_id = u.id
+        INNER JOIN `boite-a-outils_forum`.users uf ON p.user_id = uf.id
+        INNER JOIN posts_content c  ON p.id = c.id
+        INNER JOIN posts_votes v    ON p.id = v.id
+        INNER JOIN posts p2         ON uf.last_post_id = p2.id
+        WHERE p.sujet_id = #{hsujet_cur[:id]}
+        ORDER BY p.created_at DESC
+        LIMIT 4
+      SQL
+      site.db.use_database(:forum)
+      hposts = site.db.execute(request)
+
+
+      identify huser_current
+      visit forum_page
+      expect(page).to have_tag('h2', text: 'Forum d’écriture')
+
+      # Il clique pour voir le sujet choisi
+      expect(page).to have_tag('fieldset', with:{ id: 'last_messages'})
+      within('fieldset#last_messages') do
+        page.find("div#sujet-#{hsujet_cur[:id]} span.titre a").click
+      end
+
+      # Il arrive sur le listing des messages
+      expect(page).to have_tag('h2') do
+        with_tag('a', with: {href: "forum/home"}, text: 'Forum')
+        with_tag('a', with: {href: "forum/sujet/#{hsujet_cur[:id]}?from=1"}, text: "sujet ##{hsujet_cur[:id]}")
+      end
+
+      # Les liens pour souscrire au sujet ou non
+      expect(page).to have_tag('div', with: {id: "entete_sujet-#{sid}", class: 'entete_sujet'}) do
+        with_tag('span', with: {class: 'titre'}, text: hsujet_cur[:titre])
+        with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
+        with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
+        # Liens pour souscrire au sujet ou contraire
+        with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
+        # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
+
+        # Lien pour valider le sujet (grade 7) : NON
+        without_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"})
+
+        # Lien pour clore le sujet (grade 7) : NON
+        without_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
+
+        # Lien pour détruire le sujet : NON
+        without_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"})
+
+        # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouvelle question")
+        with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouvelle question')
+        success "#{user_current.pseudo} possède un lien pour créer une nouvelle question"
+
+      end
+
+      expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
+        with_tag('legend', text: 'Liste des messages')
+
+        # La liste des messages actuels
+        # ------------------------------
+        hposts.each do |hpost|
+          # puts "POST #{hpost[:id]}"
+
+          # Les votes pour le message
+          upvotes   = hpost[:upvotes].as_id_list.count
+          downvotes = hpost[:downvotes].as_id_list.count
+
+          # Le DIV contenant tout le message
+          with_tag('div', with: {class: 'post', id: "post-#{hpost[:id]}"}) do
+
+            # Le DIV de la carte de l'auteur du message
+            with_tag('div', with: {class: 'user_card'}) do
+              with_tag('span', with: {class: 'pseudo'}, text: hpost[:auteur_pseudo])
+              with_tag('span', with: {class: 'created_at'}, text: hpost[:auteur_created_at].as_human_date)
+              fame = hpost[:auteur_upvotes] - hpost[:auteur_downvotes]
+              with_tag('span', with: {class: "fame #{fame > 0 ? 'bon' : 'bad'}"}, text: fame.to_s)
+              with_tag('span', with: {class: 'ups'}, text: hpost[:auteur_upvotes].to_s)
+              with_tag('span', with: {class: 'downs'}, text: hpost[:auteur_downvotes].to_s)
+              with_tag('span', with: {class: 'post_count'}, text: hpost[:auteur_post_count].to_s)
+              with_tag('span', with: {class: 'last_post'}) do
+                with_tag('a', with: {href: "forum/sujet/#{hpost[:auteur_last_post_sujet_id]}?pid=#{hpost[:auteur_last_post_id]}"}, text: hpost[:auteur_last_post_date].as_human_date)
+              end
+            end
+
+            # L'entête du message
+            # Note : pour le moment, ne contient que la marque de vote, au-dessus
+            # pour savoir tout de suite comment est coté le message.
+            with_tag('div', with: {class: 'post_header'}) do
+              with_tag('span', with: {class: 'post_upvotes'}, text: upvotes)
+              with_tag('span', with: {class: 'post_downvotes'}, text: downvotes)
+            end
+
+            # Le contenu du message
+            # Note : on vérifie seulement les x premiers caractères
+            c = hpost[:content].gsub(/<(.*?)>/, '')
+            c = c[0..50]
+            with_tag('div', with: {class: 'content'}, text: /#{c}/)
+
+            # Le pied de page du message
+            # --------------------------
+            # Avec le contenu, c'est lui le plus important puisqu'il permet de
+            # plébisciter le message, de lui répondre, etc.
+            with_tag('div', {class: 'post_footer'}) do
+              with_tag('span', with: {class: 'post_upvotes'}, text: upvotes)
+              with_tag('span', with: {class: 'post_downvotes'}, text: downvotes)
+            end
+
+
+          end #/dans le listing
+
+          # ----------------------------------------
+          # CE QU'IL PEUT Y AVOIR OU NE PAS Y AVOIR
+          # ----------------------------------------
+            expect(page).to have_tag('fieldset', with: {class: 'post_list'}) do
+            with_tag('div', {class: 'post_footer'}) do
+              url = "forum/post/#{hpost[:id]}"
+
+              # Lien pour répondre au message : OUI (si autre auteur)
+              if hpost[:auteur_id] != user_current.id
+                with_tag('a', with: {href: "#{url}?op=a"})
+              else
+                without_tag('a', with: {href: "#{url}?op=a"})
+              end
+
+              # Lien pour valider : NON
+              # if hpost[:auteur_id] != user_current.id
+              #   with_tag('a', with: {href: "#{url}?op=v"})
+              # else
+                without_tag('a', with: {href: "#{url}?op=v"})
+              # end
+
+              # Liens pour voter pour ou contre : NON
+              without_tag('a', with: {href: "#{url}?op=u"})
+              without_tag('a', with: {href: "#{url}?op=d"})
+              # Lien pour détruire le message : NON
+              without_tag('a', with: {href: "#{url}?op=k"})
+              # Lien pour signaler le message : OUI
+              with_tag('a', with: {href: "#{url}?op=n"})
+              # Lien pour modifier le message
+              # Admin ou auteur du message
+              can_modify = user_current.admin? || user_current.id == hpost[:auteur_id]
+              if can_modify
+                with_tag('a', with: {href: "#{url}?op=m"})
+              else
+                without_tag('a', with: {href: "#{url}?op=m"})
+              end
+            end
+          end
+
+        end
+        #/Fin de boucle sur les 20 messages
+        success 'contient listing valide (avec les bons boutons pour le grade donné)'
+
+      end
+    end
+    #/Fin de scénario de listing de sujet pour une SIMPLE RÉDACTRICE (grade 4)
+
+
+
+
+
+
+
+
+
+  scenario '=> un RÉDACTEUR trouve un listing de messages conforme' do
+
+    huser_current = @dRedacteur
+    user_current  = User.get(huser_current[:id])
+    user_grade    = user_current.data[:options][1].to_i
+    puts "User courant : #{user_current.pseudo} (##{user_current.id})"
+    puts "Grade de #{user_current.pseudo} : #{user_grade}"
+
+    # On vérifie le grade ici
+    expect(user_grade).to eq 5
+
+    hsujet_cur = all_sujets_forum(0,2,{grade: user_grade}).last
+
+    sid = hsujet_cur[:id]
+
+    # On récupère seulement quatre messages
+    request = <<-SQL
+    SELECT p.*,
+      uf.upvotes AS auteur_upvotes, uf.downvotes AS auteur_downvotes,
+      uf.last_post_id AS auteur_last_post_id, uf.count AS auteur_post_count,
+      p2.sujet_id AS auteur_last_post_sujet_id,
+      p2.created_at AS auteur_last_post_date,
+      u.pseudo AS auteur_pseudo, u.id AS auteur_id, u.created_at AS auteur_created_at,
+      c.content, v.upvotes, v.downvotes
+      FROM posts p
+      INNER JOIN `boite-a-outils_hot`.users u ON p.user_id = u.id
+      INNER JOIN `boite-a-outils_forum`.users uf ON p.user_id = uf.id
+      INNER JOIN posts_content c  ON p.id = c.id
+      INNER JOIN posts_votes v    ON p.id = v.id
+      INNER JOIN posts p2         ON uf.last_post_id = p2.id
+      WHERE p.sujet_id = #{hsujet_cur[:id]}
+      ORDER BY p.created_at DESC
+      LIMIT 4
+    SQL
+    site.db.use_database(:forum)
+    hposts = site.db.execute(request)
+
+
+    identify huser_current
+    visit forum_page
+    expect(page).to have_tag('h2', text: 'Forum d’écriture')
+
+    # Il clique pour voir le sujet choisi
+    expect(page).to have_tag('fieldset', with:{ id: 'last_messages'})
+    within('fieldset#last_messages') do
+      page.find("div#sujet-#{hsujet_cur[:id]} span.titre a").click
+    end
+
+    # Il arrive sur le listing des messages
+    expect(page).to have_tag('h2') do
+      with_tag('a', with: {href: "forum/home"}, text: 'Forum')
+      with_tag('a', with: {href: "forum/sujet/#{hsujet_cur[:id]}?from=1"}, text: "sujet ##{hsujet_cur[:id]}")
+    end
+
+    # Les liens pour souscrire au sujet ou non
+    expect(page).to have_tag('div', with: {id: "entete_sujet-#{sid}", class: 'entete_sujet'}) do
+      with_tag('span', with: {class: 'titre'}, text: hsujet_cur[:titre])
+      with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
+      with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
+
+      # Liens pour souscrire au sujet ou contraire
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
+      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
+
+      # Lien pour valider le sujet (grade 7) : NON
+      without_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"})
+
+      # Lien pour clore le sujet (grade 7) : NON
+      without_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
+
+      # Lien pour détruire le sujet : NON
+      without_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"})
+
+      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
+      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
+      success 'Il possède un lien pour créer un nouveau sujet'
+    end
+
+
+    expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
+      with_tag('legend', text: 'Liste des messages')
+
+      # La liste des messages actuels
+      # ------------------------------
+      hposts.each do |hpost|
+        # puts "POST #{hpost[:id]}"
+
+        # Les votes pour le message
+        upvotes   = hpost[:upvotes].as_id_list.count
+        downvotes = hpost[:downvotes].as_id_list.count
+
+        # Le DIV contenant tout le message
+        with_tag('div', with: {class: 'post', id: "post-#{hpost[:id]}"}) do
+
+          # Le DIV de la carte de l'auteur du message
+          with_tag('div', with: {class: 'user_card'}) do
+            with_tag('span', with: {class: 'pseudo'}, text: hpost[:auteur_pseudo])
+            with_tag('span', with: {class: 'created_at'}, text: hpost[:auteur_created_at].as_human_date)
+            fame = hpost[:auteur_upvotes] - hpost[:auteur_downvotes]
+            with_tag('span', with: {class: "fame #{fame > 0 ? 'bon' : 'bad'}"}, text: fame.to_s)
+            with_tag('span', with: {class: 'ups'}, text: hpost[:auteur_upvotes].to_s)
+            with_tag('span', with: {class: 'downs'}, text: hpost[:auteur_downvotes].to_s)
+            with_tag('span', with: {class: 'post_count'}, text: hpost[:auteur_post_count].to_s)
+            with_tag('span', with: {class: 'last_post'}) do
+              with_tag('a', with: {href: "forum/sujet/#{hpost[:auteur_last_post_sujet_id]}?pid=#{hpost[:auteur_last_post_id]}"}, text: hpost[:auteur_last_post_date].as_human_date)
+            end
+          end
+
+          # L'entête du message
+          # Note : pour le moment, ne contient que la marque de vote, au-dessus
+          # pour savoir tout de suite comment est coté le message.
+          with_tag('div', with: {class: 'post_header'}) do
+            with_tag('span', with: {class: 'post_upvotes'}, text: upvotes)
+            with_tag('span', with: {class: 'post_downvotes'}, text: downvotes)
+          end
+
+          # Le contenu du message
+          # Note : on vérifie seulement les x premiers caractères
+          c = hpost[:content].gsub(/<(.*?)>/, '')
+          c = c[0..50]
+          with_tag('div', with: {class: 'content'}, text: /#{c}/)
+
+          # Le pied de page du message
+          # --------------------------
+          # Avec le contenu, c'est lui le plus important puisqu'il permet de
+          # plébisciter le message, de lui répondre, etc.
+          with_tag('div', {class: 'post_footer'}) do
+            with_tag('span', with: {class: 'post_upvotes'}, text: upvotes)
+            with_tag('span', with: {class: 'post_downvotes'}, text: downvotes)
+          end
+
+
+        end #/dans le listing
+
+        # ----------------------------------------
+        # CE QU'IL PEUT Y AVOIR OU NE PAS Y AVOIR
+        # ----------------------------------------
+          expect(page).to have_tag('fieldset', with: {class: 'post_list'}) do
+          with_tag('div', {class: 'post_footer'}) do
+            url = "forum/post/#{hpost[:id]}"
+
+            # Lien pour répondre au message : OUI (si autre auteur)
+            if hpost[:auteur_id] != user_current.id
+              with_tag('a', with: {href: "#{url}?op=a"})
+            else
+              without_tag('a', with: {href: "#{url}?op=a"})
+            end
+
+            # Lien pour valider : NON
+            # if hpost[:auteur_id] != user_current.id
+            #   with_tag('a', with: {href: "#{url}?op=v"})
+            # else
+              without_tag('a', with: {href: "#{url}?op=v"})
+            # end
+
+            # Liens pour voter pour ou contre : NON
+            without_tag('a', with: {href: "#{url}?op=u"})
+            without_tag('a', with: {href: "#{url}?op=d"})
+            # Lien pour détruire le message : NON
+            without_tag('a', with: {href: "#{url}?op=k"})
+            # Lien pour signaler le message : OUI
+            with_tag('a', with: {href: "#{url}?op=n"})
+            # Lien pour modifier le message
+            # Admin ou auteur du message
+            can_modify = user_current.admin? || user_current.id == hpost[:auteur_id]
+            if can_modify
+              with_tag('a', with: {href: "#{url}?op=m"})
+            else
+              without_tag('a', with: {href: "#{url}?op=m"})
+            end
+          end
+        end
+
+      end
+      #/Fin de boucle sur les 20 messages
+      success 'contient listing valide (avec les bons boutons pour le grade donné)'
+
+    end
+  end
+  #/Fin de scénario de listing de sujet pour un RÉDACTEUR (grade 5)
+
+
+
+
+
+
+
+
+
+  scenario '=> un RÉDACTEUR ÉMÉRITE trouve un listing de messages conforme' do
+
+    huser_current = @dRedacteurEmerite
+    user_current  = User.get(huser_current[:id])
+    user_grade    = user_current.data[:options][1].to_i
+    puts "User courant : #{user_current.pseudo} (##{user_current.id})"
+    puts "Grade de #{user_current.pseudo} : #{user_grade}"
+
+    # On vérifie le grade ici
+    expect(user_grade).to eq 6
+
+    hsujet_cur = all_sujets_forum(0,2,{grade: user_grade}).last
+
+    sid = hsujet_cur[:id]
+
+    # On récupère seulement quatre messages
+    request = <<-SQL
+    SELECT p.*,
+      uf.upvotes AS auteur_upvotes, uf.downvotes AS auteur_downvotes,
+      uf.last_post_id AS auteur_last_post_id, uf.count AS auteur_post_count,
+      p2.sujet_id AS auteur_last_post_sujet_id,
+      p2.created_at AS auteur_last_post_date,
+      u.pseudo AS auteur_pseudo, u.id AS auteur_id, u.created_at AS auteur_created_at,
+      c.content, v.upvotes, v.downvotes
+      FROM posts p
+      INNER JOIN `boite-a-outils_hot`.users u ON p.user_id = u.id
+      INNER JOIN `boite-a-outils_forum`.users uf ON p.user_id = uf.id
+      INNER JOIN posts_content c  ON p.id = c.id
+      INNER JOIN posts_votes v    ON p.id = v.id
+      INNER JOIN posts p2         ON uf.last_post_id = p2.id
+      WHERE p.sujet_id = #{hsujet_cur[:id]}
+      ORDER BY p.created_at DESC
+      LIMIT 4
+    SQL
+    site.db.use_database(:forum)
+    hposts = site.db.execute(request)
+
+
+    identify huser_current
+    visit forum_page
+    expect(page).to have_tag('h2', text: 'Forum d’écriture')
+
+    # Il clique pour voir le sujet choisi
+    expect(page).to have_tag('fieldset', with:{ id: 'last_messages'})
+    within('fieldset#last_messages') do
+      page.find("div#sujet-#{hsujet_cur[:id]} span.titre a").click
+    end
+
+    # Il arrive sur le listing des messages
+    expect(page).to have_tag('h2') do
+      with_tag('a', with: {href: "forum/home"}, text: 'Forum')
+      with_tag('a', with: {href: "forum/sujet/#{hsujet_cur[:id]}?from=1"}, text: "sujet ##{hsujet_cur[:id]}")
+    end
+
+    # Les liens pour souscrire au sujet ou non
+    expect(page).to have_tag('div', with: {id: "entete_sujet-#{sid}", class: 'entete_sujet'}) do
+      with_tag('span', with: {class: 'titre'}, text: hsujet_cur[:titre])
+      with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
+      with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
+
+      # Liens pour souscrire au sujet ou contraire
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
+      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
+
+      # Lien pour valider le sujet (grade 7) : NON
+      without_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"})
+
+      # Lien pour clore le sujet (grade 7) : NON
+      without_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
+
+      # Lien pour détruire le sujet : NON
+      without_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"})
+
+      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
+      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
+      success 'Il possède un lien pour créer un nouveau sujet'
+    end
+
+
+    expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
+      with_tag('legend', text: 'Liste des messages')
+
+      # La liste des messages actuels
+      # ------------------------------
+      hposts.each do |hpost|
+        # puts "POST #{hpost[:id]}"
+
+        # Les votes pour le message
+        upvotes   = hpost[:upvotes].as_id_list.count
+        downvotes = hpost[:downvotes].as_id_list.count
+
+        # Le DIV contenant tout le message
+        with_tag('div', with: {class: 'post', id: "post-#{hpost[:id]}"}) do
+
+          # Le DIV de la carte de l'auteur du message
+          with_tag('div', with: {class: 'user_card'}) do
+            with_tag('span', with: {class: 'pseudo'}, text: hpost[:auteur_pseudo])
+            with_tag('span', with: {class: 'created_at'}, text: hpost[:auteur_created_at].as_human_date)
+            fame = hpost[:auteur_upvotes] - hpost[:auteur_downvotes]
+            with_tag('span', with: {class: "fame #{fame > 0 ? 'bon' : 'bad'}"}, text: fame.to_s)
+            with_tag('span', with: {class: 'ups'}, text: hpost[:auteur_upvotes].to_s)
+            with_tag('span', with: {class: 'downs'}, text: hpost[:auteur_downvotes].to_s)
+            with_tag('span', with: {class: 'post_count'}, text: hpost[:auteur_post_count].to_s)
+            with_tag('span', with: {class: 'last_post'}) do
+              with_tag('a', with: {href: "forum/sujet/#{hpost[:auteur_last_post_sujet_id]}?pid=#{hpost[:auteur_last_post_id]}"}, text: hpost[:auteur_last_post_date].as_human_date)
+            end
+          end
+
+          # L'entête du message
+          # Note : pour le moment, ne contient que la marque de vote, au-dessus
+          # pour savoir tout de suite comment est coté le message.
+          with_tag('div', with: {class: 'post_header'}) do
+            with_tag('span', with: {class: 'post_upvotes'}, text: upvotes)
+            with_tag('span', with: {class: 'post_downvotes'}, text: downvotes)
+          end
+
+          # Le contenu du message
+          # Note : on vérifie seulement les x premiers caractères
+          c = hpost[:content].gsub(/<(.*?)>/, '')
+          c = c[0..50]
+          with_tag('div', with: {class: 'content'}, text: /#{c}/)
+
+          # Le pied de page du message
+          # --------------------------
+          # Avec le contenu, c'est lui le plus important puisqu'il permet de
+          # plébisciter le message, de lui répondre, etc.
+          with_tag('div', {class: 'post_footer'}) do
+            with_tag('span', with: {class: 'post_upvotes'}, text: upvotes)
+            with_tag('span', with: {class: 'post_downvotes'}, text: downvotes)
+          end
+
+
+        end #/dans le listing
+
+        # ----------------------------------------
+        # CE QU'IL PEUT Y AVOIR OU NE PAS Y AVOIR
+        # ----------------------------------------
+          expect(page).to have_tag('fieldset', with: {class: 'post_list'}) do
+          with_tag('div', {class: 'post_footer'}) do
+            url = "forum/post/#{hpost[:id]}"
+
+            # Lien pour répondre au message : OUI (si autre auteur)
+            if hpost[:auteur_id] != user_current.id
+              with_tag('a', with: {href: "#{url}?op=a"})
+            else
+              without_tag('a', with: {href: "#{url}?op=a"})
+            end
+
+            # Lien pour valider : OUI
+            if hpost[:auteur_id] != user_current.id
+              with_tag('a', with: {href: "#{url}?op=v"})
+            else
+              without_tag('a', with: {href: "#{url}?op=v"})
+            end
+
+            # Liens pour voter pour ou contre : NON
+            without_tag('a', with: {href: "#{url}?op=u"})
+            without_tag('a', with: {href: "#{url}?op=d"})
+            # Lien pour détruire le message : OUI
+            with_tag('a', with: {href: "#{url}?op=k"})
+            # Lien pour signaler le message : OUI
+            with_tag('a', with: {href: "#{url}?op=n"})
+            # Lien pour modifier le message
+            # Admin ou auteur du message
+            can_modify = user_current.admin? || user_current.id == hpost[:auteur_id]
+            if can_modify
+              with_tag('a', with: {href: "#{url}?op=m"})
+            else
+              without_tag('a', with: {href: "#{url}?op=m"})
+            end
+          end
+        end
+
+      end
+      #/Fin de boucle sur les messages
+      success 'contient listing valide (avec les boutons pour supprimer ou valider les messages)'
+
+    end
+  end
+  #/Fin de scénario de listing de sujet pour un RÉDACTEUR ÉMÉRITE (grade 6)
+
+
+
+
+
+
+
+
+
+
+
+
+  scenario '=> un RÉDACTRICE CONFIRMÉE trouve un listing de messages conforme' do
+
+    huser_current = @dRedactriceConfirmee
+    user_current  = User.get(huser_current[:id])
+    user_grade    = user_current.data[:options][1].to_i
+    puts "User courant : #{user_current.pseudo} (##{user_current.id})"
+    puts "Grade de #{user_current.pseudo} : #{user_grade}"
+
+    # On vérifie le grade ici
+    expect(user_grade).to eq 7
+
+    hsujet_cur = all_sujets_forum(0,2,{grade: user_grade}).last
+
+    sid = hsujet_cur[:id]
+
+    # On récupère seulement quatre messages
+    request = <<-SQL
+    SELECT p.*,
+      uf.upvotes AS auteur_upvotes, uf.downvotes AS auteur_downvotes,
+      uf.last_post_id AS auteur_last_post_id, uf.count AS auteur_post_count,
+      p2.sujet_id AS auteur_last_post_sujet_id,
+      p2.created_at AS auteur_last_post_date,
+      u.pseudo AS auteur_pseudo, u.id AS auteur_id, u.created_at AS auteur_created_at,
+      c.content, v.upvotes, v.downvotes
+      FROM posts p
+      INNER JOIN `boite-a-outils_hot`.users u ON p.user_id = u.id
+      INNER JOIN `boite-a-outils_forum`.users uf ON p.user_id = uf.id
+      INNER JOIN posts_content c  ON p.id = c.id
+      INNER JOIN posts_votes v    ON p.id = v.id
+      INNER JOIN posts p2         ON uf.last_post_id = p2.id
+      WHERE p.sujet_id = #{hsujet_cur[:id]}
+      ORDER BY p.created_at DESC
+      LIMIT 4
+    SQL
+    site.db.use_database(:forum)
+    hposts = site.db.execute(request)
+
+
+    identify huser_current
+    visit forum_page
+    expect(page).to have_tag('h2', text: 'Forum d’écriture')
+
+    # Il clique pour voir le sujet choisi
+    expect(page).to have_tag('fieldset', with:{ id: 'last_messages'})
+    within('fieldset#last_messages') do
+      page.find("div#sujet-#{hsujet_cur[:id]} span.titre a").click
+    end
+
+    # Il arrive sur le listing des messages
+    expect(page).to have_tag('h2') do
+      with_tag('a', with: {href: "forum/home"}, text: 'Forum')
+      with_tag('a', with: {href: "forum/sujet/#{hsujet_cur[:id]}?from=1"}, text: "sujet ##{hsujet_cur[:id]}")
+    end
+
+    # Les liens pour souscrire au sujet ou non
+    expect(page).to have_tag('div', with: {id: "entete_sujet-#{sid}", class: 'entete_sujet'}) do
+      with_tag('span', with: {class: 'titre'}, text: hsujet_cur[:titre])
+      with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
+      with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
+
+      # Liens pour souscrire au sujet ou contraire
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
+      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
+
+      # Lien pour valider le sujet (grade 7) : OUI
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"}, text: 'Valider ce sujet')
+
+      # Lien pour clore le sujet (grade 7) : OUI
+      with_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
+
+      # Lien pour détruire le sujet : NON
+      without_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"}, text: 'Détruire ce sujet')
+
+      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
+      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
+      success 'Il possède un lien pour créer un nouveau sujet'
+    end
+
+
+    expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
+      with_tag('legend', text: 'Liste des messages')
+
+      # La liste des messages actuels
+      # ------------------------------
+      hposts.each do |hpost|
+        # puts "POST #{hpost[:id]}"
+
+        # Les votes pour le message
+        upvotes   = hpost[:upvotes].as_id_list.count
+        downvotes = hpost[:downvotes].as_id_list.count
+
+        # Le DIV contenant tout le message
+        with_tag('div', with: {class: 'post', id: "post-#{hpost[:id]}"}) do
+
+          # Le DIV de la carte de l'auteur du message
+          with_tag('div', with: {class: 'user_card'}) do
+            with_tag('span', with: {class: 'pseudo'}, text: hpost[:auteur_pseudo])
+            with_tag('span', with: {class: 'created_at'}, text: hpost[:auteur_created_at].as_human_date)
+            fame = hpost[:auteur_upvotes] - hpost[:auteur_downvotes]
+            with_tag('span', with: {class: "fame #{fame > 0 ? 'bon' : 'bad'}"}, text: fame.to_s)
+            with_tag('span', with: {class: 'ups'}, text: hpost[:auteur_upvotes].to_s)
+            with_tag('span', with: {class: 'downs'}, text: hpost[:auteur_downvotes].to_s)
+            with_tag('span', with: {class: 'post_count'}, text: hpost[:auteur_post_count].to_s)
+            with_tag('span', with: {class: 'last_post'}) do
+              with_tag('a', with: {href: "forum/sujet/#{hpost[:auteur_last_post_sujet_id]}?pid=#{hpost[:auteur_last_post_id]}"}, text: hpost[:auteur_last_post_date].as_human_date)
+            end
+          end
+
+          # L'entête du message
+          # Note : pour le moment, ne contient que la marque de vote, au-dessus
+          # pour savoir tout de suite comment est coté le message.
+          with_tag('div', with: {class: 'post_header'}) do
+            with_tag('span', with: {class: 'post_upvotes'}, text: upvotes)
+            with_tag('span', with: {class: 'post_downvotes'}, text: downvotes)
+          end
+
+          # Le contenu du message
+          # Note : on vérifie seulement les x premiers caractères
+          c = hpost[:content].gsub(/<(.*?)>/, '')
+          c = c[0..50]
+          with_tag('div', with: {class: 'content'}, text: /#{c}/)
+
+          # Le pied de page du message
+          # --------------------------
+          # Avec le contenu, c'est lui le plus important puisqu'il permet de
+          # plébisciter le message, de lui répondre, etc.
+          with_tag('div', {class: 'post_footer'}) do
+            with_tag('span', with: {class: 'post_upvotes'}, text: upvotes)
+            with_tag('span', with: {class: 'post_downvotes'}, text: downvotes)
+          end
+
+
+        end #/dans le listing
+
+        # ----------------------------------------
+        # CE QU'IL PEUT Y AVOIR OU NE PAS Y AVOIR
+        # ----------------------------------------
+          expect(page).to have_tag('fieldset', with: {class: 'post_list'}) do
+          with_tag('div', {class: 'post_footer'}) do
+            url = "forum/post/#{hpost[:id]}"
+
+            # Lien pour répondre au message : OUI (si autre auteur)
+            if hpost[:auteur_id] != user_current.id
+              with_tag('a', with: {href: "#{url}?op=a"})
+            else
+              without_tag('a', with: {href: "#{url}?op=a"})
+            end
+
+            # Lien pour valider : OUI
+            if hpost[:auteur_id] != user_current.id
+              with_tag('a', with: {href: "#{url}?op=v"})
+            else
+              without_tag('a', with: {href: "#{url}?op=v"})
+            end
+
+            # Liens pour voter pour ou contre : OUI
+            with_tag('a', with: {href: "#{url}?op=u"})
+            with_tag('a', with: {href: "#{url}?op=d"})
+
+            # Lien pour détruire le message : OUI
+            with_tag('a', with: {href: "#{url}?op=k"})
+            # Lien pour signaler le message : OUI
+            with_tag('a', with: {href: "#{url}?op=n"})
+            # Lien pour modifier le message
+            # Admin ou auteur du message
+            can_modify = user_current.admin? || user_current.id == hpost[:auteur_id]
+            if can_modify
+              with_tag('a', with: {href: "#{url}?op=m"})
+            else
+              without_tag('a', with: {href: "#{url}?op=m"})
+            end
+          end
+        end
+
+      end
+      #/Fin de boucle sur les messages
+      success 'contient listing valide (avec les boutons pour supprimer ou valider les messages)'
+
+    end
+  end
+  #/Fin de scénario de listing de sujet pour un RÉDACTRICE CONFIRMÉE (grade 7)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  scenario '=> un MAITRE RÉDACTEUR trouve un listing de messages conforme' do
+
+    huser_current = @dMaitreRedacteur
+    user_current  = User.get(huser_current[:id])
+    user_grade    = user_current.data[:options][1].to_i
+    puts "User courant : #{user_current.pseudo} (##{user_current.id})"
+    puts "Grade de #{user_current.pseudo} : #{user_grade}"
+
+    # On vérifie le grade ici
+    expect(user_grade).to eq 8
+
+    hsujet_cur = all_sujets_forum(0,2,{grade: user_grade}).last
+
+    sid = hsujet_cur[:id]
+
+    # On récupère seulement quatre messages
+    request = <<-SQL
+    SELECT p.*,
+      uf.upvotes AS auteur_upvotes, uf.downvotes AS auteur_downvotes,
+      uf.last_post_id AS auteur_last_post_id, uf.count AS auteur_post_count,
+      p2.sujet_id AS auteur_last_post_sujet_id,
+      p2.created_at AS auteur_last_post_date,
+      u.pseudo AS auteur_pseudo, u.id AS auteur_id, u.created_at AS auteur_created_at,
+      c.content, v.upvotes, v.downvotes
+      FROM posts p
+      INNER JOIN `boite-a-outils_hot`.users u ON p.user_id = u.id
+      INNER JOIN `boite-a-outils_forum`.users uf ON p.user_id = uf.id
+      INNER JOIN posts_content c  ON p.id = c.id
+      INNER JOIN posts_votes v    ON p.id = v.id
+      INNER JOIN posts p2         ON uf.last_post_id = p2.id
+      WHERE p.sujet_id = #{hsujet_cur[:id]}
+      ORDER BY p.created_at DESC
+      LIMIT 4
+    SQL
+    site.db.use_database(:forum)
+    hposts = site.db.execute(request)
+
+
+    identify huser_current
+    visit forum_page
+    expect(page).to have_tag('h2', text: 'Forum d’écriture')
+
+    # Il clique pour voir le sujet choisi
+    expect(page).to have_tag('fieldset', with:{ id: 'last_messages'})
+    within('fieldset#last_messages') do
+      page.find("div#sujet-#{hsujet_cur[:id]} span.titre a").click
+    end
+
+    # Il arrive sur le listing des messages
+    expect(page).to have_tag('h2') do
+      with_tag('a', with: {href: "forum/home"}, text: 'Forum')
+      with_tag('a', with: {href: "forum/sujet/#{hsujet_cur[:id]}?from=1"}, text: "sujet ##{hsujet_cur[:id]}")
+    end
+
+    # Les liens pour souscrire au sujet ou non
+    expect(page).to have_tag('div', with: {id: "entete_sujet-#{sid}", class: 'entete_sujet'}) do
+      with_tag('span', with: {class: 'titre'}, text: hsujet_cur[:titre])
+      with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
+      with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
+
+      # Liens pour souscrire au sujet ou contraire
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
+      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
+
+      # Lien pour valider le sujet (grade 7) : OUI
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"}, text: 'Valider ce sujet')
+
+      # Lien pour clore le sujet (grade 7) : OUI
+      with_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
+
+      # Lien pour détruire le sujet : NON
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"}, text: 'Détruire ce sujet')
+
+      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
+      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
+      success 'Il possède un lien pour créer un nouveau sujet'
+    end
+
+
+    expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
+      with_tag('legend', text: 'Liste des messages')
+
+      # La liste des messages actuels
+      # ------------------------------
+      hposts.each do |hpost|
+        # puts "POST #{hpost[:id]}"
+
+        # Les votes pour le message
+        upvotes   = hpost[:upvotes].as_id_list.count
+        downvotes = hpost[:downvotes].as_id_list.count
+
+        # Le DIV contenant tout le message
+        with_tag('div', with: {class: 'post', id: "post-#{hpost[:id]}"}) do
+
+          # Le DIV de la carte de l'auteur du message
+          with_tag('div', with: {class: 'user_card'}) do
+            with_tag('span', with: {class: 'pseudo'}, text: hpost[:auteur_pseudo])
+            with_tag('span', with: {class: 'created_at'}, text: hpost[:auteur_created_at].as_human_date)
+            fame = hpost[:auteur_upvotes] - hpost[:auteur_downvotes]
+            with_tag('span', with: {class: "fame #{fame > 0 ? 'bon' : 'bad'}"}, text: fame.to_s)
+            with_tag('span', with: {class: 'ups'}, text: hpost[:auteur_upvotes].to_s)
+            with_tag('span', with: {class: 'downs'}, text: hpost[:auteur_downvotes].to_s)
+            with_tag('span', with: {class: 'post_count'}, text: hpost[:auteur_post_count].to_s)
+            with_tag('span', with: {class: 'last_post'}) do
+              with_tag('a', with: {href: "forum/sujet/#{hpost[:auteur_last_post_sujet_id]}?pid=#{hpost[:auteur_last_post_id]}"}, text: hpost[:auteur_last_post_date].as_human_date)
+            end
+          end
+
+          # L'entête du message
+          # Note : pour le moment, ne contient que la marque de vote, au-dessus
+          # pour savoir tout de suite comment est coté le message.
+          with_tag('div', with: {class: 'post_header'}) do
+            with_tag('span', with: {class: 'post_upvotes'}, text: upvotes)
+            with_tag('span', with: {class: 'post_downvotes'}, text: downvotes)
+          end
+
+          # Le contenu du message
+          # Note : on vérifie seulement les x premiers caractères
+          c = hpost[:content].gsub(/<(.*?)>/, '')
+          c = c[0..50]
+          with_tag('div', with: {class: 'content'}, text: /#{c}/)
+
+          # Le pied de page du message
+          # --------------------------
+          # Avec le contenu, c'est lui le plus important puisqu'il permet de
+          # plébisciter le message, de lui répondre, etc.
+          with_tag('div', {class: 'post_footer'}) do
+            with_tag('span', with: {class: 'post_upvotes'}, text: upvotes)
+            with_tag('span', with: {class: 'post_downvotes'}, text: downvotes)
+          end
+
+
+        end #/dans le listing
+
+        # ----------------------------------------
+        # CE QU'IL PEUT Y AVOIR OU NE PAS Y AVOIR
+        # ----------------------------------------
+          expect(page).to have_tag('fieldset', with: {class: 'post_list'}) do
+          with_tag('div', {class: 'post_footer'}) do
+            url = "forum/post/#{hpost[:id]}"
+
+            # Lien pour répondre au message : OUI (si autre auteur)
+            if hpost[:auteur_id] != user_current.id
+              with_tag('a', with: {href: "#{url}?op=a"})
+            else
+              without_tag('a', with: {href: "#{url}?op=a"})
+            end
+
+            # Lien pour valider : OUI
+            if hpost[:auteur_id] != user_current.id
+              with_tag('a', with: {href: "#{url}?op=v"})
+            else
+              without_tag('a', with: {href: "#{url}?op=v"})
+            end
+
+            # Liens pour voter pour ou contre : OUI
+            with_tag('a', with: {href: "#{url}?op=u"})
+            with_tag('a', with: {href: "#{url}?op=d"})
+
+            # Lien pour détruire le message : OUI
+            with_tag('a', with: {href: "#{url}?op=k"})
+            # Lien pour signaler le message : OUI
+            with_tag('a', with: {href: "#{url}?op=n"})
+            # Lien pour modifier le message
+            # Admin ou auteur du message
+            can_modify = user_current.admin? || user_current.id == hpost[:auteur_id]
+            if can_modify
+              with_tag('a', with: {href: "#{url}?op=m"})
+            else
+              without_tag('a', with: {href: "#{url}?op=m"})
+            end
+          end
+        end
+
+      end
+      #/Fin de boucle sur les messages
+      success 'contient listing valide (avec les boutons pour supprimer ou valider les messages)'
+
+    end
+  end
+  #/Fin de scénario de listing de sujet pour un MAITRE RÉDACTEUR (grade 8)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  scenario '=> une EXPERTE D’ÉCRITURE trouve un listing de messages conforme' do
+
+    # On va vérifier l'affichage de tous les messages du premier sujet
+    # qu'on trouve, avec des liens qui permettent de tout faire puisque
+    # c'est un administrateur.
+
+    huser_current = @dExperteEcriture
+    user_current = User.get(huser_current[:id])
     user_grade   = user_current.data[:options][1].to_i
     puts "User courant : #{user_current.pseudo} (##{user_current.id})"
     puts "Grade de #{user_current.pseudo} : #{user_grade}"
 
-    hsujet_cur = all_sujets_forum(0,2,{grade: 9}).last
+    # Le grade doit être le bon
+    expect(user_grade).to eq 9
+
+    hsujet_cur = all_sujets_forum(0,2,{grade: user_grade}).last
 
     sid = hsujet_cur[:id]
 
@@ -318,7 +1493,7 @@ feature "Affichage des messages" do
     hposts = site.db.execute(request)
 
 
-    identify phil
+    identify huser_current
     visit forum_page
     expect(page).to have_tag('h2', text: 'Forum d’écriture')
     expect(page).to have_tag('fieldset', with:{ id: 'last_messages'})
@@ -341,6 +1516,19 @@ feature "Affichage des messages" do
       # pour se désinscrire dans le cas contraire
       with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
       # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
+
+      # Lien pour valider le sujet (grade 7) : OUI
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"}, text: 'Valider ce sujet')
+
+      # Lien pour clore le sujet (grade 7) : OUI
+      with_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
+
+      # Lien pour détruire le sujet (grade 8) : OUI
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"}, text: 'Détruire ce sujet')
+
+      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
+      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
+      success 'Il possède un lien pour créer un nouveau sujet'
 
     end
     success 'contient les informations sur le sujet'
@@ -403,16 +1591,23 @@ feature "Affichage des messages" do
         # ----------------------------------------
         # CE QU'IL PEUT Y AVOIR OU NE PAS Y AVOIR
         # ----------------------------------------
-          expect(page).to have_tag('fieldset', with: {class: 'post_list'}) do
+        expect(page).to have_tag('fieldset', with: {class: 'post_list'}) do
           with_tag('div', {class: 'post_footer'}) do
             url = "forum/post/#{hpost[:id]}"
             # Il y un lien pour répondre au message sauf si l'auteur du
             # message est le visiteur courant
-            can_answer = hpost[:auteur_id] != user_current.id && user_grade > 4
+            can_answer = (hpost[:auteur_id] != user_current.id) && user_grade > 4
             if can_answer
               with_tag('a', with: {href: "#{url}?op=a"})
             else
               without_tag('a', with: {href: "#{url}?op=a"})
+            end
+
+            can_validate = (hpost[:auteur_id] != user_current.id) && user_grade >= 6
+            if can_validate
+              with_tag('a', with: {href: "#{url}?op=v"}, text: 'Valider')
+            else
+              without_tag('a', with: {href: "#{url}?op=v"})
             end
             # Il y a des liens pour voter pour ou contre
             with_tag('a', with: {href: "#{url}?op=u"})
@@ -433,16 +1628,8 @@ feature "Affichage des messages" do
 
     end
   end
-  #/Fin de scénario de listing de sujet pour un adminitrateur
+  #/Fin de scénario de listing de sujet pour une EXPERTE D'ÉCRITURE (grade 9)
 
-
-  # TODO Un apprenti suveillé (@apprentiSurveilled, grade 3) peut répondre, mais son message doit être confirmé
-  # TODO Une simple rédactrice (@simpleRedactrice, grade 4) peut répondre à un sujet sans confirmation
-  # TODO Un rédacteur (@redacteur, grade 5) peut initier un sujet
-  # TODO Un rédacteur émérite (@redacteurEmerite, grade 6) peut supprimer des messages
-  # TODO Une rédactrice confirmée (@redactriceConfirmee, grade 7) peut valider ou clore un sujet
-  # TODO Un maitre d'écriture ( @maitreRedacteur, grade 8) peut supprimer des sujets
-  # TODO une experte d'écriture (@experteEcriture, grade 9) peut bannir un utilisateur
 
 
 
@@ -472,7 +1659,10 @@ feature "Affichage des messages" do
     puts "User courant : #{user_current.pseudo} (##{user_current.id})"
     puts "Grade de #{user_current.pseudo} : #{user_grade}"
 
-    hsujet_cur = all_sujets_forum(0,2,{grade: 9}).last
+    # Le grade doit être le bon
+    expect(user_grade).to eq 9
+
+    hsujet_cur = all_sujets_forum(0,2,{grade: user_grade}).last
 
     sid = hsujet_cur[:id]
 
@@ -521,6 +1711,19 @@ feature "Affichage des messages" do
       # pour se désinscrire dans le cas contraire
       with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
       # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
+
+      # Lien pour valider le sujet (grade 7) : OUI
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"}, text: 'Valider ce sujet')
+
+      # Lien pour clore le sujet (grade 7) : OUI
+      with_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
+
+      # Lien pour détruire le sujet (grade 8) : OUI
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"}, text: 'Détruire ce sujet')
+
+      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
+      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
+      success 'Il possède un lien pour créer un nouveau sujet'
 
     end
     success 'contient les informations sur le sujet'
@@ -593,6 +1796,13 @@ feature "Affichage des messages" do
               with_tag('a', with: {href: "#{url}?op=a"})
             else
               without_tag('a', with: {href: "#{url}?op=a"})
+            end
+
+            can_validate = (hpost[:auteur_id] != user_current.id) && user_grade >= 6
+            if can_validate
+              with_tag('a', with: {href: "#{url}?op=v"}, text: 'Valider')
+            else
+              without_tag('a', with: {href: "#{url}?op=v"})
             end
             # Il y a des liens pour voter pour ou contre
             with_tag('a', with: {href: "#{url}?op=u"})

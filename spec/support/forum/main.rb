@@ -34,32 +34,32 @@ def reset_all_data_forum
   ids_auteurs << @maude.id
   # On fait des auteur avec des grand bien particuliers
 
-  @dApprentiSurveilled = create_new_user(pseudo: 'ApprentiSurveillé', grade_forum: 3, sexe: 'H', password: 'motdepasse', mail_confirmed: true)
+  @dApprentiSurveilled = create_new_user(pseudo: 'ApprentiSurveillé', grade: 3, sexe: 'H', password: 'motdepasse', mail_confirmed: true)
   @apprentiSurveilled = User.get(@dApprentiSurveilled[:id])
   ids_auteurs << @apprentiSurveilled.id
 
 
-  @dSimpleRedactrice = create_new_user(pseudo: 'SimpleRedactrice', grade_forum: 4, sexe: 'F', password: 'simpleredactrice', mail_confirmed: true)
+  @dSimpleRedactrice = create_new_user(pseudo: 'SimpleRedactrice', grade: 4, sexe: 'F', password: 'simpleredactrice', mail_confirmed: true)
   @simpleRedactrice = User.get(@dSimpleRedactrice[:id])
   ids_auteurs << @simpleRedactrice.id
 
-  @dRedacteur = create_new_user(pseudo: 'Redacteur', grade_forum: 5, sexe: 'H', password: 'vrairedacteur', mail_confirmed: true)
+  @dRedacteur = create_new_user(pseudo: 'Rédacteur', grade: 5, sexe: 'H', password: 'vrairedacteur', mail_confirmed: true)
   @redacteur = User.get(@dRedacteur[:id])
   ids_auteurs << @redacteur.id
 
-  @dRedacteurEmerite = create_new_user(pseudo: 'RédacteurEmérite', grade_forum: 6, sexe: 'H', password: 'motdepasse', mail_confirmed: true)
+  @dRedacteurEmerite = create_new_user(pseudo: 'RédacteurEmérite', grade: 6, sexe: 'H', password: 'motdepasse', mail_confirmed: true)
   @redacteurEmerite = User.get(@dRedacteurEmerite[:id])
   ids_auteurs << @redacteurEmerite.id
 
-  @dRedactriceConfirmee = create_new_user(pseudo: 'RédactriceConfirmée', grade_forum: 7, sexe: 'F', password: 'motdepasse', mail_confirmed: true)
-  @redactriceConfirmee = User.get(@dRedactriceConfirmed[:id])
+  @dRedactriceConfirmee = create_new_user(pseudo: 'RédactriceConfirmée', grade: 7, sexe: 'F', password: 'motdepasse', mail_confirmed: true)
+  @redactriceConfirmee = User.get(@dRedactriceConfirmee[:id])
   ids_auteurs << @redactriceConfirmee.id
 
-  @dMaitreRedacteur = create_new_user(pseudo: 'MaitreRédacteur', grade_forum: 8, sexe: 'H', password: 'motdepasse', mail_confirmed: true)
+  @dMaitreRedacteur = create_new_user(pseudo: 'MaitreRédacteur', grade: 8, sexe: 'H', password: 'motdepasse', mail_confirmed: true)
   @maitreRedacteur = User.get(@dMaitreRedacteur[:id])
   ids_auteurs << @maitreRedacteur.id
 
-  @dExperteEcriture = create_new_user(pseudo: 'ExpertEcriture', grade_forum: 9, sexe: 'F', password: 'motdepasse', mail_confirmed: true)
+  @dExperteEcriture = create_new_user(pseudo: 'ExperteEcriture', grade: 9, sexe: 'F', password: 'motdepasse', mail_confirmed: true)
   @experteEcriture = User.get(@dExperteEcriture[:id])
   ids_auteurs << @experteEcriture.id
 
