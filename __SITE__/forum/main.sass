@@ -51,3 +51,58 @@ div.sujet
 
 .date
   font-size   : 0.85em
+
+div.user_card
+  float             : left
+  width             : 250px
+  font-size         : 13.2pt!important
+  border-radius     : .5em
+  background-color  : #DAE4E3
+  color             : black
+  padding           : 1.2em
+  margin            : 2.8em 1em 1em 0
+  > div
+    margin-bottom   : .4em
+  .libelle
+    font-size : 13pt
+    margin-left : 0
+    &:not(.noblock)
+      display     : inline-block
+      width       : 86px
+  > .pseudo
+    display     : block
+    font-size   : 1.8em!important
+    font-weight : bold
+    margin-bottom : .5em
+  span.fame
+    font-weight     : bold
+    letter-spacing  : 1px
+    &.bon
+      color : green
+    &.bad
+      color : red
+
+div.post
+  margin-bottom   : 6em
+  div.post_header, div.post_footer
+    background-color    : #DAE4E3
+    text-align          : right
+    padding             : 4px 1em
+    font-size           : .85em
+  div.post_footer
+    span.post_date
+      float     : left
+    > span
+      margin-right    : 1.1em
+  // Le contenu du message, son texte
+  div.content
+    padding   : 2em
+
+  span.post_upvotes, .post_downvotes
+    font-weight : bold
+  span.post_upvotes
+    color   : green
+  span.post_votes_down
+    margin-left   : 1.1em
+    span.post_downvotes
+      color   : red

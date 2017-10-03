@@ -43,19 +43,30 @@ end
 #
 def all_sujets_forum from = nil, nombre = nil, options = nil
   options ||= Hash.new
-  req = String.new
-  req << 'SELECT s.*, u.pseudo AS creator_pseudo'
-  req << ' FROM sujets s'
-  req << ' INNER JOIN `boite-a-outils_hot`.users u'
-  req << '   ON s.creator_id = u.id'
-  if options.key?(:grade)
-    req << " WHERE CAST(SUBSTRING(s.specs,6,1) AS UNSIGNED) <= #{options[:grade]}"
-  end
-  req << ' ORDER BY updated_at DESC'
-  if nombre != nil
-    from ||= 0
-    req << " LIMIT #{from}, #{nombre}"
-  end
+  where =
+    if options.key?(:grade)
+      " WHERE CAST(SUBSTRING(s.specs,6,1) AS UNSIGNED) <= #{options[:grade]}"
+    else
+      ''
+    end
+  limit =
+    if nombre != nil
+      from ||= 0
+      " LIMIT #{from}, #{nombre}"
+    else
+      ''
+    end
+
+  request = <<-SQL
+  SELECT s.*, u.pseudo AS creator_pseudo
+    FROM sujets s
+    INNER JOIN `boite-a-outils_hot`.users u
+      ON s.creator_id = u.id
+    #{where}
+    ORDER BY updated_at DESC
+    #{limit}
+  SQL
+
   site.db.use_database(:forum)
-  site.db.execute(req)
+  site.db.execute(request)
 end

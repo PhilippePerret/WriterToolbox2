@@ -58,3 +58,7 @@ Pour ajouter les colonnes :
      use `boite-a-outils_forum`
      ALTER TABLE posts_content ADD COLUMN created_at INTEGER(10);
      ALTER TABLE posts_votes ADD COLUMN created_at INTEGER(10);
+
+* Détruire la table `users` du forum et la remplacer par la table avec le code dans le fichier `Forum/Tables.md` (qui permet de tout faire, détruire et remplacer).
+
+* Détruire la table `follows` et la remplacer avec le code du fichier `Forum/Tables.md` (qui permet de tout faire, détruire et remplacer)

@@ -1,7 +1,13 @@
 require 'betterlorem'
 
+
+
 # Crée +nombre_posts+ posts pour le sujet d'ID +sujet_id+ avec
 # les paramètres +params+
+#
+# NOTES
+#   * Actualise aussi la table users avec le nombre de messages (count),
+#     et l'id du dernier message (last_post_id).
 #
 # @param {Hash} params
 #               === OBLIGATOIRE ===
@@ -30,8 +36,8 @@ def forum_create_posts sujet_id, nombre_posts, params
   params.key?(:validate) || params.merge!(validate: nil)
 
 
-  colonnes_data = DATA_POST_PROPS.collect{|p| p.to_s}.join(', ')
-  interros_data = DATA_POST_PROPS.collect{|p| '?'}.join(', ')
+  colonnes_data     = DATA_POST_PROPS.collect{|p| p.to_s}.join(', ')
+  interros_data     = DATA_POST_PROPS.collect{|p| '?'}.join(', ')
   colonnes_content  = CONTENT_POST_PROPS.collect{|p| p.to_s}.join(', ')
   interros_content  = CONTENT_POST_PROPS.collect{|p| '?'}.join(', ')
   colonnes_vote     = VOTE_POST_PROPS.collect{|p| p.to_s}.join(', ')
@@ -49,6 +55,13 @@ def forum_create_posts sujet_id, nombre_posts, params
   created_plus_recent = 0
   last_post_id        = nil
   last_post_date      = nil
+
+  # Une table pour retenir les informations des users pour la
+  # table `forum.users`. On doit retenir :
+  # - le nombre de messages
+  # - l'id du dernier message (en fonction de la date, mais on vérifiera
+  #   au moment de le faire)
+  user_posts = Hash.new
 
   # Boucle sur le nombre de posts
   nombre_posts.times do |itime|
@@ -87,7 +100,29 @@ def forum_create_posts sujet_id, nombre_posts, params
       last_post_date      = ctime   # pour updated_at du sujet
     end
 
-    nombre_paragraphes = rand(1..20)
+    uid = data_post[:user_id]
+    user_posts.key?(uid) || begin
+      user_posts.merge!(uid => {
+        count:        0,
+        last_post_id: nil,
+        last_post_at: 0,
+        upvotes:      0,
+        downvotes:    0
+        })
+    end
+    user_posts[uid][:count] += 1
+    # Si le message est plus vieux que le plus vieux message créé jusqu'à
+    # maintenant, on le mémorise.
+    # Noter que si l'user possède déjà des messages, ses données courantes
+    # seront comparées à celles-ci avant d'être modifiées.
+    if user_posts[uid][:last_post_at] < data_post[:created_at]
+      user_posts[uid].merge!(
+        last_post_id: post_id,
+        last_post_at: data_post[:created_at]
+      )
+    end
+
+    nombre_paragraphes = rand(1..5)
     contenu = BetterLorem.p(nombre_paragraphes)
     content_post = {
       id: post_id,
@@ -116,11 +151,17 @@ def forum_create_posts sujet_id, nombre_posts, params
           # puts "downvotes = uids[#{nombre_upvoteurs}..#{nombre_upvoteurs+nombre_downvoteurs-1}] = #{downvotes}"
         end
         vote      = nombre_upvoteurs - nombre_downvoteurs
+
+        # L'auteur de ce message doit hérité de ce vote pour sa réputation
+        # c'est-à-dire ses propres upvotes et downvotes
+        user_posts[uid][:upvotes]   += nombre_upvoteurs
+        user_posts[uid][:downvotes] += nombre_downvoteurs
+
       else
         vote      = 0
       end
       vote_post = {
-        id: post_id,
+        id:         post_id,
         created_at: ctime,
         updated_at: mtime,
         vote:       vote,
@@ -145,6 +186,48 @@ def forum_create_posts sujet_id, nombre_posts, params
       last_post_id    = hsujet[:last_post_id]
       last_post_date  = hlast_post[:created_at]
     end
+  end
+
+  # Il faut tenir à jour la table forum.users pour informer du nombre de
+  # message et du dernier message de chaque user
+  # +udata+ ci-dessous contient:
+  #   :count    Le nombre de message créés ici (à ajouter à ce que l'auteur a)
+  #   :last_post_id   ID du dernier post CRÉÉ ICI
+  #   :last_post_at   Time du dernier post CRÉÉ ICI pour voir s'il faut actualiser
+  #                   cette valeur.
+  user_posts.each do |uid, udata|
+    site.db.use_database(:forum)
+    huser = site.db.execute("SELECT * FROM users WHERE id = #{uid}").first
+    not_exists = huser == nil
+    count         = nil
+    last_post_id  = nil
+    unless not_exists
+      udata[:upvotes] += huser[:upvotes]
+      udata[:downvotes] += huser[:downvotes]
+      if huser[:last_post_id]
+        # <= Il y a déjà un dernier post enregistré
+        # => Il faut comparer sa date pour voir s'il doit être modifié
+        hp = site.db.select(:forum,'posts',{id: huser[:last_post_id]},[:created_at]).first
+        if hp[:created_at] > udata[:last_post_at]
+          last_post_id = huser[:last_post_id] # inchangé
+        end
+      end
+      count = huser[:count] + udata[:count]
+    end
+
+    count         ||= udata[:count]
+    last_post_id  ||= udata[:last_post_id]
+    upvotes       = udata[:upvotes]
+    downvotes     = udata[:downvotes]
+
+    request =
+      if not_exists
+        "INSERT INTO users (id, count, last_post_id, upvotes, downvotes) VALUES (#{uid}, #{count}, #{last_post_id}, #{upvotes}, #{downvotes});"
+      else
+        "UPDATE users SET count = #{count}, last_post_id = #{last_post_id}, upvotes = #{upvotes}, downvotes = #{downvotes} WHERE id = #{uid};"
+      end
+    site.db.use_database(:forum)
+    site.db.execute(request)
   end
 
   # Ensuite, il faut faire des ajustements sur le sujet

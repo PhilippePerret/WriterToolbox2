@@ -18,10 +18,23 @@ class Forum
     # Données du sujet (HTML)
     def encart_data
       <<-HTML
-      <div id="entete_sujet">
+      <div id="entete_sujet-#{id}" class="entete_sujet">
         <span class="titre">#{data[:titre]}</span>
+        <span class="libelle">Initié par</span><span class="sujet_creator">#{data[:creator_pseudo]}</span>
+        <span class="libelle">le</span><span class="sujet_at">#{data[:created_at].as_human_date}</span>
+        <div class="buttons">
+          #{div_bouton_suscribe}
+        </div>
       </div>
       HTML
+    end
+
+    def div_bouton_suscribe
+      user.identified? || (return '')
+      is_following = user.follows_sujet?(id)
+      op = (is_following ? 'un' : '') + 'suscribe'
+      ti = (is_following ? 'ne plus ' : '') + 'suivre'
+      simple_link("forum/sujet/#{id}?op=#{op}", ti)
     end
 
     # Retourne le code HTML de la liste des messages du sujet
@@ -74,21 +87,39 @@ class Forum
         # Retourne le code HTML du div du message, dans un affichage de
         # listing de messages
         def div_post hpost
-          dp = String.new
-          dp << div_post_header(hpost)
-          dp << "<div class='content'>#{hpost[:content]}</div>"
-          dp << div_post_footer(hpost)
-          return "<div class=\"post\" id=\"post-#{hpost[:id]}\">#{dp}</div>"
+          <<-HTML
+          <div class="post" id="post-#{hpost[:id]}">
+            #{Forum::User.new(hpost[:user_id]).card}
+            #{div_post_header(hpost)}
+            <div class="content">#{hpost[:content][0..75]}</div>
+            #{div_post_footer(hpost)}
+          </div>
+          HTML
         end
 
         # Code HTML pour l'entête des messages dans un listing de messages
         def div_post_header hpost
           auteur = simple_link("user/profil/#{hpost[:auteur_id]}", hpost[:auteur_pseudo])
           <<-HTML 
-            <span class="libelle">Message de</span>         
-            <span class='post_auteur' data-id='#{hpost[:user_id]}'>#{auteur}</span>
-            <span class="libelle">du</span>
-            <span class='post_date'>#{hpost[:created_at].as_human_date} <span class='small'>(#{hpost[:created_at].ago})</span></span>
+          <div class="post_header">
+            #{bloc_votes(hpost)}
+          </div>
+          HTML
+        end
+
+
+        # Code HTML pour les votes du message
+        # Suivant le niveau du visiteur, il peut ou non voter par le message
+        def bloc_votes hpost
+          upvotes   = (hpost[:upvotes]||'').as_id_list.count
+          downvotes = (hpost[:downvotes]||'').as_id_list.count
+          <<-HTML
+            <span class='post_votes_up'>
+              <span class="post_upvotes">#{upvotes}</span>&nbsp;👍
+            </span>
+            <span class='post_votes_down'>
+              <span class="post_downvotes">#{downvotes}</span>&nbsp;👎
+            </span>
           HTML
         end
 
@@ -98,24 +129,49 @@ class Forum
         # On met notamment les votes et les boutons pour voter, si le lecteur
         # peut voter.
         def div_post_footer hpost
-          upvotes   = (hpost[:upvotes]||'').as_id_list.count
-          downvotes = (hpost[:downvotes]||'').as_id_list.count
-          nombre_votes = upvotes + downvotes
           <<-HTML
-            <span class="libelle">Nombre de votes</span>
-            <span class='post_vote_count'>#{nombre_votes}</span>
-            <span class="libelle">Pour</span>
-            <span class='post_votes_up'>#{upvotes}</span>
-            <span class="libelle">Contre</span>
-            <span class='post_votes_down'>#{downvotes}</span>
+          <div class="post_footer">
+            <span class='post_date'>
+              <span class="libelle">Message du</span>
+              #{hpost[:created_at].as_human_date} <span class='small'>(#{hpost[:created_at].ago})</span>
+            </span>
+            #{bloc_votes(hpost)}
+            #{bloc_boutons_footer(hpost)}
+          </div>
           HTML
         end
+
+        # Code HTML du bloc qui contient tous les boutons pour répondre, supprimer,
+        # signaler le message (en fonction du grade de l'user)
+        def bloc_boutons_footer hpost
+          user.identified? || (return '')
+          bs = String.new
+          url = "forum/post/#{hpost[:id]}"
+          user.grade > 2 && bs <<  simple_link("#{url}?op=n", 'Signaler')
+          can_answer = user.id != hpost[:auteur_id] && user.grade > 4
+          can_answer && bs <<  simple_link("#{url}?op=a", 'Répondre')
+          user.grade > 6 && bs <<  simple_link("#{url}?op=u", '+1')
+          user.grade > 6 && bs <<  simple_link("#{url}?op=d", '-1')
+          user.grade > 8 && bs <<  simple_link("#{url}?op=k", 'Supprimer')
+          can_modify = user.admin? || user.id == hpost[:auteur_id]
+          can_modify && bs << simple_link("#{url}?op=m", 'Modifier')
+
+          return "<div class=\"buttons\">#{bs}</div>"
+        end
+
+
       end #/<< self Post
     end #/Post
   end #/Sujet
 end #/Forum
 
+class User
 
+  # Retourne true si l'user suit le sujet d’identifiant sid
+  def follows_sujet? sid
+    site.db.count(:forum,'follows',{user_id: id, sujet_id: sid}) == 1
+  end
+end #/User
 
 def sujet
   @sujet ||= Forum::Sujet.new(site.route.objet_id)
