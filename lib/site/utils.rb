@@ -115,6 +115,9 @@ class Site
 
   # Charge les fichiers du dossier, à commencer par le fichier main.rb
   #
+  # Noter qu'à présent, on ne charge que les fichiers qui se trouvent à
+  # la racine de solid_path, sans `**/*.rb`
+  #
   # Passe seulement le dossier `partial` s'il existe à la racine du
   # dossier
   def folder_load_ruby solid_path
@@ -129,13 +132,16 @@ class Site
     Dir["#{solid_path}/**"].each do |element|
       if File.directory?(element)
         if File.basename(element) != 'partial'
-          Dir["#{element}/**/*.rb"].each{|m|require m}
+          Dir["#{element}/*.rb"].each{|m|require m}
         end
       elsif element.end_with?('.rb')
         require element
       end
     end
   end
+
+  # On charge les fichier SASS/CSS qui se trouve à la racinde de +relpath+
+  # Note : on ne fait plus les fichiers `**/*.sass`
   def folder_load_css relpath
     require './lib/utils/sass_all'
 
@@ -162,7 +168,8 @@ class Site
     curpath = File.join('.','__SITE__')
     for cfolder in folders
       curpath = File.join(curpath, cfolder)
-      all_sass = Dir["#{curpath}/#{curpath == solid_path ? '**/*.sass' : '*.sass'}"]
+      # all_sass = Dir["#{curpath}/#{curpath == solid_path ? '**/*.sass' : '*.sass'}"]
+      all_sass = Dir["#{curpath}/*.sass"]
       !all_sass.empty? || next
       all_sass.each { |src| self.all_css << SassSite.send(meth, src) }
     end

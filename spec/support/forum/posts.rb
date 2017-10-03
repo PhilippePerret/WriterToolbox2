@@ -264,14 +264,17 @@ end
 #       :nombre_paragraphes     10 par défaut
 #
 def create_new_post params
-  params[:contents] ||= begin
+
+  # Le contenu du message
+  params[:content] ||= begin
     params[:nombre_paragraphes] ||= 10
     BetterLorem.p(params[:nombre_paragraphes])
   end
+
   # Si aucun sujet n'est défini, on le choisi au hasard
   params[:sujet_id] ||= begin
     uids = site.db.select(:forum,'sujets',nil,[:id]).collect{|h|h[:id]}
-    uid.shuffle.shuffle.first
+    uids.shuffle.shuffle.first
   end
   if params.key?(:validate) && params[:validate]
     params[:validator_id] ||= 1
@@ -300,7 +303,7 @@ def create_new_post params
   )
 
   request = <<-SQL
-  SELECT p.*, c.content, v.votes
+  SELECT p.*, c.content, v.vote
   FROM posts p
   INNER JOIN posts_content c ON p.id = c.id
   INNER JOIN posts_votes v   ON p.id = v.id

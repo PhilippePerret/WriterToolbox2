@@ -1,6 +1,7 @@
 # encoding: utf-8
 debug "-> #{__FILE__}"
 class Forum
+  
   class Sujet
     class << self
 
@@ -32,13 +33,15 @@ class Forum
         hpost != nil || raise(ArgumentError.new("L’ID #{post_id} ne correspond pas à un message existant."))
         if hpost[:user_id] == user_id
           huser = site.db.select(:forum,'users',{id: user_id}).first
-          if huser.nil
+          if huser.nil?
             # <= C'est le tout premier message de l'auteur
             # => Il faut lui créer une donnée complète et l'insérer
-            site.db.insert(
-              :forum, 'users',
-              {id: user_id, count: 1, last_post_id: post_id, options: '0'*8}
-            )
+            request = <<-SQL
+            INSERT INTO users (id, count, last_post_id, options, updated_at) VALUES (?, ?, ?, ?, ?);
+            SQL
+            values = [user_id, 1, post_id, '0'*8, Time.now.to_i]
+            site.db.use_database(:forum)
+            site.db.execute(request, values)
           else
             # <= Ce n'est pas le premier message de l'auteur
             # => Il faut simplement imcrémenter ses messages

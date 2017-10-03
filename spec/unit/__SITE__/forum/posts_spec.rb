@@ -5,6 +5,7 @@
 =end
 
 require_lib_site
+require_support_db_for_test
 require_support_forum
 
 describe 'Posts' do
@@ -16,7 +17,7 @@ describe 'Posts' do
   describe 'Méthode de Forum::Post' do
     describe 'add_post_to_user' do
       it 'répond' do
-        expect(Forum::Post).to respond_to: :add_post_to_user
+        expect(Forum::Post).to respond_to :add_post_to_user
       end
       context 'sans arguments valides (user ou ID, ID post, post appartenant à User)' do
         it 'produit une erreur' do
@@ -26,7 +27,7 @@ describe 'Posts' do
           [true, {un:'hash'}, ['une','liste'], nil].each do |bad|
             expect{Forum::Post.add_post_to_user(1, bad)}.to raise_error ArgumentError
           end
-          hpost = site.db.select(:forum,'posts', "user_id IS NOT 1 LIMIT 1", [:id]).first
+          hpost = site.db.select(:forum,'posts', "user_id != 1 LIMIT 1", [:id]).first
           expect{Forum::Post.add_post_to_user(1,hpost[:id])}.to raise_error ArgumentError, 'Le message n’appartient pas à cet auteur.'
         end
       end
