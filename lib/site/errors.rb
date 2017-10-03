@@ -22,8 +22,8 @@ class Site
   #                 L'erreur, pour récupérer son message à afficher
   #                 dans la page d'erreur    
   def load_error_page page_affixe, err
-    debug err
-    self.__error_message = err.message
+    err != nil && (debug err)
+    self.__error_message = err.respond_to?(:message) ? err.message : (err || '')
     deserb("./__SITE__/xTemplate/error_pages/#{page_affixe}.erb")
   end
 

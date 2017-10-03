@@ -3,10 +3,9 @@ Options +ExecCGI
 Options -Indexes
 
 DirectoryIndex index.rb
-#DirectoryIndex index.htm
 
 Options +FollowSymlinks
 RewriteEngine on
 
 # Transformation en 'objet/id/method'
-RewriteRule ^([a-z_]+)(?:\/([a-z_]+))?(?:\/([a-zA-Z0-9]+))?$ index.rb?__o=$1&__m=$2&__i=$3 [QSA,L]
+RewriteRule ^([a-z0-9_\-]+)(?:\/([a-z0-9_\-]+))?(?:\/([a-zA-Z0-9]+))?$ index.rb?__o=$1&__m=$2&__i=$3 [QSA,L]
