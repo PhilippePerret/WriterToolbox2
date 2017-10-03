@@ -18,7 +18,7 @@ class Forum
       add_boutons_forum bs
     end
 
-    # Retourne le code HTML de la liste des derniers messages, 
+    # Retourne le code HTML de la liste des derniers messages,
     # à placer dans le fieldset.
     #
     # Noter que pour un user de grade 0, seuls les messages publics
@@ -29,7 +29,6 @@ class Forum
       nombre = nombre.to_i
       lm = String.new
       Sujet.x_derniers_sujets(from, nombre, options).each do |hsujet|
-        debug "sujet #{hsujet[:id].to_s.rjust(3)} - #{hsujet[:updated_at]}"
         lm << Sujet.div_sujet(hsujet)
       end
       return lm
@@ -44,12 +43,12 @@ class Forum
       # Retourne le code HTML pour l'affichage d'un sujet de données +hsujet+
       # sur la page d'accueil
       #
-      # Noter que +hsujet+ n'est pas du tout le Hash des données récupérées dans 
+      # Noter que +hsujet+ n'est pas du tout le Hash des données récupérées dans
       # la base de données, mais une table beaucoup plus complète avec les pseudos
       # des créateurs du sujet et de l'auteur du dernier message, etc. telles que
       # retournées par x_derniers_sujets ci-dessous
       def div_sujet hsujet
-        sid = "sujet-#{hsujet[:id]}" 
+        sid = "sujet-#{hsujet[:id]}"
         type_s = hsujet[:specs][1].to_i
         <<-HTML
         <div id="#{sid}" class="sujet">
@@ -78,7 +77,7 @@ class Forum
       # Retourne les tables de données des +nombre+ derniers sujets
       # répondus en respectant les +options+
       # Détail : c'est donc un Array de Hash où chaque Hash contient :
-      # 
+      #
       #   :titre            Titre String du sujet
       #   :id               ID du sujet
       #   :sujet_date       Time de la création du sujet
@@ -97,18 +96,18 @@ class Forum
       #                           prend que les sujets avec un grade minimum
       #                           de 4.
       def x_derniers_sujets from = 0, nombre = 20, options = nil
-        req  = 'SELECT s.titre, s.id, s.last_post_id, s.creator_id, s.created_at AS sujet_date' 
+        req  = 'SELECT s.titre, s.id, s.last_post_id, s.creator_id, s.created_at AS sujet_date'
         req << ', s.count, s.specs, s.updated_at'
-        req << ', us.pseudo AS creator_pseudo' 
+        req << ', us.pseudo AS creator_pseudo'
         req << ', p.created_at AS post_date, p.user_id AS auteur_id'
         req << ', up.pseudo AS auteur_pseudo'
         req << ' FROM sujets s'
-        req << ' INNER JOIN posts p' 
+        req << ' INNER JOIN posts p'
         req << '   ON s.last_post_id = p.id'
         req << ' INNER JOIN `boite-a-outils_hot`.users us'
-        req << '   ON s.creator_id = us.id' 
-        req << ' INNER JOIN `boite-a-outils_hot`.users up' 
-        req << '   ON p.user_id = up.id' 
+        req << '   ON s.creator_id = us.id'
+        req << ' INNER JOIN `boite-a-outils_hot`.users up'
+        req << '   ON p.user_id = up.id'
         if options && options[:grade]
           req << " WHERE CAST(SUBSTRING(s.specs,6,1) AS UNSIGNED) <= #{options[:grade]}"
         end

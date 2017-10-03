@@ -188,8 +188,8 @@ feature "Affichage des messages" do
 
       # Il y a PAS DE liens pour souscrire au sujet si pas souscrit et
       # pour se désinscrire dans le cas contraire
-      withou_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
-      withou_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
+      without_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
+      without_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
 
     end
     success 'contient les informations sur le sujet'
@@ -298,8 +298,8 @@ feature "Affichage des messages" do
     huser_current = @dApprentiSurveilled
     user_current  = User.get(huser_current[:id])
     user_grade    = user_current.data[:options][1].to_i
-    puts "User courant : #{user_current.pseudo} (##{user_current.id})"
-    puts "Grade de #{user_current.pseudo} : #{user_grade}"
+    notice "User courant : #{user_current.pseudo} (##{user_current.id})"
+    notice "Grade de #{user_current.pseudo} : #{user_grade}"
 
     # On vérifie le grade ici
     expect(user_grade).to eq 3
@@ -488,8 +488,8 @@ feature "Affichage des messages" do
       huser_current = @dSimpleRedactrice
       user_current  = User.get(huser_current[:id])
       user_grade    = user_current.data[:options][1].to_i
-      puts "User courant : #{user_current.pseudo} (##{user_current.id})"
-      puts "Grade de #{user_current.pseudo} : #{user_grade}"
+      notice "User courant : #{user_current.pseudo} (##{user_current.id})"
+      notice "Grade de #{user_current.pseudo} : #{user_grade}"
 
       # On vérifie le grade ici
       expect(user_grade).to eq 4
@@ -676,8 +676,8 @@ feature "Affichage des messages" do
     huser_current = @dRedacteur
     user_current  = User.get(huser_current[:id])
     user_grade    = user_current.data[:options][1].to_i
-    puts "User courant : #{user_current.pseudo} (##{user_current.id})"
-    puts "Grade de #{user_current.pseudo} : #{user_grade}"
+    notice "User courant : #{user_current.pseudo} (##{user_current.id})"
+    notice "Grade de #{user_current.pseudo} : #{user_grade}"
 
     # On vérifie le grade ici
     expect(user_grade).to eq 5
@@ -865,8 +865,8 @@ feature "Affichage des messages" do
     huser_current = @dRedacteurEmerite
     user_current  = User.get(huser_current[:id])
     user_grade    = user_current.data[:options][1].to_i
-    puts "User courant : #{user_current.pseudo} (##{user_current.id})"
-    puts "Grade de #{user_current.pseudo} : #{user_grade}"
+    notice "User courant : #{user_current.pseudo} (##{user_current.id})"
+    notice "Grade de #{user_current.pseudo} : #{user_grade}"
 
     # On vérifie le grade ici
     expect(user_grade).to eq 6
@@ -1057,8 +1057,8 @@ feature "Affichage des messages" do
     huser_current = @dRedactriceConfirmee
     user_current  = User.get(huser_current[:id])
     user_grade    = user_current.data[:options][1].to_i
-    puts "User courant : #{user_current.pseudo} (##{user_current.id})"
-    puts "Grade de #{user_current.pseudo} : #{user_grade}"
+    notice "User courant : #{user_current.pseudo} (##{user_current.id})"
+    notice "Grade de #{user_current.pseudo} : #{user_grade}"
 
     # On vérifie le grade ici
     expect(user_grade).to eq 7
@@ -1257,8 +1257,8 @@ feature "Affichage des messages" do
     huser_current = @dMaitreRedacteur
     user_current  = User.get(huser_current[:id])
     user_grade    = user_current.data[:options][1].to_i
-    puts "User courant : #{user_current.pseudo} (##{user_current.id})"
-    puts "Grade de #{user_current.pseudo} : #{user_grade}"
+    notice "User courant : #{user_current.pseudo} (##{user_current.id})"
+    notice "Grade de #{user_current.pseudo} : #{user_grade}"
 
     # On vérifie le grade ici
     expect(user_grade).to eq 8
@@ -1461,8 +1461,8 @@ feature "Affichage des messages" do
     huser_current = @dExperteEcriture
     user_current = User.get(huser_current[:id])
     user_grade   = user_current.data[:options][1].to_i
-    puts "User courant : #{user_current.pseudo} (##{user_current.id})"
-    puts "Grade de #{user_current.pseudo} : #{user_grade}"
+    notice "User courant : #{user_current.pseudo} (##{user_current.id})"
+    notice "Grade de #{user_current.pseudo} : #{user_grade}"
 
     # Le grade doit être le bon
     expect(user_grade).to eq 9
@@ -1656,8 +1656,8 @@ feature "Affichage des messages" do
 
     user_current = phil
     user_grade   = user_current.data[:options][1].to_i
-    puts "User courant : #{user_current.pseudo} (##{user_current.id})"
-    puts "Grade de #{user_current.pseudo} : #{user_grade}"
+    notice "User courant : #{user_current.pseudo} (##{user_current.id})"
+    notice "Grade de #{user_current.pseudo} : #{user_grade}"
 
     # Le grade doit être le bon
     expect(user_grade).to eq 9

@@ -122,13 +122,13 @@ def forum_create_posts sujet_id, nombre_posts, params
       )
     end
 
-    nombre_paragraphes = rand(1..5)
+    nombre_paragraphes = rand(1..10)
     contenu = BetterLorem.p(nombre_paragraphes)
     content_post = {
-      id: post_id,
+      id:         post_id,
       created_at: ctime,
       updated_at: mtime,
-      content: contenu
+      content:    contenu
     }
     values_content = CONTENT_POST_PROPS.collect{|p| content_post[p]}
     site.db.execute(request_content, values_content)
@@ -239,6 +239,76 @@ def forum_create_posts sujet_id, nombre_posts, params
   }
   site.db.update(:forum, 'sujets', new_sujet_data, {id: sujet_id})
 
+end
+
+# Pour correspondre à la forme `create_new_user`
+#
+# Contrairement à la méthode précédente, on se contente ici de créer
+# le message dans ses trois tables 'posts', 'posts_content' et 'posts_votes',
+# sans ajouter le message à son auteur ou son sujet (c'est justement pour tester
+# ce genre de chose qu'on utilise cette méthode) — sauf indication contraire
+#
+# @param {Hash} params
+#      DONNÉES OBLIGATOIRES
+#     ======================
+#     :auteur_id        ID de l'auteur du message
+#                       Il peut avoir été créé par create_new_user
+#
+#      DONNÉES OPTIONNELLES
+#     ======================
+#       :sujet_id
+#       :content
+#       :validate       Si true, le post est validé et il faut l'information
+#                       suivante
+#       :validator_id   Si :validate est true, il faut l'ID du validateur. Sinon 1
+#       :nombre_paragraphes     10 par défaut
+#
+def create_new_post params
+  params[:contents] ||= begin
+    params[:nombre_paragraphes] ||= 10
+    BetterLorem.p(params[:nombre_paragraphes])
+  end
+  # Si aucun sujet n'est défini, on le choisi au hasard
+  params[:sujet_id] ||= begin
+    uids = site.db.select(:forum,'sujets',nil,[:id]).collect{|h|h[:id]}
+    uid.shuffle.shuffle.first
+  end
+  if params.key?(:validate) && params[:validate]
+    params[:validator_id] ||= 1
+  else
+    params.merge!(validate: false)
+    params[:validator_id] = nil
+  end
+
+  options = "#{params[:validate] ? '1' : '0'}0000000"
+
+  new_post_id = site.db.insert(
+    :forum, 'posts',
+    {
+      user_id:    params[:auteur_id],
+      sujet_id:   params[:sujet_id],
+      options:    options,
+     valided_by:  params[:validator_id]}
+  )
+  site.db.insert(
+    :forum, 'posts_content',
+    {id: new_post_id, content: params[:content]}
+  )
+  site.db.insert(
+    :forum, 'posts_votes',
+    {id: new_post_id, vote: 0}
+  )
+
+  request = <<-SQL
+  SELECT p.*, c.content, v.votes
+  FROM posts p
+  INNER JOIN posts_content c ON p.id = c.id
+  INNER JOIN posts_votes v   ON p.id = v.id
+  WHERE p.id = #{new_post_id}
+  LIMIT 1
+  SQL
+  site.db.use_database(:forum)
+  return site.db.execute(request).first
 end
 
 # Retourne les données du post d'id +post_id+ en ajoutant des

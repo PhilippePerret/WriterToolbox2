@@ -1,16 +1,20 @@
+* Avant de poursuivre les tests, il faut revoir les méthodes `site.load_folder` et require_folder pour s'assurer que tout n'est pas chargé lorsqu'on appelle une route. Sinon, ça ne sert à rien.
+Par exemple, il semble que lorsque je fais `site.load_folder('forum')`, tout est chargé, l'intégralité du dossier, alors qu'en fait, il ne faudrait charger que :
+  - l'intégralité du dossier `_lib/_required/` s'il existe
+  - tous les éléments à la racine du dossier.
+Mais voir aussi lorsque l'on loade un sous-dossier : il faut alors remonter. Par exemple, si on charge : `site.load_folder('forum/post')`, il faut aussi charger les dossiers/fichiers précédents en plus de ceux dans `forum/post`.
+
 * [FORUM]
   [LISTE MESSAGES]
     - les boutons pour tableau d'avant, revoir au début, etc.
     - les boutons pour upvoter ou downvoter
   Quand on valide une question ou un sujet, il faut penser à mettre le 5e bit des specs du sujet à 1, pour que la question ou le sujet soit annoncé (note : je parle ici de "question" et de "sujet", mais c'est la même chose, au niveau du programme)
 
-* [UNAN]
-  Utiliser la méthode `Fixnum#ago` pour savoir combien de temps reste pour accomplir le travail ou depuis combien de temps il est en dépassement.
+* [FORUM] Préciser les privilèges et les privilèges suivants en haut de page
 
-* [UNAN][QUIZ]
-  - Ne pas rafficher le bouton du quiz si…
-  - Enregistrer les résultats dans la base
-  - Recharger les résultats s'ils existent (comment faire la distinction : simplement en traitant par rapport à l'opération. Si évaluation : pas de recherche dans la table, sinon oui).
+* [UNAN] Mettre en forme le bureau
+
+* [UNAN] Utiliser la méthode `Fixnum#ago` pour savoir combien de temps reste pour accomplir le travail ou depuis combien de temps il est en dépassement.
 
 * Dès qu'un visiteur est inscrit, son grade forum doit être de 1.
   -> Tester

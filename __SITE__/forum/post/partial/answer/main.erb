@@ -1,0 +1,41 @@
+<% 
+# Partiel de réponse à une question
+
+  require_form_support
+
+  case param(:operation)
+  when 'publier' then post.publier
+  end
+
+%>
+<h2><%= simple_link('forum/home', 'Forum') %> - répondre</h2>
+
+<%= param(:operation) == 'apercu' ? post.apercu : '' %>
+
+
+<form id="post_answer_form" action="" method="POST">
+  <input type="hidden" name="operation" value="publier" />
+  <input type="hidden" name="post[id]" id="post_id" value="<%= site.route.objet_id %>" />
+  <input type="hidden" name="post[auteur_reponse_id]" id="post_auteur_reponse_id" value="<%= user.id %>" />
+
+  <div>
+    <label for="post_answer">Votre réponse</label>
+    <span class="field">
+      <textarea name="post[answer]" id="post_answer" rows="8"><%= post.answer %></textarea>
+    </span>
+  </div>
+
+  <div>
+    <label for="post_suivre">&nbsp;</label>
+    <span class="field">
+      <input type="checkbox" name="post[suivre]" id="post_suivre" value="" />
+      <label for="post_suivre">Suivre ce sujet</label>
+    </span>
+  </div>
+
+  <div class="buttons">
+    <script type="text/javascript" charset="utf-8">function setOperationApercu(form){form.operation.value="apercu";form.submit();}</script>
+      <button type="submit" class="btn fleft" onclick="setOperationApercu(this.form);">Aperçu</button>
+    <input type="submit" class="main btn" value="Publier" />
+  </div>
+</form>

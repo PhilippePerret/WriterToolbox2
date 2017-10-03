@@ -80,7 +80,6 @@ class Forum
         req << " ORDER BY created_at ASC LIMIT #{from}, #{nombre}"
       end
 
-      debug "Requête : #{req}"
       c = String.new # pour mettre tout le code
       
       site.db.use_database(:forum)
@@ -103,7 +102,7 @@ class Forum
           <div class="post" id="post-#{hpost[:id]}">
             #{Forum::User.new(hpost[:user_id]).card}
             #{div_post_header(hpost)}
-            <div class="content">#{hpost[:content][0..75]}</div>
+            <div class="content">#{hpost[:content]}</div>
             #{div_post_footer(hpost)}
           </div>
           HTML
@@ -158,7 +157,6 @@ class Forum
         def bloc_boutons_footer hpost
           user.identified? || (return '')
           user_is_auteur = user.id == hpost[:auteur_id]
-          debug "POST ##{hpost[:id]} - auteur_id: #{hpost[:auteur_id].inspect} (user: #{user.id.inspect}) - user_is_auteur est #{user_is_auteur.inspect}"
           bs = String.new
           url = "forum/post/#{hpost[:id]}"
           user.grade > 2 && bs <<  simple_link("#{url}?op=n", 'Signaler')

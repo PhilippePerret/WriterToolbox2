@@ -1,0 +1,16 @@
+<% 
+# Pour traiter la route forum/post/...
+%>
+<%= header(:small) %>
+<%= right_margin %>
+
+<%=
+  partial(
+    case param(:op) || param(:operation)
+    when 'a', 'apercu', 'publier' then 'answer'
+    else 'unknown'
+    end
+  )
+
+%>
+<%= footer %>

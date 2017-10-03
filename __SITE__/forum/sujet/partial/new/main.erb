@@ -1,4 +1,5 @@
-<% 
+<%
+debug "-> #{__FILE__}"
 # Partiel pour créer un nouveau sujet
 
   require_form_support
@@ -9,7 +10,7 @@ raise NotAccessibleViewError.new("Vous n'avez pas le grade suffisant pour créer
 <h3>Nouveau sujet</h3>
 <form id="forum_sujet_form" action="forum/sujet/create" method="POST">
   <div>
-    <% 
+    <%
         titre =
         case true
         when user.grade < 5 then "Poser une question"
@@ -32,7 +33,7 @@ raise NotAccessibleViewError.new("Vous n'avez pas le grade suffisant pour créer
     </div>
   </div>
 
-  <% 
+  <%
       # Si le grade de l'utilisateur est au moins de 5, il peut définir le
     # type s de son sujet.
     if user.grade > 4

@@ -1,4 +1,5 @@
 # encoding: utf-8
+debug "-> #{__FILE__}"
 
 if user.grade < 1
   raise NotAccessibleViewError.new('Vous n’êtes pas autorisé à créer un sujet ou une question technique.')
@@ -27,7 +28,7 @@ class Forum
         creator.is_a?(Fixnum) && creator = User.get(creator)
 
         hsujet.merge!(creator_id: creator.id, creator: creator)
-        
+
         hsujet = data_valides?(hsujet) || begin
           redirect_to 'forum/post/new'
         end
@@ -41,7 +42,7 @@ class Forum
       def data2save hsujet
         specs = String.new
         bit_validate = (hsujet[:creator].grade < 7) ? '0' : '1' # validation
-        specs << bit_validate 
+        specs << bit_validate
         specs << hsujet[:type_s].to_s
         specs << '00' # le sujet précis, affecté plus tard
         specs << bit_validate # pour l'annonce, c'est comme la validation
@@ -78,7 +79,7 @@ class Forum
         __error e.message
         return false
       end
-      
+
       # Retourne le hash des données du sujet récupéré dans les
       # paramètres
       #

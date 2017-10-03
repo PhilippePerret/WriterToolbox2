@@ -1,4 +1,6 @@
 # encoding: utf-8
+debug "-> #{__FILE__}"
+
 class Forum
   class << self
 
@@ -9,7 +11,7 @@ class Forum
         begin
           bs = String.new
           case true
-          when user.grade > 4 
+          when user.grade > 4
             bs << simple_link('forum/sujet/new', 'Nouveau sujet/nouvelle question')
           when user.grade > 0
             bs << simple_link('forum/sujet/new', "Nouvelle question")
@@ -25,10 +27,10 @@ class Forum
     MAX_SUJETS = 20
     class << self
 
-      # Retourne le code HTML des boutons pour voir les 
+      # Retourne le code HTML des boutons pour voir les
       # sujets précédents et suivants
       def nav_boutons from, where
-        @nav_boutons ||= 
+        @nav_boutons ||=
           begin
             from = from.to_i
             bs = String.new
@@ -76,14 +78,14 @@ class Forum
       def div_sujet hsujet
         sid = hsujet[:id]
         lien = simple_link("forum/sujet/#{sid}", hsujet[:titre])
-        last_post_date = 
+        last_post_date =
           if hsujet[:last_post_id]
             "#{hsujet[:updated_at].as_human_date} <span class='small'>(#{hsujet[:updated_at].ago})</span>"
           else
             '---'
           end
-        lien_last_post = 
-          if hsujet[:last_post_id] 
+        lien_last_post =
+          if hsujet[:last_post_id]
             simple_link("forum/sujet/#{hsujet[:id]}?from=-1#post-#{hsujet[:last_post_id]}", 'Lire le dernier message')
           else
             ''
@@ -113,7 +115,7 @@ class Forum
       end
       # Retourne le nombre total de sujets
       def nombre_sujets
-        @nombre_sujets ||= site.db.count(:forum,'sujets',"SUBSTRING(specs,1,1)='1'") 
+        @nombre_sujets ||= site.db.count(:forum,'sujets',"SUBSTRING(specs,1,1)='1'")
       end
 
       # Nombre maximum de sujets
