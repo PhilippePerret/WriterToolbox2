@@ -40,9 +40,22 @@ class Forum
           btn_prev = simple_link("#{url}?#{qs_prev_btn}", 'Messages précédents')
           btn_next = simple_link("#{url}?#{qs_next_btn}", 'Messages suivants')
           btn_last = simple_link("#{url}?from=-1", 'Derniers messages')
-          "<span class='btn_prev'>#{btn_prev}</span><span class='btn_next'>#{btn_next}</span><span class='btn_last'>#{btn_last}</span>"
+          <<-HTML
+          <span class="btn_first">
+            <a href="#{url}?from=1">⇤ premiers messages</a>
+          </span>
+          <span class="btn_prev">
+            <a href="#{url}?#{qs_prev_btn}">← messages précédents</a></span>
+          </span>
+          <span class="btn_next">
+            <a href="#{url}?#{qs_next_btn}">messages suivants →</a></span>
+          </span>
+          <span class="btn_last">
+            <a href="#{url}?from=-1">derniers messages ⇥</a></span>
+          </span>
+          HTML
         end
-      "<div class='btns_other_posts-#{where}'>#{@btns_other_posts}</div>"
+      "<div class='btns_other_posts #{where}'>#{@btns_other_posts}</div>"
     end
 
     # Retourne le code HTML pour souscrire au sujet courant
@@ -92,6 +105,8 @@ class Forum
       params[:nombre] ||= 20
       params[:nombre] = params[:nombre].to_i
 
+      #debug "params : #{params.inspect}"
+
       # Début de la requête
       req = <<-SQL
       SELECT p.*, c.content, v.vote, v.upvotes, v.downvotes
@@ -129,7 +144,7 @@ class Forum
         # :pid (pour en garder seuleement <nombre> qui n'appartiennent pas au panneau
         # du message :pid — qui est toujours en haut du panneau)
         nombre_releve *= 2
-        req << "AND p.created_at > #{pid_created_at}"
+        req << "AND p.created_at >= #{pid_created_at}"
         order = 'ASC'
       elsif params[:pid]
         # On doit charger les messages à partir de celui-ci
@@ -147,7 +162,7 @@ class Forum
 
       offset && req << " OFFSET #{offset - 1}"
 
-      # debug "REQUEST : #{req}"
+       debug "REQUEST : #{req}"
       site.db.use_database(:forum)
       plist = site.db.execute(req)
 
@@ -156,7 +171,7 @@ class Forum
       # Note : il faut faire ce test ici pour pouvoir traiter le cas d'une
       # liste vide, comme ça peut arriver avec les derniers messages.
       if params[:dir] == 'next'
-        first = params[:nombre] - 1
+        first = params[:nombre]
         plist = plist[first..-1]
       end
 
@@ -173,6 +188,11 @@ class Forum
       # Si l'ordre est descendant, il faut inverser la liste pour
       # avoir les messages dans le bon ordre.
       order == 'ASC' || plist.reverse!
+
+      # Débugt la liste finale
+      debug "LISTE FINALE:"
+      plist.each{|h| debug "#{h[:id]} : #{h[:created_at].as_human_date} #{h[:created_at]}"}
+
 
       c = String.new # pour mettre tout le code
       plist.each do |hpost|

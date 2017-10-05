@@ -30,7 +30,7 @@ feature "Affichage d'un message particulier" do
     @post_id = posts_ids[nombre_posts/2]
     # puts "ID du message choisi : #{@post_id}"
   end
-  scenario "L'url `forum/sujet/<id sujet>?pid=<id post>` permet d'afficher un message particulier" do
+  scenario "=> L'url `forum/sujet/<id sujet>?pid=<id post>` permet d'afficher un message particulier" do
 
     # On visite l'URL voulue
     url = "forum/sujet/#{@sujet_id}?pid=#{@post_id}"
@@ -43,14 +43,15 @@ feature "Affichage d'un message particulier" do
     end
 
     divs = page.all('fieldset.post_list > div.post')
-    last_div_post = divs.last
-    expect(last_div_post[:id]).to eq "post-#{@post_id}"
-    success 'le div voulu est bien le dernier de la liste'
+    first_div_post = divs.first
+    expect(first_div_post[:id]).to eq "post-#{@post_id}"
+    success 'le div voulu est bien le premier de la liste'
 
     expect(page).to have_tag('a', text: 'Messages suivants', match: :first)
+    expect(page).to have_tag('a', text: 'Messages précédents', match: :first)
+    expect(page).to have_tag('a', text: 'Derniers messages', match: :first)
+    success 'des boutons permettent de voir les messages suivant, précédents et derniers'
 
-    pending "Des boutons permettent de voir les messages suivants"
-    pending "des boutons permettent de revenir au message voulu"
 
     expect(page).to have_tag('a', text: 'Messages précédents', match: :first)
     pending "des boutons permettent de voir les messages précédents"
