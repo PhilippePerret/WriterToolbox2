@@ -7,6 +7,72 @@
 * [follows](#forum_table_follows)
 
 
+## Table `posts` {#forum_table_posts}
+
+Contient les informations générales des messages, c'est-à-dire tout sauf le texte lui-même et les votes sur le message.
+
+Version courte de la table :
+
+```
+
+CREATE TABLE posts
+(
+  id          INTEGER     AUTO_INCREMENT,
+  user_id     INTEGER     NOT NULL,
+  sujet_id    INTEGER     NOT NULL,
+  parent_id INTEGER,
+  options VARCHAR(16) DEFAULT '00000000',
+  valided_by INTEGER,
+  modified_by INTEGER,
+  created_at  INTEGER(10) NOT NULL,
+  updated_at  INTEGER(10),
+  PRIMARY KEY (id)
+);
+
+
+```
+
+Version détaillée de la table :
+
+```
+
+CREATE TABLE posts
+(
+  id          INTEGER     AUTO_INCREMENT,
+  user_id     INTEGER     NOT NULL,
+  sujet_id    INTEGER     NOT NULL,
+  created_at  INTEGER(10) NOT NULL,
+  updated_at  INTEGER(10),
+
+  # PARENT_ID
+  # ---------
+  # Identifiant du message parent, si ce message est
+  # une réponse à un message. Cette donnée est définie à partir
+  # du moment où on choisit « Répondre ».
+  parent_id INTEGER,
+
+  # OPTIONS
+  # -------
+  # BIT 1 : 0 = non validé, 1 = validé
+  options VARCHAR(16) DEFAULT '00000000',
+
+  # VALIDED_BY
+  # ----------
+  # Identifiant du modérateur ayant validé le message. Nécessaire
+  # seulement si l'auteur du message n'est pas abilité à écrire des
+  # message non validé.
+  valided_by INTEGER,
+
+  # MODIFIED_BY
+  # -----------
+  # Identifiant du modérateur ayant modifié le
+  # message s'il a eu besoin d'être modifié
+  modified_by INTEGER,
+
+  PRIMARY KEY (id)
+);
+
+```
 
 ## Table `users` {#forum_table_users}
 

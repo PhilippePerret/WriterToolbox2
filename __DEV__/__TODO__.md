@@ -1,10 +1,21 @@
-* Avant de poursuivre les tests, il faut revoir les méthodes `site.load_folder` et require_folder pour s'assurer que tout n'est pas chargé lorsqu'on appelle une route. Sinon, ça ne sert à rien.
-Par exemple, il semble que lorsque je fais `site.load_folder('forum')`, tout est chargé, l'intégralité du dossier, alors qu'en fait, il ne faudrait charger que :
-  - l'intégralité du dossier `_lib/_required/` s'il existe
-  - tous les éléments à la racine du dossier.
-Mais voir aussi lorsque l'on loade un sous-dossier : il faut alors remonter. Par exemple, si on charge : `site.load_folder('forum/post')`, il faut aussi charger les dossiers/fichiers précédents en plus de ceux dans `forum/post`.
+
+
 
 * [FORUM]
+  [MESSAGE PARTICULIER] Pour aller à un message particulier on peut utiliser `route_in_sujet`.
+  Il faut implémenter le traitement de cette url particulière : `forum/sujet/#{id_sujet}?pid=#{post id}`
+  Elle doit afficher la portion e sujet qui contient le post.
+  Mais comment faire ça ?
+
+  (avec nombre = 20)
+
+  SELECT FROM posts
+  WHERE sujet_id = id
+  ORDER BY created_at DESC
+  LIMIT (SELECT OFFSET(*) FROM posts where id = #{pid}), #{nombre}
+  Comment ajouter la condition que les messages doivent contenir param(:pid).to_i ?
+
+
   [LISTE MESSAGES]
     - les boutons pour tableau d'avant, revoir au début, etc.
     - les boutons pour upvoter ou downvoter

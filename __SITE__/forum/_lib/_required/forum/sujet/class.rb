@@ -9,5 +9,17 @@ class Forum
       9 => {hname: 'Autre sujet', value: 0}
     }
 
+    class << self
+
+      # Retourne l'instance Forum::Sujet du sujet d'ID +sujet_id+
+      # sans refaire l'instance si elle existe déjà.
+      # Note : le sujet n'a pas besoin d'exister déjà.
+      def get sujet_id
+        @sujets ||= Hash.new
+        @sujets[:sujet_id] ||= new(sujet_id)
+        return @sujets[sujet_id]
+      end
+
+    end #/<< self Sujet
   end #/Sujet
 end #/Forum

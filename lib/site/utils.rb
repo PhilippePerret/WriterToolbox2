@@ -123,11 +123,12 @@ class Site
   def folder_load_ruby solid_path
     # On regarde au préalable si le dossier principal contient un sous-dossier
     # de path '_lib/_required' qu'il faut toujours charger
+    # Noter que les TESTS ne pourront pas passer par ici si l'objet de route 
+    # n'est pas défini, c'est la raison pour laquelle on ne peut pas faire 
+    # juste site.load_folder pour charger les _lib/_required.
     route.objet && begin
       objet_required_folder = "./__SITE__/#{route.objet}/_lib/_required"
-      File.exist?( objet_required_folder ) && begin
-        require_folder( objet_required_folder )
-      end
+      File.exist?(objet_required_folder) && require_folder(objet_required_folder)
     end
     Dir["#{solid_path}/**"].each do |element|
       if File.directory?(element)

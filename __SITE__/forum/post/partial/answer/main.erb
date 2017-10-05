@@ -4,7 +4,7 @@
   require_form_support
 
   case param(:operation)
-  when 'publier' then post.publier
+  when 'save' then post.save_and_publish
   end
 
 %>
@@ -14,7 +14,7 @@
 
 
 <form id="post_answer_form" action="" method="POST">
-  <input type="hidden" name="operation" value="publier" />
+  <input type="hidden" name="operation" value="save" />
   <input type="hidden" name="post[id]" id="post_id" value="<%= site.route.objet_id %>" />
   <input type="hidden" name="post[auteur_reponse_id]" id="post_auteur_reponse_id" value="<%= user.id %>" />
 

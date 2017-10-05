@@ -1,6 +1,17 @@
 require_support_integration
 require_support_forum
 
+=begin
+
+  Ce test teste qu'un administrateur (Marion ici) puisse répondre à
+  n'importe quel message dans n'importe quel sujet.
+  Son message est automatiquement validé, c'est-à-dire, en d'autres termes :
+  - qu'il apparait dans le listing du sujet
+  - qu'il est annoncé en page d'accueil
+  - qu'il est annoncé à l'user concernéa
+
+=end
+
 feature "Création de message" do
   before(:all) do
     # Si les données ont besoin d'être rafraîchies :
@@ -51,7 +62,7 @@ feature "Création de message" do
 
     expect(page).to have_tag('form', with: {id: "post_answer_form"}) do
       with_tag('input', with: {type: 'hidden', name:'post[id]', id: 'post_id', value: post_id.to_s})
-      with_tag('input', with: {type: 'hidden', name:'operation', value: 'answer'})
+      with_tag('input', with: {type: 'hidden', name:'operation', value: 'save'})
       with_tag('input', with: {type: 'hidden', name:'post[auteur_reponse_id]', value: marion.id.to_s})
       with_tag('label', text: 'Votre réponse')
       with_tag('textarea', with: {name: 'post[answer]', id: 'post_answer'})
@@ -64,14 +75,39 @@ feature "Création de message" do
 
     # Le textarea doit contenir le texte du message original
     text_init = page.execute_script("return document.getElementById('post_answer').value;")
-    puts "text_init : #{text_init.inspect}"
-    expect(text_init).to start_with "[USER##{hauteur_post[:id]}]"
-    expect(text_init).to end_with "[/USER##{hauteur_post[:id]}]"
+    # puts "text_init : #{text_init.inspect}"
+    # Le message s'affiche entre balises
+    user_tag = "USER##{hauteur_post[:id]}"
+    expect(text_init).to start_with "[#{user_tag}]"
+    expect(text_init).to end_with "[/#{user_tag}]"
     expect(text_init).to include hpost[:content][0..50]
 
-    # Le message s'affiche entre balises
     # Il répond au message
-    # il soumet la réponse
+    # Note : on garde seulement la première citation
+    offset = text_init.index("[#{user_tag}]", text_init.index("[/#{user_tag}]"))
+    extrait = text_init[0..offset-1]
+
+    reponse = extrait + "\n\nLa réponse de Marion.\n\nC'est une réponse en plusieurs lignes."
+
+    within('form#post_answer_form') do
+      fill_in('post_answer', with: reponse)
+      shot 'before-submit-reponse-marion'
+      click_button 'Publier'
+    end
+
+    expect(page).to have_tag('h2', text: /Forum/)
+
+    # La réponse est enregistrée
+    hpost = site.db.select(:forum,'posts',{parent_id: post_id, user_id: marion.id}).first
+    expect(hpost).not_to eq nil
+    # On vérifie la réponse enregistrée
+    expect(hpost[:options][0]).to eq '1' # le message est validé
+    rep_post = Forum::Post.get(hpost[:id])
+    rep_post.data # pour charger les données complètes
+    reponse_content = <<-HTML
+    <p>#{extrait}</p><p>La réponse de Marion.</p><p>C'est une réponse en plusieurs lignes.</p>
+    HTML
+    expect(rep_post.data[:content]).to eq reponse_content.strip.gsub(/^\s+/, '')
     # la réponse s'affiche correctement
   end
 end

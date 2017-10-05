@@ -1,49 +1,55 @@
 # encoding: utf-8
-debug "-> #{__FILE__}"
+# debug "-> #{__FILE__}"
 class Forum
   class Post
 
     P_SEPARATOR = "</p><p>"
 
-    # Pour publier la réponse.
+    # Pour sauver la réponse et la publier immédiatement si le grade de
+    # l'auteur le permet.
+    # 
     # Publier une réponse revient à créer un nouveau message
     # pour le fil (sujet) courant, désigné par `post.data[:sujet_id]`
     #
-    def publier
+    def save_and_publish
+      # L'auteur de la réponse est-il susceptible de déposer
+      # une réponse à un message ?
+      auteur_reponse.grade > 2 || begin
+        return __error("Vous n'êtes pas abilité#{auteur_reponse.f_e} à répondre à des messages ou des questions.")
+      end
 
-      # TODO S'assure que l'user peut publier cette réponse
       # La réponse doit-elle être validée ?
       validation_requise = auteur_reponse.grade < 4
 
-      # TODO On crée le nouveau message qui constitue la réponse
+      # On crée le nouveau message qui constitue la réponse
       data_new_post = {
         user_id:   auteur_reponse.id,
-        parent_id: id, # ce post
+        sujet_id:  self.sujet_id,     # le même que l'original
+        parent_id: self.id,           # ce post
         options:   "#{validation_requise ? '0':'1'}0000000"
       }
       new_post_id = site.db.insert(:forum,'posts',data_new_post)
-      debug "ID post réponse : #{new_post_id}"
 
-      content_new_post = {
-        id: new_post_id,
-        content: answer
-      }
-      site.db.insert(:forum,'posts_content', content_new_post)
-
+      # Ajouter la donnée DB pour les votes
       votes_new_post = {
         id: new_post_id,
         vote: 0
       }
       site.db.insert(:forum,'posts_votes',votes_new_post)
 
+      # Ajouter la donnée pour le CONTENU du message
+      # Note : la méthode `traite_before_save` traite la réponse avant
+      # son enregistrement pour éviter tout code malveillant.
+      content_new_post = {
+        id: new_post_id,
+        content: traite_before_save(answer)
+      }
+      site.db.insert(:forum,'posts_content', content_new_post)
 
-      # TODO On ajoute ce message à l'user, mais seulement s'il la validation
-      # n'est pas requise. Dans le cas contraire, il faut attendre de voir si
-      # le message ne sera pas détruit.
-      if !validation_requise
-        Forum::Post.add_post_to_user(auteur_reponse, new_post_id)
-      end
-      # TODO Si le bouton pour suivre est coché, il faut faire suivre le
+      # Instance {Forum::Post} du nouveau message
+      new_post = Forum::Post.new(new_post_id)
+      
+      # Si le bouton pour suivre est coché, il faut faire suivre le
       # sujet par l'auteur de la réponse.
       suivre_sujet = data_param[:suivre] != nil
       auteur_rep_suit = Forum::Sujet.user_suit_sujet?(auteur_reponse, data[:sujet_id])
@@ -58,35 +64,38 @@ class Forum
           __notice("Vous suivez à présent ce sujet.")
         end
       end
-      # TODO Si l'auteur de la réponse suivant le sujet et que la case n'est
-      # plus cochée, il ne doit plus le suivre.
-      # TODO Mettre en forme la réponse à enregistrer
-      # TODO Enregistrer la réponse avec sa mise en forme.
-      # TODO Il faut indiquer dans le sujet que c'est le tout dernier message
-      # TODO si l'auteur de la réponse n'a pas le grade suffisant, il faut
+
+      if validation_requise
+        # Le message a besoin d'être validé, on s'arrête là en en informant
+        # l'auteur.
+      # TODO Il faut
       # avertir les administrateurs pour qu'ils puissent valider le message
       # avant sa publication.
-      # TODO Prévenir l'auteur du message que son message a obtenu une
-      # réponse, mais seulement si elle est publiée maintenant.
-      # (note : il ne faudra pas multiplier les méthodes de publication, donc la
-      # validation d'un post devra se faire aussi ici)
-      # Confirmer l'opération à l'auteur
-      # en tenant compte du grade de l'auteur de la réponse
-      __notice(confirmation_suivant_grade_auteur_reponse)
-      # TODO Peut-être : rediriger vers la liste du forum avec ce nouveau message
-      # en dernier
-      redirect_to("forum/sujet/post?from=-1#post-#{new_post_id}")
-    end
-
-
-    def confirmation_suivant_grade_auteur_reponse
-      if auteur_reponse.grade >= 4
-        "Votre réponse a été publiée."
+        __notice("Votre réponse a été enregistrée, elle devra être validée avant d’être publiée.")
       else
-        "Votre réponse a été enregistrée, elle devra être validée avant d’être publiée."
+        # Si la validation n'est pas requise, on valide immédiatement le
+        # message.
+        require_relative '../validate/main.rb'
+        new_post.validate
       end
     end
 
+
+    # Traiter le code du message avant son enregistrement
+    def traite_before_save contenu
+      contenu.gsub!(/<.*?>/,'')     # toutes les balises <...>
+      contenu.gsub!(/\r/,'')
+      contenu.gsub!(/\n\s+/,"\n")   # tous les lignes pas vraiment vides
+      contenu.gsub!(/\n\n+/,"\n\n") # Triples RC et plus
+      # On remplace les double-retours chariot
+      contenu.split("\n\n").collect{|p|"<p>#{p}</p>"}.join('')
+      # On finit par les RC simples (noter qu'il ne faut surtout pas le
+      # faire avant les doubles RC, sinon tous les toucles RC seraient
+      # remplacés...)
+      contenu.gsub!(/\n/,'<br>')
+      return contenu
+    end
+    
     # Pour montre l'aperçu du message
     #
     # La méthode retourne le code HTML à insérer dans la page pour voir
@@ -122,13 +131,14 @@ class Forum
     # {User} Auteur du message original
     # Mais aussi auteur du nouveau post qui constitue la réponse.
     def auteur_post
-      @auteur_post ||= User.get(data[:auteur.id])
+      @auteur_post ||= User.get(data[:auteur_id])
     end
     # {User} Auteur de la réponse courante
+    # C'est l'user courant au moment du dépôt de la réponse, mais ça
+    # peut être la donnée enregistrée dans le formulaire lorsque c'est une
+    # validation ou autre.
     def auteur_reponse
-      @auteur_reponse ||= user # pour le moment, c'est toujours l'auteur courant
-      # Mais tenir compte du fait qu'on passera peut-être par ici pour valider le
-      # message et que donc cette auteur de la réponse ne sera plus l'user courant.
+      @auteur_reponse ||= User.get(data_param[:auteur_reponse_id])
     end
 
 

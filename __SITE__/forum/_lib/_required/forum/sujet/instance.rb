@@ -7,11 +7,12 @@
 class Forum
   class Sujet
 
-    # --------------------------------------------------------------------------------
-    #
-    #  @private (pas vraiment, mais bon...)
-    #
-    # --------------------------------------------------------------------------------
+    attr_reader :id
+
+    def initialize sid
+      @id = sid
+    end
+
 
     # Retourne un Hash des données du sujet courant, celui
     # dont on doit afficher la liste des messages
