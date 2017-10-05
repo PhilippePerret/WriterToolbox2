@@ -37,20 +37,19 @@ class Forum
             # <= C'est le tout premier message de l'auteur
             # => Il faut lui créer une donnée complète et l'insérer
             request = <<-SQL
-            INSERT INTO users (id, count, last_post_id, options, updated_at) VALUES (?, ?, ?, ?, ?);
+            INSERT INTO users (id, count, last_post_id, options) VALUES (?, ?, ?, ?);
             SQL
-            values = [user_id, 1, post_id, '0'*8, Time.now.to_i]
-            site.db.use_database(:forum)
-            site.db.execute(request, values)
+            values = [user_id, 1, post_id, '0'*8]
           else
             # <= Ce n'est pas le premier message de l'auteur
-            # => Il faut simplement imcrémenter ses messages
-            site.db.update(
-              :forum, 'users',
-              {count: huser[:count] + 1, last_post_id: post_id},
-              {id: user_id}
-            )
+            # => Il faut imcrémenter ses messages et régler le dernier ID de message
+            request = <<-SQL
+            UPDATE users SET count = ?, last_post_id = ?
+            SQL
+            values = [huser[:count] + 1, post_id]
           end
+          site.db.use_database(:forum)
+          site.db.execute(request, values)
         else
           raise ArgumentError.new("Le message n’appartient pas à cet auteur.")
         end

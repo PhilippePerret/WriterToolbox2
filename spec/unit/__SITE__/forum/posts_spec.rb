@@ -57,14 +57,17 @@ describe 'Posts' do
         context 'avec un auteur qui possède déjà des messages' do
           it 'ajoute ce message en actualisant la donnée' do
             start_time = Time.now.to_i - 1
-            huser_init = site.db.select(:forum,'users',{id: user_id}).first
+            where = "count > 0 LIMIT 1"
+            huser_init = site.db.select(:forum,'users',"count > 0").first
+            user_id = huser_init[:id]
+            @hnew_post    = create_new_post(auteur_id: user_id)
+            post_id = @hnew_post[:id]
             # ==========> TEST <============
             Forum::Post.add_post_to_user(user_id, post_id)
             # ========== VÉRIFICATIONS ============
             huser2 = site.db.select(:forum,'users',{id: user_id}).first
-            expect(huser[:count]).to eq huser_init[:count] + 1
-            expect(huser[:last_post_id]).to eq post_id
-            expect(huser[:updated_at]).to be > start_time
+            expect(huser2[:count]).to eq huser_init[:count] + 1
+            expect(huser2[:last_post_id]).to eq post_id
           end
         end
       end

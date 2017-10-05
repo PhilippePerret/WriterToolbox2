@@ -1,5 +1,4 @@
 # encoding: utf-8
-debug "-> #{__FILE__}"
 =begin
   Module de validation d'un poste
   Il est pensé pour pouvoir fonctionner "seul", c'est-à-dire en étant chargé
@@ -28,14 +27,14 @@ class Forum
       # Si c'est une réponse (parent_id défini), on avertit l'auteur du
       # message parent qu'il y a une réponse
       data[:parent_id] && Forum::Post.get(data[:parent_id]).auteur.annonce_new_reponse(self)
-      end
+
       # Annonce en page d'accueil
       require './lib/utils/updates'
       Updates.add({
-        message: "Message forum de <strong>#{self.auteur_pseudo}</strong>.",
+        message: "Message forum de <strong>#{self.auteur.pseudo}</strong>.",
         route:   self.route,
         type:    'forum', 
-        options: '10000000' # annonce aux inscrits (qui le souhaient)
+        options: '10000000' # annonce aux inscrits (qui le souhaitent)
 
       })
 
@@ -57,8 +56,16 @@ class User
   # @param {Forum::Post} post
   #                      Le message réponse.
   def annonce_new_reponse post
-    raise "Il faut implémenter l'avertissement à l'auteur du message original."
+    url_reponse = "http://#{site.configuration.url_online}/#{post.route_in_sujet}"
+    send_mail({
+      subject: "Réponse à votre message",
+      formated: true,
+      message: <<-HTML
+      <p>Bonjour #{pseudo},</p>
+      <p>Je vous annonce qu’un de vos messages sur le forum a reçu une réponse de #{post.auteur.pseudo}.</p>
+      <p>Vous pouvez lire cette <a href="#{url_reponse}">réponse en cliquant ce lien</a>.</p>
+      HTML
+    })
   end
 end #/User
     
-  end

@@ -149,6 +149,7 @@ class Forum
       elsif params[:pid]
         # On doit charger les messages à partir de celui-ci
         req << "AND p.created_at >= #{pid_created_at}"
+        order = 'ASC'
       else
         # Ne devrait arriver que lorsqu'on appelle l'URL simple.
         # On charge à partir du premier message
