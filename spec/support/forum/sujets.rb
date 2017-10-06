@@ -70,3 +70,43 @@ def all_sujets_forum from = nil, nombre = nil, options = nil
   site.db.use_database(:forum)
   site.db.execute(request)
 end
+
+# Retourne les données d'un sujet choisi au hasard
+#
+# @param {Hash|Nil} options
+#                   :minimum_count    Si défini, correspond au minimum de messages
+#                                     que doit posséder le sujet demandé.
+def forum_get_sujet options = nil
+  options ||= Hash.new
+  where = Array.new
+  options[:minimum_count] && where << "count >= #{options[:minimum_count]}"
+  options[:maximum_count] && where << "count <= #{options[:maximum_count]}"
+
+  where =
+    if where.count > 0
+      where.join(' AND ')
+    else
+      nil
+    end
+  sujet_id = site.db.select(:forum,'sujets',where,[:id]).shuffle.shuffle.first[:id]
+  site.db.select(:forum,'sujets',{id: sujet_id}).first
+end
+
+# Retourne tous les messages du sujet +sujet_id+, avec les données
+# complète
+def forum_get_posts_of_sujet sujet_id
+  request = <<-SQL
+  SELECT p.*
+  , u.pseudo AS auteur_pseudo, u.id AS auteur_id
+  , c.content
+  , v.vote, v.upvotes, v.downvotes
+  FROM posts p
+  INNER JOIN `boite-a-outils_hot`.users u ON p.user_id = u.id
+  INNER JOIN posts_content c ON p.id = c.id
+  INNER JOIN posts_votes v ON p.id = v.id
+  WHERE sujet_id = #{sujet_id}
+  ORDER BY p.created_at ASC
+  SQL
+  site.db.use_database(:forum)
+  site.db.execute(request)
+end

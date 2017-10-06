@@ -16,6 +16,7 @@
 def reset_all_data_forum
   puts "JE RECRÉE TOUTES LES DONNÉES FORUM"
   # Effacement de toutes les tables
+  require_support_db_for_test
   forum_truncate_all_tables
   truncate_table_users
 

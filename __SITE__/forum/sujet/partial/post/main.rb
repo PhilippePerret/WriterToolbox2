@@ -223,10 +223,35 @@ class Forum
           <div class="post" id="post-#{hpost[:id]}">
             #{div_post_header(hpost)}
             #{Forum::User.new(hpost[:user_id]).card}
-            <div class="content">#{hpost[:content]}</div>
+            <div class="content">#{mise_en_forme_post hpost}</div>
             #{div_post_footer(hpost)}
           </div>
           HTML
+        end
+
+        # Met en forme le :content du message +hpost+ et le retourne
+        def mise_en_forme_post hpost
+          c = hpost[:content]
+          if c.match(/\[USER#/)
+            debug "Le message #{hpost[:id]} contient des CITATIONS : #{c}"
+            # <= Il y a des citations dans le message, on les met en forme
+            # => On doit les mettre en forme
+            c.gsub!(/\[USER#(.*?)\](.*?)\[\/USER#\1\]/m){
+              <<-HTML
+              <div class="post_citation">
+                <div class="auteur-citation">#{$1} a dit :</div>
+                <p>#{$2}</p>
+              </div>
+              HTML
+            }
+          end
+          # Pour les styles de base
+          c.gsub!(/\[(i|b|u|del|ins|center|strong)\](.*?)\[\/\1\]/, '<\1>\2</\1>')
+          # Pour les liens
+          # Les liens vers les pages du site lui-même, de la forme :
+          # [BOA=route/to/page]titre du lien[/BOA]
+          c.gsub!(/\[BOA=(.*?)\](.*?)\[\/BOA\]/,'<a href="\1">\2</a>')
+          return c
         end
 
         # Code HTML pour l'entête des messages dans un listing de messages

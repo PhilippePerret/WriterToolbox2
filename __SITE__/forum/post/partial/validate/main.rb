@@ -24,6 +24,14 @@ class Forum
         {last_post_id: self.id},
         {id:sujet_id}
       )
+
+      # Pour rafraichir les données
+      @data = @data_mini = nil
+
+      # Pour voir les données
+      debug "data post ##{id} : #{data.inspect}"
+      debug "data mini post ##{id} : #{data_mini.inspect}"
+
       # Si c'est une réponse (parent_id défini), on avertit l'auteur du
       # message parent qu'il y a une réponse
       data[:parent_id] && Forum::Post.get(data[:parent_id]).auteur.annonce_new_reponse(self)
@@ -32,7 +40,7 @@ class Forum
       require './lib/utils/updates'
       Updates.add({
         message: "Message forum de <strong>#{self.auteur.pseudo}</strong>.",
-        route:   self.route,
+        route:   self.route_in_sujet,
         type:    'forum', 
         options: '10000000' # annonce aux inscrits (qui le souhaitent)
 
@@ -42,7 +50,7 @@ class Forum
       Forum::Post.add_post_to_user(self.auteur, self.id)
 
       # On redirige l'user vers la liste du sujet
-      redirect_to(self.route)
+      redirect_to(self.route_in_sujet)
     end
     #/validate
     

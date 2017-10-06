@@ -85,10 +85,11 @@ class Forum
     def traite_before_save contenu
       contenu.gsub!(/<.*?>/,'')     # toutes les balises <...>
       contenu.gsub!(/\r/,'')
-      contenu.gsub!(/\n\s+/,"\n")   # tous les lignes pas vraiment vides
-      contenu.gsub!(/\n\n+/,"\n\n") # Triples RC et plus
+      contenu.gsub!(/\n[  \t]+/,"\n")   # tous les lignes pas vraiment vides
+      contenu.gsub!(/\n\n+/m,"\n\n") # Triples RC et plus
+      
       # On remplace les double-retours chariot
-      contenu.split("\n\n").collect{|p|"<p>#{p}</p>"}.join('')
+      contenu = contenu.split("\n\n").collect{|p|"<p>#{p.strip}</p>"}.join('')
       # On finit par les RC simples (noter qu'il ne faut surtout pas le
       # faire avant les doubles RC, sinon tous les toucles RC seraient
       # remplacés...)
@@ -112,7 +113,7 @@ class Forum
       @answer ||=
         begin
           if data_param.nil?
-            taguser = "USER##{data[:auteur_post_id]}"
+            taguser = "USER##{auteur.pseudo}"
             c = data[:content].strip
             c.start_with?('<p>') && c = c[3..-1]
             c.end_with?('</p>')  && c = c[0..-5]
@@ -128,11 +129,6 @@ class Forum
     # soumission du formulaire)
     def data_param ; @data_param ||= param(:post) end
 
-    # {User} Auteur du message original
-    # Mais aussi auteur du nouveau post qui constitue la réponse.
-    def auteur_post
-      @auteur_post ||= User.get(data[:auteur_id])
-    end
     # {User} Auteur de la réponse courante
     # C'est l'user courant au moment du dépôt de la réponse, mais ça
     # peut être la donnée enregistrée dans le formulaire lorsque c'est une

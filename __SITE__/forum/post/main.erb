@@ -6,8 +6,8 @@
 
 <%=
   partial(
-    case param(:op) || param(:operation)
-    when 'a', 'apercu', 'publier' then 'answer'
+    case param(:op)
+    when 'a', 'apercu', 'save' then 'answer'
     else 'unknown'
     end
   )

@@ -60,7 +60,7 @@ div.user_card
   background-color  : #DAE4E3
   color             : black
   padding           : 1.2em
-  margin            : 1em 1em 1em 0
+  margin            : 1em 4em 4em 0
   > div
     margin-bottom   : .4em
   .libelle
@@ -101,9 +101,22 @@ div.post
       float     : left
     > span
       margin-right    : 1.1em
+
+  // -----------------------------------
   // Le contenu du message, son texte
+  // ------------------------------------
   div.content
     padding   : 2em
+    // Une citation d'un autre message
+    div.post_citation
+      font-size         : .85em
+      font-weight       : normal
+      margin            : 2em
+      background-color  : #D9F7F7
+      border-radius     : 1em
+      padding           : 2em
+      div.auteur-citation
+        font-weight       : bold
 
   span.post_upvotes, .post_downvotes
     font-weight : bold

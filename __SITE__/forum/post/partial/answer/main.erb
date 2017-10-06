@@ -3,18 +3,26 @@
 
   require_form_support
 
-  case param(:operation)
-  when 'save' then post.save_and_publish
-  end
+
+if param(:op) == 'save'
+  post.save_and_publish
+end
 
 %>
 <h2><%= simple_link('forum/home', 'Forum') %> - répondre</h2>
 
-<%= param(:operation) == 'apercu' ? post.apercu : '' %>
+<% 
+    # Faut-il afficher l'aperçu ?
+  %>
+<%= param(:op) == 'apercu' ? post.apercu : '' %>
 
 
-<form id="post_answer_form" action="" method="POST">
-  <input type="hidden" name="operation" value="save" />
+<form id="post_answer_form" action="forum/post/<%= site.route.objet_id %>" method="POST">
+  <% 
+    # Je ne sais pas du tout pourquoi, mais avec `operation` ci-dessous au lieu de `op`
+    # ça ne fonctionne pas du tout...
+  %>
+  <input type="hidden" name="op" value="save" />
   <input type="hidden" name="post[id]" id="post_id" value="<%= site.route.objet_id %>" />
   <input type="hidden" name="post[auteur_reponse_id]" id="post_auteur_reponse_id" value="<%= user.id %>" />
 
@@ -34,8 +42,11 @@
   </div>
 
   <div class="buttons">
-    <script type="text/javascript" charset="utf-8">function setOperationApercu(form){form.operation.value="apercu";form.submit();}</script>
-      <button type="submit" class="btn fleft" onclick="setOperationApercu(this.form);">Aperçu</button>
-    <input type="submit" class="main btn" value="Publier" />
+    <button class="btn fleft" onclick="setOperationApercu(this.form);">Aperçu</button>
+   <input type="submit" class="main btn" value="Publier" />
   </div>
 </form>
+  <script type="text/javascript" charset="utf-8">
+//function setOperationApercu(form){form.op.value="apercu";form.submit();}
+  </script>
+ 

@@ -314,6 +314,8 @@ def create_new_post params
   return site.db.execute(request).first
 end
 
+# POUR LA LISTE DES MESSAGES D'UN SUJET PARTICULIER, VOIR LE MODULE sujet.rb
+
 # Retourne les données du post d'id +post_id+ en ajoutant des
 # données comme le pseudo de l'auteur (:auteur_pseudo)
 #     :content        Contenu textuel du message
@@ -333,6 +335,12 @@ def forum_get_post post_id
   req << " WHERE p.id = #{post_id}"
   site.db.use_database(:forum)
   site.db.execute(req).first
+end
+
+# Retourne le tout dernier message déposé
+def forum_get_last_post
+  last_post_id = site.db.select(:forum,'posts',"1 = 1 ORDER BY created_at DESC LIMIT 1",[:id]).first[:id]
+  forum_get_post(last_post_id)
 end
 
 # Retourne les posts de +from+ pour un nombre +nombre+ en respectant la

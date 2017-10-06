@@ -55,30 +55,6 @@ class Forum
         end
       end
     end #/<< self Forum::Post
-
-    attr_reader :id
-
-    def initialize id
-      @id = id
-    end
-
-
-    # Les données du message dans les tables
-    def data
-      @data ||=
-        begin
-          request = <<-SQL
-          SELECT c.content, p.user_id AS auteur_post_id, u.pseudo AS auteur_post_pseudo
-          FROM posts p
-          INNER JOIN `boite-a-outils_hot`.users u ON p.user_id = u.id
-          INNER JOIN posts_content c ON p.id = c.id
-          WHERE p.id = #{id}
-          SQL
-          site.db.use_database(:forum)
-          site.db.execute(request).first
-        end
-    end
-
   end #/Post
 end #/Forum
 

@@ -7,7 +7,7 @@ class Forum
       @id = uid
     end
 
-    # Carte ajoutée à côté du message de l'user
+    # Carte d'identité de l'auteur du message ajoutée en regard du message 
     def card
       fame = data[:upvotes] - data[:downvotes]
       <<-HTML
