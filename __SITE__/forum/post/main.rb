@@ -1,5 +1,4 @@
 # encoding: utf-8
-debug "-> #{__FILE__}"
 class Forum
   
   class Sujet

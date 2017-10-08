@@ -8,6 +8,7 @@
   partial(
     case param(:op)
     when 'a', 'apercu', 'save' then 'answer'
+    when 'v', 'validate'       then 'validate'
     else 'unknown'
     end
   )

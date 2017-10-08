@@ -75,6 +75,7 @@ class MailMatcher
           # être considéré comme "presque bon". On le retire purement
           # et simplement.
           has_bad_destinataire = true
+          break
         else
           bad_props[:props].merge!(prop => expected)
           bad_props[:count] += 1
@@ -89,15 +90,15 @@ class MailMatcher
 
     end #/ fin de boucle sur toutes les propriétés
 
-    if bad_props[:count] == 0
-      # Le message est bon à garder
-      MailMatcher.sup_almost_found(self) # pour supprimer de "presque"
-      return true # Pour indiquer que le message est valide
-    elsif has_bad_destinataire
+    if has_bad_destinataire
       # Si ça n'est pas le bon destinataire, on le retire, tout
       # simplement
       MailMatcher.sup_almost_found(self)
       return false # pour indiquer que le message n'est pas valide
+    elsif bad_props[:count] == 0
+      # Le message est bon à garder
+      MailMatcher.sup_almost_found(self) # pour supprimer de "presque"
+      return true # Pour indiquer que le message est valide
     else
       # Le message n'est pas bon à garder, on liste ce qui ne va pas chez
       # lui.

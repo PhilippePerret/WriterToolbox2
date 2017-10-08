@@ -29,6 +29,7 @@ class Forum
 
 
     def lien_last_post
+      data[:last_post_id] || (return 'aucun')
       simple_link("forum/sujet/#{data[:last_post_sujet_id]}?pid=#{data[:last_post_id]}", data[:last_post_at].as_human_date)
     end
 
@@ -47,8 +48,19 @@ class Forum
              LIMIT 1
           SQL
           site.db.use_database(:forum)
-          site.db.execute(request).first
+          site.db.execute(request).first || default_user_data
         end
+    end
+    # Données par défaut lorsque l'user n'a encore aucune
+    # donnée forum, c'est-à-dire qu'il n'a encore déposé aucun
+    # message.
+    def default_user_data
+      huser = site.db.select(:hot,'users',{id: self.id}).first
+      huser.merge!(
+        count: 0, 
+        last_post_at: nil, last_post_sujet_id: nil, last_post_id: nil,
+        upvotes: 0, downvotes: 0
+      )
     end
   end#/User
 end#/Forum

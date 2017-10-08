@@ -22,7 +22,7 @@ CREATE TABLE posts
   sujet_id    INTEGER     NOT NULL,
   parent_id INTEGER,
   options VARCHAR(16) DEFAULT '00000000',
-  valided_by INTEGER,
+  valided_by  INTEGER,
   modified_by INTEGER,
   created_at  INTEGER(10) NOT NULL,
   updated_at  INTEGER(10),

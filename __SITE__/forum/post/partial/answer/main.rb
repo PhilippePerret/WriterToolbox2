@@ -68,10 +68,12 @@ class Forum
       if validation_requise
         # Le message a besoin d'être validé, on s'arrête là en en informant
         # l'auteur.
-      # TODO Il faut
-      # avertir les administrateurs pour qu'ils puissent valider le message
-      # avant sa publication.
+        # Avertir les administrateurs de la validation nécessaire
+        new_post.notify_admin_post_require_validation
         __notice("Votre réponse a été enregistrée, elle devra être validée avant d’être publiée.")
+        # Il faut donner à l'utilisateur un lien pour retourner au sujet
+        lien = simple_link("forum/sujet/#{self.sujet_id}?from=-1", 'Retourner au sujet')
+        @OUTPUT = "<div class=\"center\"><span class=\"cadre\">#{lien}</span></div>"
       else
         # Si la validation n'est pas requise, on valide immédiatement le
         # message.
@@ -80,6 +82,39 @@ class Forum
       end
     end
 
+
+    # Méthode pour notifier les administrateurs que ce nouveau message
+    # est à valider.
+    def notify_admin_post_require_validation
+      require_folder './lib/procedure/user/send_mail'
+              
+      lien = "<a href=\"http://#{site.configuration.url_online}/forum/post/#{self.id}?op=v\">valider le message</a>"
+      message_template = <<-HTML
+        <p>Cher administrat<%=f_rice%>,</p>
+        <p>Un nouveau message est à valider sur le forum.</p>
+        <p>Vous pouvez le valider à l'aide du lien ci-dessus :</p>
+        <p>#{lien}</p>
+        <p>Information sur le message :</p>
+        <p>Message ##{self.id} de #{self.auteur.pseudo} (##{self.auteur.id})</p>
+        <p>Merci à vous.</p>
+        HTML
+      data_mail = {
+        from:    site.configuration.mail,
+        subject: "Message forum à valider",
+        formated: true,
+        message: nil
+      }
+      site.db.select(
+        :hot,'users',
+        "(CAST(SUBSTRING(options,1,1) AS UNSIGNED) & 1) OR CAST(SUBSTRING(options,2,1) AS UNSIGNED) > 6",
+        [:id, :pseudo, :mail]
+      ).each do |hadmin|
+        debug "Administrateur contacté : #{hadmin.inspect}"
+        admin = User.get(hadmin[:id])
+        data_mail[:message] = ERB.new(message_template).result(admin.bind)
+        Mailer.send_mail_to_user(admin, data_mail)
+      end
+    end
 
     # Traiter le code du message avant son enregistrement
     def traite_before_save contenu
@@ -97,12 +132,16 @@ class Forum
       return contenu
     end
     
+    def output_post_operation
+      @OUTPUT || ''
+    end
+    
     # Pour montre l'aperçu du message
     #
     # La méthode retourne le code HTML à insérer dans la page pour voir
     # à quoi ressemblera le message.
     def apercu
-     '[Aperçu du message tel qu’il est écrit]'
+     @OUTPUT = '[Aperçu du message tel qu’il est écrit]'
     end
 
     # La réponse donnée

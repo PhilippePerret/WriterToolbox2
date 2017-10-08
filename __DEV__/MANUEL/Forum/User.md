@@ -13,9 +13,9 @@ Les valeurs sont les suivantes :
 
 ```ruby
 
-# Grade d'un utilisateur par rapport au forum
+# Grade d'un utilisateur (principalement par rapport au forum, mais pas que)
 # Ces valeurs correspondent au bit 1 (donc le deuxième) des options de l'user.
-GRADES_FORUM = {
+GRADES = {
   # Note par rapport aux privilèges forum : ils sont additionnés, donc
   # par exemple le privilège du 3 reprend toujours les privilèges des
   # 0, 1 et 2

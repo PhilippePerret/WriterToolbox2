@@ -43,8 +43,17 @@ class Forum
     # affiché par panneau, on demande simplement la liste du sujet en fournissant
     # l'identifiant du post. En retour, la liste va afficher un panneau contenant
     # ce post et des boutons pour remonter ou descendre.
-    def route_in_sujet
+    # @param {Symbol} full
+    #                 Si :full, true ou :online,  on met l'adresse complète, online
+    #                 Si :offline, adresse complète offline
+    #
+    def route_in_sujet full = nil
       @route_in_sujet ||= "forum/sujet/#{sujet_id}?pid=#{id}"
+      case full
+      when true, :full, :online then "#{site.configuration.url_online}/#{@route_in_sujet}"
+      when :offline then "#{site.configuration.url_offline}/#{@route_in_sujet}"
+      else @route_in_sujet
+      end
     end
 
     # Les données utilisées, soit complètes soit mini

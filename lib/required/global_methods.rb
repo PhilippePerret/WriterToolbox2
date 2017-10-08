@@ -46,8 +46,8 @@ end
 
 # Pour produire un lien simple, à partir du href et
 # du titre
-def simple_link href, titre
-  "<a href=\"#{href}\">#{titre}</a>"
+def simple_link href, titre = nil
+  "<a href=\"#{href}\">#{titre || href}</a>"
 end
 
 # Raccourci pour faire un débug
@@ -64,4 +64,12 @@ end
 # complet, avec les CSS et les JS.
 def require_form_support
   site.load_folder 'xUtils/form'
+end
+
+def identification_required
+  uri = ENV['REQUEST_URI'].split('/')
+  uri.shift
+  site.offline? && uri.shift
+  site.session['route_after_login'] = uri.join('/')
+  redirect_to('user/signin', "Pour atteindre la page demandée, vous devez être identifié.")
 end

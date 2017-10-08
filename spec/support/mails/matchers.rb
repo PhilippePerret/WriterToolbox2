@@ -56,8 +56,8 @@ RSpec::Matchers::define :have_mail do |params|
   failure_message do |owner|
     params ||= Hash.new
     params[:to] ||= owner.mail
-    if MailMatcher::mails_found.count > 1
-      "Plusieurs mails adressés à #{params[:to]} ont été trouvés, avec les paramètres transmis…"
+    if MailMatcher.mails_found.count > 1
+      "Plusieurs mails (#{MailMatcher::mails_found.count}) adressés à #{params[:to]} ont été trouvés, avec les paramètres transmis…"
     else
       # En cas d'erreur lorsqu'on cherche un mail
       "Aucun mail adressé à #{params[:to]} n'a été trouvé avec les paramètres #{params.inspect}.\n#{MailMatcher.message_almost_founds}"

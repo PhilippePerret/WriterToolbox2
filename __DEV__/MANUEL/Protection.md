@@ -2,6 +2,17 @@
 
 Ce document traite de tout ce qui concerne la protection du site, pour empêcher d'aller dans certaines parties, etc.
 
+## Identification nécessaire
+
+Lorsqu'une page nécessite l'identification du visiteur (par exemple pour savoir s'il est administrateur), on utilise cette simple méthode.
+
+```ruby
+user.identified? || identification_required
+```
+
+> Noter que le programme n'ira pas plus loin puisque la méthode procède à une redirection réelle du visiteur vers le formulaire d'identification, avec mémorisation de l'URL demandée.
+
+
 ### Protéger un module de vue {#protection_module_vue}
 
 Pour protéger un module qui se charge automatiquement lors de l'appel d'une vue (par exemple avec la méthode `partial`), on utilise la même erreur que pour [protéger une vue](#protection_vue) :

@@ -1,0 +1,42 @@
+<% 
+    # Vue pour le message à valider
+
+  # L'user qui arrive ici doit être identifié et administrateur
+  user.identified? || identification_required
+  user.admin? || begin
+    raise( NotAccessibleViewError.new("Vous n'avez pas les autorisations pour valider un message, désolé.") )
+  end
+
+  # Requérir le module qui met en forme le texte du message
+  # (la méthode `mise_en_forme_post_content`)
+  require './__SITE__/forum/sujet/partial/post/post.rb'
+
+  # L'opération est 'v' quand on doit valider le message, mais c'est vraiment
+  # 'validate', en toutes lettres, lorsqu'on clique sur le bouton pour vraiment
+  # valider le message
+  case param(:op)
+  when 'validate' then post.validation_par_admin( user )
+  when 'refus'    then post.refus_par_admin( user )
+  end
+%>
+<h2><%= simple_link('forum/home', 'Forum') %> - validation de message</h2>
+<p>Validation du message #<%= post.id %> de <%= post.auteur.pseudo %></p>
+<form id="post_validate_form" action="" method="POST">
+  <input type="hidden" name="op" value="validate" />
+  <div id="post_content">
+    <%= Forum::Post.mise_en_forme_post_content({id: post.id, content: post.data[:content]}) %>
+  </div>
+  <div>
+    <label for="post_refus">Motif du refus (si refus)</label>
+    <span class="field">
+      <textarea name="post[refus]" id="post_refus" rows="8"></textarea>
+    </span>
+  </div>
+  <div class="buttons">
+    <script type="text/javascript" charset="utf-8">
+      setOperationRefus(form){form.op.value = 'refus';form.submit();}
+    </script>
+    <button onclick="setOperationRefus(this.form)">Refuser le message</button>
+    <input type="submit" value="Valider le message" />
+  </div>  
+</form>

@@ -131,8 +131,13 @@ feature "Création de message" do
     start_time = Time.new.to_i
 
     hmarceline = site.db.select(:hot,'users',{pseudo: 'MarcelineRédactrice'}).first
-    hmarceline ||= begin
-      create_new_user({
+    if hmarceline
+      # Si MarcelineRédactrice existe déjà, il faut supprimer tous ses
+      # messages, au cas où (pour ne pas arriver sur une page qui contiendrait
+      # tous ses messages et donc aucun lien pour "Répondre")
+      delete_all_posts_of(hmarceline[:id])
+    else
+      hmarceline = create_new_user({
         mail_confirmed: true,
         grade:  4,
         pseudo: 'MarcelineRédactrice',
@@ -236,7 +241,7 @@ feature "Création de message" do
     auteur_post = User.get(last_post[:auteur_id])
     expect(auteur_post).to have_mail({
       sent_after: start_time,
-      sujet: "Réponse à votre message"
+      sujet: "Votre message a reçu une réponse sur le forum"
       })
     success 'un message a été envoyé à l’auteur du message original'
 
@@ -247,14 +252,14 @@ feature "Création de message" do
     expect(hupdate[:type]).to eq 'forum'
     expect(hupdate[:annonce]).to eq nil
     expect(hupdate[:options][0]).to eq '1' # à annoncer à tout le monde + accueil
-    expect(hupdate[:route]).to eq "forum/sujet/#{hsujet[:id]}?pid=#{last_post[:id]}"
+    expect(hupdate[:route]).to eq "forum/sujet/#{hsujet[:id]}?pid=#{hlast[:id]}"
 
     visit home_page
-    expect(pag).to have_tag('fieldset.last_updates') do
+    expect(page).to have_tag('fieldset#last_updates') do
       with_tag('ul.updates') do
         with_tag('li', with:{class:'update', id: "update-#{hupdate[:id]}"}) do
           with_tag('span', with:{class: 'date'}, text: Time.now.strftime('%d %m %Y'))
-          with_tag('span', text: 'Message forum de MarcelineRédactrice')
+          with_tag('span', text: 'Message forum de MarcelineRédactrice.')
         end
       end
     end

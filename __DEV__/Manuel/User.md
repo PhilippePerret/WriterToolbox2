@@ -20,8 +20,10 @@ La propriété interrogative `identified?` renvoie le statut du visiteur courant
 
 ```
 BIT   OFFSET    DESCRIPTION
-1     0         1 si administrateur
-2     1         Grade sur le forum. Cf. ci-dessous "Grade sur le forum"
+1     0         & 1 si administrateur
+                & 2 ...? (Marion l'a)
+                & 4 si super administrateur
+2     1         Grade. Cf. ci-dessous "Grade sur le forum"
 3     2         1 si le mail a été confirmé
 4     3         1 si l'user a été détruit (mais je crois que pour le
                 moment l'user est vraiment détruit)

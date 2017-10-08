@@ -36,15 +36,21 @@ class << self
   end
 
   def redirect_after_login
-    redirect_to(
-      case user.var['goto_after_login']
+    if site.session['route_after_login']
+      redir = site.session['route_after_login']
+      site.session['route_after_login'] = nil
+      redirect_to redir
+    else
+      redirect_to(
+        case user.var['goto_after_login']
       when 0, nil then 'home'
       when 1 then 'user/profil'
       when 2 then user.get_var('last_route') || 'home'
       when 9 then 'unanunscript/bureau'
       else 'home'
       end
-    )
+      )
+    end
   end
 
   def login_data_ok? dlogin

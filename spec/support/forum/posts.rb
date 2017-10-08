@@ -363,3 +363,16 @@ def forum_get_posts clause = nil, from = nil, nombre = nil
   nombre  && req << " LIMIT #{nombre}"
   from    && req << " OFFSET #{from}"
 end
+
+# Détruit tous les posts de l'utilisateur d'identifiant +user_id+ (qui peut
+# être aussi une instance User)
+def delete_all_posts_of user_id
+  user_id.is_a?(User) && user_id = user_id.id
+  ids = site.db.select(:forum,'posts',{user_id: user_id},[:id]).collect{|h|h[:id]}
+  if ids.count > 0
+    where = "id IN (#{ids.join(', ')})"
+    site.db.delete(:forum,'posts',where)
+    site.db.delete(:forum,'posts_content', where)
+    site.db.delete(:forum,'posts_votes', where)
+  end
+end
