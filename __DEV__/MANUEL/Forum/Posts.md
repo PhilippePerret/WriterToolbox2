@@ -48,6 +48,9 @@ Deux façons de trouver les messages :
 
   BIT     OFFSET        DESCRIPTION
   1       0             1= post validé, 0= post non validé ou détruit
-  2       1             1= post détruit (le bit 1 doit être à 0)
+  2       1             Marque de destruction
+                        1= post détruit (le bit 1 doit être à 0)
+  3       2             Marque de refus
+                        1= le post a été refusé (le bit 1 doit être 0)
 
 ```

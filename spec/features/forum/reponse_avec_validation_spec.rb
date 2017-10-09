@@ -105,7 +105,7 @@ feature "Forum : réponse à un message et validation par un administrateur" do
     expect(page).to have_tag('div.notice', text: /elle devra être validée/)
 
     expect(hlast[:user_id]).to eq happrenti[:id]
-    expect(hlast[:options][0]).to eq '0'
+    expect(hlast[:options][0..2]).to eq '000'
     expect(hlast[:parent_id]).to eq last_post[:id]
     expect(hlast[:sujet_id]).to eq hsujet[:id]
     success 'le message est enregistré correctement dans la DB'
@@ -188,7 +188,7 @@ feature "Forum : réponse à un message et validation par un administrateur" do
     mails_validation.each do |mdata|
       pid = mdata[:message].match(/forum\/post\/([0-9]+)\?op=v/).to_a[1].to_i
       opts = site.db.select(:forum,'posts',{id: pid},[:options]).first[:options]
-      if opts[0] == '0' # => non validé
+      if opts[0..2] == '000' # => non validé, non détruit, non refusé
         post_id = pid
         url_validation = mdata[:message].match(/forum\/post\/([0-9]+)\?op=v/).to_a[0]
         break
@@ -242,7 +242,7 @@ feature "Forum : réponse à un message et validation par un administrateur" do
     # ============ VÉRIFICATION ============
     expect(page).to have_tag('div.notice', text: /Le message est validé/)
     hpost = site.db.select(:forum,'posts',{id: post_id}).first
-    expect(hpost[:options][0]).to eq '1'
+    expect(hpost[:options][0..2]).to eq '100'
     expect(hpost[:valided_by]).to eq phil.id
     success 'le message est validé avec les bonnes données (options, validateur)'
 

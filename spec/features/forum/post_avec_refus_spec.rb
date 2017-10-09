@@ -1,3 +1,14 @@
+=begin
+
+  Cette feuille présente un test complet du cycle de refus d'un message,
+  jusqu'à sa validation :
+
+  - Un user dépose un message (son grade est insuffisant, le post doit être validé)
+  - Un administrateur (Phil) refuse le message
+  - L'user vient modifier son message et le soumet à nouveau
+  - Un administrateur (Marion) vient accepter le message
+  
+=end
 require_lib_site
 require_support_integration
 require_support_forum
@@ -142,7 +153,17 @@ feature "Forum : réponse à un message et REFUS ARGUMENTÉ par un administrateu
   end
 
 
-  scenario '=> Un administrateur peut refuser le message' do
+
+
+
+
+
+
+
+
+
+
+  scenario '=> Un administrateur peut REFUSER le message' do
 
     start_time = Time.now.to_i
 
@@ -164,7 +185,7 @@ feature "Forum : réponse à un message et REFUS ARGUMENTÉ par un administrateu
     mails_validation.each do |mdata|
       pid = mdata[:message].match(/forum\/post\/([0-9]+)\?op=v/).to_a[1].to_i
       opts = site.db.select(:forum,'posts',{id: pid},[:options]).first[:options]
-      if opts[0] == '0' # => non validé
+      if opts[0..2] == '000' # => non validé
         post_id = pid
         url_validation = mdata[:message].match(/forum\/post\/([0-9]+)\?op=v/).to_a[0]
         break
@@ -182,7 +203,7 @@ feature "Forum : réponse à un message et REFUS ARGUMENTÉ par un administrateu
       )
     end
 
-    # On essaie de se rendre directement à l'adresse de validation
+    # L'administrateur essaie de se rendre directement à l'adresse de validation
     visit "#{base_url}/#{url_validation}"
     # sleep 30
     expect(page).not_to have_tag('h2', text: 'Forum - validation de message')
@@ -209,16 +230,17 @@ feature "Forum : réponse à un message et REFUS ARGUMENTÉ par un administrateu
 
     within('form#post_validate_form') do
       fill_in('post_motif', with: "Votre message a malheureusement été refusé.\n\nLes raisons en sont les suivantes.\n")
+      scrollTo('form#post_validate_form div.buttons')
       click_button 'Refuser le message'
     end
     success 'l’administrateur refuse le message en rédigeant un motif de refus'
-
+    # sleep 10
     # ============ VÉRIFICATION ============
     expect(page).to have_tag('div.notice', text: /Le message est refusé/)
     hpost = site.db.select(:forum,'posts',{id: post_id}).first
-    expect(hpost[:options][0]).to eq '0'
+    expect(hpost[:options][0..2]).to eq '001'
     expect(hpost[:valided_by]).to eq nil
-    success 'le message n’est pas validé'
+    success 'le message existe toujours mais n’est pas validé et possède la marque de refus'
 
     visit "#{base_url}/forum/sujet/#{hpost[:sujet_id]}?pid=#{hpost[:id]}"
     expect(page).to have_tag('h2', text: /Forum/)
@@ -230,10 +252,11 @@ feature "Forum : réponse à un message et REFUS ARGUMENTÉ par un administrateu
     auteur = User.get(hpost[:user_id])
     expect(auteur).to have_mail({
       sent_after: start_time,
-      subject: 'Refus de votre message sur le forum'
+      subject: 'Votre message sur le forum a été refusé',
       message: [
-        'Votre message a malheureusement été refusé pour le motif suivant',
-        "forum/post/#{hpost[:id]}?op=e"
+        'a malheureusement été refusé pour le motif suivant',
+        'Vous avez la possibilité de le modifier',
+        "forum/post/#{hpost[:id]}?op=m"
       ]
     })
     success 'l’auteur du message reçoit une notification de refus de son message'
@@ -241,7 +264,7 @@ feature "Forum : réponse à un message et REFUS ARGUMENTÉ par un administrateu
     original_post_id = hpost[:parent_id]
     auteur_original_id = site.db.select(:forum,'posts',{id: original_post_id}).first[:user_id]
     auteur_original = User.get(auteur_original_id)
-    expect(auteur_original).to have_not_mail({
+    expect(auteur_original).not_to have_mail({
       sent_after: start_time,
       subject: "Votre message a reçu une réponse sur le forum"
       })
@@ -249,7 +272,228 @@ feature "Forum : réponse à un message et REFUS ARGUMENTÉ par un administrateu
   end
   #/Fin du scénario de validation du mail par un administrateur
 
-  scenario '=> l’auteur du message peut venir rectifier son message' do
 
+
+
+
+
+
+
+
+  scenario '=> l’auteur du message peut venir rectifier son message' do
+    start_time = Time.now.to_i
+
+    # Les données de l'auteur du message
+    happrenti = site.db.select(:hot,'users',{pseudo: 'Apprenti Surveillé'}).first
+    happrenti.merge!(password: 'apprenti')
+
+    # Note : ce scénario suit le précédent, il se sert du mail envoyé à
+    # l'auteur (apprenti surveillé) pour relever le lien
+    mails_validation = Array.new
+    Dir["./xtmp/mails/*.msh"].reverse.each do |mpath|
+      mdata = Marshal.load(File.read(mpath))
+      if mdata[:to] == happrenti[:mail]
+        if mdata[:subject] =~ /Votre message sur le forum a été refusé/
+          mails_validation << mdata
+        end
+      end
+    end
+    # Parmi la liste des messages de validation, on prend le message qui a été
+    # refusé
+    post_id         = nil
+    url_validation  = nil
+    mails_validation.each do |mdata|
+      pid = mdata[:message].match(/forum\/post\/([0-9]+)\?op=m/).to_a[1].to_i
+      opts = site.db.select(:forum,'posts',{id: pid},[:options]).first[:options]
+      if opts[0..2] == '001' # => non validé
+        post_id = pid
+        url_validation = mdata[:message].match(/forum\/post\/([0-9]+)\?op=m/).to_a[0]
+        break
+      end
+    end
+
+    if post_id.nil?
+      raise "Impossible de procéder à ce test, aucun message n'est à valider. Lancer le test de toute la feuille pour procéder à ce scénario."
+    else
+      # puts "Message à valider : #{post_id}"
+      # puts "URL de validation : #{url_validation}"
+      hpost = site.db.select(:forum,'posts',{id: post_id}).first
+      old_content = site.db.select(:forum,'posts_content',{id: post_id},[:content]).first[:content]
+      hpost.merge!(content: old_content)
+    end
+
+    # L'auteur essaie de se rendre directement à l'adresse de validation, mais
+    # il est redirigé vers la page d'identification
+    visit "#{base_url}/#{url_validation}"
+    # sleep 30
+    expect(page).not_to have_tag('h2', text: 'Forum - édition de message')
+    expect(page).to have_tag('form#signin_form')
+    within('form#signin_form')do
+      fill_in('user_mail', with: happrenti[:mail])
+      fill_in('user_password', with: happrenti[:password])
+      click_button 'OK'
+    end
+    expect(page).to have_tag('h2', text: 'Forum - édition de message')
+    success 'après avoir été redirigé vers l’identification, l’auteur rejoint l’édition de son message'
+
+    edited_content = page.execute_script("return document.getElementById('post_content').value;")
+    edited_content = edited_content.gsub(/\[.*?\]/,'').gsub(/<.*?>/,'')
+    checked_old_content = old_content.gsub(/\[.*?\]/,'').gsub(/<.*?>/,'')
+
+    expect(page).to have_tag('form#post_edit_form') do
+      with_tag('textarea', with:{id: "post_content", name:'post[content]'})
+    end
+    expect(edited_content).to eq checked_old_content
+
+    new_content = "Le nouveau contenu après #{start_time}."
+    within('form#post_edit_form') do
+      fill_in('post_content', with: new_content)
+      click_button 'Modifier'
+    end
+    success 'Il trouve un formulaire pour modifier son message et le modifie'
+
+    # sleep 4
+
+    expect(page).to have_tag('h2', text: /Forum/)
+    expect(page).to have_tag('div.notice', text: /Une nouvelle demande de validation a été envoyée/)
+    success 'un message de confirmation est donné à l’auteur'
+
+    hafter = site.db.select(:forum,'posts',{id: post_id}).first
+    hcafter = site.db.select(:forum,'posts_content',{id: post_id},[:content,:updated_at]).first
+    expect(hcafter[:content]).to eq "<p>#{new_content}</p>"
+    expect(hcafter[:updated_at]).to be > start_time
+    expect(hafter[:modified_by]).to eq happrenti[:id]
+    success 'le nouveau contenu est enregistré et le modificateur aussi'
+
+    [phil, marion].each do |admin|
+      expect(admin).to have_mail({
+        subject:    "Message forum modifié à valider",
+        sent_after: start_time,
+        message: ["forum/post/#{post_id}?op=v", 'Valider le message']
+      })
+    end
+    success 'les administrateurs ont reçu la nouvelle demande de validation'
+  end
+
+
+
+
+
+
+
+
+
+
+  scenario '=> Un autre administrateur peut valider le message modifié' do
+    start_time = Time.now.to_i
+
+    # Note : ce scénario suit le précédent, il se sert du mail envoyé à
+    # moi (phil@laboiteaoutilsdelauteur.fr) pour relever le lien
+    mails_validation = Array.new
+    Dir["./xtmp/mails/*.msh"].reverse.each do |mpath|
+      mdata = Marshal.load(File.read(mpath))
+      if mdata[:to] == marion.mail
+        if mdata[:subject] =~ /Message forum modifié à valider/
+          mails_validation << mdata
+        end
+      end
+    end
+
+    # Parmi la liste des messages de validation, on prend le message qui n'est
+    # pas encore validé
+    post_id         = nil
+    url_validation  = nil
+    mails_validation.each do |mdata|
+      pid = mdata[:message].match(/forum\/post\/([0-9]+)\?op=v/).to_a[1].to_i
+      opts = site.db.select(:forum,'posts',{id: pid},[:options]).first[:options]
+      if opts[0..2] == '001' # => non validé, non détruit, mais refusé
+        post_id = pid
+        url_validation = mdata[:message].match(/forum\/post\/([0-9]+)\?op=v/).to_a[0]
+        break
+      end
+    end
+
+    if post_id.nil?
+      raise "Impossible de procéder à ce test, aucun message refusé et modifié n'est à valider. Lancer le test de toute la feuille pour procéder à ce scénario."
+    else
+      # puts "Message à valider : #{post_id}"
+      # puts "URL de validation : #{url_validation}"
+      hpost = site.db.select(:forum,'posts',{id: post_id}).first
+      hpost.merge!(
+        content: site.db.select(:forum,'posts_content',{id: post_id},[:content]).first[:content]
+      )
+    end
+
+    hauteur = site.db.select(:forum,'users',{id: hpost[:user_id]}).first
+    count_initial = hauteur ? hauteur[:count] : 0
+
+    # Marion essaie de se rendre directement à l'adresse de validation
+    visit "#{base_url}/#{url_validation}"
+    # sleep 30
+    expect(page).not_to have_tag('h2', text: 'Forum - validation de message')
+    expect(page).to have_tag('div.notice', text: /vous devez être identifié/)
+    expect(page).to have_tag('form#signin_form')
+    within('form#signin_form') do
+      fill_in('user_mail',      with: data_marion[:mail])
+      fill_in('user_password',  with: data_marion[:password])
+      click_button 'OK'
+    end
+    # sleep 15
+    expect(page).to have_tag('h2', text: 'Forum - validation de message')
+    success 'l’administrateur a été redirigé vers la page de validation après son identification'
+
+    expect(page).to have_tag('form', with: {id: 'post_validate_form'}) do
+      extrait = hpost[:content].gsub(/\[(.*?)\]/, '').gsub(/<.*?>/,'')[0..50]
+      with_tag('div', with: {id: 'post_content'}, text: /#{extrait}/)
+      with_tag('input', with: {type: 'hidden', name:'op', value: 'validate'})
+      with_tag('textarea', with: {name: 'post[motif]', id: 'post_motif'})
+      with_tag('input', with:{ type: 'submit', value: 'Valider le message'})
+      with_tag('button', text: 'Refuser le message')
+    end
+    success 'l’administrateur trouve un formulaire de validation valide'
+
+    within('form#post_validate_form') do
+      click_button 'Valider le message'
+    end
+    success 'l’administrateur peut valider le message'
+
+    # ============ VÉRIFICATION ============
+    expect(page).to have_tag('div.notice', text: /Le message est validé/)
+    hpost = site.db.select(:forum,'posts',{id: post_id}).first
+    expect(hpost[:options][0..2]).to eq '100'
+    expect(hpost[:valided_by]).to eq marion.id
+    success 'le message est validé avec les bonnes données (options, validateur)'
+
+    happ = site.db.select(:forum,'users',{id: hpost[:user_id]}).first
+    expect(happ[:count]).to eq count_initial + 1
+    success 'le nombre de messages de l’auteur a été incrémenté'
+    expect(happ[:last_post_id]).to eq hpost[:id]
+    success 'l’ID du dernier message de l’auteur a été modifié'
+    hsuj = site.db.select(:forum,'sujets',{id: hpost[:sujet_id]}).first
+    expect(hsuj[:last_post_id]).to eq hpost[:id]
+    success 'l’ID du dernier message du sujet a été modifié'
+
+    visit "#{base_url}/forum/sujet/#{hpost[:sujet_id]}?pid=#{hpost[:id]}"
+    expect(page).to have_tag('h2', text: /Forum/)
+    expect(page).to have_tag('fieldset.post_list') do
+      with_tag('div', with: {class: 'post', id: "post-#{hpost[:id]}"})
+    end
+    success 'on trouve le message dans le fil du sujet'
+
+    auteur = User.get(hpost[:user_id])
+    expect(auteur).to have_mail({
+      sent_after: start_time,
+      subject: 'Validation de votre message sur le forum'
+    })
+    success 'l’auteur du message reçoit une notification de la validation de son message'
+
+    original_post_id = hpost[:parent_id]
+    auteur_original_id = site.db.select(:forum,'posts',{id: original_post_id}).first[:user_id]
+    auteur_original = User.get(auteur_original_id)
+    expect(auteur_original).to have_mail({
+      sent_after: start_time,
+      subject: "Votre message a reçu une réponse sur le forum"
+      })
+    success 'l’auteur du message dont le message est la réponse est averti de la réponse'
   end
 end

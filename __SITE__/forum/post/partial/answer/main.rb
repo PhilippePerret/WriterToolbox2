@@ -3,8 +3,6 @@
 class Forum
   class Post
 
-    P_SEPARATOR = "</p><p>"
-
     # Pour sauver la réponse et la publier immédiatement si le grade de
     # l'auteur le permet.
     # 
@@ -86,8 +84,6 @@ class Forum
     # Méthode pour notifier les administrateurs que ce nouveau message
     # est à valider.
     def notify_admin_post_require_validation
-      require_folder './lib/procedure/user/send_mail'
-              
       lien = "<a href=\"http://#{site.configuration.url_online}/forum/post/#{self.id}?op=v\">valider le message</a>"
       message_template = <<-HTML
         <p>Cher administrat<%=f_rice%>,</p>
@@ -99,39 +95,13 @@ class Forum
         <p>Merci à vous.</p>
         HTML
       data_mail = {
-        from:    site.configuration.mail,
         subject: "Message forum à valider",
         formated: true,
-        message: nil
+        message: message_template
       }
-      site.db.select(
-        :hot,'users',
-        "(CAST(SUBSTRING(options,1,1) AS UNSIGNED) & 1) OR CAST(SUBSTRING(options,2,1) AS UNSIGNED) > 6",
-        [:id, :pseudo, :mail]
-      ).each do |hadmin|
-        debug "Administrateur contacté : #{hadmin.inspect}"
-        admin = User.get(hadmin[:id])
-        data_mail[:message] = ERB.new(message_template).result(admin.bind)
-        Mailer.send_mail_to_user(admin, data_mail)
-      end
+      Forum.message_to_admins( data_mail )
     end
 
-    # Traiter le code du message avant son enregistrement
-    def traite_before_save contenu
-      contenu.gsub!(/<.*?>/,'')     # toutes les balises <...>
-      contenu.gsub!(/\r/,'')
-      contenu.gsub!(/\n[  \t]+/,"\n")   # tous les lignes pas vraiment vides
-      contenu.gsub!(/\n\n+/m,"\n\n") # Triples RC et plus
-      
-      # On remplace les double-retours chariot
-      contenu = contenu.split("\n\n").collect{|p|"<p>#{p.strip}</p>"}.join('')
-      # On finit par les RC simples (noter qu'il ne faut surtout pas le
-      # faire avant les doubles RC, sinon tous les toucles RC seraient
-      # remplacés...)
-      contenu.gsub!(/\n/,'<br>')
-      return contenu
-    end
-    
     def output_post_operation
       @OUTPUT || ''
     end

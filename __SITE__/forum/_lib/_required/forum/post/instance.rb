@@ -33,8 +33,9 @@ class Forum
     # Attention, ça renvoie une route qui n'affiche QUE le message, par exemple
     # pour qu'un administrateur le valide ou le modifie. Pour une route dans le
     # sujet, utiliser la méthode `route_in_sujet`
-    def route
+    def route full = nil
       @route ||= "forum/post/#{self.id}"
+      as_route_full(@route, full)
     end
 
 
@@ -49,10 +50,15 @@ class Forum
     #
     def route_in_sujet full = nil
       @route_in_sujet ||= "forum/sujet/#{sujet_id}?pid=#{id}"
+      as_route_full(@route_in_sujet, full)
+    end
+
+    # Pour ajouter la base de l'url si nécessaire
+    def as_route_full r, full
       case full
-      when true, :full, :online then "#{site.configuration.url_online}/#{@route_in_sujet}"
-      when :offline then "#{site.configuration.url_offline}/#{@route_in_sujet}"
-      else @route_in_sujet
+      when true, :full, :online then "http://#{site.configuration.url_online}/#{r}"
+      when :offline then "http://#{site.configuration.url_offline}/#{r}"
+      else r
       end
     end
 

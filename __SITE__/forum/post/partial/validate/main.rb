@@ -72,7 +72,7 @@ class Forum
       # Marque de validation dans les options du message
       
       opts = self.data[:options]
-      opts[0] = '1'
+      opts[0..2] = '100'
       new_data = {options: opts, valided_by: admin.id}
       site.db.update(:forum,'posts',new_data,{id: self.id})
 
@@ -100,9 +100,37 @@ class Forum
     end
 
     # Méthode appelée quand l'administrateur refuse le message
-    def refus_par_admin
-      motif = param(:post)[:motif]
+    #
+    # En fait, ce refus consiste surtout à demander à l'auteur du 
+    # message de le corriger pour qu'il puisse être validé.
+    # 
+    # Mais aussi : le 3e bit des options est mis à 1. Il sera remis à 0 si
+    # le message est validé.
+    #
+    def refus_par_admin admin
+      admin.admin? || raise('Vous n’êtes pas autorisé à exécuter cette action.')
+      opts = data[:options]
+      opts[2] = '1'
+      site.db.update(:forum,'posts',{options: opts},{id: self.id})
+      auteur.annonce_refus_message(self, motif_formated)
       __notice("Le message est refusé. L'auteur a été prévenu.")
+    end
+
+
+    # Méthode qui retourne le motif formaté
+    #
+    # Note : TODO On pourrait aussi l'écrire en markdown… et donc utiliser
+    # la librairie propre pour le transformer. On verra à l'usage, s'il faut
+    # vraiment avoir des messages compliqués.
+    def motif_formated
+      m = param(:post)[:motif].nil_if_empty
+      m != nil || (return nil)
+      m.gsub!(/\r/,'')
+      m.gsub!(/\n[  \t]+/,'')
+      m.gsub!(/\n\n\n+/,"\n\n")
+      m = m.split("\n\n").collect{|p|"<p>#{p}</p>"}.join('')
+      m.gsub(/\n/,'<br>')
+      return m
     end
 
 
@@ -139,7 +167,7 @@ class Forum
         site.db.execute(req)
       end
       # Envoi du message à l'auteur
-      auteur.annonce_destroy_message(self, param(:post)[:motif].nil_if_empty)
+      auteur.annonce_destroy_message(self, motif_formated)
       __notice('Le message a été détruit.')
     end
   end #/Post
@@ -164,6 +192,22 @@ class User
     })
   end
 
+  # Message envoyé à l'user lorsque son message est refusé
+  #
+  def annonce_refus_message post, raison
+    message = <<-HTML
+    <p>Votre message du #{post.data[:created_at].as_human_date} sur le forum de #{site.configuration.name} a malheureusement été refusé pour le motif suivant :</p>
+    #{raison}
+    <p>Vous avez la possibilité de le modifier en rejoignant l'adresse suivante :</p>
+    <p class="center">#{simple_link(post.route(:full) + '?op=m', "Modifier le message")}</p>
+    <p>Merci de votre compréhension,</p>
+    HTML
+    send_mail({
+      subject: "Votre message sur le forum a été refusé",
+      formated: true,
+      message:  message
+    })
+  end
   # Message envoyé à l'user pour lui annoncer la destruction
   # de son message
   def annonce_destroy_message post, raison

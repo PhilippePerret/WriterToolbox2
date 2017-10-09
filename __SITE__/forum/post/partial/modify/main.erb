@@ -20,9 +20,18 @@
   else
     # Cas normal de l'auteur du message venant éditer son message
     require_form_support
+    case param(:op)
+    when 'modify' then post.modify
+    end
 %>
 <form id="post_edit_form" action="" method="POST">
   <input type="hidden" name="op" value="modify" />
+  <div>
+    <label for="post_content">Nouveau message</label>
+    <span class="field">
+      <textarea name="post[content]" id="post_content" rows="8"><%= post.data[:content] %></textarea>
+    </span>
+  </div>
   <div class="buttons">
     <input type="submit" class="btn main" value="Modifier" />
   </div>
