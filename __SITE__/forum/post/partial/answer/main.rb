@@ -52,15 +52,19 @@ class Forum
       suivre_sujet = data_param[:suivre] != nil
       auteur_rep_suit = Forum::Sujet.user_suit_sujet?(auteur_reponse, data[:sujet_id])
       if auteur_rep_suit != suivre_sujet
-        if auteur_rep_suit
-          # Il faut détruire la donnée de suivi
-          # TODO
-          __notice("Vous ne suivez plus ce sujet.")
-        else
-          # Il faut ajouter une donnée de suivi
-          # TODO
-          __notice("Vous suivez à présent ce sujet.")
-        end
+        site.db.use_database :forum
+        values = [auteur_reponse.id, data[:sujet_id]]
+        request, message =
+          if auteur_rep_suit
+            # Il faut détruire la donnée de suivi
+            ["DELETE FROM follows WHERE user_id = ? AND sujet_id = ?", "Vous ne suivez plus ce sujet."]
+          else
+            # Il faut ajouter une donnée de suivi
+            values << Time.now.to_i
+            ['INSERT INTO follows (user_id, sujet_id, created_at) VALUES (?,?,?)', "Vous suivez à présent ce sujet."]
+          end
+        site.db.execute(request, values)
+        __notice(message)
       end
 
       if validation_requise

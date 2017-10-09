@@ -1,0 +1,12 @@
+<h2><%= simple_link('forum/home','Forum') %> - suivi de sujet</h2>
+<% if user.identified? %>
+  <% if param(:v) == '1' %>
+    <%= sujet.suscribe(user) %>
+  <% else %>
+    <%= sujet.unsuscribe(user) %>
+  <% end %>
+<% else %>
+  <p>Pour pouvoir suivre un sujet, vous devez être inscrit.</p>
+  <p class="center"><%=simple_link('user/signup','S’inscrire','exergue cadre')%></p>
+  <p class="right"><%= simple_link(sujet.route, '→ Retourner au sujet') %></p>
+<% end %>

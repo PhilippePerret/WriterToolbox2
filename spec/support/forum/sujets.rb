@@ -71,7 +71,7 @@ def all_sujets_forum from = nil, nombre = nil, options = nil
   site.db.execute(request)
 end
 
-# Retourne les données d'un sujet choisi au hasard
+# Retourne les données {Hash} d'un sujet choisi au hasard
 #
 # @param {Hash|Nil} options
 #                   :minimum_count    Si défini, correspond au minimum de messages

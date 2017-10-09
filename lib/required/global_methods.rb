@@ -45,9 +45,10 @@ def redirect_to cible, hmessage = nil
 end
 
 # Pour produire un lien simple, à partir du href et
-# du titre
-def simple_link href, titre = nil
-  "<a href=\"#{href}\">#{titre || href}</a>"
+# du titre, avec optionnellement une class CSS
+def simple_link href, titre = nil, css = nil
+  css = css ? " class=\"#{css}\"" : ''
+  "<a href=\"#{href}\"#{css}>#{titre || href}</a>"
 end
 
 # Raccourci pour faire un débug

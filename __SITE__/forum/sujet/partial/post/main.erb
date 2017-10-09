@@ -4,6 +4,7 @@
 <h2><%= simple_link('forum/home', 'Forum') %> — <%= simple_link("forum/sujet/#{sujet.id}?from=1", "sujet ##{sujet.id}") %></h2>
 <%= Forum.boutons(:top) %>
 <%= sujet.encart_data %>
+<%= sujet.boutons(:top) %>
 <% 
   # On doit faire la liste des messages avant de l'afficher, notamment
   # pour pouvoir régler correctement les boutons pour passer aux autres
@@ -23,3 +24,4 @@
   <%= liste_messages %>
   <%= sujet.boutons_autres_messages(:bottom) %>
 </fieldset>
+<%= sujet.boutons(:bottom) %>

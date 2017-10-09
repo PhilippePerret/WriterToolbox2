@@ -53,6 +53,12 @@ def truncate_table_users
   db_client.query('DELETE FROM tickets;')
   db_client.query('ALTER TABLE tickets AUTO_INCREMENT=1;')
 
+  # Destruction de toutes les tables de forum
+  require './spec/support/forum/main.rb'
+  db_client.query('use `boite-a-outils_forum`;')
+  forum_tables.each do |table_name|
+    db_client.query("TRUNCATE TABLE IF EXISTS #{table_name}")
+  end
 
 end
 

@@ -16,22 +16,16 @@ class Forum
         <span class="titre">#{data[:titre]}</span>
         <span class="libelle">Initié par</span><span class="sujet_creator">#{data[:creator_pseudo]}</span>
         <span class="libelle">le</span><span class="sujet_at">#{data[:created_at].as_human_date}</span>
-        <div class="buttons">
-          #{div_bouton_suscribe}
-        </div>
-        <div class="buttons">
-          #{div_boutons_sujets}
-        </div>
       </div>
       HTML
     end
 
     # Retourne le code HTML pour les boutons des autres messages.
-    # Noter que cette méthode est appelée après que la liste a été définie, on 
+    # Noter que cette méthode est appelée après que la liste a été définie, on
     # connait donc, pour ce sujet, l'identifiant du premier message affiché
     # qui permettra de définir les liens pour les messages avant/après
     def boutons_autres_messages where = :bottom
-      @btns_other_posts ||= 
+      @btns_other_posts ||=
         begin
           pref_qs = "nombre=#{@current_post[:nombre]}&pid=#{@current_post[:pid]}&dir="
           qs_prev_btn = "#{pref_qs}prev"
@@ -58,23 +52,31 @@ class Forum
       "<div class='btns_other_posts #{where}'>#{@btns_other_posts}</div>"
     end
 
-    # Retourne le code HTML pour souscrire au sujet courant
-    def div_bouton_suscribe
-      user.identified? || (return '')
-      is_following = user.follows_sujet?(id)
-      op = (is_following ? 'un' : '') + 'suscribe'
-      ti = (is_following ? 'ne plus ' : '') + 'suivre'
-      simple_link("forum/sujet/#{id}?op=#{op}", ti)
+    # Les boutons, au-dessus et en dessous du listing des messages, permettant
+    # de suivre le sujet, de poser une nouvelle question, etc.
+    def boutons where
+      @boutons ||= div_boutons_sujets
+      "<div class=\"buttons #{where}\">#{@boutons}</div>"
     end
-
     def div_boutons_sujets
       bs = String.new
-      bs << simple_link('forum/sujet/new', user.grade >= 5 ? 'Nouveau sujet' : 'Nouvelle question')      
+      bs << bouton_suscribe
+      bs << simple_link('forum/sujet/new', user.grade >= 5 ? 'Nouveau sujet' : 'Nouvelle question')
       user.grade >= 7 && bs << simple_link("forum/sujet/#{id}?op=validate", 'Valider ce sujet')
       user.grade >= 7 && bs << simple_link("forum/sujet/#{id}?op=clore", 'Clore ce sujet')
       user.grade >= 8 && bs << simple_link("forum/sujet/#{id}?op=kill", 'Détruire ce sujet')
       return bs
     end
+
+    # Retourne le code HTML pour souscrire au sujet courant
+    def bouton_suscribe
+      is_following = user.identified? && user.follows_sujet?(id)
+      simple_link(
+        "forum/sujet/#{id}?op=suivre&v=#{is_following ? '0' : '1'}",
+        (is_following ? 'Ne plus s' : 'S') + 'uivre ce sujet'
+      )
+    end
+
 
     # Retourne le code HTML de la liste des messages du sujet
     #
@@ -190,16 +192,11 @@ class Forum
       # avoir les messages dans le bon ordre.
       order == 'ASC' || plist.reverse!
 
-      # Débugt la liste finale
-      debug "LISTE FINALE:"
-      plist.each{|h| debug "#{h[:id]} : #{h[:created_at].as_human_date} #{h[:created_at]}"}
-
-
       c = String.new # pour mettre tout le code
       plist.each do |hpost|
         c << Forum::Post.div_post(hpost)
       end
-      
+
       # On met en @current_post les données que l'on possède sur
       # ce message pour pouvoir notamment faire les boutons qui
       # permettent de voir les messages avant et après
@@ -234,7 +231,7 @@ class Forum
       # Code HTML pour l'entête des messages dans un listing de messages
       def div_post_header hpost
         auteur = simple_link("user/profil/#{hpost[:auteur_id]}", hpost[:auteur_pseudo])
-        <<-HTML 
+        <<-HTML
         <div class="post_header">
         #{bloc_specs_post(hpost)}
         #{bloc_votes(hpost)}
