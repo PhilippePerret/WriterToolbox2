@@ -201,14 +201,14 @@ feature "Forum : réponse à un message et REFUS ARGUMENTÉ par un administrateu
       extrait = hpost[:content].gsub(/\[(.*?)\]/, '').gsub(/<.*?>/,'')[0..50]
       with_tag('div', with: {id: 'post_content'}, text: /#{extrait}/)
       with_tag('input', with: {type: 'hidden', name:'op', value: 'validate'})
-      with_tag('textarea', with: {name: 'post[refus]', id: 'post_refus'})
+      with_tag('textarea', with: {name: 'post[motif]', id: 'post_motif'})
       with_tag('input', with:{ type: 'submit', value: 'Valider le message'})
       with_tag('button', text: 'Refuser le message')
     end
     success 'l’administrateur trouve un formulaire de validation valide'
 
     within('form#post_validate_form') do
-      fill_in('post_refus', with: "Votre message a malheureusement été refusé.\n\nLes raisons en sont les suivantes.\n")
+      fill_in('post_motif', with: "Votre message a malheureusement été refusé.\n\nLes raisons en sont les suivantes.\n")
       click_button 'Refuser le message'
     end
     success 'l’administrateur refuse le message en rédigeant un motif de refus'

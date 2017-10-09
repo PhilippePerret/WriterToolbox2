@@ -375,4 +375,11 @@ def delete_all_posts_of user_id
     site.db.delete(:forum,'posts_content', where)
     site.db.delete(:forum,'posts_votes', where)
   end
+  # Réglage de la donnée du user, on met son compte de messages à 0
+  # et son dernier ID à nil.
+  if site.db.count(:forum,'users',{id: user_id}) > 0
+    request = "UPDATE users SET count = 0, last_post_id = NULL WHERE id = #{user_id};"
+    site.db.use_database(:forum)
+    site.db.execute(request)
+  end
 end

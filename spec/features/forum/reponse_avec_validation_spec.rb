@@ -142,6 +142,29 @@ feature "Forum : réponse à un message et validation par un administrateur" do
   end
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   scenario '=> Un administrateur peut venir valider le message avec succès' do
 
     start_time = Time.now.to_i
@@ -157,6 +180,7 @@ feature "Forum : réponse à un message et validation par un administrateur" do
         end
       end
     end
+
     # Parmi la liste des messages de validation, on prend le message qui n'est
     # pas encore validé
     post_id         = nil
@@ -182,6 +206,9 @@ feature "Forum : réponse à un message et validation par un administrateur" do
       )
     end
 
+    hauteur = site.db.select(:forum,'users',{id: hpost[:user_id]}).first
+    count_initial = hauteur ? hauteur[:count] : 0
+
     # On essaie de se rendre directement à l'adresse de validation
     visit "#{base_url}/#{url_validation}"
     # sleep 30
@@ -201,7 +228,7 @@ feature "Forum : réponse à un message et validation par un administrateur" do
       extrait = hpost[:content].gsub(/\[(.*?)\]/, '').gsub(/<.*?>/,'')[0..50]
       with_tag('div', with: {id: 'post_content'}, text: /#{extrait}/)
       with_tag('input', with: {type: 'hidden', name:'op', value: 'validate'})
-      with_tag('textarea', with: {name: 'post[refus]', id: 'post_refus'})
+      with_tag('textarea', with: {name: 'post[motif]', id: 'post_motif'})
       with_tag('input', with:{ type: 'submit', value: 'Valider le message'})
       with_tag('button', text: 'Refuser le message')
     end
@@ -218,6 +245,15 @@ feature "Forum : réponse à un message et validation par un administrateur" do
     expect(hpost[:options][0]).to eq '1'
     expect(hpost[:valided_by]).to eq phil.id
     success 'le message est validé avec les bonnes données (options, validateur)'
+
+    happ = site.db.select(:forum,'users',{id: hpost[:user_id]}).first
+    expect(happ[:count]).to eq count_initial + 1
+    success 'le nombre de messages de l’auteur a été incrémenté'
+    expect(happ[:last_post_id]).to eq hpost[:id]
+    success 'l’ID du dernier message de l’auteur a été modifié'
+    hsuj = site.db.select(:forum,'sujets',{id: hpost[:sujet_id]}).first
+    expect(hsuj[:last_post_id]).to eq hpost[:id]
+    success 'l’ID du dernier message du sujet a été modifié'
 
     visit "#{base_url}/forum/sujet/#{hpost[:sujet_id]}?pid=#{hpost[:id]}"
     expect(page).to have_tag('h2', text: /Forum/)

@@ -7,11 +7,12 @@ Ce document traite de tout ce qui concerne la protection du site, pour empêcher
 Lorsqu'une page nécessite l'identification du visiteur (par exemple pour savoir s'il est administrateur), on utilise cette simple méthode.
 
 ```ruby
-user.identified? || identification_required
+user.identified? || identification_required[(<message>)]
 ```
 
 > Noter que le programme n'ira pas plus loin puisque la méthode procède à une redirection réelle du visiteur vers le formulaire d'identification, avec mémorisation de l'URL demandée.
 
+Le message est facultatif. S'il est absent un message type sera affiché, demandant à l'user de s'identifier pour rejoindre la page demandée.
 
 ### Protéger un module de vue {#protection_module_vue}
 

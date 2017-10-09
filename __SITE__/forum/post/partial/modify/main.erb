@@ -1,0 +1,30 @@
+<% 
+  # Partiel pour l'édition du message
+  #
+  # Noter que lorsque le message est détruit, il apparait, mais sans
+  # formulaire.
+  #
+%>
+<h2><%= simple_link('forum/home', 'Forum') %> - édition de message</h2>
+<%
+  if post.auteur.id != user.id && !user.admin?
+    if user.identified?
+      raise(NotAccessibleViewError.new('Vous n’êtes ni administrateur ni l’auteur du message.'))
+    else
+      identification_required('Avant de pouvoir modifier ce message, vous devez vous identifier.')
+    end
+  elsif post.destroyed?
+%>
+  <%= post.show_when_destroyed %>
+<%
+  else
+    # Cas normal de l'auteur du message venant éditer son message
+    require_form_support
+%>
+<form id="post_edit_form" action="" method="POST">
+  <input type="hidden" name="op" value="modify" />
+  <div class="buttons">
+    <input type="submit" class="btn main" value="Modifier" />
+  </div>
+</form>
+<% end %>

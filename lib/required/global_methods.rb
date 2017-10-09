@@ -66,10 +66,10 @@ def require_form_support
   site.load_folder 'xUtils/form'
 end
 
-def identification_required
+def identification_required message = nil
   uri = ENV['REQUEST_URI'].split('/')
   uri.shift
   site.offline? && uri.shift
   site.session['route_after_login'] = uri.join('/')
-  redirect_to('user/signin', "Pour atteindre la page demandée, vous devez être identifié.")
+  redirect_to('user/signin', message || "Pour atteindre la page demandée, vous devez être identifié.")
 end

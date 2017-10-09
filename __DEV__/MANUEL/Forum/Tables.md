@@ -53,7 +53,7 @@ CREATE TABLE posts
 
   # OPTIONS
   # -------
-  # BIT 1 : 0 = non validé, 1 = validé
+  # Cf. le fichier Posts.md
   options VARCHAR(16) DEFAULT '00000000',
 
   # VALIDED_BY

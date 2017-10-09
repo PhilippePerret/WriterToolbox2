@@ -147,6 +147,15 @@ feature "Création de message" do
     end
     hmarceline.merge!(password: 'marceline')
 
+    # Nombre de messages au départ, doit être 0
+    initial_count = 0
+    hmar = site.db.select(:forum,'users',{id: hmarceline[:id]}).first
+    if hmar
+      initial_count = hmar[:count]
+    end
+    expect(initial_count).to eq 0
+
+
     hsujet = forum_get_sujet(minimum_count: 30)
     hposts = forum_get_posts_of_sujet(hsujet[:id])
 
@@ -236,6 +245,15 @@ feature "Création de message" do
     expect(hlast[:sujet_id]).to eq hsujet[:id]
     expect(hlast[:parent_id]).to eq last_post[:id]
     success 'la réponse est correctement enregistrée dans la DB'
+
+    hmar = site.db.select(:forum,'users',{id: hmarceline[:id]}).first
+    expect(hmar[:count]).to eq initial_count + 1
+    success 'le nombre de messages de Marceline a été incrémenté'
+    expect(hmar[:last_post_id]).to eq hlast[:id]
+    success 'l’ID du dernier message de Marceline a été correctement réglé'
+    hsuj = site.db.select(:forum,'sujets',{id: hsujet[:id]}).first
+    expect(hsuj[:last_post_id]).to eq hlast[:id]
+    success 'l’ID du dernier message du sujet a été correctement réglé'
 
     # Un mail a été envoyé à l'auteur du message (last_post[:auteur_id])
     auteur_post = User.get(last_post[:auteur_id])

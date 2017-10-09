@@ -14,10 +14,14 @@
   # L'opération est 'v' quand on doit valider le message, mais c'est vraiment
   # 'validate', en toutes lettres, lorsqu'on clique sur le bouton pour vraiment
   # valider le message
+  debug "param(:op) = #{param(:op).inspect}"
   case param(:op)
   when 'validate' then post.validation_par_admin( user )
   when 'refus'    then post.refus_par_admin( user )
+  when 'kill'     then post.destroy_par_admin( user )
   end
+
+  require_form_support
 %>
 <h2><%= simple_link('forum/home', 'Forum') %> - validation de message</h2>
 <p>Validation du message #<%= post.id %> de <%= post.auteur.pseudo %></p>
@@ -29,14 +33,18 @@
   <div>
     <label for="post_refus">Motif du refus (si refus)</label>
     <span class="field">
-      <textarea name="post[refus]" id="post_refus" rows="8"></textarea>
+      <textarea name="post[motif]" id="post_motif" rows="6"></textarea>
     </span>
   </div>
   <div class="buttons">
     <script type="text/javascript" charset="utf-8">
-      setOperationRefus(form){form.op.value = 'refus';form.submit();}
+      function setOperationRefus(form){form.op.value = 'refus';form.submit();}
+      function setOperationKill(form){if(confirm("Voulez-vous vraiment détruire ce post ?")){form.op.value = 'kill';form.submit();}}
     </script>
-    <button onclick="setOperationRefus(this.form)">Refuser le message</button>
-    <input type="submit" value="Valider le message" />
+    <div class="fleft">
+      <button type="button" class="btn medium" onclick="setOperationRefus(this.form)">Refuser le message</button>
+      <button type="button" class="btn warning medium" onclick="setOperationKill(this.form)">Détruire le message</button>
+    </div>
+    <input type="submit" class="main" value="Valider le message" />
   </div>  
 </form>

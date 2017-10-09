@@ -41,3 +41,13 @@ Deux façons de trouver les messages :
   Note : quand on ne connait pas post_id, on prend toujours l'identifiant
          du premier message de la liste.
 ```
+
+## Options {#forum_post_options}
+
+```
+
+  BIT     OFFSET        DESCRIPTION
+  1       0             1= post validé, 0= post non validé ou détruit
+  2       1             1= post détruit (le bit 1 doit être à 0)
+
+```

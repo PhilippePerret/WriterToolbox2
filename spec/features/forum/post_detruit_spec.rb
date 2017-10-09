@@ -144,8 +144,26 @@ feature "Forum : réponse à un message et DESTRUCTION ARGUMENTÉ par un adminis
     expect(page).to have_tag('fieldset.post_list') do
       without_tag('div', with: {class: 'post', id: "post-#{hlast[:id]}"})
     end
-    success 'Le message d’Apprenti ne se retrouve pas sur le fil de discussion'
+    success "Le message ##{hlast[:id]} d’Apprenti ne se retrouve pas sur le fil de discussion"
   end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   scenario '=> Un administrateur peut détruire directement le message' do
@@ -170,7 +188,7 @@ feature "Forum : réponse à un message et DESTRUCTION ARGUMENTÉ par un adminis
     mails_validation.each do |mdata|
       pid = mdata[:message].match(/forum\/post\/([0-9]+)\?op=v/).to_a[1].to_i
       opts = site.db.select(:forum,'posts',{id: pid},[:options]).first[:options]
-      if opts[0] == '0' # => non validé
+      if opts[0..1] == '00' # => non validé et non détruit
         post_id = pid
         url_validation = mdata[:message].match(/forum\/post\/([0-9]+)\?op=v/).to_a[0]
         break
@@ -186,9 +204,18 @@ feature "Forum : réponse à un message et DESTRUCTION ARGUMENTÉ par un adminis
       hpost.merge!(
         content: site.db.select(:forum,'posts_content',{id: post_id},[:content]).first[:content]
       )
+      # Pour le test suivant
+      $post_destroyed_id = hpost[:id]
     end
 
-    # On essaie de se rendre directement à l'adresse de validation
+    # Récupération des valeurs
+    haut = site.db.select(:forum,'users',{id: hpost[:user_id]}).first
+    initial_count = haut ? haut[:count] : 0
+    initial_last_post_id = haut ? haut[:last_post_id] : nil
+
+    # On essaie de se rendre directement à l'adresse de validation mais on
+    # va échouer puisqu'on n'est pas identifié. Ça renverra au formulaire
+    # d'identification.
     visit "#{base_url}/#{url_validation}"
     # sleep 30
     expect(page).not_to have_tag('h2', text: 'Forum - validation de message')
@@ -207,24 +234,45 @@ feature "Forum : réponse à un message et DESTRUCTION ARGUMENTÉ par un adminis
       extrait = hpost[:content].gsub(/\[(.*?)\]/, '').gsub(/<.*?>/,'')[0..50]
       with_tag('div', with: {id: 'post_content'}, text: /#{extrait}/)
       with_tag('input', with: {type: 'hidden', name:'op', value: 'validate'})
-      with_tag('textarea', with: {name: 'post[refus]', id: 'post_refus'})
+      with_tag('textarea', with: {name: 'post[motif]', id: 'post_motif'})
       with_tag('input', with:{ type: 'submit', value: 'Valider le message'})
       with_tag('button', text: 'Refuser le message')
       with_tag('button', text: 'Détruire le message')
     end
     success 'l’administrateur trouve un formulaire de validation valide'
 
+
     within('form#post_validate_form') do
-      fill_in('post_refus', with: "Votre message a malheureusement été détruit.\n\nLes raisons en sont les suivantes.\n")
+      fill_in('post_motif', with: "Votre message a malheureusement été détruit.\n\nNon respect de la charte du site.\n")
+      scrollTo('form#post_validate_form div.buttons')
       click_button 'Détruire le message'
     end
-    success 'l’administrateur détruit le message en rédigeant un motif de refus'
+    # page.accept_alert 'Voulez-vous vraiment détruire ce post ?' do
+    #   click_button 'OK'
+    # end
+    page.driver.browser.switch_to.alert.accept
+    sleep 1
+    success 'l’administrateur DÉTRUIT le message en rédigeant un motif de refus'
 
     # ============ VÉRIFICATION ============
-    expect(page).to have_tag('div.notice', text: /Le message est détruit/)
+    # sleep 4 # attention : fera disparaitre le message testé après
+    expect(page).to have_tag('div.notice', text: /Le message a été détruit/)
     hpost_test = site.db.select(:forum,'posts',{id: post_id}).first
-    expect(hpost_test).to eq nil
-    success 'le message a été détruit'
+    expect(hpost_test[:options][0..1]).to eq '01'
+    success 'le message a été marqué détruit dans la base de données'
+    expect(hpost_test[:modified_by]).to eq phil.id
+    success 'le modified_by contient l’ID de l’administrateur ayant effectué l’opération'
+
+
+    haut = site.db.select(:forum,'users',{id: hpost[:user_id]}).first
+    if haut
+      expect(haut[:count]).to eq initial_count
+      expect(haut[:last_post_id]).to eq initial_last_post_id
+    end
+    success 'le nombre de messages de l’auteur et son last_post_id n’ont pas bougé'
+    hsuj = site.db.select(:forum,'sujets',{id: hpost[:sujet_id]}).first
+    expect(hsuj[:last_post_id]).not_to eq post_id
+    success 'le dernier post du sujet n’a pas été mis à ce message'
 
     visit "#{base_url}/forum/sujet/#{hpost[:sujet_id]}?pid=#{hpost[:id]}"
     expect(page).to have_tag('h2', text: /Forum/)
@@ -236,9 +284,11 @@ feature "Forum : réponse à un message et DESTRUCTION ARGUMENTÉ par un adminis
     auteur = User.get(hpost[:user_id])
     expect(auteur).to have_mail({
       sent_after: start_time,
-      subject: 'Destruction de votre message sur le forum'
+      subject: 'Destruction de votre message sur le forum',
       message: [
-        'Votre message a malheureusement été détruit pour le motif suivant'
+        'Votre message sur le forum',
+        'a malheureusement dû être détruit',
+        'Non respect de la charte du site.'
       ]
     })
     success 'l’auteur du message reçoit une notification de destruction de son message'
@@ -246,7 +296,7 @@ feature "Forum : réponse à un message et DESTRUCTION ARGUMENTÉ par un adminis
     original_post_id = hpost[:parent_id]
     auteur_original_id = site.db.select(:forum,'posts',{id: original_post_id}).first[:user_id]
     auteur_original = User.get(auteur_original_id)
-    expect(auteur_original).to have_not_mail({
+    expect(auteur_original).not_to have_mail({
       sent_after: start_time,
       subject: "Votre message a reçu une réponse sur le forum"
       })
@@ -254,7 +304,34 @@ feature "Forum : réponse à un message et DESTRUCTION ARGUMENTÉ par un adminis
   end
   #/Fin du scénario de validation du mail par un administrateur
 
-  scenario '=> l’auteur du message peut venir rectifier son message' do
+  scenario '=> l’auteur du message ne peut pas venir rectifier son message' do
+    # $post_destroyed_id = 2292
+    if $post_destroyed_id.nil?
+      raise "Il faut lancer toute cette feuille de test, pour pouvoir lancer celui-ci"
+    end
+
+    happrenti = site.db.select(:hot,'users',{pseudo: 'Apprenti Surveillé'}).first
+    happrenti.merge!(password: 'apprenti')
+
+
+    visit "#{base_url}/forum/post/#{$post_destroyed_id}?op=m"
+    # Il est redirigé vers le formulaire d'identification
+    expect(page).to have_tag('form#signin_form')
+    within('form#signin_form') do
+      fill_in('user_mail', with: happrenti[:mail])
+      fill_in('user_password', with: happrenti[:password])
+      click_button 'OK'
+    end
+    success 'le visiteur essaie d’atteindre directement la page mais est redirigé vers l’identification'
+
+    # Le message doit être affiché, mais aucun bouton ne doit permettre de
+    # le modifier + il doit y avoir un message indiquant que ce message a
+    # été modifié
+
+    expect(page).to have_tag('h2', text: 'Forum - édition de message')
+    expect(page).to have_content("Ce message a été détruit, il ne peut pas être modifié")
+    expect(page).not_to have_tag('form', with: {id: "post_edit_form"})
+    success 'en arrivanat sur la page d’édition, le visiteur trouve un message de non modification possible'
 
   end
 end

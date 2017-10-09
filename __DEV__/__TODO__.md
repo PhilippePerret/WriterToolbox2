@@ -2,22 +2,9 @@
 
 
 * [FORUM]
-  [MESSAGE PARTICULIER] Pour aller à un message particulier on peut utiliser `route_in_sujet`.
-  Il faut implémenter le traitement de cette url particulière : `forum/sujet/#{id_sujet}?pid=#{post id}`
-  Elle doit afficher la portion e sujet qui contient le post.
-  Mais comment faire ça ?
-
-  (avec nombre = 20)
-
-  SELECT FROM posts
-  WHERE sujet_id = id
-  ORDER BY created_at DESC
-  LIMIT (SELECT OFFSET(*) FROM posts where id = #{pid}), #{nombre}
-  Comment ajouter la condition que les messages doivent contenir param(:pid).to_i ?
-
+  [AFFICHAGE DU MESSAGE] Ajouter la date de dernière modification lorsque updated_at ne correspond pas à created_at.
 
   [LISTE MESSAGES]
-    - les boutons pour tableau d'avant, revoir au début, etc.
     - les boutons pour upvoter ou downvoter
   Quand on valide une question ou un sujet, il faut penser à mettre le 5e bit des specs du sujet à 1, pour que la question ou le sujet soit annoncé (note : je parle ici de "question" et de "sujet", mais c'est la même chose, au niveau du programme)
 
