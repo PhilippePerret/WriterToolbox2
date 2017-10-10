@@ -11,7 +11,7 @@ require_support_integration
 require_support_db_for_test
 require_support_forum
 
-feature "Liste des sujets" do
+feature "Liste des sujets", teste: true do
   before(:all) do
     # Effacement de toutes les tables
     forum_truncate_all_tables
@@ -21,7 +21,7 @@ feature "Liste des sujets" do
     @dlise = create_new_user(pseudo: 'Lise', sexe: 'F')
     @lise = User.get(@dlise[:id])
     # Création de 50 sujets
-    forum_create_sujets 50, {validate: true, auteurs: [1,2,3, @lise.id, @rene.id]}
+    forum_create_sujets 50, {validate: true, auteurs: [1,2,3, @lise.id, @rene.id], with_posts: 3..5}
 
   end
   scenario "=> Un visiteur quelconque peut consulter la liste des sujets" do
@@ -38,7 +38,7 @@ feature "Liste des sujets" do
         without_tag('a', text: 'Sujets précédents')
       end
       with_tag('div', with: {class: 'sujet'}, match: 20)
-      all_sujets_forum(0,20).each do |hsujet|
+      all_sujets_forum(0,19).each do |hsujet|
         sid = hsujet[:id]
         with_tag('div', with: {class: 'sujet', id: "sujet-#{sid}"}) do
           with_tag('a', with:{ href: "forum/sujet/#{sid}"}, text: hsujet[:titre])
@@ -150,9 +150,6 @@ feature "Liste des sujets" do
     end
     # Les boutons
     expect(page).to have_tag('div.forum_boutons.top') do
-      with_tag('a', with: {href: 'forum/sujet/new'}, text: 'Nouveau sujet/nouvelle question')
-    end
-    expect(page).to have_tag('div.forum_boutons.bottom') do
       with_tag('a', with: {href: 'forum/sujet/new'}, text: 'Nouveau sujet/nouvelle question')
     end
     success 'l’administrateur trouve une première liste valide'
@@ -289,6 +286,8 @@ feature "Liste des sujets" do
 
     within('div.forum_boutons.top'){ click_link 'Liste des sujets'}
     expect(page).to have_tag('h2', text: 'Forum : sujets')
+    # page.execute_script('__notice("Vous pouvez vérifier la présence du sujet #'+sid.to_s+'")')
+    # sleep 5 * 60
     expect(page).to have_tag('fieldset', with: {id: 'forum_sujet_list'}) do
       with_tag('div', with: {class: 'sujet', id: "sujet-#{sid}"}) do
         with_tag('a', with:{ href: "forum/sujet/#{sid}"}, text: hsujet[:titre])

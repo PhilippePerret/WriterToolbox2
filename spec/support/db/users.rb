@@ -30,7 +30,6 @@ def truncate_table_users
       end
     end
     db_client.query("DROP TABLE #{table_name};")
-    puts "Table `#{table_name}` détruite"
   end
 
   # Destruction de tous les projets et tous les programmes
@@ -57,7 +56,7 @@ def truncate_table_users
   require './spec/support/forum/main.rb'
   db_client.query('use `boite-a-outils_forum`;')
   forum_tables.each do |table_name|
-    db_client.query("TRUNCATE TABLE IF EXISTS #{table_name}")
+    db_client.query("TRUNCATE TABLE #{table_name}")
   end
 
 end
@@ -65,7 +64,7 @@ end
 
 def db_get_user_by_pseudo pseudo
   db_client.query('use `boite-a-outils_hot`;')
-  statement = db_client.prepare('SELECT * FROM users WHERE pseudo = ?')
+  statement = db_client.prepare('SELECT * FROM users WHERE pseudo = ? LIMIT 1')
   statement.execute(pseudo).each do |row|
     return row
   end

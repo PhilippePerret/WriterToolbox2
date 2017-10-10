@@ -16,6 +16,7 @@ require_support_mails_for_test
 =end
 
 feature "Création de message" do
+# feature "Création de message", teste: true do
   before(:all) do
     # Si les données ont besoin d'être rafraîchies :
     # reset_all_data_forum
@@ -26,11 +27,21 @@ feature "Création de message" do
 
     identify marion
 
-    visit forum_page
-    expect(page).to have_tag('h2', text: 'Forum d’écriture')
-
     # Marion clique sur le premier sujet (dernier message)
-    n = page.all('fieldset#last_messages div.sujet')[0]
+    begin
+      visit forum_page
+      expect(page).to have_tag('h2', text: 'Forum d’écriture')
+      n = page.all('fieldset#last_messages div.sujet')[0]
+      # sleep 15
+      n != nil || raise
+    rescue Exception => e
+      if site.db.count(:forum,'posts') == 0
+        reset_all_data_forum
+        retry
+      else
+        raise "Impossible d'effectuer ce test : il y a des messages, mais je ne les trouve pas…"
+      end
+    end
     sujet_id = n[:id].split('-').last.to_i
     notice "ID Sujet : #{sujet_id}"
 
@@ -130,6 +141,13 @@ feature "Création de message" do
 
     start_time = Time.new.to_i
 
+    # On trouve un sujet qui possède au moins 30 messages
+    hsujet = forum_get_sujet(minimum_count: 30)
+    hposts = forum_get_posts_of_sujet(hsujet[:id])
+
+    first_post  = hposts.first
+    last_post   = hposts.last
+
     hmarceline = site.db.select(:hot,'users',{pseudo: 'MarcelineRédactrice'}).first
     if hmarceline
       # Si MarcelineRédactrice existe déjà, il faut supprimer tous ses
@@ -155,16 +173,9 @@ feature "Création de message" do
     end
     expect(initial_count).to eq 0
 
-
-    hsujet = forum_get_sujet(minimum_count: 30)
-    hposts = forum_get_posts_of_sujet(hsujet[:id])
-
-    first_post  = hposts.first
-    last_post   = hposts.last
-
     # puts "Premier post : #{hposts.first.inspect}"
 
-    # Marceline rejoint un sujet quelconque
+    # Marceline rejoint un sujet quelconque pour répondre au dernier message
     identify hmarceline
     visit "#{base_url}/forum/sujet/#{hsujet[:id]}?from=1"
     expect(page).to have_tag('h2', text: /Forum/)
@@ -224,7 +235,7 @@ feature "Création de message" do
     # sleep 30
 
 
-    # On récupère le nouveau message
+    # On récupère le nouveau message créé
     hlast = forum_get_last_post
 
     expect(hlast).not_to eq nil
@@ -255,11 +266,11 @@ feature "Création de message" do
     expect(hsuj[:last_post_id]).to eq hlast[:id]
     success 'l’ID du dernier message du sujet a été correctement réglé'
 
-    # Un mail a été envoyé à l'auteur du message (last_post[:auteur_id])
+    # Un mail a été envoyé à l'auteur du message original
     auteur_post = User.get(last_post[:auteur_id])
     expect(auteur_post).to have_mail({
       sent_after: start_time,
-      sujet: "Votre message a reçu une réponse sur le forum"
+      subject:    'Votre message a reçu une réponse sur le forum'
       })
     success 'un message a été envoyé à l’auteur du message original'
 

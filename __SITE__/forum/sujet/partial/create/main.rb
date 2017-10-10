@@ -33,7 +33,18 @@ class Forum
           redirect_to 'forum/post/new'
         end
 
+        # Création du sujet
+
         new_sujet_id = site.db.insert(:forum,'sujets',data2save(hsujet))
+
+        # Création du premier message
+
+        require './__SITE__/forum/_lib/_not_required/module/create_post'
+        new_post_id = Forum::Post.create creator, new_sujet_id, {content: hsujet[:first_post]}
+
+        # Pour terminer, on doit régler la valeur du dernier post du sjet
+        # en mettant son premier
+        site.db.update(:forum,'sujets',{last_post_id: new_post_id},{id: new_sujet_id})
 
         return new_sujet_id
       end

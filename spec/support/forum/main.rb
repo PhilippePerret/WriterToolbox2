@@ -14,7 +14,8 @@
 # - crée entre 10 et 100 messages par sujet
 #
 def reset_all_data_forum
-  puts "JE RECRÉE TOUTES LES DONNÉES FORUM"
+  # puts "JE RECRÉE TOUTES LES DONNÉES FORUM"
+  puts "*** Nécessité de recréer toutes les données FORUM"
   # Effacement de toutes les tables
   require_support_db_for_test
   forum_truncate_all_tables

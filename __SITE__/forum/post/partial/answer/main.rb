@@ -19,30 +19,13 @@ class Forum
       # La réponse doit-elle être validée ?
       validation_requise = auteur_reponse.grade < 4
 
-      # On crée le nouveau message qui constitue la réponse
-      data_new_post = {
-        user_id:   auteur_reponse.id,
-        sujet_id:  self.sujet_id,     # le même que l'original
-        parent_id: self.id,           # ce post
-        options:   "#{validation_requise ? '0':'1'}0000000"
-      }
-      new_post_id = site.db.insert(:forum,'posts',data_new_post)
 
-      # Ajouter la donnée DB pour les votes
-      votes_new_post = {
-        id: new_post_id,
-        vote: 0
+      require './__SITE__/forum/_lib/_not_required/module/create_post'
+      pdata = {
+        parent_id: self.id,
+        content:   answer   # non formaté (le sera dans la méthode create ci-dessous)
       }
-      site.db.insert(:forum,'posts_votes',votes_new_post)
-
-      # Ajouter la donnée pour le CONTENU du message
-      # Note : la méthode `traite_before_save` traite la réponse avant
-      # son enregistrement pour éviter tout code malveillant.
-      content_new_post = {
-        id: new_post_id,
-        content: traite_before_save(answer)
-      }
-      site.db.insert(:forum,'posts_content', content_new_post)
+      new_post_id = Forum::Post.create auteur_reponse, self.sujet_id, pdata 
 
       # Instance {Forum::Post} du nouveau message
       new_post = Forum::Post.new(new_post_id)

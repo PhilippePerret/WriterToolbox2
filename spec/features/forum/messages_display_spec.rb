@@ -7,8 +7,15 @@ require_support_forum
 # le faire chaque fois qu'on lance le test.
 PREMIERE_FOIS_MESS_DISP_SPEC = false
 
+
 def get_user_by_pseudo pseudo
-  site.db.select(:hot,'users',{pseudo: pseudo}).first
+  res = site.db.select(:hot,'users',{pseudo: pseudo}).first
+  if res.nil?
+    reset_all_data_forum
+    @all_sujets = all_sujets_forum
+    return get_user_by_pseudo(pseudo)
+  end
+  return res
 end
 feature "Affichage des messages" do
   before(:all) do
@@ -185,14 +192,17 @@ feature "Affichage des messages" do
       with_tag('span', with: {class: 'titre'}, text: hsujet_cur[:titre])
       with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
       with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
-
-      # Il y a PAS DE liens pour souscrire au sujet si pas souscrit et
-      # pour se désinscrire dans le cas contraire
-      without_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
-      without_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
-
     end
     success 'contient les informations sur le sujet'
+
+    success 'contient des liens pour… '
+    expect(page).to have_tag('div.buttons.top') do
+      # Il y a un lien pour suivre le sujet, mais qui renverra à un message indiquant
+      # qu'il faut être inscrit pour pouvoir suivre un sujet
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=1"})
+      without_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=0"})
+      success '… suivre le sujet'
+    end
 
     expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
       with_tag('legend', text: 'Liste des messages')
@@ -252,9 +262,11 @@ feature "Affichage des messages" do
         # ----------------------------------------
         # CE QU'IL PEUT Y AVOIR OU NE PAS Y AVOIR
         # ----------------------------------------
-        expect(page).to have_tag('div', with: {class: 'entete_sujet'}) do
-          without_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
-          without_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
+        expect(page).to have_tag('div', with: {class: 'entete_sujet'})
+        expect(page).to have_tag('div.buttons.top') do
+          # Le lien conduira à un message indiquant qu'il faut être inscrit
+          with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=1"})
+          without_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=0"})
         end
         expect(page).to have_tag('fieldset', with: {class: 'post_list'}) do
           with_tag('div', {class: 'post_footer'}) do
@@ -352,24 +364,24 @@ feature "Affichage des messages" do
       with_tag('span', with: {class: 'titre'}, text: hsujet_cur[:titre])
       with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
       with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
+    end
+
+    expect(page).to have_tag('div.buttons.top') do
+      success 'contient des liens pour… '
       # Liens pour souscrire au sujet ou contraire
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
-      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=1"})
+      success '… suivre le sujet'
+      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=0"})
+      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouvelle question")
+      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouvelle question')
+      success "… créer une nouvelle question"
 
       # Lien pour valider le sujet (grade 7) : NON
       without_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"})
-
       # Lien pour clore le sujet (grade 7) : NON
       without_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
-
-
       # Lien pour détruire le sujet : NON
       without_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"})
-
-      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouvelle question")
-      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouvelle question')
-      success "#{user_current.pseudo} possède un lien pour créer une nouvelle question"
-
     end
 
     expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
@@ -542,23 +554,25 @@ feature "Affichage des messages" do
         with_tag('span', with: {class: 'titre'}, text: hsujet_cur[:titre])
         with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
         with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
+      end
+
+      expect(page).to have_tag('div.buttons.top') do
+        success 'contient des liens pour… '
         # Liens pour souscrire au sujet ou contraire
-        with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
-        # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
-
-        # Lien pour valider le sujet (grade 7) : NON
-        without_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"})
-
-        # Lien pour clore le sujet (grade 7) : NON
-        without_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
-
-        # Lien pour détruire le sujet : NON
-        without_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"})
+        with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=1"})
+        # with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=0"})
+        success '… suivre le sujet'
 
         # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouvelle question")
         with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouvelle question')
-        success "#{user_current.pseudo} possède un lien pour créer une nouvelle question"
+        success "… créer une nouvelle question"
 
+        # Lien pour valider le sujet (grade 7) : NON
+        without_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"})
+        # Lien pour clore le sujet (grade 7) : NON
+        without_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
+        # Lien pour détruire le sujet : NON
+        without_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"})
       end
 
       expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
@@ -731,24 +745,24 @@ feature "Affichage des messages" do
       with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
       with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
 
+    end
+    expect(page).to have_tag('div.buttons.top') do
+      success 'contient des liens pour… '
       # Liens pour souscrire au sujet ou contraire
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
-      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=1"})
+      success '… suivre le sujet'
+      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=0"})
+      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
+      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
+      success '… créer un nouveau sujet'
 
       # Lien pour valider le sujet (grade 7) : NON
       without_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"})
-
       # Lien pour clore le sujet (grade 7) : NON
       without_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
-
       # Lien pour détruire le sujet : NON
       without_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"})
-
-      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
-      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
-      success 'Il possède un lien pour créer un nouveau sujet'
     end
-
 
     expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
       with_tag('legend', text: 'Liste des messages')
@@ -919,25 +933,24 @@ feature "Affichage des messages" do
       with_tag('span', with: {class: 'titre'}, text: hsujet_cur[:titre])
       with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
       with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
-
+    end
+    expect(page).to have_tag('div.buttons.top') do
+      success 'contient des liens pour… '
       # Liens pour souscrire au sujet ou contraire
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
-      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=1"})
+      success '… suivre le sujet'
+      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=0"})
+      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
+      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
+      success '… créer un nouveau sujet'
 
       # Lien pour valider le sujet (grade 7) : NON
       without_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"})
-
       # Lien pour clore le sujet (grade 7) : NON
       without_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
-
       # Lien pour détruire le sujet : NON
       without_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"})
-
-      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
-      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
-      success 'Il possède un lien pour créer un nouveau sujet'
     end
-
 
     expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
       with_tag('legend', text: 'Liste des messages')
@@ -1111,25 +1124,25 @@ feature "Affichage des messages" do
       with_tag('span', with: {class: 'titre'}, text: hsujet_cur[:titre])
       with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
       with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
-
+    end
+    expect(page).to have_tag('div.buttons.top') do
+      success 'contient des liens pour… '
       # Liens pour souscrire au sujet ou contraire
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
-      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
-
-      # Lien pour valider le sujet (grade 7) : OUI
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"}, text: 'Valider ce sujet')
-
-      # Lien pour clore le sujet (grade 7) : OUI
-      with_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
-
-      # Lien pour détruire le sujet : NON
-      without_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"}, text: 'Détruire ce sujet')
-
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=1"})
+      success '… suivre le sujet'
+      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=0"})
       # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
       with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
-      success 'Il possède un lien pour créer un nouveau sujet'
+      success '… créer un nouveau sujet'
+      # Lien pour valider le sujet (grade 7) : OUI
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"}, text: 'Valider ce sujet')
+      success '… valider un sujet'
+      # Lien pour clore le sujet (grade 7) : OUI
+      with_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
+      success '… clore un sujet'
+      # Lien pour détruire le sujet : NON
+      without_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"}, text: 'Détruire ce sujet')
     end
-
 
     expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
       with_tag('legend', text: 'Liste des messages')
@@ -1311,25 +1324,26 @@ feature "Affichage des messages" do
       with_tag('span', with: {class: 'titre'}, text: hsujet_cur[:titre])
       with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
       with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
-
+    end
+    expect(page).to have_tag('div.buttons.top') do
+      success 'possède des liens pour…'
       # Liens pour souscrire au sujet ou contraire
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
-      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
-
-      # Lien pour valider le sujet (grade 7) : OUI
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"}, text: 'Valider ce sujet')
-
-      # Lien pour clore le sujet (grade 7) : OUI
-      with_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
-
-      # Lien pour détruire le sujet : NON
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"}, text: 'Détruire ce sujet')
-
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=1"})
+      success '… suivre le sujet'
+      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=0"})
       # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
       with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
-      success 'Il possède un lien pour créer un nouveau sujet'
+      success '… créer un nouveau sujet'
+      # Lien pour valider le sujet (grade 7) : OUI
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"}, text: 'Valider ce sujet')
+      success '… valider le sujet'
+      # Lien pour clore le sujet (grade 7) : OUI
+      with_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
+      success '… clore le sujet'
+      # Lien pour détruire le sujet : NON
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"}, text: 'Détruire ce sujet')
+      success '… détruire le sujet'
     end
-
 
     expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
       with_tag('legend', text: 'Liste des messages')
@@ -1512,26 +1526,27 @@ feature "Affichage des messages" do
       with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
       with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
 
-      # Il y a des liens pour souscrire au sujet si pas souscrit et
-      # pour se désinscrire dans le cas contraire
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
-      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
-
-      # Lien pour valider le sujet (grade 7) : OUI
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"}, text: 'Valider ce sujet')
-
-      # Lien pour clore le sujet (grade 7) : OUI
-      with_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
-
-      # Lien pour détruire le sujet (grade 8) : OUI
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"}, text: 'Détruire ce sujet')
-
-      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
-      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
-      success 'Il possède un lien pour créer un nouveau sujet'
-
     end
     success 'contient les informations sur le sujet'
+    success 'contient des liens pour…'
+    expect(page).to have_tag('div.buttons.top') do
+      # Liens pour souscrire au sujet ou contraire
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=1"})
+      success '… suivre le sujet'
+      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=0"})
+      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
+      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
+      success '… créer un nouveau sujet'
+      # Lien pour valider le sujet (grade 8) : OUI
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"}, text: 'Valider ce sujet')
+      success '… valider le sujet'
+      # Lien pour clore le sujet (grade 8) : OUI
+      with_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
+      success '… clore le sujet'
+      # Lien pour détruire le sujet : OUI
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"}, text: 'Détruire ce sujet')
+      success '… détruire le sujet'
+    end
 
     expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
       with_tag('legend', text: 'Liste des messages')
@@ -1706,27 +1721,28 @@ feature "Affichage des messages" do
       with_tag('span', with: {class: 'titre'}, text: hsujet_cur[:titre])
       with_tag('span', with: {class: 'sujet_creator'}, text: hsujet_cur[:creator_pseudo])
       with_tag('span', with: {class: 'sujet_at'}, text: hsujet_cur[:created_at].as_human_date)
-
-      # Il y a des liens pour souscrire au sujet si pas souscrit et
-      # pour se désinscrire dans le cas contraire
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suscribe"})
-      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=unsuscribe"})
-
-      # Lien pour valider le sujet (grade 7) : OUI
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"}, text: 'Valider ce sujet')
-
-      # Lien pour clore le sujet (grade 7) : OUI
-      with_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
-
-      # Lien pour détruire le sujet (grade 8) : OUI
-      with_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"}, text: 'Détruire ce sujet')
-
-      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
-      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
-      success 'Il possède un lien pour créer un nouveau sujet'
-
     end
     success 'contient les informations sur le sujet'
+
+    success 'contient des liens pour… '
+    expect(page).to have_tag('div.buttons.top') do
+      # Liens pour souscrire au sujet ou contraire
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=1"})
+      success '… suivre le sujet'
+      # with_tag('a', with: {href: "forum/sujet/#{sid}?op=suivre&v=0"})
+      # Lien pour créer un nouveau sujet : OUI (avec le titre "Nouveau sujet")
+      with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
+      success '… créer un nouveau sujet'
+      # Lien pour valider le sujet (grade 7) : OUI
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=validate"}, text: 'Valider ce sujet')
+      success '… valider le sujet'
+      # Lien pour clore le sujet (grade 7) : OUI
+      with_tag('a', with:{href: "forum/sujet/#{sid}?op=clore"}, text: 'Clore ce sujet')
+      success '… clore le sujet'
+      # Lien pour détruire le sujet : NON
+      with_tag('a', with: {href: "forum/sujet/#{sid}?op=kill"}, text: 'Détruire ce sujet')
+      success '… détruire le sujet'
+    end
 
     expect(page).to have_tag('fieldset', with:{class: 'post_list', id: "post_list-#{hsujet_cur[:id]}"}) do
       with_tag('legend', text: 'Liste des messages')

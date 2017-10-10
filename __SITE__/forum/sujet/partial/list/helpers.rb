@@ -24,7 +24,9 @@ class Forum
   end #/<< self Forum
 
   class Sujet
+
     MAX_SUJETS = 20
+
     class << self
 
       # Retourne le code HTML des boutons pour voir les
@@ -60,16 +62,22 @@ class Forum
       #
       def list from
         from = from.to_i
-        req = 'SELECT s.*, u.pseudo AS creator_pseudo ' +
-              ', uu.pseudo AS auteur_pseudo, uu.id AS auteur_id' +
-              ' FROM sujets s' +
-              ' INNER JOIN `boite-a-outils_hot`.users u ON s.creator_id = u.id' +
-              ' INNER JOIN posts p ON s.last_post_id = p.id' +
-              ' INNER JOIN `boite-a-outils_hot`.users uu ON p.user_id = uu.id' +
-              ' WHERE SUBSTRING(specs,1,1) = "1"' + # seulement les validés
-              " ORDER BY updated_at DESC LIMIT #{from}, #{max_sujets}"
+        request = <<-SQL
+        SELECT s.*, u.pseudo AS creator_pseudo, uu.pseudo AS auteur_pseudo, uu.id AS auteur_id
+        FROM sujets s
+        INNER JOIN `boite-a-outils_hot`.users u ON s.creator_id = u.id
+        INNER JOIN posts p ON s.last_post_id = p.id
+        INNER JOIN `boite-a-outils_hot`.users uu ON p.user_id = uu.id
+        WHERE SUBSTRING(specs,1,1) = "1"
+        ORDER BY updated_at DESC 
+        LIMIT #{from}, #{max_sujets};
+        SQL
+        #debug "Request: #{request.inspect}"
         site.db.use_database(:forum)
-        site.db.execute(req).collect do |hsujet|
+        result = site.db.execute(request)
+        #debug "Nombre de sujets relevés : #{result.count}"
+        result.collect do |hsujet|
+          #debug "hsujet : #{hsujet.inspect}"
           div_sujet hsujet
         end.join('')
       end
@@ -111,7 +119,6 @@ class Forum
   </div>
 </div>
         HTML
-
       end
       # Retourne le nombre total de sujets
       def nombre_sujets

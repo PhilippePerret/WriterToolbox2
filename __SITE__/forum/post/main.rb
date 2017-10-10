@@ -89,26 +89,6 @@ class Forum
     end #/<< self Forum::Post
 
     
-    # Traiter le code du message avant son enregistrement
-    #
-    # La méthode est mise ici car elle doit servir aussi bien le module answer
-    # que le module modify.
-    # 
-    def traite_before_save contenu
-      contenu.gsub!(/<.*?>/,'')     # toutes les balises <...>
-      contenu.gsub!(/\r/,'')
-      contenu.gsub!(/\n[  \t]+/,"\n")   # tous les lignes pas vraiment vides
-      contenu.gsub!(/\n\n+/m,"\n\n") # Triples RC et plus
-      
-      # On remplace les double-retours chariot
-      contenu = contenu.split("\n\n").collect{|p|"<p>#{p.strip}</p>"}.join('')
-      # On finit par les RC simples (noter qu'il ne faut surtout pas le
-      # faire avant les doubles RC, sinon tous les toucles RC seraient
-      # remplacés...)
-      contenu.gsub!(/\n/,'<br>')
-      return contenu
-    end
-    
   end #/Post
 end #/Forum
 

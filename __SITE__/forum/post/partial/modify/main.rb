@@ -7,7 +7,7 @@ class Forum
       
       user.id == auteur.id || user.admin? || raise('Cette opération ne vous est pas permise.')
 
-      new_content = traite_before_save(param(:post)[:content])
+      new_content = Forum::Post.traite_before_save(param(:post)[:content])
 
       # Noter que ça peut être un administrateur ou l'auteur du message
       # qui vient modifier.

@@ -3,7 +3,7 @@ require_support_integration
 feature "Accueil de la boite à outils de l'auteur" do
   scenario "Un visiteur quelconque peut rejoindre l'accueil" do
     visit 'http://localhost/WriterToolbox2'
-    expect(page).to have_tag('h1', text: "La Boite à outils de l’auteur")
+    expect(page).to have_tag('h1', text: "la boite à outils de l’auteur")
   end
   scenario '=> la page de premier accueil est conforme' do
     visit home_page

@@ -33,6 +33,15 @@ raise NotAccessibleViewError.new("Vous n'avez pas le grade suffisant pour créer
     </div>
   </div>
 
+  <div>
+    <label for="sujet_first_post">Premier message</label>
+    <span class="field">
+      <textarea name="sujet[first_post]" id="sujet_first_post" rows="4"></textarea>
+    </span>
+    <div class="explication">
+      Merci de préciser votre question ou votre sujet en composant le premier message qui sera affiché.
+    </div>
+  </div>
   <%
       # Si le grade de l'utilisateur est au moins de 5, il peut définir le
     # type s de son sujet.
@@ -41,7 +50,7 @@ raise NotAccessibleViewError.new("Vous n'avez pas le grade suffisant pour créer
     <div>
       <label for="sujet_type_s">Type du sujet</label>
       <span class="field">
-        <%= Form.build_select(id: 'sujet_type_s', name: 'sujet[type_s]', values: Forum::Sujets::TYPES_S) %>
+        <%= Form.build_select(id: 'sujet_type_s', name: 'sujet[type_s]', values: Forum::Sujet::TYPES_S) %>
       </span>
     </div>
 
