@@ -21,6 +21,9 @@ def site
   @site ||= Site.instance
 end
 
+# Pour voir
+# debug "Au début du chargement, site.session['last_page'] = #{site.session['last_page'].inspect}"
+
 # Chargement de la configuration du site courant
 site.load_configuration # cf. in lib/site/config.rb
 

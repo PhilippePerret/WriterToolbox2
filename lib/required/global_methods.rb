@@ -36,6 +36,9 @@ def __notice message
 end
 
 def redirect_to cible, hmessage = nil
+  if cible == :last_page || cible == :last_route
+    cible = site.session['last_page']
+  end
   hmessage && begin
     hmessage.is_a?(String) && hmessage = [hmessage, :notice]
     hmessage[1] == :notice ? __notice(hmessage[0]) : __error(hmessage[0])
@@ -69,9 +72,6 @@ def require_form_support
 end
 
 def identification_required message = nil
-  uri = ENV['REQUEST_URI'].split('/')
-  uri.shift
-  site.offline? && uri.shift
-  site.session['route_after_login'] = uri.join('/')
+  site.session['route_after_login'] = site.uri
   redirect_to('user/signin', message || "Pour atteindre la page demandée, vous devez être identifié.")
 end

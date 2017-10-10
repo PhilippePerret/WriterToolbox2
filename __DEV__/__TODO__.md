@@ -1,4 +1,9 @@
-
+* Traiter la mise en forme des boutons sur le forum
+* Ajouter l'indication de la cote du message au-dessus et en dessous
+* Traiter le cas d'une question qui doit être classée avec les meilleures réponses en haut
+  => doit être défini à la création du sujet (ou alors : on le fait systématiquement lorsque c'est une question => attention aux tests)
+* Essayer de trouver une marque pour indiquer la différence entre un "+1" qui doit annuler l'effet d'un down-vote et un +1 qui doit mettre un up-vote
+* Modifier la cote d'un auteur quand un de ses messages est modifié.
 
 
 * [FORUM]

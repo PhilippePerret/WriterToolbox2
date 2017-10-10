@@ -1,0 +1,12 @@
+<% 
+    # Normalement, on ne devrait pas avoir besoin de cette vue puisque toutes les
+  # opérations devraient être redirigées vers la page précédente. Mais bon…
+  #
+  case param(:op)
+  when 'u' then post.upvote
+  when 'd' then post.downvote
+  end
+  # On redirige toujours vers la page précédente
+  redirect_to :last_route
+%>
+

@@ -38,6 +38,23 @@ Il y a deux moyens de définir la redirection (le premier est le meilleur) :
     # => redirige vers le profil de l'user #12
   ```
 
+### Redirection vers dernière page {#route_redirect_last_page}
+
+On peut rediriger vers la dernière page à l'aide de la formule :
+
+```
+redirect_to :last_page
+```
+
+Ou :
+
+```
+redirect_to :last_route
+```
+
+
+> Noter que cette dernière page sera vraiment la page avec tous ses paramètres.
+
 ### Définition du message de redirection {#route_redirect_message}
 
 Il s'agit du message qui apparaitra sur la page vers laquelle on se redirige. Puisqu'il a rechargement, ce message est mis dans les propriétés de session.
