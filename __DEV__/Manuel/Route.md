@@ -42,10 +42,16 @@ Il y a deux moyens de définir la redirection (le premier est le meilleur) :
 
 Il s'agit du message qui apparaitra sur la page vers laquelle on se redirige. Puisqu'il a rechargement, ce message est mis dans les propriétés de session.
 
+À présent, il suffit d'utiliser les `__notice` et `__error` habituel pour que ces messages soient conservés. On peut tout de même ajouter un message directement en argument de la méthode `redirect_to`
+
 Ce message peut être :
 
 * Un **simple String**. Dans ce cas, c'est considéré comme un message `notice`.
 * Un **Array** contenant `[message, type du message]`. Le type peut être `:error` ou `:notice` en fonction du type de message.
   Donc, pour afficher un message d'erreur à l'user après une redirection, il faut faire :
+
   ```
     redirect_to 'home', ["Mauvais choix, je redirige !", :error]
+  ```
+
+Parfois, le message ne peut pas être donné au moment de la redirection.

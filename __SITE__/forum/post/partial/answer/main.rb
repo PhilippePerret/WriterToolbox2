@@ -50,7 +50,9 @@ class Forum
       # Si le bouton pour suivre est coché, il faut faire suivre le
       # sujet par l'auteur de la réponse.
       suivre_sujet = data_param[:suivre] != nil
+      debug "suivre_sujet est #{suivre_sujet.inspect}"
       auteur_rep_suit = Forum::Sujet.user_suit_sujet?(auteur_reponse, data[:sujet_id])
+      debug "auteur_rep_suit est #{auteur_rep_suit.inspect}"
       if auteur_rep_suit != suivre_sujet
         site.db.use_database :forum
         values = [auteur_reponse.id, data[:sujet_id]]
@@ -64,6 +66,9 @@ class Forum
             ['INSERT INTO follows (user_id, sujet_id, created_at) VALUES (?,?,?)', "Vous suivez à présent ce sujet."]
           end
         site.db.execute(request, values)
+        # Message
+        # Noter qu'en cas de validation immédiate, il y a une redirection vers
+        # la liste du sujet, et ce message est donc enregistré pour la redirection
         __notice(message)
       end
 

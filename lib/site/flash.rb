@@ -28,8 +28,7 @@ class Site
         site.session['next_flash'] = site.session['flash']
         site.session['flash'] = nil
       elsif site.session['next_flash'] # (1)
-        sess_mess, typmess = JSON.parse(site.session['next_flash'])
-        self.send(typmess=='error' ? :error : :notice, sess_mess)
+        @messages = site.session['next_flash'].split('__SEP__')
         site.session['next_flash'] = nil
       end
       return messages
@@ -39,6 +38,13 @@ class Site
     # de la page (donc, hors message retenus en session)
     def messages
       @messages ||= []
+    end
+
+    # Méthode appelée juste avant une redirection, pour mettre dans la
+    # variable session `flash` les éventuels messages à donner.
+    def messages_for_redirection
+      messages.count > 0 || return
+      site.session['flash'] = messages.join('__SEP__')
     end
 
     def notice message, options = nil

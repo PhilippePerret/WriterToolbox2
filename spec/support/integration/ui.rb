@@ -12,7 +12,13 @@ end
 alias :click_vraiment_bouton :click_bouton_by_id
 alias :click_link_by_id :click_bouton_by_id
 
-def scrollTo element_jid
+# @param {String} element_jid
+#                 Selector vers lequel il faut scroller
+# @param {Fixnum|Nil} offset
+#                 Le décalage éventuel.
+#                 P.e., s'il est égal à -200, on scrolle 200 pixels
+#                 plus haut.
+def scrollTo element_jid, offset = 0
   if element_jid.match(/ /)
     dpath = element_jid.split(' ')
     element_jid = dpath.pop
@@ -35,7 +41,8 @@ def scrollTo element_jid
     code_parent = code_element
   end
   codejs = <<-JS
-let e = #{code_element}, p = #{code_parent};window.scrollTo(0,p.offsetTop);
+//let e = #{code_element}, p = #{code_parent};window.scrollTo(0,p.offsetTop - 100);
+let p = #{code_parent};window.scrollTo(0,p.offsetTop + #{offset});
   JS
   page.execute_script(codejs)
   return code_element
