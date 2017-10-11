@@ -19,31 +19,15 @@ alias :click_link_by_id :click_bouton_by_id
 #                 P.e., s'il est égal à -200, on scrolle 200 pixels
 #                 plus haut.
 def scrollTo element_jid, offset = 0
-  if element_jid.match(/ /)
-    dpath = element_jid.split(' ')
-    element_jid = dpath.pop
-    path    = dpath.join(' ')
-  else
-    path = nil
-  end
-  if element_jid.match(/#/)
-    tag, elid = element_jid.split('#')
-    code_element = "document.getElementById('#{elid}')"
-  elsif element_jid.match('/\./')
-    tag, elclass = element_jid.split('.')
-    code_element = "document.getElementsByClassName('#{elclass}')[0]"
-  else # c'est l'identifiant seul
-    code_element = "document.getElementById('#{element_jid}')"
-  end
-  if path
-    code_parent = "document.querySelector('#{path}')"
-  else
-    code_parent = code_element
-  end
-  codejs = <<-JS
-//let e = #{code_element}, p = #{code_parent};window.scrollTo(0,p.offsetTop - 100);
-let p = #{code_parent};window.scrollTo(0,p.offsetTop + #{offset});
-  JS
-  page.execute_script(codejs)
-  return code_element
+  offset = 0 # pour le moment, on remet comme ça
+  js = <<-JAVASCRIPT
+  let e = document.querySelector("#{element_jid}");
+  let o = e.offsetTop + #{offset};
+  window.scrollTo(0,o);
+  return o;
+  JAVASCRIPT
+  # puts "Code scrollTo : #{js}"
+  o = page.execute_script(js)
+  # puts "Offset de scrollTo : #{o.inspect}"
+  return
 end

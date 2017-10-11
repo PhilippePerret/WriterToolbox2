@@ -1,11 +1,8 @@
 * [FORUM]
-  Tester la modification du message
-  created_at doit être actualisé
-  modified_by doit l'être aussi
-  La modification fonctionne, mais on devrait revenir au sujet après modification.
-
-* Traiter le cas d'une question qui doit être classée avec les meilleures réponses en haut
-  => doit être défini à la création du sujet (ou alors : on le fait systématiquement lorsque c'est une question => attention aux tests)
+  * Dans l'affichage des posts, indiquer lorsqu'un message est à revalider (4e bit à 1)
+  * Quand on revalide un post, on doit mettre son 4e bit à 0
+  * Traiter le cas d'une question qui doit être classée avec les meilleures réponses en haut
+    => doit être défini à la création du sujet (ou alors : on le fait systématiquement lorsque c'est une question => attention aux tests)
 
 * Affichage du profil
   - deux cas :

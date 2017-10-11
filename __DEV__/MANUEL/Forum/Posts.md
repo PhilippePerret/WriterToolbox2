@@ -52,5 +52,9 @@ Deux façons de trouver les messages :
                         1= post détruit (le bit 1 doit être à 0)
   3       2             Marque de refus
                         1= le post a été refusé (le bit 1 doit être 0)
-
+  4       3             Marque de re-validation
+                        1= le message, validé précédemment, a été modifié à
+                        nouveau par son auteur.
+                        Utiliser ce bit permet d'afficher quand même le message
+                        mais en l'indiquant "à valider".
 ```

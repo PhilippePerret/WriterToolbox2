@@ -29,10 +29,11 @@
   <div>
     <label for="post_content">Nouveau message</label>
     <span class="field">
-      <textarea name="post[content]" id="post_content" rows="8"><%= post.data[:content] %></textarea>
+      <textarea name="post[content]" id="post_content" rows="8"><%= post.detraite_content %></textarea>
     </span>
   </div>
   <div class="buttons">
+    <%= simple_link("forum/sujet/#{post.data[:sujet_id]}?pid=#{post.id}", 'Revenir au sujet', 'fleft btn small') %>
     <input type="submit" class="btn main" value="Modifier" />
   </div>
 </form>

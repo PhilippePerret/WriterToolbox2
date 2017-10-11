@@ -83,7 +83,8 @@ class Forum
           request = <<-SQL
           SELECT p.*, p.user_id AS auteur_id
           , u.pseudo AS auteur_pseudo
-          , c.content
+          , c.content, c.created_at AS content_created_at, c.updated_at AS content_updated_at
+          , c.modified_by AS content_modified_by
           , v.vote, v.upvotes, v.downvotes
           FROM posts p
           INNER JOIN `boite-a-outils_hot`.users u ON p.user_id = u.id

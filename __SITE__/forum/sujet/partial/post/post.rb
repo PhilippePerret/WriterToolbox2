@@ -127,13 +127,18 @@ class Forum
       # [BOA=route/to/page]titre du lien[/BOA]
       c.gsub!(/\[BOA=(.*?)\](.*?)\[\/BOA\]/,'<a href="\1">\2</a>')
 
-      # updaté ?
-      if data[:updated_at] > data[:created_at]
-        modificateur = ::User.get(data[:modified_by])
-        modificateur != nil || modificateur = self.auteur
-        c += "<div class=\"date_last_update\">Dernière modification : #{data[:updated_at].as_human_date} par #{modificateur.pseudo}</div>"
-      end
+      # Si le contenu a été modifié, on indique quand et par qui
+      c << mark_content_modified
+
       return c
+    end
+
+    # Marque de contenu modifié, s'il a été modifié
+    # (les informations utiles se trouvent dans les données complètes)
+    def mark_content_modified
+     data[:content_created_at] != data[:content_updated_at] || (return '') 
+     modificator = ::User.get(data[:content_modified_by] || data[:user_id]) || self.auteur
+     "<div class=\"date_last_update\">Dernière modification : #{data[:updated_at].as_human_date} par #{modificator.pseudo}</div>"
     end
 
 

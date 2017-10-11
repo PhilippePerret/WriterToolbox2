@@ -7,6 +7,8 @@
 
 =end
 
+PSEUDOS_FEMME = ['Marie','Salome','Ellie','Bernadette', 'Martine','Sylvie','Camille','Julie','Juliette','Joan','Sandrine','Sandra','Vera', 'Pascale','Marine','Maude']
+PSEUDOS_HOMME = ['Elie','Sam','Bernard','Martin','Renauld','Gerard','Victor','Kevin','Vernon','Pascal','Bruno','Patrick','Andre','Khajag','Marin','Marcel']
 
 # Détruit tous les users, sauf les administrateurs (de 1 à 50) et met
 # le prochain ID à 51.
@@ -124,15 +126,20 @@ def get_data_for_new_user duser = nil
 
   mail_is_conf = duser[:mail_confirmed]
 
-  nows = (Time.now.to_i + User.__icreateduser).to_s(36)
+  icreated = User.__icreateduser
+  nows = (Time.now.to_i + icreated).to_s(36)
+
+  sexe = duser[:sexe] || 'F' # Pour pouvoir trouve un pseudo
+  pseudo = duser[:pseudo]       || get_random_pseudo(sexe, icreated)
+  patronyme = duser[:patronyme] || get_random_patronyme(pseudo)
 
   # ATTENTION ! NE PAS AJOUTER D'AUTRES DONNÉES, CAR ELLES SERVENT
   # À ÊTRE ENREGISTRÉES DANS LA BDD
   udata = {
-    pseudo:     duser[:pseudo]    || "NewUser#{nows}",
-    patronyme:  duser[:patronyme] || "NewU Ser#{nows}",
-    sexe:       duser[:sexe]      || 'F',
-    mail:       duser[:mail]      || "new.user.#{nows}@mail.com",
+    pseudo:     pseudo,
+    patronyme:  patronyme,
+    sexe:       sexe,
+    mail:       duser[:mail]      || "#{patronyme.split(' ').join('.').downcase}.#{nows}@mail.com",
     options:    duser[:options]   || "0#{duser[:grade]||1}#{mail_is_conf ? '1' : '0'}0000000",
     salt:       duser[:salt]      || 'dusel',
     password:   duser[:password]  || 'motdepasse', # sera retiré
@@ -142,4 +149,14 @@ def get_data_for_new_user duser = nil
   udata[:cpassword] = Digest::MD5.hexdigest("#{udata[:password]}#{udata[:mail]}#{udata[:salt]}")
 
   return udata
+end
+
+NOMBRE_PSEUDOS_HOMMES = PSEUDOS_HOMME.count
+NOMBRE_PSEUDOS_FEMMES = PSEUDOS_HOMME.count
+def get_random_pseudo sexe, icreated
+  icreated = icreated.to_s
+  case sexe
+  when 'F' then PSEUDOS_FEMME[rand(NOMBRE_PSEUDOS_FEMMES)] + icreated
+  else          PSEUDOS_HOMME[rand(NOMBRE_PSEUDOS_HOMMES)] + icreated
+  end
 end
