@@ -166,7 +166,6 @@ class Forum
 
       offset && req << " OFFSET #{offset - 1}"
 
-       debug "REQUEST : #{req}"
       site.db.use_database(:forum)
       plist = site.db.execute(req)
 

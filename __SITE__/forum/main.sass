@@ -99,12 +99,10 @@ div.post
       span.post_id
         font-size   : .85em
         color       : #999
+
   div.post_footer
     span.post_date
       float     : left
-    > span
-      margin-right    : 1.1em
-
   // -----------------------------------
   // Le contenu du message, son texte
   // ------------------------------------
@@ -122,13 +120,25 @@ div.post
         font-weight       : bold
 
   span.post_upvotes, .post_downvotes
-    font-weight : bold
+    font-size : .9em
   span.post_upvotes
     color   : green
   span.post_votes_down
-    margin-left   : 1.1em
     span.post_downvotes
       color   : red
+  span.post_cote
+    font-size : 1.1em
+    font-weight : bold
+
+  a
+    // Pour le bouton "Répondre" en bas du message
+    &.exergue
+      background-color  : white!important
+      padding           : 6px 12px 4px
+      color             : black!important
+      font-weight       : bold
+      font-size         : 1em
+      letter-spacing    : 0.4px
 
 // Boutons contenant les liens vers les panneaux suivant/précédent
 // et derniers messages
