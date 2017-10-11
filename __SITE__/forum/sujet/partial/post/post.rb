@@ -104,8 +104,11 @@ class Forum
     #                 :content      Le contenu du message
     #                 :id           l'identifiant du message
     #
-    # Note : quand updated_at diffère de created_at, on indique la date
-    # de dernière modification et qui l'a opérée.
+    # NOTES
+    #   * quand updated_at diffère de created_at, on indique la date
+    #     de dernière modification et qui l'a opérée.
+    #   * quand le message est à re-valider (4e bit à 1), on l'indique
+    #     clairement.
     def mise_en_forme_post_content
       c = data[:content]
       if c.match(/\[USER#/)
@@ -129,6 +132,11 @@ class Forum
 
       # Si le contenu a été modifié, on indique quand et par qui
       c << mark_content_modified
+
+      # Si le message est à revalider
+      if data[:options][3] == '1'
+        c = '<p class="red">ATTENTION, CE MESSAGE N’A PAS ENCORE ÉTÉ VALIDÉ.</p>' + c
+      end
 
       return c
     end

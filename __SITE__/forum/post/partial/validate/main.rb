@@ -72,7 +72,7 @@ class Forum
       # Marque de validation dans les options du message
       
       opts = self.data[:options]
-      opts[0..2] = '100'
+      opts[0..3] = '1000'
       new_data = {options: opts, valided_by: admin.id}
       site.db.update(:forum,'posts',new_data,{id: self.id})
 
@@ -154,7 +154,9 @@ class Forum
       opts[0..1] = '01'
       site.db.update(:forum,'posts',{options: opts, modified_by: admin.id},{id: self.id})
       
-      # Si le post était déjà validé, il faut faire encore des choses
+      # Si le post était déjà validé, il y a encore du travail, comme par
+      # exemple décrémenter le nombre de message de l'auteur ou le retirer
+      # des propriétés last_post_id du sujet ou de l'auteur.
       if already_validated
         new_last_post_id = site.db.select(
           :forum,'posts',

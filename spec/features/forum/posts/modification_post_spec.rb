@@ -94,6 +94,7 @@ feature 'Modification de message' do
       expect(page).to have_tag('fieldset.post_list') do
         with_tag('div', with: {class: 'post', id: "post-#{post_id}"}) do
           with_tag('p', text: /#{Regexp.escape new_content}/)
+          with_tag('p', with:{ class: 'red'}, text: /ATTENTION, CE MESSAGE N’A PAS ENCORE ÉTÉ VALIDÉ/)
         end
       end
       success "#{pseudo} revient sur la liste du sujet et trouve son message modifié"
