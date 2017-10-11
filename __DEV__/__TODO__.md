@@ -4,6 +4,9 @@
   * Traiter le cas d'une question qui doit être classée avec les meilleures réponses en haut
     => doit être défini à la création du sujet (ou alors : on le fait systématiquement lorsque c'est une question => attention aux tests)
 
+* Chaque fois qu'un auteur de grade inférieur édite un de ses messages, une alerte est envoyée aux administrateurs. Il faut implémenter un système pour qu'une seule le soit. En fait, c'est simple : il suffit de regarder le 4e bit. S'il est déjà à 1, c'est que le post est déjà à revalider.
+  => Tester
+  
 * Affichage du profil
   - deux cas :
     1. Le visiteur est le possesseur du profil => édition complète

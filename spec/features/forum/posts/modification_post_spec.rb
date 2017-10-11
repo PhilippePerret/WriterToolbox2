@@ -120,8 +120,139 @@ feature 'Modification de message' do
 
     end
 
+
+
+
+
+
+
+
+
+    scenario '=> si l’auteur du message re-modifie son message, pas de nouvelle alerte admin' do
+
+      start_time = Time.now.to_i
+
+      # On trouve un message par un auteur de grade donné
+      request = <<-SQL
+      SELECT u.id
+        FROM posts p
+        INNER JOIN `boite-a-outils_hot`.users u ON p.user_id = u.id
+        WHERE CAST(SUBSTRING(u.options,2,1) AS UNSIGNED) < 4
+          AND SUBSTRING(p.options,1,1) = '1'
+        LIMIT 20
+      SQL
+      site.db.use_database(:forum)
+      uid = site.db.execute(request).shuffle.shuffle.first[:id]
+      pwd = User.get(uid).var['password']
+      hauteur = db_get_user_by_id(uid)
+      hauteur.merge!(password: pwd)
+      pseudo = hauteur[:pseudo]
+      # puts "hauteur : #{hauteur.inspect}"
+
+      # On prend un message de l'auteur au hasard
+      hpost = forum_get_random_post(user_id: hauteur[:id])
+      # puts "hpost: #{hpost.inspect}"
+      post_id   = hpost[:id]
+      sujet_id  = hpost[:sujet_id]
+      notice "Données pour test de modification de message :"
+      notice "ID Post   : #{post_id}"
+      notice "ID Sujet  : #{sujet_id}"
+      notice "ID Auteur : #{hauteur[:id]} (#{pseudo})"
+
+      # On se rend au message
+      identify hauteur
+      visit "#{base_url}/forum/sujet/#{sujet_id}?pid=#{post_id}"
+
+      # L'auteur met le message en édition
+      scrollTo("div#post-#{post_id} div.post_footer")
+      within("div#post-#{post_id} div.post_footer"){click_link 'Modifier'}
+
+      new_content = "Contenu du message modifié une première fois le #{Time.now.to_i}."
+      within("form#post_edit_form") do
+        fill_in('post_content', with: new_content)
+        click_button 'Modifier'
+      end
+      success "#{pseudo} modifie le texte une première fois et le soumet"
+
+      # sleep 4
+
+      expect(page).to have_tag('h2', text: /Forum/)
+      expect(page).to have_tag('fieldset.post_list') do
+        with_tag('div', with: {class: 'post', id: "post-#{post_id}"}) do
+          with_tag('p', text: /#{Regexp.escape new_content}/)
+        end
+      end
+      success "#{pseudo} revient sur la liste du sujet et trouve son message modifié"
+
+      hcontent = site.db.select(:forum,'posts_content',{id: post_id}).first
+      expect(hcontent[:content]).to eq "<p>#{new_content}</p>"
+      expect(hcontent[:updated_at]).to be > start_time
+      expect(hcontent[:modified_by]).to eq hauteur[:id]
+      success 'les données DB pour le contenu du post sont valides'
+
+      newhpost = site.db.select(:forum,'posts',{id: post_id}).first
+      expect(newhpost[:options][0]).to eq '1'
+      expect(newhpost[:options][3]).to eq '1'
+      success 'le message est marqué à RE-valider (4e bit à 1)'
+
+      data_mail = {
+        sent_after: start_time,
+        subject:    'Message forum modifié à valider',
+        message: ["forum/post/#{post_id}?op=v"]
+        }
+      expect(phil).to have_mail(data_mail)
+      expect(marion).to have_mail(data_mail)
+      success 'les administrateurs ont reçu un mail pour valider le nouveau message'
+
+      # ---------------------------------------------------------------------
+      #
+      #   DEUXIÈME MODIFICATION
+      #
+      # ---------------------------------------------------------------------
+      start_time_twice = Time.now.to_i
+
+      # L'auteur remet le message en édition
+      scrollTo("div#post-#{post_id} div.post_footer")
+      within("div#post-#{post_id} div.post_footer"){click_link 'Modifier'}
+
+      new_content_twice = "Contenu du message modifié une deuxième fois le #{Time.now.to_i}."
+      within("form#post_edit_form") do
+        fill_in('post_content', with: new_content_twice)
+        click_button 'Modifier'
+      end
+      success "#{pseudo} modifie le texte une seconde fois et le soumet"
+
+      # sleep 4
+
+      expect(page).to have_tag('h2', text: /Forum/)
+      expect(page).to have_tag('fieldset.post_list') do
+        with_tag('div', with: {class: 'post', id: "post-#{post_id}"}) do
+          with_tag('p', text: /#{Regexp.escape new_content_twice}/)
+        end
+      end
+      success "#{pseudo} revient sur la liste du sujet et trouve son message encore modifié"
+
+      hcontent = site.db.select(:forum,'posts_content',{id: post_id}).first
+      expect(hcontent[:content]).to eq "<p>#{new_content_twice}</p>"
+      expect(hcontent[:updated_at]).to be > start_time_twice
+      expect(hcontent[:modified_by]).to eq hauteur[:id]
+      success 'les données DB pour le contenu du post sont valides (notamment updated_at)'
+
+      newhpost = site.db.select(:forum,'posts',{id: post_id}).first
+      expect(newhpost[:options][0]).to eq '1'
+      expect(newhpost[:options][3]).to eq '1'
+      success 'le message est toujours marqué valide et à RE-valider (4e bit à 1)'
+
+      expect(phil).not_to have_mail({sent_after: start_time_twice})
+      expect(marion).not_to have_mail({sent_after: start_time_twice})
+      success 'les administrateurs ne reçoivent pas de nouvelle alerte'
+    end
+    #/scénario pour une double modification
+
   end
   #/context auteur grade nécessitant validation
+
+
 
 
 
