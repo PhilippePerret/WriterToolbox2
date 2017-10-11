@@ -15,7 +15,11 @@
       when u.id == user.id then 'profil-perso'
       else 'profil-complet'
       end
-    else 'profil-public'
+    else 
+      case 
+      when site.route.objet_id == nil then 'profil-none'
+      else 'profil-public'
+      end
     end
  )
 %>
