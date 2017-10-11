@@ -7,15 +7,17 @@
 %>
 <%= header(:small) %>
 <%= right_margin %>
-
-<h2>Votre profil</h2>
-
 <%=
-  if user.identified?
-    partial('partial/profil')
-  else
-    partial('partial/no-profil')
-  end
+  partial(
+    case
+    when user.identified?
+      case
+      when u.id == user.id then 'profil-perso'
+      else 'profil-complet'
+      end
+    else 'profil-public'
+    end
+ )
 %>
 
 <%= footer(:small) %>

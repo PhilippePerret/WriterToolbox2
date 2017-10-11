@@ -1,29 +1,16 @@
 * [FORUM]
-  * Dans l'affichage des posts, indiquer lorsqu'un message est à revalider (4e bit à 1)
   * Traiter le cas d'une question qui doit être classée avec les meilleures réponses en haut
     => doit être défini à la création du sujet (ou alors : on le fait systématiquement lorsque c'est une question => attention aux tests)
-
-* Chaque fois qu'un auteur de grade inférieur édite un de ses messages, une alerte est envoyée aux administrateurs. Il faut implémenter un système pour qu'une seule le soit. En fait, c'est simple : il suffit de regarder le 4e bit. S'il est déjà à 1, c'est que le post est déjà à revalider.
-  => Tester
+  * CRON. Mettre en place le cron qui doit traiter les messages forum.
 
 * Affichage du profil
   - deux cas :
     1. Le visiteur est le possesseur du profil => édition complète
     2. le visiteur n'est pas le possesseur => aperçu
 
-* [FORUM]
-  [AFFICHAGE DU MESSAGE] Ajouter la date de dernière modification lorsque updated_at ne correspond pas à created_at.
-  [MODIFICATION]
-  - Penser que lorsque l'auteur modifie son message, on doit être averti de cette modification (mais comment ne pas multiplier les mails ? Peut-être en faisant un avertissement seulement une fois par jour ?)
-  - Lorsque l'on modifie le message, il faut remettre les </p><p> par des retours-chariot.
-
-  [LISTE MESSAGES]
-    - les boutons pour upvoter ou downvoter
-  Quand on valide une question ou un sujet, il faut penser à mettre le 5e bit des specs du sujet à 1, pour que la question ou le sujet soit annoncé (note : je parle ici de "question" et de "sujet", mais c'est la même chose, au niveau du programme)
-
 * [FORUM] Préciser les privilèges et les privilèges suivants en haut de page
 
-* [UNAN] Mettre en forme le bureau
+* [UNAN] Mettre en forme le bureau (panneau des données générales)
 
 * [UNAN] Utiliser la méthode `Fixnum#ago` pour savoir combien de temps reste pour accomplir le travail ou depuis combien de temps il est en dépassement.
 

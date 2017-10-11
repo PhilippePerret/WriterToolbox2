@@ -5,6 +5,9 @@ class User
     @f_e ||= (homme? ? '' : 'e')
   end
 
+  def f_te # cet/cette
+    @f_te ||= (homme? ? '' : 'te')
+  end
   def f_la
     @f_la ||= (homme? ? 'le' : 'la')
   end
