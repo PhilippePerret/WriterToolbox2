@@ -26,7 +26,7 @@ class Forum
     #-------------------------------------------------------------------------------- 
 
     # {User} Auteur du message
-    def auteur ; @auteur ||= User.get(user_id) end
+    def auteur ; @auteur ||= ::User.get(user_id) end
     def sujet  ; @sujet  ||= Forum::Sujet.get(sujet_id) end
 
     # Retourne la route au message

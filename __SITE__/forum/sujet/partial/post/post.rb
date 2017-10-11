@@ -103,6 +103,9 @@ class Forum
     #               Doit contenir :
     #                 :content      Le contenu du message
     #                 :id           l'identifiant du message
+    #
+    # Note : quand updated_at diffère de created_at, on indique la date
+    # de dernière modification et qui l'a opérée.
     def mise_en_forme_post_content
       c = data[:content]
       if c.match(/\[USER#/)
@@ -123,6 +126,13 @@ class Forum
       # Les liens vers les pages du site lui-même, de la forme :
       # [BOA=route/to/page]titre du lien[/BOA]
       c.gsub!(/\[BOA=(.*?)\](.*?)\[\/BOA\]/,'<a href="\1">\2</a>')
+
+      # updaté ?
+      if data[:updated_at] > data[:created_at]
+        modificateur = ::User.get(data[:modified_by])
+        modificateur != nil || modificateur = self.auteur
+        c += "<div class=\"date_last_update\">Dernière modification : #{data[:updated_at].as_human_date} par #{modificateur.pseudo}</div>"
+      end
       return c
     end
 

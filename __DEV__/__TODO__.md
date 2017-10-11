@@ -1,8 +1,11 @@
-* Ajouter l'indication de la cote du message au-dessus et en dessous
+* [FORUM]
+  Tester la modification du message
+  created_at doit être actualisé
+  modified_by doit l'être aussi
+  La modification fonctionne, mais on devrait revenir au sujet après modification.
+
 * Traiter le cas d'une question qui doit être classée avec les meilleures réponses en haut
   => doit être défini à la création du sujet (ou alors : on le fait systématiquement lorsque c'est une question => attention aux tests)
-* Essayer de trouver une marque pour indiquer la différence entre un "+1" qui doit annuler l'effet d'un down-vote et un +1 qui doit mettre un up-vote
-* Modifier la cote d'un auteur quand un de ses messages est modifié.
 
 * Affichage du profil
   - deux cas :
@@ -10,8 +13,6 @@
     2. le visiteur n'est pas le possesseur => aperçu
 
 * [FORUM]
-
-  [validation] Quand on valide le message, on doit mettre sont 3e bit d'option à 0
   [AFFICHAGE DU MESSAGE] Ajouter la date de dernière modification lorsque updated_at ne correspond pas à created_at.
   [MODIFICATION]
   - Penser que lorsque l'auteur modifie son message, on doit être averti de cette modification (mais comment ne pas multiplier les mails ? Peut-être en faisant un avertissement seulement une fois par jour ?)
