@@ -10,9 +10,12 @@
     2. le visiteur n'est pas le possesseur => aperçu
 
 * [FORUM]
+
   [validation] Quand on valide le message, on doit mettre sont 3e bit d'option à 0
   [AFFICHAGE DU MESSAGE] Ajouter la date de dernière modification lorsque updated_at ne correspond pas à created_at.
-  [MODIFICATION] Penser que lorsque l'auteur modifie son message, on doit être averti de cette modification (mais comment ne pas multiplier les mails ? Peut-être en faisant un avertissement seulement une fois par jour ?)
+  [MODIFICATION]
+  - Penser que lorsque l'auteur modifie son message, on doit être averti de cette modification (mais comment ne pas multiplier les mails ? Peut-être en faisant un avertissement seulement une fois par jour ?)
+  - Lorsque l'on modifie le message, il faut remettre les </p><p> par des retours-chariot.
 
   [LISTE MESSAGES]
     - les boutons pour upvoter ou downvoter

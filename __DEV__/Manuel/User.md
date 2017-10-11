@@ -33,6 +33,34 @@ BIT   OFFSET    DESCRIPTION
                 2: C'est un icarien actif
 ```
 
+## Variables de l'user {#user_variables}
+
+On peut obtenir les variables de l'user (enregistrées dans `users_tables.variables_<id user>`) à l'aide de :
+
+```ruby
+<user>.var[<var name>]
+```
+
+On peut les définir par :
+
+```ruby
+<user>.var[<var name>] = <valeur>
+```
+
+On peut mettre toute valeur scalaire, `String`, `Fixnum`, `Array`, `Hash`, `TrueClass` etc.
+
+> Note : le nom de la variable peut-être passé soit en string (`'variable_name'`) soit en symbol (`:variable_name`).
+
+Par exemple :
+
+```ruby
+lecteur.var['derniere_route'] = site.uri
+```
+
+```ruby
+redirect_to visiteur.var['derniere_route']
+```
+
 
 ## Contact de l’user {#user_contact}
 

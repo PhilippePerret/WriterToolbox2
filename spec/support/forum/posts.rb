@@ -1,5 +1,103 @@
 require 'betterlorem'
 
+# Retourne les données d'un post pris au hasard
+#
+# @param {Hash} params
+#               :validated      Si true (défault), cherche un mail validé
+#                               Si false, cherche un mail non validé
+#               :destroyed      Si true, cherche un mail détruit
+#                               False par défaut
+#               :refused        Si true, cherche un mail refusé
+#                               false par défaut
+#               :not_user_id    Un mail qui ne soit pas de cet auteur
+#               :user_id        Un mail de cet auteur
+#               :sujet_id       Un mail de ce sujet
+#
+#               :upvoted        Si true, il faut un message qui a reçu des
+#                               upvote. Si false => sans upvotes
+#               :downvoted      Si true, il faut un message qui a reçu des
+#                               downvotes. Si false => sans downvotes
+#               :vote_zero      Si true, le vote doit être égal à zéro. Si
+#                               false, il doit être différent de zéro.
+#               :vote_positif   true: vote doit > 0, false: doit être <= 0.
+#               :vote_negatif   true: vote doit < 0, false: doit être >= 0.
+#
+def forum_get_random_post params = nil
+  params ||= Hash.new
+  params.key?(:validated) || params.merge!(validated: true)
+  params.key?(:destroyded)|| params.merge!(destroyed: false)
+  params.key?(:refused)   || params.merge!(refused: false)
+
+  # Les conditions générales pour la table 'posts'
+  conditions = Array.new
+
+
+  # S'il y a des conditions sur les votes, il faut impérativement charger
+  # la liste d'IDs de posts_votes puis chercher les posts dans cette liste
+  if params.key?(:upvoted) || params.key?(:downvoted)
+    condvotes = Array.new
+    case params[:upvoted]
+    when true   then condvotes << 'upvotes IS NOT NULL'
+    when false  then condvotes << 'upvotes = NULL'
+    end
+    case params[:downvoted]
+    when true   then condvotes << 'downvotes IS NOT NULL'
+    when false  then condvotes << 'downvotes = NULL'
+    end
+    case params[:vote_positif]
+    when true   then condvotes << 'vote > 0'
+    when false  then condvotes << 'vote <= 0'
+    end
+    case params[:vote_negatif]
+    when true   then condvotes << 'vote < 0'
+    when false  then condvotes << 'vote >= 0'
+    end
+    case params[:vote_zero]
+    when true   then condvotes << 'vote = 0'
+    when false  then condvotes << 'vote != 0'
+    end
+
+    condvotes = condvotes.join(' AND ')
+    ids = site.db.select(:forum,'posts_votes',condvotes,[:id]).collect{|h|h[:id]}
+    if ids.count < 0
+      raise "Malheureusement, il est impossible d'appliquer la condition #{condvotes} à la table `posts_votes`. Elle ne retourne aucun message, donc aucun message aléatoire ne pourra être renvoyé… Il faut modifier les conditions, ou, peut-être, relancer le reset du forum pour les tests."
+    end
+    conditions << "id IN (#{ids.join(', ')})"
+  end
+
+
+
+  opts = "000"
+  case params[:validated]
+  when true   then opts[0] = '1'
+  when false  then opts[0] = '0'
+  end
+
+  case params[:destroyed]
+  when true   then opts[1] = '1'
+  when false  then opts[1] = '0'
+  end
+
+  case params[:refused]
+  when true   then opts[2] = '1'
+  when false  then opts[2] = '0'
+  end
+
+  conditions << "SUBSTRING(options,1,3) = '#{opts}'"
+
+  params[:not_user_id]  && conditions << "user_id != #{params[:not_user_id]}"
+  params[:user_id]      && conditions << "user_id = #{params[:user_id]}"
+  params[:sujet_id]     && conditions << "sujet_id = #{params[:sujet_id]}"
+
+  conditions = conditions.join(' AND ')
+  conditions << " LIMIT 200"
+  ids = site.db.select(:forum,'posts',conditions,[:id])
+  if ids.count == 0
+    raise "Malheureusement, aucun message forum n'a été trouvé avec les conditions : #{conditions}. Il faut modifier le filtre ou resetter les données du forum pour les tests."
+  end
+  # On retourne les données d'un post pris au hasard dans la liste
+  return forum_get_post(ids.shuffle.shuffle.first[:id])
+end
 
 
 # Crée +nombre_posts+ posts pour le sujet d'ID +sujet_id+ avec
@@ -316,12 +414,15 @@ end
 
 # POUR LA LISTE DES MESSAGES D'UN SUJET PARTICULIER, VOIR LE MODULE sujet.rb
 
-# Retourne les données du post d'id +post_id+ en ajoutant des
-# données comme le pseudo de l'auteur (:auteur_pseudo)
+# Retourne les DONNÉES COMPLÈTES du post d'id +post_id+
+#
+#     :auteur_id      ID de l'auteur du message (ou user_id)
+#     :auteur_pseudo  Pseudo de l'auteur du message
 #     :content        Contenu textuel du message
 #     :vote           Fixnum de la note de vote
 #     :upvotes        (as_id_list) pour avoir une liste d'identifiants d'user
 #     :downvotes      (as_id_list) pour avoir une liste d'id d'users
+
 #
 def forum_get_post post_id
   req = 'SELECT p.*, u.id AS auteur_id, u.pseudo AS auteur_pseudo, c.content, v.*'

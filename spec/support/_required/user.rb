@@ -14,6 +14,16 @@ def marion
   end
 end
 
+# Retourne les données pour l'user d'ID +uid+ (mais le mot de passe)
+#
+# Retourne aussi le password qui, pour les tests, a été enregistré dans la
+# variable 'password' de l'user
+#
+def get_data_user uid
+  reader = User.get(uid)
+  site.db.select(:hot,'users',{id: uid}).first.merge!(password: reader.var['password'])
+end
+
 
 def data_phil
   @data_phil ||= begin

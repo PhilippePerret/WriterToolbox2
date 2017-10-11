@@ -23,8 +23,8 @@ module VarsMethodsModule
   def var
     @var ||= Vars.new(self)
   end
-  def get_var name ; return var[name] end
-  def set_var name, valeur ; var[name] = valeur end
+  def get_var name ; return var[name.to_s] end
+  def set_var name, valeur ; var[name.to_s] = valeur end
 
   class Vars
 

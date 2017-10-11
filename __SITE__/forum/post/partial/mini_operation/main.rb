@@ -13,23 +13,17 @@ class Forum
       if has_downvoted?(user)
         # => L'user avait downvoté pour ce message
         # <= Il faut retirer ce downvote et ajouter 1 au vote
-        newdata = {
-          downvotes: downvotes_sup(user),
-          vote:      data[:vote] + 1
-        }
+        newdata = {downvotes: downvotes_sup(user)}
         req = "downvotes = downvotes - 1"
       else
         # => L'user n'avait pas downvoté pour ce message
         # <= Il faut l'ajouter dans les upvotes et ajouter 1 au vote
-        newdata = {
-          upvotes: upvotes_add(user),
-          vote:    data[:vote] + 1
-        }
+        newdata = {upvotes: upvotes_add(user)}
         req = "upvotes = upvotes + 1"
       end
-      update_vote(newdata)
+      update_vote(newdata.merge(vote: data[:vote] + 1))
       # Modifier la donnée user
-      request = "UPDATE users SET count = count + 1, #{req} WHERE id = #{data[:user_id]};"
+      request = "UPDATE users SET #{req} WHERE id = #{data[:user_id]};"
       site.db.use_database(:forum)
       site.db.execute(request)
     end
@@ -39,25 +33,20 @@ class Forum
       user.grade >= 2      || (return __error(ERRORS[:bad_grade]))
       has_downvoted?(user) && (return __error(ERRORS[:has_already_downvoted]))
       if has_upvoted?(user)
-        newdata = {
-          upvotes: upvotes_sup(user),
-          vote:    data[:vote] - 1
-        }
+        newdata = {upvotes: upvotes_sup(user)}
         req = "upvotes = upvotes - 1"
       else
-        newdata = {
-          downvotes: downvotes_add(user),
-          vote:      data[:vote] - 1
-        }
+        newdata = {downvotes: downvotes_add(user)}
         req = "downvotes = downvotes + 1"
       end
-      update_vote(newdata)
-      request = "UPDATE users SET count = count - 1, #{req} WHERE id = #{data[:user_id]};"
+      update_vote(newdata.merge(vote: data[:vote] - 1))
+      request = "UPDATE users SET #{req} WHERE id = #{data[:user_id]};"
       site.db.use_database(:forum)
       site.db.execute(request)
     end
 
     def update_vote new_data
+      debug "New data pour Post ##{id} : #{new_data.inspect}"
       site.db.update(:forum,'posts_votes',new_data,{id:self.id})
       __notice("Votre vote a été enregistré. Merci à vous")
     end
@@ -90,7 +79,7 @@ class Forum
       if v.count != votes_init - 1
         raise "Le nombre de votants devrait avoir été décrémenté…"
       end
-      return v.join(' ')
+      return v.join(' ').nil_if_empty
     end
   end #/Post
 end #/Forum

@@ -89,12 +89,12 @@ class Forum
     # puisse up-voter ou non.
     def hand_up_vote
       hand = "👍" 
-      reader_has_voted? || simple_link("forum/post/#{id}?op=u", hand)
+      reader_has_voted? || hand = simple_link("forum/post/#{id}?op=u", hand)
       return hand
     end
     def hand_down_vote
       hand = "👎"
-      reader_has_voted? || simple_link("forum/post/#{id}?op=d", hand)
+      reader_has_voted? || hand = simple_link("forum/post/#{id}?op=d", hand)
       return hand
     end
 

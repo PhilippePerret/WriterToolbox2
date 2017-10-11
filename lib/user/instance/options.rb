@@ -15,4 +15,13 @@ class User
         end
       end
   end
+
+
+  # @return {Fixnum} le grade, de 0 à 9, de l'user courant
+  # On en a toujours besoin, même pour les tests
+  def grade
+    admin? && (return 9)
+    options[1].to_i
+  end
+
 end

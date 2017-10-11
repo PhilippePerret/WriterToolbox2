@@ -86,15 +86,21 @@ end
 # son email.
 def create_new_user duser = nil
 
-  require_lib_site
+  defined?(Site) != 'constant' && require_lib_site
 
   udata = get_data_for_new_user(duser)
+
   # Noter que :password a été ajouté à udata. Il faut
   # retirer cette propriété qui n'est pas enregistrée
+  # Noter aussi que ce password sera enregistré dans la table des variables
+  # de l'user et pourra être récupéré en utilisant huser = get_data_user(uid)
   passw = udata.delete(:password)
 
   # === CRÉATION ===
   udata[:id] = site.db.insert(:hot, 'users', udata)
+
+  User.get(udata[:id]).var['password'] = passw
+  # puts "Password enregistré pour ##{udata[:id]} : #{passw} (#{User.new(udata[:id]).var['password'].inspect})"
 
   return udata.merge!(password: passw)
 end
