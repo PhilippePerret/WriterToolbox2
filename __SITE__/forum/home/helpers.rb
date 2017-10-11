@@ -40,38 +40,9 @@ class Forum
   class Sujet
     class << self
 
-      # Retourne le code HTML pour l'affichage d'un sujet de données +hsujet+
-      # sur la page d'accueil
-      #
-      # Noter que +hsujet+ n'est pas du tout le Hash des données récupérées dans
-      # la base de données, mais une table beaucoup plus complète avec les pseudos
-      # des créateurs du sujet et de l'auteur du dernier message, etc. telles que
-      # retournées par x_derniers_sujets ci-dessous
-      def div_sujet hsujet
-        sid = "sujet-#{hsujet[:id]}"
-        type_s = hsujet[:specs][1].to_i
-        <<-HTML
-        <div id="#{sid}" class="sujet">
-          <div>
-            <span class="titre" id="#{sid}-titre">#{simple_link("forum/sujet/#{hsujet[:id]}?from=-1",hsujet[:titre])}</span>
-            <span class="libelle">créé par</span>
-            <span class="sujet_creator" id="#{sid}-creator" data-id="#{hsujet[:creator_id]}">#{hsujet[:creator_pseudo]}</span>
-            <span class="libelle">le</span>
-            <span class="sujet_date">#{hsujet[:sujet_date].as_human_date}</span>
-            <span class="libelle">nombre de messages</span>
-            <span class="posts_count">#{hsujet[:count]}</span>
-            <span class="libelle">de type</span>
-            <span class="type_s">#{type_s}</span>
-          </div>
-          <div>
-            <span class="libelle">Dernier message par</span>
-            <span class="post_auteur" data-id="#{hsujet[:auteur_id]}">#{hsujet[:auteur_pseudo]}</span>
-            <span class="libelle">datant du</span>
-            <span class="post_date">#{hsujet[:post_date].as_human_date}</span>
-          </div>
-        </div>
-        HTML
-      end
+      # On a besoin du module pour construire le sujet
+      # Définit notamment 'div_sujet'
+      require './__SITE__/forum/_lib/_not_required/module/sujet_build'
 
 
       # Retourne les tables de données des +nombre+ derniers sujets

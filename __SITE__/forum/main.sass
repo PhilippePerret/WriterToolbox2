@@ -6,22 +6,20 @@ section#contents *
 
 
 div.forum_boutons
-  text-align      : right
   font-size       : 0.85em
-  &.top
-    margin-bottom   : 1em
-  &.bottom
-    margin-top      : 2em
 
-
-nav.nav_boutons, div.boutons
+nav.nav_boutons, div.boutons, .buttons, .forum_boutons
   text-align    : right
   a
     font-size     : .85em
     font-family   : Helvetica
     margin-left   : 1em
-  &.top
-    margin-bottom   : 2em
+    font-variant  : small-caps
+    opacity       : 0.4
+    &:hover
+      opacity : 1
+  // &.top
+  //   margin-bottom   : 1em
   &.bottom
     margin-top      : 2em
 
@@ -40,14 +38,19 @@ div.sujet
   border-bottom   : 1px solid #AAA
   border-top      : 1px solid #AAA
   padding         : 8px 1em
-  .titre
+  font-size       : 0.9em
+  span.titre
+    display         : block
     font-weight     : bold
-    font-size       : 1.375em
+    font-size       : 1.075em
+    margin          : 0.6em 0
   .last_message
     margin        : .4em 0
   .infos_sujet
     text-align    : right
     font-size     : .75em
+  div.last_post
+    margin-top  : 1em
 
 .date
   font-size   : 0.85em
@@ -136,3 +139,6 @@ div.btns_other_posts
     a
       font-variant    : small-caps
       font-size       : .75em
+      opacity         : .4
+      &:hover
+        opacity         : 1

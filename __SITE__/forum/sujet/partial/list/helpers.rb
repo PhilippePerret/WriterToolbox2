@@ -82,44 +82,10 @@ class Forum
         end.join('')
       end
 
-      # Retourne le code HTML du conteneur du sujet
-      def div_sujet hsujet
-        sid = hsujet[:id]
-        lien = simple_link("forum/sujet/#{sid}", hsujet[:titre])
-        last_post_date =
-          if hsujet[:last_post_id]
-            "#{hsujet[:updated_at].as_human_date} <span class='small'>(#{hsujet[:updated_at].ago})</span>"
-          else
-            '---'
-          end
-        lien_last_post =
-          if hsujet[:last_post_id]
-            simple_link("forum/sujet/#{hsujet[:id]}?from=-1#post-#{hsujet[:last_post_id]}", 'Lire le dernier message')
-          else
-            ''
-          end
-        lien_creator = simple_link("user/profil/#{hsujet[:creator_id]}", hsujet[:creator_pseudo])
-        lien_auteur  = simple_link("user/profil/#{hsujet[:auteur_id]}", hsujet[:auteur_pseudo])
-        <<-HTML
-<div id='sujet-#{sid}' class='sujet'>
-  <div class="titre">#{lien}</div>
-  <div class="last_message">
-    #{lien_last_post}
-    <span class="libelle">de</span><span class="last_post_auteur">#{lien_auteur}</span>
-    <span class="libelle">datant du</span>
-    <span class='date last_message_date' id='last_message_date-#{sid}'>#{last_post_date}</span>
-  </div>
-  <div class="infos_sujet">
-    <span class="libelle">sujet initié par</span>
-    <span class='creator' id='creator-#{sid}'>#{lien_creator}</span>
-    <span class="libelle">le</span>
-    <span class='date created_at'>#{hsujet[:created_at].as_human_date}</span>
-    <span class="libelle">Nombre de messages</span>
-    <span class='messages_count' id='messages_count-#{sid}'>#{hsujet[:count]}</span>
-  </div>
-</div>
-        HTML
-      end
+      # On a besoin du module pour construire le sujet
+      # Définit notamment 'div_sujet'
+      require './__SITE__/forum/_lib/_not_required/module/sujet_build'
+
       # Retourne le nombre total de sujets
       def nombre_sujets
         @nombre_sujets ||= site.db.count(:forum,'sujets',"SUBSTRING(specs,1,1)='1'")

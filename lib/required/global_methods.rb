@@ -20,8 +20,16 @@ end
 # cf. Manuel > Markdown.md
 def formate code
   defined?(MD2Page) || require_folder('./lib/utils/md_to_page')
-  MD2Page.transpile(nil,{dest:nil, code: code})
+  MD2Page.transpile(nil,{dest:nil, code: code.force_encoding('utf-8')})
 end
+alias :kramdown :formate
+
+# TODO Cette méthode n'a pas été testée
+def formate_file path
+  defined?(MD2Page) || require_folder('./lib/utils/md_to_page')
+  MD2Page.transpile(path,{dest:nil})
+end
+alias :kramdown_file :formate_file
 
 # Pour écrire un message d'erreur dans la page
 # Cf. ./lib/site/flash.rb

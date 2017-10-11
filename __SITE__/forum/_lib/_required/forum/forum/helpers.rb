@@ -13,8 +13,6 @@ class Forum
     #
     def boutons where
       bs = String.new
-      user.grade > 4 &&  bs << simple_link('forum/sujet/new', 'Nouveau sujet')
-      bs << simple_link('forum/sujet/list', 'Liste des sujets')
       if @__boutons
         bs << @__boutons
       end

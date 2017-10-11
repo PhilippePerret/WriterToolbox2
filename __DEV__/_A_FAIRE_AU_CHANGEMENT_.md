@@ -62,3 +62,7 @@ Pour ajouter les colonnes :
 * Détruire la table `users` du forum et la remplacer par la table avec le code dans le fichier `Forum/Tables.md` (qui permet de tout faire, détruire et remplacer).
 
 * Détruire la table `follows` et la remplacer avec le code du fichier `Forum/Tables.md` (qui permet de tout faire, détruire et remplacer)
+
+# Accueil
+
+* Corriger le dernier article de blog (7) et le mettre en lecture.

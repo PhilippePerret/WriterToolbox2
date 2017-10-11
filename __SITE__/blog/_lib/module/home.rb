@@ -24,7 +24,7 @@ class Blog
         begin
           extract =
             if File.exist?(article_md_path)
-              kramdown article_md_path
+              kramdown File.read(article_md_path)
             elsif File.exist?(article_erb_path)
               deserb article_erb_path
             else
