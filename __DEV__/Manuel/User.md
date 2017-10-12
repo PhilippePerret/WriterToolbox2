@@ -29,6 +29,10 @@ BIT   OFFSET    DESCRIPTION
                 moment l'user est vraiment détruit)
 5     4         Définit comment l'user veut être contacté. Cf. ci-dessous
                 la rubrique "Contact de l’user"
+6     5         Définit la fréquence de contact (notification)
+                0: Aucune notification
+                1: Notification quotidienne (défaut)
+                2: Notification hebdomadaire
 32    31        1: C'est un icarien
                 2: C'est un icarien actif
 ```
@@ -83,3 +87,5 @@ Valeurs possibles :
   15 => Tout le monde peut le contacter (1+2+4+8)
 
 ```
+
+> Note : utiliser `require_lib('user:contact')` pour avoir des méthodes pratiques pour ce niveau de contact.

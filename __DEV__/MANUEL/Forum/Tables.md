@@ -87,7 +87,6 @@ CREATE TABLE users
     id INTEGER,
     options VARCHAR(16),
     count INTEGER(8),
-    fame  INTEGER(8) DEFAULT 0,
     upvotes INTEGER(8) DEFAULT 0,
     downvotes INTEGER(8) DEFAULT 0,
     last_post_id INTEGER DEFAULT NULL,

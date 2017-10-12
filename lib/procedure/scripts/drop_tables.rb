@@ -1,5 +1,10 @@
 # encoding: UTF-8
+=begin
 
+  Cet script détruit les tables `variables_xxxx` des users qui n'existent
+  plus.
+  
+=end
 
 site.db.use_database(:users_tables)
 

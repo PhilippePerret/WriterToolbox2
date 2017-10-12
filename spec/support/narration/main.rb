@@ -109,16 +109,16 @@ def narration_data_page params
   options << params[:priority].to_s
 
   # Handler et fichier final
+  raise "Il faut recalculer maintenant qu'il n'y a plus de h-andler"
   md_file = dyn_file = nil
   if [1,5].include?(type_rvalue)
-    params[:handler] ||= 'tests/page_test'
+    params[:andler] ||= 'tests/page_test'
     if data_livre
-      affixe_file = File.join('.','__SITE__','narration','_data',data_livre[:folder], params[:handler])
+      affixe_file = File.join('.','__SITE__','narration','_data',data_livre[:folder], params[:andler])
       md_file   = "#{affixe_file}.md"
       dyn_file  = "#{affixe_file}.dyn.erb"
     end
   else
-    params[:handler]  ||= nil # pour la clarté
     params[:nivdev]   ||= 0
     params[:priority] ||= 0
   end
@@ -128,7 +128,6 @@ def narration_data_page params
     titre:        {value: params[:titre] || "Un titre à #{Time.now}", ftype: :text},
     type:         {value: type_value, real_value: type_rvalue,     ftype: :select},
     livre_id:     {value: titre_livre, real_value: params[:livre_id],  ftype: :select},
-    handler:      {value: params[:handler], ftype: :text},
     description:  {value: params[:description] || "La description de la nouvelle page à #{Time.now}", ftype: :text},
     nivdev:       {value: nivdev_value, real_value: params[:nivdev], ftype: :select},
     priority:     {value: value_priority, real_value: params[:priority], ftype: :select},
@@ -175,7 +174,6 @@ def create_page_narration_test params = nil
     titre:          datapage[:titre][:value],
     description:    datapage[:description][:value],
     options:        datapage[:options][:value],
-    handler:        datapage[:handler][:value],
     livre_id:       datapage[:livre_id][:real_value],
     created_at:     datapage[:created_at][:value],
     updated_at:     datapage[:updated_at][:value],

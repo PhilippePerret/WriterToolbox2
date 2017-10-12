@@ -55,6 +55,15 @@ Un essai
       <span style="color:#0D0">=> fonctionne parfaitement.</span>
 </code>
 
+
+## Notification {#testmessage_notification}
+
+Pour une simple indication en orange (par exemple une valeur au moment des tests) :
+
+```ruby
+notice "Le message"
+```
+
 ## Astuce pour texte récurrent en début de ligne {#testmessage_recurrent_texte}
 
 On peut détourner la méthode `success_tab` pour ajouter un texte récurrent à tous les message de succès. Par exemple, dans l'exemple précédent, le mot "exécute" se trouve en début de chaque opération. Pour produire le même affichage, on peut donc faire plutôt :

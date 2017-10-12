@@ -3,12 +3,13 @@
   Pour utiliser ces méthodes de test, ajouter cette ligne en haut des feuilles
   de test :
 
-    require_db_support
+    require_support_db_for_test
 
 =end
 
-PSEUDOS_FEMME = ['Marie','Salome','Ellie','Bernadette', 'Martine','Sylvie','Camille','Julie','Juliette','Joan','Sandrine','Sandra','Vera', 'Pascale','Marine','Maude']
-PSEUDOS_HOMME = ['Elie','Sam','Bernard','Martin','Renauld','Gerard','Victor','Kevin','Vernon','Pascal','Bruno','Patrick','Andre','Khajag','Marin','Marcel']
+PSEUDOS_FEMME = ['Marie','Michele','Salome','Ellie','Bernadette','Berthe','Martine','Sylvie','Camille','Julie','Juliette','Joan','Sandrine','Sandra','Vera', 'Pascale','Marine','Maude']
+PSEUDOS_HOMME = ['Elie','Michel','Mike','Sam','Bernard','Martin','Renauld','Gerard','Gustave','Hugo','Yvain','Hector','Victor','Kevin','Vernon','Pascal','Bruno','Patrick','Andre','Khajag','Marin','Marcel']
+PATRONYMES    = ['Marais','Durand','Dupont','Beauvoir','Bavant','Barthe','Valais','Flaubert','Berlioz','Wagram','Duchaussois']
 
 # Détruit tous les users, sauf les administrateurs (de 1 à 50) et met
 # le prochain ID à 51.
@@ -63,7 +64,6 @@ def truncate_table_users
 
 end
 
-
 def db_get_user_by_pseudo pseudo
   db_client.query('use `boite-a-outils_hot`;')
   statement = db_client.prepare('SELECT * FROM users WHERE pseudo = ? LIMIT 1')
@@ -86,6 +86,15 @@ end
 #
 # Ajouter `mail_confirmed: true` pour faire un user qui a confirmé
 # son email.
+#
+# @param {Hash} duser
+#               Toutes les données normales peuvent être précisées ici,
+#               plus :
+#               :admin      True : faire un administrateur
+#                           False/Nil : faire un non administrateur
+#                           <nombre> : degré de l'administrateur
+#               :mail_confirmed   Si true, le mail sera directement confirmé
+#
 def create_new_user duser = nil
 
   defined?(Site) != 'constant' && require_lib_site
@@ -121,6 +130,8 @@ class User
      @@icreateduser += 1
   end
 end
+
+# Retourne les données pour un(e) nouvel(le) user
 def get_data_for_new_user duser = nil
   duser ||= Hash.new
 
@@ -129,9 +140,16 @@ def get_data_for_new_user duser = nil
   icreated = User.__icreateduser
   nows = (Time.now.to_i + icreated).to_s(36)
 
-  sexe = duser[:sexe] || 'F' # Pour pouvoir trouve un pseudo
-  pseudo = duser[:pseudo]       || get_random_pseudo(sexe, icreated)
+  sexe      = duser[:sexe]      || 'F' # Pour pouvoir trouve un pseudo
+  pseudo    = duser[:pseudo]    || get_random_pseudo(sexe, nows)
   patronyme = duser[:patronyme] || get_random_patronyme(pseudo)
+
+  bit_admin =
+    case duser[:admin]
+    when true       then '1'
+    when false, nil then '0'
+    when Fixnum     then duser[:admin].to_s
+    end
 
   # ATTENTION ! NE PAS AJOUTER D'AUTRES DONNÉES, CAR ELLES SERVENT
   # À ÊTRE ENREGISTRÉES DANS LA BDD
@@ -140,7 +158,7 @@ def get_data_for_new_user duser = nil
     patronyme:  patronyme,
     sexe:       sexe,
     mail:       duser[:mail]      || "#{patronyme.split(' ').join('.').downcase}.#{nows}@mail.com",
-    options:    duser[:options]   || "0#{duser[:grade]||1}#{mail_is_conf ? '1' : '0'}0000000",
+    options:    duser[:options]   || "#{bit_admin}#{duser[:grade]||1}#{mail_is_conf ? '1' : '0'}0000000",
     salt:       duser[:salt]      || 'dusel',
     password:   duser[:password]  || 'motdepasse', # sera retiré
     cpassword:  nil
@@ -151,12 +169,19 @@ def get_data_for_new_user duser = nil
   return udata
 end
 
+
+
 NOMBRE_PSEUDOS_HOMMES = PSEUDOS_HOMME.count
 NOMBRE_PSEUDOS_FEMMES = PSEUDOS_HOMME.count
+NOMBRE_PATRONYME      = PATRONYMES.count
 def get_random_pseudo sexe, icreated
-  icreated = icreated.to_s
   case sexe
   when 'F' then PSEUDOS_FEMME[rand(NOMBRE_PSEUDOS_FEMMES)] + icreated
   else          PSEUDOS_HOMME[rand(NOMBRE_PSEUDOS_HOMMES)] + icreated
   end
+end
+
+def get_random_patronyme pseudo
+  patro = PATRONYMES[rand(NOMBRE_PATRONYME)]
+  "#{pseudo} #{patro}"
 end

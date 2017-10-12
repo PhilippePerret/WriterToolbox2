@@ -33,13 +33,6 @@
   - Implémenter et tester unanunscript/page_cours/ qui permet de lire une page de cours du programme. S'inspirer très exactement de narration.
   - Tester l'affichage d'une page de cours (en prenant sur les dix jours ou sur le premier)
 
-* [NARRATION]
-  - Abandonner l'utilisation des handler et enregistrer les fichiers dans le dossier de leur livre avec leur identifiant.
-  Exemple : la page d'ID #12 du livre Structure (donc du livre d'identifiant #1) doit être enregistré dans `narration/_data/1/12.erb`
-    - faire un script qui transforme les pages actuelles
-    - modifier la façon d'enregistrer les pages
-    - supprimer la donnée handler
-
 * [UNAN] Tester, tester, tester le réglage des travaux.
   - la création correcte des travaux relatifs lorsque l'on crée un auteur directement au 10e jour
   - le réglage correct, surtout, de la valeur `status` (avec des travaux qui seront à 2 et à 4)

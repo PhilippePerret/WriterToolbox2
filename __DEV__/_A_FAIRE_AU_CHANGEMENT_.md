@@ -2,13 +2,19 @@
 
 * Altérer toutes les tables `variables_xxx` de :cold.users_tables pour ajouter la colonne `created_at` avec le code : `ALTER TABLE variables_1 ADD COLUMN created_at INTEGER(10);`.
 
-* Supprimer la colonne `annonce` dans la table :cold.updates (et la supprimer dans la définition de la table).
+# COLD
 
-* Mettre la taille de la colonne `options` de la table :cold.updates à 16 (elle est à 32).
+* Updates :
+  * Supprimer la colonne `annonce`.
+    ALTER TABLE updates DROP COLUMN annonce;
+  * Mettre la taille de la colonne `options` de la table :cold.updates à 16 (elle est à 32).
+    ALTER TABLE updates MODIFY COLUMN options VARCHAR(16) DEFAULT '000000';
 
 * Définir le coup de projecteur (rejoindre la section administration prévue à cet effet).
 
-* Ajouter la colonne CREATED_AT aux tables scenodico, filmodico :
+# BIBLIO
+
+* Ajouter la colonne CREATED_AT aux tables scenodico, filmodico (peut-être que c'est déjà fait) :
 
       use `boite-a-outils_bilbio`
       ALTER TABLE scenodico ADD COLUMN created_at INT(10);
@@ -17,6 +23,7 @@
 # NARRATION
 
 * Supprimer la colonne `handler` dans la table cnarration.narration
+  ALTER TABLE narration DROP COLUMN handler
 
 
 # PROGRAMME UN AN UN SCRIPT
@@ -39,6 +46,12 @@ Pour ajouter les colonnes :
 
 * Actualiser les données ONLINE avec les données OFFLINE de la table `absolute_work` dont un grand nombre de titres et de données ont été modifiées.
 
+* Peut-être détruire la colonne `handler` dans la table `pages_cours` (voir avant comment on s'en sert).
+  ALTER TABLE pages_cours DROP COLUMN handler;
+
+* Détruire la colonne `source` dans la table 'exemples' (voir avant comment on s'en sert).
+  ALTER TABLE exemples DROP COLUMN source;
+
 
 # QUIZ
 
@@ -49,19 +62,20 @@ Pour ajouter les colonnes :
 # FORUM
 
 * Détruire la colonne CATEGORIE dans la table sujets
-* Remplacer la colonne 'options' par la colonne 'specs' :
+  ALTER TABLE sujets DROP COLUMN categorie;
 
+* Remplacer la colonne 'options' par la colonne 'specs' :
       use `boite-a-outils_forum`
       ALTER TABLE sujets CHANGE COLUMN options specs VARCHAR(16);
-* Ajouter la colonne 'created_at' à la table `posts_content` et à la table `posts_votes`
 
+* Ajouter la colonne 'created_at' à la table `posts_content` et à la table `posts_votes`
      use `boite-a-outils_forum`
      ALTER TABLE posts_content ADD COLUMN created_at INTEGER(10), modified_by INTEGER;
      ALTER TABLE posts_votes ADD COLUMN created_at INTEGER(10);
 
 * Détruire la table `users` du forum et la remplacer par la table avec le code dans le fichier `Forum/Tables.md` (qui permet de tout faire, détruire et remplacer).
 
-* Détruire la table `follows` et la remplacer avec le code du fichier `Forum/Tables.md` (qui permet de tout faire, détruire et remplacer)
+* Détruire la table `follows` et la remplacer avec le code du fichier `Forum/Tables.md`
 
 * Faire des inscrits pour animer le forum. Les utiliser pour poser des questions qui renverront aux différentes pages de Narration, à l'aide, aux différents outils, etc.
 

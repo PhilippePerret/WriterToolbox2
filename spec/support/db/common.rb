@@ -5,7 +5,7 @@
   Pour pouvoir utiliser ces méthodes, la feuille de tests doit appeler
   la méthode en haut de page :
 
-    require_db_support
+    require_support_db_for_test
 
   db_prepare <requete>
 
@@ -126,9 +126,9 @@ def init_db_for_test options = nil
 
     begin
       # On crée à présent les données minimales, c'est-à-dire la table des
-      # user avec un administrateur.
-      table_users = site.dbm_table(:hot, 'users')
-      table_users.insert({
+      # user avec deux administrateurs.
+
+      site.db.insert(:hot,'users',{
         id: 1,
         pseudo:     'Phil',
         mail:       'phil@laboiteaoutilsdelauteur.fr',
@@ -265,8 +265,16 @@ end
 # déjà toutes les données.
 def backup_all_data_si_necessaire
   File.exist?(backup_all_data_filepath) || begin
-    `mkdir -p ~/xbackups;cd ~/xbackups;mysqldump -u root -p#{db_data_offline[:password]} --all-databases > #{backup_all_data_filename}`
+    require_lib_site
+    dbs = Array.new
+    site.db.execute('SHOW DATABASES;').each do |row|
+      row[:Database].start_with?('boite-a-outils') || next
+      dbs << row[:Database]
+    end
+    command = "mkdir -p ~/xbackups;cd ~/xbackups;mysqldump -u root -p#{db_data_offline[:password]} --databases #{dbs.join(' ')} > #{backup_all_data_filename}"
+    `#{command}`
     puts "= Backup complet des données exécuté dans #{backup_all_data_filepath} ="
+    # puts "= Commande : #{command}" # ATTENTION : elle affiche le mot de passe
   end
 end
 

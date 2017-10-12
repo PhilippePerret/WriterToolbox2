@@ -70,6 +70,13 @@ def debug ca
   Debug.debug ca
 end
 
+# Cf. Manuel > Librairies_et_modules.md
+def require_lib path
+  objet, affixe = path.split(':')
+  require "./__SITE__/#{objet}/_lib/library/#{affixe}.rb"
+end
+alias :require_library :require_lib
+
 # Méthode appelée pour charger tous les éléments utiles aux formulaires,
 # qui ne sont pas chargés par défaut.
 #

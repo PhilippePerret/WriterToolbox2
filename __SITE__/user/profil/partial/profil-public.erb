@@ -1,6 +1,9 @@
 <h2>Profil de <%= u.pseudo %></h2>
-<p class="tiny">Vous n’êtes pas inscrit au site, vous ne pouvez donc avoir qu'une version simplifiée du profil de <%= u.pseudo %>.</p>
-<div class="user_card">
+<p class="tiny">N'étant pas inscrit sur le site, vous ne pouvez avoir qu'une version simplifiée du profil de <%= u.pseudo %>.</p>
+
+<section class="user_card card">
   <%= u.row_inscrit_depuis %>
   <%= u.row_grade %>
-</div>
+  <%= u.row_is_administrateur %>
+  <%= u.row_contact %>
+</section>

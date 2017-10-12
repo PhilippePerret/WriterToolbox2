@@ -39,4 +39,4 @@ end
 # Exécution d'un script quelconque
 # require './lib/procedure/scripts/NOM DU SCRIPT'
 # require './lib/procedure/scripts/recuperer_all_quiz'
-# require './lib/procedure/scripts/essai_db'
+# require './lib/procedure/scripts/drop_tables'
