@@ -1,14 +1,10 @@
 * [FORUM]
-  * Traiter le cas d'une question qui doit être classée avec les meilleures réponses en haut
-    => doit être défini à la création du sujet (ou alors : on le fait systématiquement lorsque c'est une question => attention aux tests)
+  * [BUG] Voir pourquoi, lorsque l'on est administrateur, il n'y a pas les
+    boutons pour créer un nouveau sujet ou une nouvelle question
+  * Pouvoir modifier le type d'un sujet/question
+  * Indiquer, lorsque c'est une question technique, que les posts sont classés par ordre de pertinence
   * CRON. Mettre en place le cron qui doit traiter les messages forum.
-
-* Affichage du profil
-  - deux cas :
-    1. Le visiteur est le possesseur du profil => édition complète
-    2. le visiteur n'est pas le possesseur => aperçu
-
-* [FORUM] Préciser les privilèges et les privilèges suivants en haut de page
+  * Préciser que les privilèges sont définis dans le profil (lien vers le profil)
 
 * [UNAN] Mettre en forme le bureau (panneau des données générales)
 

@@ -1,11 +1,12 @@
 <%= header %>
 <h2>Forum d’écriture</h2>
 
-<div>Bienvenue sur le forum d’écriture du site.</div>
+<%= Forum.invite_pour_user(user) %>
 <% 
 
-  # Les boutons qui permettent de consulter les autres sujets
-  Forum.add_boutons_sujets_next_previous(param(:from), 20)
+  # Définir les boutons qui permettent de consulter les autres sujets
+  # Ils sont ajoutés par la méthode Forum.boutons ci-dessous.
+  Forum.define_boutons_sujets_next_previous(param(:from), 20)
 
 %>
 <%= Forum.boutons(:top) %>

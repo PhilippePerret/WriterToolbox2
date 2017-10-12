@@ -109,6 +109,8 @@ class Forum
       params[:nombre] = params[:nombre].to_i
 
       #debug "params : #{params.inspect}"
+      
+      is_question_technique = data[:specs][1] == '2'
 
       # Début de la requête
       req = <<-SQL
@@ -159,10 +161,16 @@ class Forum
         offset = 1
       end
 
-      req += <<-SQL
-      ORDER BY p.created_at #{order}
-      LIMIT #{nombre_releve}
-      SQL
+      # Si c'est un sujet de type Question technique, il faut classer par
+      # cote les messages.
+      if is_question_technique
+        req += " ORDER BY v.vote DESC"
+        order = 'DESC'
+      else
+        req += " ORDER BY p.created_at #{order}"
+      end
+
+      req += " LIMIT #{nombre_releve}"
 
       offset && req << " OFFSET #{offset - 1}"
 

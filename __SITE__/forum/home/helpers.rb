@@ -2,9 +2,23 @@
 class Forum
   class << self
 
+    # Le message d'accueil pour l'user visitant la page
+    def invite_pour_user reader
+      defined?(User::GRADES) || require_lib('user:constants')
+      hgrade = ERB.new(User::GRADES[reader.grade][:hname]).result(reader.bind)
+      lien_profil = simple_link("user/profil/#{reader.id}", 'la page de votre profil', 'exergue')
+      <<-HTML
+      <div class="small">
+      <span>Bienvenue sur le forum d’écriture du site. </span>
+      <span>Votre grade est « #{hgrade} », vos privilèges sont détaillés sur #{lien_profil}.</span>
+      </div>
+      HTML
+    end
+
+
     # Ajoute les boutons pour voir les sujets précédents et
     # suivants
-    def add_boutons_sujets_next_previous from, nombre
+    def define_boutons_sujets_next_previous from, nombre
       from = from.to_i
       nombre = nombre.to_i
       bs = String.new

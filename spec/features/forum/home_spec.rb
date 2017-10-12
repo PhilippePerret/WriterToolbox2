@@ -46,8 +46,10 @@ feature "Forum d'écriture" do
   end
 
 
+
+
   scenario '=> un SIMPLE AUDITEUR trouve un accueil de forum avec les bons éléments' do
-    dauteur = create_new_user(mail_confirmed: true)
+    dauteur = get_data_random_user(mail_confirmed: true, admin: false)
 
     auteur = User.get(dauteur[:id])
     opts = auteur.get(:options)
@@ -62,6 +64,7 @@ feature "Forum d'écriture" do
     expect(page).to have_tag('section', with: {id: 'contents'}) do
       with_tag('h2', text: 'Forum d’écriture')
       with_tag('div', text: 'Bienvenue sur le forum d’écriture du site.')
+      with_tag('div', text: /vos privilèges sont détaillés sur la page de votre profil/)
       with_tag('fieldset', with: {id: 'last_messages'})
       without_tag('fieldset', with: {id: 'last_public_messages'})
       with_tag('div', with: {class: 'forum_boutons bottom'}) do
@@ -71,6 +74,8 @@ feature "Forum d'écriture" do
       end
     end
   end
+
+
 
 
   scenario '=> un AUTEUR CONFIRMÉ trouve un accueil de forum avec les bons éléments' do
@@ -87,6 +92,7 @@ feature "Forum d'écriture" do
     expect(page).to have_tag('section', with: {id: 'contents'}) do
       with_tag('h2', text: 'Forum d’écriture')
       with_tag('div', text: 'Bienvenue sur le forum d’écriture du site.')
+      with_tag('div', text: /vos privilèges sont détaillés sur la page de votre profil/)
       with_tag('fieldset', with: {id: 'last_messages'})
       with_tag('div', with: {class: 'forum_boutons bottom'}) do
         with_tag('a', with: {href: "forum/sujet/new"}, text: 'Nouveau sujet')
@@ -97,6 +103,11 @@ feature "Forum d'écriture" do
 
   end
 
+
+
+
+
+
   scenario '=> Un administrateur trouve un accueil de forum complet' do
     identify phil
 
@@ -105,6 +116,7 @@ feature "Forum d'écriture" do
 
     expect(page).to have_tag('section', with: {id: 'contents'}) do
       with_tag('h2', text: 'Forum d’écriture')
+      with_tag('div', text: /les privilèges de votre grade sont précisés dans votre profil/)
       with_tag('div', text: 'Bienvenue sur le forum d’écriture du site.')
       with_tag('fieldset', with: {id: 'last_messages'})
       with_tag('div', with: {class: 'forum_boutons bottom'}) do

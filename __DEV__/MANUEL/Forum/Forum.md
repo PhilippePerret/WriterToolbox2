@@ -8,7 +8,7 @@
 
   BIT   OFFSET      DESCRIPTION
   1     0           1= sujet validé, 0= sujet non validé
-  2     1           Type du sujet. Cf. « Sujets : type S »
+  2     1           Type S, type du sujet. Cf. « Sujets : type S »
   3-4   2-3         Sujet plus précis (à définir)
   5     4           1= il faut annoncer ce nouveau sujet
                     0= le sujet a été annoncé
