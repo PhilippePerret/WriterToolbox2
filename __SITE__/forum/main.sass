@@ -15,9 +15,14 @@ nav.nav_boutons, div.boutons, .buttons, .forum_boutons
     font-family   : Helvetica
     margin-left   : 1em
     font-variant  : small-caps
-    opacity       : 0.4
-    &:hover
-      opacity : 1
+    &:not(.exergue)
+      opacity       : 0.4
+      &:hover
+        opacity : 1
+    // Le bouton en exergue (nouveau sujet)
+    &.exergue
+      background-color : #FAEEDD
+      padding           : 4px 10px 3px
   // &.top
   //   margin-bottom   : 1em
   &.bottom

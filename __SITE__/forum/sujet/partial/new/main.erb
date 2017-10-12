@@ -1,11 +1,10 @@
 <%
-debug "-> #{__FILE__}"
 # Partiel pour créer un nouveau sujet
 
   require_form_support
 
 %>
-<h2><a href="forum/home">Forum</a> : <a href="forum/sujet/list">sujets</a></h2>
+<h2><a href="forum/home">Forum</a></h2>
 <h3>Nouveau sujet</h3>
 <% if user.identified? %>
   <form id="forum_sujet_form" action="forum/sujet/create" method="POST">
@@ -67,6 +66,6 @@ debug "-> #{__FILE__}"
 <% 
   else # Quand le visiteur n'est pas identifié
 %>
-  <p class="cadre air">Pour pouvoir poser une question ou initier un nouveau sujet, vous devez être inscrit(e) sur le site (<%= simple_link("user/signup", 'inscription gratuite', 'exergue') %>).</p>
+  <p class="cadre air">Houps !… Pour pouvoir poser une question ou initier un nouveau sujet sur le forum, vous devez être inscrit ou inscrite sur le site (<%= simple_link("user/signup", 'inscription gratuite', 'exergue') %>).</p>
 
 <% end  %>

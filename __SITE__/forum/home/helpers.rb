@@ -3,14 +3,15 @@ class Forum
   class << self
 
     # Le message d'accueil pour l'user visitant la page
+    # Note : utile seulement sur la page d'accueil du forum
     def invite_pour_user reader
       defined?(User::GRADES) || require_lib('user:constants')
       hgrade = ERB.new(User::GRADES[reader.grade][:hname]).result(reader.bind)
       lien_profil = simple_link("user/profil/#{reader.id}", 'la page de votre profil', 'exergue')
       <<-HTML
-      <div class="small">
-      <span>Bienvenue sur le forum d’écriture du site. </span>
-      <span>Votre grade est « #{hgrade} », vos privilèges sont détaillés sur #{lien_profil}.</span>
+      <div class="small cadre">
+      <div>Bienvenue sur le forum d’écriture du site.</div>
+      <div>Votre grade est « #{hgrade} », vos privilèges sont détaillés sur #{lien_profil}.</div>
       </div>
       HTML
     end

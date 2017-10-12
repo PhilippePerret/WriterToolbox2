@@ -1,7 +1,6 @@
 <%= header %>
 <h2>Forum d’écriture</h2>
 
-<%= Forum.invite_pour_user(user) %>
 <% 
 
   # Définir les boutons qui permettent de consulter les autres sujets
@@ -9,6 +8,8 @@
   Forum.define_boutons_sujets_next_previous(param(:from), 20)
 
 %>
+
+<%= Forum.invite_pour_user(user) %>
 <%= Forum.boutons(:top) %>
 
 <fieldset id="last_<%=user.grade < 1 ? 'public_' : ''%>messages">

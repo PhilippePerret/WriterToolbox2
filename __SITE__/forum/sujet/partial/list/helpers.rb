@@ -2,27 +2,6 @@
 debug "-> #{__FILE__}"
 
 class Forum
-  class << self
-
-
-    def boutons where
-      debug "User grade : #{user.grade.inspect}"
-      @boutons ||=
-        begin
-          bs = String.new
-          case true
-          when user.grade > 4
-            bs << simple_link('forum/sujet/new', 'Nouveau sujet/nouvelle question')
-          when user.grade > 0
-            bs << simple_link('forum/sujet/new', "Nouvelle question")
-          end
-          bs
-        end
-      return "<div class=\"forum_boutons #{where}\">#{@boutons}</div>"
-    end
-
-  end #/<< self Forum
-
   class Sujet
 
     MAX_SUJETS = 20

@@ -79,12 +79,9 @@ feature "Forum d'écriture" do
 
 
   scenario '=> un AUTEUR CONFIRMÉ trouve un accueil de forum avec les bons éléments' do
-    dauteur = create_new_user(mail_confirmed: true)
+    dauteur = get_data_random_user(mail_confirmed: true, admin: false, grade: 7)
     auteur = User.get(dauteur[:id])
-    opts = auteur.get(:options)
-    # On définit le niveau de l'auteur
-    opts[1] = '7' # ne peut pas clore un sujet
-    auteur.set(options: opts)
+
     identify dauteur
     within('section#header'){click_link('outils')}
     within('div#quick_access'){click_link('Forum d’écriture')}

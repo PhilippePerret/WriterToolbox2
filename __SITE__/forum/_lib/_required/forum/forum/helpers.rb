@@ -13,9 +13,23 @@ class Forum
     #
     def boutons where
       bs = String.new
-      if @__boutons
-        bs << @__boutons
+      
+      # Les boutons qu'on va trouver sur toutes les pages
+
+      bs << simple_link('forum/sujet/list', 'Liste des sujets')
+      case
+      when user.grade > 4
+        bs << simple_link('forum/sujet/new', 'Nouveau sujet/nouvelle question')
+      else
+        # Noter qu'on met toujours ce bouton, mais si l'auteur n'est pas identifié/inscrit
+        # on lui proposera de s'inscrire pour pouvoir poser sa question.
+        bs << simple_link('forum/sujet/new', "Nouvelle question", 'exergue')
       end
+
+      # Les boutons qui peuvent être ajoutés ponctuellement
+      # Par convention, ils se trouvent toujours à droite des autres
+
+      @__boutons && bs << @__boutons
       return "<div class=\"forum_boutons #{where}\">#{bs}</div>"
     end
 

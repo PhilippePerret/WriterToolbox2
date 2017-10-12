@@ -60,9 +60,7 @@ class Forum
     end
     def div_boutons_sujets
       bs = String.new
-      bs << simple_link('forum/sujet/list', 'Liste des sujets')
       bs << bouton_suscribe
-      bs << simple_link('forum/sujet/new', user.grade >= 5 ? 'Nouveau sujet' : 'Nouvelle question')
       user.grade >= 7 && bs << simple_link("forum/sujet/#{id}?op=validate", 'Valider ce sujet')
       user.grade >= 7 && bs << simple_link("forum/sujet/#{id}?op=clore", 'Clore ce sujet')
       user.grade >= 8 && bs << simple_link("forum/sujet/#{id}?op=kill", 'Détruire ce sujet')
