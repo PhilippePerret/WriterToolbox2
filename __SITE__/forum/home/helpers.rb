@@ -82,26 +82,28 @@ class Forum
       #                           prend que les sujets avec un grade minimum
       #                           de 4.
       def x_derniers_sujets from = 0, nombre = 20, options = nil
-        req  = 'SELECT s.titre, s.id, s.last_post_id, s.creator_id, s.created_at AS sujet_date'
-        req << ', s.count, s.specs, s.updated_at'
-        req << ', us.pseudo AS creator_pseudo'
-        req << ', p.created_at AS post_date, p.user_id AS auteur_id'
-        req << ', up.pseudo AS auteur_pseudo'
-        req << ' FROM sujets s'
-        req << ' INNER JOIN posts p'
-        req << '   ON s.last_post_id = p.id'
-        req << ' INNER JOIN `boite-a-outils_hot`.users us'
-        req << '   ON s.creator_id = us.id'
-        req << ' INNER JOIN `boite-a-outils_hot`.users up'
-        req << '   ON p.user_id = up.id'
+        request = <<-SQL
+SELECT s.titre, s.id, s.last_post_id, s.creator_id, s.created_at AS sujet_date
+  , s.count, s.specs, s.updated_at
+  , us.pseudo AS creator_pseudo
+  , p.created_at AS post_date, p.user_id AS auteur_id
+  , up.pseudo AS auteur_pseudo
+ FROM sujets s
+ INNER JOIN posts p ON s.last_post_id = p.id
+ INNER JOIN `boite-a-outils_hot`.users us ON s.creator_id = us.id
+ INNER JOIN `boite-a-outils_hot`.users up ON p.user_id = up.id
+ WHERE SUBSTRING(s.specs,1,1) = '1'
+        SQL
         if options && options[:grade]
-          req << " WHERE CAST(SUBSTRING(s.specs,6,1) AS UNSIGNED) <= #{options[:grade]}"
+          request << " AND CAST(SUBSTRING(s.specs,6,1) AS UNSIGNED) <= #{options[:grade]}"
         end
-        req << ' ORDER BY s.updated_at DESC'
-        req << " LIMIT #{from}, #{nombre};"
+        request += <<-SQL
+ ORDER BY s.updated_at DESC
+ LIMIT #{from}, #{nombre};
+        SQL
 
         site.db.use_database(:forum)
-        site.db.execute(req)
+        site.db.execute(request)
       end
     end #/self Sujet
   end #/Sujet

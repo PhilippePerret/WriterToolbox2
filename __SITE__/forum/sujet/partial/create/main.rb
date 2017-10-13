@@ -1,5 +1,4 @@
 # encoding: utf-8
-debug "-> #{__FILE__}"
 
 if user.grade < 1
   raise NotAccessibleViewError.new('Vous n’êtes pas autorisé à créer un sujet ou une question technique.')
@@ -29,9 +28,9 @@ class Forum
 
         hsujet.merge!(creator_id: creator.id, creator: creator)
 
-        hsujet = data_valides?(hsujet) || begin
-          redirect_to 'forum/post/new'
-        end
+        # En cas d'erreur de données, on redirige vers le formulaire
+        # de création du sujet.
+        hsujet = data_valides?(hsujet) || redirect_to('forum/sujet/new')
 
         # Création du sujet
 
@@ -39,11 +38,23 @@ class Forum
 
         # Création du premier message
 
-        require './__SITE__/forum/_lib/_not_required/module/create_post'
+        require_lib('forum:create_post')
         new_post_id = Forum::Post.create creator, new_sujet_id, {content: hsujet[:first_post]}
 
-        # Pour terminer, on doit régler la valeur du dernier post du sjet
+        # Si le sujet doit être validé, il faut envoyer un message à
+        # l'administration pour le premier message
+        if creator.grade < 7
+          Forum::Post.new(new_post_id).notify_admin_post_require_validation new_sujet = true
+        end
+
+        # Pour terminer, on doit régler la valeur du dernier post du sujet
         # en mettant son premier
+        # 
+        # Noter que ça ne pose pas de problème de validation puisque le sujet
+        # doit de toute façon être validé pour apparaitre.
+        # Noter également que c'est la validation du premier post qui
+        # provoquera aussi la validation (ou non) du premier sujet.
+        #
         site.db.update(:forum,'sujets',{last_post_id: new_post_id},{id: new_sujet_id})
 
         return new_sujet_id
@@ -63,8 +74,8 @@ class Forum
           titre: hsujet[:titre],
           creator_id: hsujet[:creator_id],
           specs: specs,
-          last_post_id: nil,
-          count: 0,
+          last_post_id: nil, # sera réglé plus tard
+          count: 1, # Il y a toujours un premier message créé
           views: 0
         }
       end
@@ -80,10 +91,10 @@ class Forum
         type_s = hsujet[:type_s].to_i
         grade  = hsujet[:creator].grade
         bon = grade > 0
-        bon || raise("Votre grade ne vous permet que de lire les messages publics, désolé.")
-        bon = type_s > 1 && grade >= 5
-        bon || raise("Vous n'avez pas le grade suffisant pour créer autre chose qu'une question.")
-        hsujet[:titre] != nil       || raise("Le titre du sujet est absolument requis.")
+        bon || raise("Votre grade ne vous permet que créer un sujet ou une question, désolé.")
+        bon = type_s == 2 || grade >= 5
+        bon || raise("Vous n'avez pas le grade suffisant pour créer autre chose qu'une question technique.")
+        hsujet[:titre] != nil       || raise("Le titre du sujet ou la question sont absolument requis.")
         return hsujet
       rescue Exception => e
         debug e

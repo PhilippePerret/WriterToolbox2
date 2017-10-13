@@ -26,6 +26,7 @@ class Forum
           opts[3] = '1'
           site.db.update(:forum,'posts',{options: opts},{id: self.id})
         end
+        require_lib('forum:mails')
         Forum.message_to_admins({
           subject: "Message forum modifié à valider",
           formated: true,

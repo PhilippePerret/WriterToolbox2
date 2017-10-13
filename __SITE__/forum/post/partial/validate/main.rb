@@ -18,21 +18,25 @@ class Forum
     #                               valider un seul message.
     def validate options = nil
       options ||= Hash.new
-      # debug "-> Validation du message"
+      
       # On indique que c'est le tout dernier message du sujet
-      site.db.update(
-        :forum,
-        'sujets',
-        {last_post_id: self.id},
-        {id:sujet_id}
-      )
+      # Si le sujet n'était pas encore validé, la validation
+      # de ce premier message validera automatiquement le sujet.
+      # On met le résultat dans @validation_sujet car ce sont les
+      # autres méthodes qui auront besoin de cette valeur, et notamment
+      # la validation par l'administrateur.
+      new_data_sujet = {last_post_id: self.if}
+      sujet_specs = site.db.select(:forum,'sujets',{id:sujet_id},[:specs]).first[:specs]
+      @validation_sujet = sujet_specs[0] == '0'
+      @validation_sujet && 
+        begin
+          sujet_specs[0] = '1'
+          new_data_sujet.merge!(specs: sujet_specs)
+        end
+      site.db.update(:forum,'sujets',new_data_sujet,{id:sujet_id})
 
       # Pour rafraichir les données
       @data = @data_mini = nil
-
-      # Pour voir les données
-      # debug "data post ##{id} : #{data.inspect}"
-      # debug "data mini post ##{id} : #{data_mini.inspect}"
 
       # Si c'est une réponse (parent_id défini), on avertit l'auteur du
       # message parent qu'il y a une réponse
@@ -79,14 +83,22 @@ class Forum
       # Opérations normales de validation, comme le réglage du dernier
       # post du sujet, du dernier post de l'user, du mail envoyé au l'auteur
       # original du message, etc.
+      # La méthode va également s'occuper de valider le sujet, si c'est le
+      # premier message.
 
       self.validate(redirection: false)
 
-      # Envoi du mail pour avertir l'auteur du post que son post a
+      # Envoi du mail pour avertir l'auteur du post que son post ou son sujet a
       # été validé.
-
+      # Note : on sait que c'est un sujet validé (par son post) lorsque l'on
+      # passe par la méthode `validate`. Elle met la propriété @validation_sujet
+      # à true
+      ajout_validation = 
+        if @validation_sujet
+          "<p>Ce premier message validé valide du même coup votre sujet.</p>"
+        else '' end
       self.auteur.send_mail({
-        subject: "Validation de votre message sur le forum",
+        subject: "Validation de votre #{@validation_sujet ? "sujet" : "message"}sur le forum",
         formated: true,
         message: <<-HTML
         <p>Bonjour #{auteur.pseudo},</p>

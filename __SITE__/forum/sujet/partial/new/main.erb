@@ -3,6 +3,7 @@
 
   require_form_support
 
+grade_pour_sujet = user.identified? && user.grade > 4
 
 # Le lien indicatif
 # Note : on le met dans une variable pour qu'il n'apparaisse qu'une seule fois
@@ -14,19 +15,15 @@ HTML
 %>
 <h2><a href="forum/home">Forum</a></h2>
 <%= cliquer_sur_titre %>
-<h3>Nouveau sujet</h3>
+<h3><%= grade_pour_sujet ? 'Nouveau sujet' : 'Nouvelle question' %></h3>
 <% if user.identified? %>
   <form id="forum_sujet_form" action="forum/sujet/create" method="POST">
-    <div>
-      <%
-          titre =
-          case true
-      when user.grade < 5 then "Poser une question"
-      else "Titre de sujet ou question technique"
-      end
 
-    %>
-  <label for="sujet_titre"><%= titre %></label>
+
+    <div>
+      <label for="sujet_titre"><%= 
+        grade_pour_sujet ? "Titre de sujet ou question technique" : "Poser une question"
+      %></label>
   <span class="field">
     <input type="text" name="sujet[titre]" id="sujet_titre" value="" />
   </span>
@@ -41,8 +38,12 @@ HTML
   </div>
     </div>
 
+
+
     <div>
-      <label for="sujet_first_post">Premier message</label>
+      <label for="sujet_first_post"><%= 
+        grade_pour_sujet ? 'Premier message' : 'Merci de préciser votre question'
+      %></label>
       <span class="field">
         <textarea name="sujet[first_post]" id="sujet_first_post" rows="4"></textarea>
       </span>
@@ -50,23 +51,22 @@ HTML
         Merci de préciser votre question ou votre sujet en composant le premier message qui sera affiché.
       </div>
     </div>
-    <%
-        # Si le grade de l'utilisateur est au moins de 5, il peut définir le
-      # type s de son sujet.
-      if user.grade > 4
+    <% ### TYPE S ###
+      if grade_pour_sujet
     %>
-  <div>
-    <label for="sujet_type_s">Type du sujet</label>
-    <span class="field">
-      <%= Form.build_select(id: 'sujet_type_s', name: 'sujet[type_s]', values: Forum::Sujet::TYPES_S) %>
-    </span>
-  </div>
+      <div>
+        <label for="sujet_type_s">Type du sujet</label>
+        <span class="field">
+          <%= Form.build_select(id: 'sujet_type_s', name: 'sujet[type_s]', values: Forum::Sujet::TYPES_S) %>
+        </span>
+      </div>
 
-<% else %>
-  <input type="hidden" name="sujet[type_s]" id="sujet_type_s" value="1" />
-<% end %>
-<div class="buttons">
-    <input type="submit" class="main btn" value="Créer" />
+    <% else %>
+      <input type="hidden" name="sujet[type_s]" id="sujet_type_s" value="2" />
+    <% end %>
+  <div class="buttons">
+    <% bouton_submit = grade_pour_sujet ? 'Initier ce sujet' : 'Poser cette question' %>
+    <input type="submit" class="main btn" value="<%= bouton_submit %>" />
   </div>
 </form>
 

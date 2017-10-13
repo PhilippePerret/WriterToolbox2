@@ -70,9 +70,13 @@ class User
       priv = GRADES[igrade][:privilege_forum]
       priv.start_with?('!!!') || a << "#{priv},"
     end
-    priv = GRADES[self.grade][:privilege_forum]
-    priv.start_with?('!!!') && priv = priv[3..-1]
-    a << "#{priv}."
+    # :privilege_forum peut être soit un String soit un Array
+    privs = GRADES[self.grade][:privilege_forum]
+    privs.is_a?(Array) || privs = [privs]
+    privs.each do |priv|
+      priv.start_with?('!!!') && priv = priv[3..-1]
+      a << "#{priv}."
+    end
     # On met les privilèges en forme dans une liste
     privs = a.collect{|priv| "<li>#{priv}</li>"}.join('')
     privs = <<-HTML

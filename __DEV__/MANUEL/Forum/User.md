@@ -22,7 +22,7 @@ GRADES = {
   # Si la description commence par "!!!", elle ne sera ajoutée que pour
   # ce grade.
   0 => {hname:'Padawan de l’écriture',                  privilege_forum:'!!!lire les messages publics'},
-  1 => {hname:'Simple audit<%= user.f_rice %>',         privilege_forum:'lire tous les messages'},
+  1 => {hname:'Simple audit<%= user.f_rice %>',         privilege_forum:['lire tous les messages', 'poser une question technique']},
   2 => {hname:'Audit<%= user.f_rice %> patient<%= user.f_e %>',        privilege_forum:'voter pour les messages'},
   3 => {hname:'Apprenti<%= user.f_e %> surveillé<%= user.f_e %>',     privilege_forum:'!!!écrire des réponses qui seront modérées'},
   4 => {hname:'Simple rédact<%= user.f_rice %>',        privilege_forum:'répondre librement aux messages'},

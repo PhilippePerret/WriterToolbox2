@@ -10,8 +10,8 @@ class Forum
 
       # Créer le post
       #
-      # @param {User} auteur
-      #               L'auteur du message.
+      # @param {User}   auteur
+      #                 L'auteur du message.
       # @param {Fixnum} sujet_id
       #                 ID du sujet auquel appartient le message
       # @param {Hash}   pdata
@@ -59,5 +59,40 @@ class Forum
       end
 
     end #/<< self
+
+
+
+    # Méthode pour notifier les administrateurs que ce nouveau message
+    # est à valider.
+    # Utilisé pour la création d'un message par un utilisateur ayant un
+    # grade inférieur ou un sujet créé.
+    def notify_admin_post_require_validation for_new_sujet = false
+      debug "for_new_sujet = #{for_new_sujet.inspect}"
+      require_lib('forum:mails')
+      subject = for_new_sujet ? 'Sujet forum à valider' : 'Message forum à valider'
+      ajout_nouveau_sujet = 
+        if for_new_sujet
+          '<p>Ce post validera par la même occasion le sujet dont il est le premier post.</p>'
+        else
+          ''
+        end
+      lien = "<a href=\"http://#{site.configuration.url_online}/forum/post/#{self.id}?op=v\">valider le message</a>"
+      message_template = <<-HTML
+        <p>Cher administrat<%=f_rice%>,</p>
+        <p>Un nouveau message est à valider sur le forum.</p>
+        <p>Vous pouvez le valider à l'aide du lien ci-dessus :</p>
+        <p>#{lien}</p>
+        #{ajout_nouveau_sujet}
+        <p>Information sur le message :</p>
+        <p>Message ##{self.id} de #{self.auteur.pseudo} (##{self.auteur.id})</p>
+        <p>Merci à vous.</p>
+        HTML
+      data_mail = {
+        subject: subject,
+        formated: true,
+        message: message_template
+      }
+      Forum.message_to_admins( data_mail )
+    end
   end #/Post
 end #/Forum

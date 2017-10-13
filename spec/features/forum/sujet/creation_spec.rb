@@ -7,6 +7,7 @@
 require_support_integration
 require_support_db_for_test
 require_support_forum
+require_support_mail_for_test
 
 feature "Création de sujet/question technique" do
 
@@ -34,7 +35,9 @@ feature "Création de sujet/question technique" do
   end
 
   scenario 'un visiteur inscrit peut créer une question technique' do
-    dauteur = create_new_user(mail_confirmed: true)
+    start_time = Time.now.to_i
+
+    dauteur = get_data_random_user(mail_confirmed: true, admin: false, grade: 1)
     identify dauteur
     visit forum_page
     expect(page).to have_tag('h2', text: 'Forum d’écriture')
@@ -43,9 +46,77 @@ feature "Création de sujet/question technique" do
     expect(page).to have_tag('a', with: {href: 'forum/sujet/new'}, text: 'Nouvelle question')
     expect(page).not_to have_link 'Nouveau sujet/nouvelle question'
     success 'Il trouve le lien « Nouveau question » mais pas le lien « Nouveau sujet »'
+
+    click_link 'Nouvelle question'
+    expect(page).to have_tag('h3', 'Nouvelle question')
+    expect(page).to have_tag('form#forum_sujet_form') do
+      with_tag('input', with: {type:'text', id:'sujet_titre', name:'sujet[titre]'})
+      with_tag('textarea', with: {id:'sujet_first_post', name:'sujet[first_post]'})
+      with_tag('label', with:{for: 'sujet_first_post'}, text: 'Merci de préciser votre question')
+      with_tag('input', with: {type:'submit', value:'Poser cette question'})
+      # Pas de menu pour choisir le type du sujet
+      without_tag('select', with:{name:'sujet[type_s]', id: 'sujet_type_s'})
+    end
+    success 'il trouve un formulaire conforme pour poser sa question'
+
+    within('form#forum_sujet_form') do
+      fill_in('sujet_titre', with: "La question de #{dauteur[:pseudo]} du #{Time.now}")
+      fill_in('sujet_first_post', with: "Explication de la question de #{dauteur[:pseudo]} du #{Time.now}.")
+      click_button 'Poser cette question'
+    end
+    success 'il remplit correctement le formulaire et le soumet'
+
+    expect(page).to have_tag('h2', text: /Forum - sujets/)
+    expect(page).to have_content('Merci à vous pour votre participation')
+    expect(page).to have_content('La nouvelle question technique est créée')
+    expect(page).to have_content('cette question doit être validée')
+    expect(page).to have_link('liste des sujets')
+    success 'il arrive sur une page de confirmation valide'
+
+    # On récupère le dernier sujet et le dernier message pour vérifier
+    hlast_sujet = site.db.select(:forum,'sujets',"created_at > #{start_time}").first
+    expect(hlast_sujet).not_to eq nil
+    last_sujet_id = hlast_sujet[:id]
+    hlast_post = site.db.select(:forum,'posts',"created_at > #{start_time} LIMIT 1").first
+    last_post_id = hlast_post[:id]
+
+    expect(hlast_sujet[:titre]).to include "La question de #{dauteur[:pseudo]}"
+    expect(hlast_sujet[:creator_id]).to eq dauteur[:id]
+    expect(hlast_sujet[:specs][0]).to eq '0'
+    expect(hlast_sujet[:last_post_id]).to eq last_post_id
+    expect(hlast_sujet[:count]).to eq 1
+
+    expect(hlast_post[:options][0..3]).to eq '0000'
+    expect(hlast_post[:sujet_id]).to eq last_sujet_id
+    expect(hlast_post[:user_id]).to eq dauteur[:id]
+    success 'la question a été correctement enregistrée, marquée « à valider »'
+
+    data_mail = {
+      sent_after: start_time,
+      subject: 'Sujet forum à valider',
+    }
+    [phil,marion].each do |admin|
+      expect(admin).to have_mail(data_mail)
+    end
+    success 'les administrateurs ont reçu une demande de validation'
+
+    # Il rejoint l'accueil du Forum
+    click_link 'Forum'
+    expect(page).to have_tag('h2', text: /Forum/)
+    expect(page).to have_tag('fieldset#last_messages')do
+      without_tag('div', with:{class: 'sujet', id: "sujet-#{last_sujet_id}"})
+    end
+    success 'l’auteur est retourné à l’accueil du forum et ne trouve pas encore sa question)'
+
   end
 
   scenario 'un rédacteur (grade 5) peut créer un sujet quelconque non confirmé' do
+
+
+    # TODO : NORMALEMENT, SON PREMIER POST DOIT ÊTRE AUTOMATIQUEMENT VALIDÉ, MAIS
+    # COMME SON GRADE EST INFÉRIEUR À 7, CE POST DOIT ÊTRE QUAND MÊME VALIDÉ, MÊME
+    # S'IL A LE GRADE SUFFISANT POUR DÉPOSER DES POSTS NON VALIDÉS
+
     start_time = Time.now.to_i
     dauteur = create_new_user(mail_confirmed: true, grade: 5)
     identify dauteur
@@ -70,23 +141,25 @@ feature "Création de sujet/question technique" do
     # ============ VÉRIFICATION ===============
     expect(page).to have_tag('h2', text: 'Forum : sujets')
 
-    hsujet = site.db.select(:forum, 'sujets',"created_at > #{start_time}").first
+    hsujet = site.db.select(:forum,'sujets',"created_at > #{start_time}").first
     sid = hsujet[:id]
+    hpost  = site.db.select(:forum,'posts',"created_at > #{start_time}").first
+    last_post_id = hpost[:id]
+
     expect(hsujet).not_to eq nil
     expect(hsujet[:titre]).to eq titre_new_sujet
     specs = hsujet[:specs]
     expect(specs[0]).to eq '0'
     expect(specs[1]).to eq '9'
     expect(specs[4]).to eq '0' # pas d'annonce pour un sujet qui doit être validé
+    expect(hsujet[:count]).to eq 1
+    expect(hsujet[:last_post_id]).to eq last_post_id
     success 'Le nouveau sujet a été créé dans la base de donnée Forum avec les données correctes.'
 
     expect(page).to have_content("Le nouveau sujet est créé")
     expect(page).to have_content('doit être validé')
-    expect(page).to have_tag('a', with:{href: "forum/post/new?sid=#{sid}"})
-    expect(page).to have_tag('div', with: { class: 'forum_boutons'}) do
-      with_tag('a', with: {href: 'forum/sujet/list'}, text: 'Liste des sujets')
-    end
-    success 'l’auteur arrive sur une page valide confirmant la création'
+    expect(page).to have_tag('a', with: {href: 'forum/sujet/list'}, text: 'liste des sujets')
+    success 'l’auteur arrive sur une page valide confirmant la création du sujet'
 
     within('div.forum_boutons.top'){ click_link 'Liste des sujets'}
     expect(page).to have_tag('h2', text: 'Forum : sujets')
@@ -94,6 +167,16 @@ feature "Création de sujet/question technique" do
       without_tag('div', with: {class: 'sujet', id: "sujet-#{sid}"})
     end
     success 'l’auteur peut rejoindre la liste des sujets mais ne verra pas encore son nouveau sujet'
+
+    data_mail = {
+      sent_after: start_time,
+      subject: 'Sujet forum à valider',
+    }
+    [phil,marion].each do |admin|
+      expect(admin).to have_mail(data_mail)
+    end
+    success 'les administrateurs ont reçu une demande de validation'
+
   end
 
   scenario 'un rédacteur confirmé (8) peut créer un sujet quelconque directement confirmé' do

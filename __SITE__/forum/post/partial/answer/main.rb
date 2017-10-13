@@ -1,5 +1,4 @@
 # encoding: utf-8
-# debug "-> #{__FILE__}"
 class Forum
   class Post
 
@@ -17,10 +16,27 @@ class Forum
       end
 
       # La réponse doit-elle être validée ?
-      validation_requise = auteur_reponse.grade < 4
+      #
+      # Il peut y avoir deux raisons pour lesquelles le post doit être
+      # validé. D'abord, si l'auteur a un grade inférieur à 4, ses messages sont
+      # systématiquement validés.
+      # Ensuite, une validation est requise lorsque l'auteur a un grade entre 4 et 6
+      # et que le sujet pour lequel il écrit n'est pas validé (il s'agit alors du
+      # premier message de ce sujet, et la validation du premier message doit aussi
+      # valider le sujet
+      #
+      validation_requise = 
+        if auteur_reponse.grade < 4
+          true
+        elsif auteur_reponse.grade < 7
+          !sujet_is_validated?
+        else
+          false
+        end
 
 
-      require './__SITE__/forum/_lib/_not_required/module/create_post'
+
+      require_lib('forum:create_post')
       pdata = {
         parent_id: self.id,
         content:   answer   # non formaté (le sera dans la méthode create ci-dessous)
@@ -59,39 +75,25 @@ class Forum
         # Le message a besoin d'être validé, on s'arrête là en en informant
         # l'auteur.
         # Avertir les administrateurs de la validation nécessaire
-        new_post.notify_admin_post_require_validation
-        __notice("Votre réponse a été enregistrée, elle devra être validée avant d’être publiée.")
-        # Il faut donner à l'utilisateur un lien pour retourner au sujet
-        lien = simple_link("forum/sujet/#{self.sujet_id}?from=-1", 'Retourner au sujet')
-        @OUTPUT = "<div class=\"center\"><span class=\"cadre\">#{lien}</span></div>"
+        new_post.notify_admin_post_require_validation(!sujet_is_validated?)
+
+        if sujet_is_validated?
+          __notice("Votre réponse a été enregistrée, elle devra être validée avant d’être publiée.")
+          # Il faut donner à l'utilisateur un lien pour retourner au sujet
+          lien = simple_link("forum/sujet/#{self.sujet_id}?from=-1", 'Retourner au sujet')
+          @OUTPUT = "<div class=\"center\"><span class=\"cadre\">#{lien}</span></div>"
+        else
+          # Quand le sujet n'est pas validé, c'est qu'il s'agit du premier
+          # message. Il y est donc inutile de donner un message à l'auteur
+          # du message (et du sujet) puisque c'est surtout son sujet qu'on
+          # traite.
+        end
       else
         # Si la validation n'est pas requise, on valide immédiatement le
         # message.
         require_relative '../validate/main.rb'
         new_post.validate
       end
-    end
-
-
-    # Méthode pour notifier les administrateurs que ce nouveau message
-    # est à valider.
-    def notify_admin_post_require_validation
-      lien = "<a href=\"http://#{site.configuration.url_online}/forum/post/#{self.id}?op=v\">valider le message</a>"
-      message_template = <<-HTML
-        <p>Cher administrat<%=f_rice%>,</p>
-        <p>Un nouveau message est à valider sur le forum.</p>
-        <p>Vous pouvez le valider à l'aide du lien ci-dessus :</p>
-        <p>#{lien}</p>
-        <p>Information sur le message :</p>
-        <p>Message ##{self.id} de #{self.auteur.pseudo} (##{self.auteur.id})</p>
-        <p>Merci à vous.</p>
-        HTML
-      data_mail = {
-        subject: "Message forum à valider",
-        formated: true,
-        message: message_template
-      }
-      Forum.message_to_admins( data_mail )
     end
 
     def output_post_operation
@@ -136,6 +138,15 @@ class Forum
     # validation ou autre.
     def auteur_reponse
       @auteur_reponse ||= User.get(data_param[:auteur_reponse_id])
+    end
+
+
+    # Retourne true si le sujet du post n'est pas encore validé
+    def sujet_is_validated?
+      @isfpofs.nil? && '1' == site.db.select(
+          :forum,'sujets',{id:sujet_id},[:specs]
+        )[0][:specs][0]
+      @isfpofs
     end
 
 

@@ -1,6 +1,19 @@
+Validation du sujet dans le forum
+
+grade < 5 => Seulement une question (validée)
+grade 5 et 6 => Sujet à valider
+grade 7 et au-delà => Sujet sans validation
+
+grade 4 et au-delà => Messages non validés
+
+=> Donc problème pour 4, 5 et 6 où le sujet sera validé par le premier post
+   qui n'a pas besoin de validation
+   => Si le grade est >= 4 et <= 6, et que le sujet n'est pas validé
+      il faut demander la validation du message, qui validera aussi le sujet
+
 * [FORUM]
-  * [BUG] Voir pourquoi, lorsque l'on est administrateur, il n'y a pas les
-    boutons pour créer un nouveau sujet ou une nouvelle question
+  * Régler le fait qu'on progresse dans les grades par rapport aux messages validés.
+  * Implémentation testée de la destruction d'un sujet
   * Pouvoir modifier le type d'un sujet/question
   * Indiquer, lorsque c'est une question technique, que les posts sont classés par ordre de pertinence
   * CRON. Mettre en place le cron qui doit traiter les messages forum.
