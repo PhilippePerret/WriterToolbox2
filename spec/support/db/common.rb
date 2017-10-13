@@ -273,6 +273,21 @@ def backup_all_data_si_necessaire
     end
     command = "mkdir -p ~/xbackups;cd ~/xbackups;mysqldump -u root -p#{db_data_offline[:password]} --databases #{dbs.join(' ')} > #{backup_all_data_filename}"
     `#{command}`
+
+    # Il faut ajouter une commande pour détruire la dabase users_tables pour que
+    # toutes les tables soient détruites, sauf les trois premières qui seront
+    # reconstruites avec les données minimales
+    c = File.read(backup_all_data_filepath)
+    balise = <<-TXT
+-- Current Database: `boite-a-outils_users_tables`
+--
+    TXT
+    offset = c.index(balise) + balise.length - 1
+    File.open(backup_all_data_filepath,'wb'){|f|
+      f.write c[0..offset]
+      f.write "\nDROP DATABASE `boite-a-outils_users_tables`;"
+      f.write "\n#{c[offset..-1]}"
+    }
     puts "= Backup complet des données exécuté dans #{backup_all_data_filepath} ="
     # puts "= Commande : #{command}" # ATTENTION : elle affiche le mot de passe
   end

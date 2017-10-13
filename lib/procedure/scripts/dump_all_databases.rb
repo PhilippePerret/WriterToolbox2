@@ -3,7 +3,7 @@
   L'idée de ce script est de faire un dump de toutes les bases de données de
   la boite à outils
 =end
-__notice('Pour le moment, passer par un test pour sauvegarder tout.')
+__notice('Lancer le fichier test ./spec/unit/___all_db_save___.rb')
 #
 #
 # # return {Hash} Les données de connextion à MySQl en local
