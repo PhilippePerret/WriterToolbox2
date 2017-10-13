@@ -61,6 +61,25 @@ class Forum
     end #/<< self
 
 
+    # Méthode d'instance pour notifier les administrateurs de
+    # la création du nouveau sujet d'identifiant +sujet_id+ par
+    # l'user +creator+ dont le post courant est le premier message
+    def notify_admin_new_sujet creator, sujet_id
+      require_lib('forum:mails')
+      isujet = Forum::Sujet.new(sujet_id)
+      message_template = <<-HTML
+        <p>Ch<%=f_ere%> administrat<%=f_rice%>,</p>
+        <p>Nouveau sujet créé sur le forum par l’utilisateur #{simple_link(creator.route(:online), creator.pseudo)} :</p>
+        <p class="center">#{simple_link(isujet.route(true), isujet.data[:titre])}</p>
+        <p>Note : ce sujet ne nécessite pas de validation.</p>
+      HTML
+      data_mail = {
+        subject: 'Création d’un nouveau sujet',
+        formated: true,
+        message: message_template
+      }
+      Forum.message_to_admins(data_mail)
+    end
 
     # Méthode pour notifier les administrateurs que ce nouveau message
     # est à valider.

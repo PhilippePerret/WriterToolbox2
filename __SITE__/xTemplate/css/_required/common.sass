@@ -36,10 +36,16 @@ div#flash
   &:not(.air)
     padding       : 1em
     margin        : 1em
-  &.air
+
+.air
+  &:not(.big)
+  padding         : 1.75em
+  margin          : 1.75em
+  border-radius   : 1.75em
+  &.big
     padding       : 3em
     margin        : 3em
-
+    border-radius : 2em
 
 // Un livre, un film, etc.
 span.oeuvre

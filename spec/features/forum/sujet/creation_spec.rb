@@ -88,7 +88,7 @@ feature "Création de sujet/question technique" do
     end
     success 'il remplit correctement le formulaire et le soumet'
 
-    expect(page).to have_tag('h2', text: /Forum - sujets/)
+    expect(page).to have_tag('h2', text: /Forum/)
     expect(page).to have_content('Merci à vous pour votre participation')
     expect(page).to have_content('La nouvelle question technique est créée')
     expect(page).to have_content('cette question doit être validée')
@@ -183,7 +183,7 @@ feature "Création de sujet/question technique" do
 
 
     # ============ VÉRIFICATION ===============
-    expect(page).to have_tag('h2', text: 'Forum - sujets')
+    expect(page).to have_tag('h2', text: /Forum/)
 
     hsujet = site.db.select(:forum,'sujets',"created_at > #{start_time}").first
     sid = hsujet[:id]
@@ -247,31 +247,37 @@ feature "Création de sujet/question technique" do
 
   scenario 'un rédacteur confirmé (8) peut créer un sujet quelconque directement confirmé' do
     start_time = Time.now.to_i
-    dauteur = create_new_user(mail_confirmed: true, grade: 8)
+    dauteur = get_data_random_user(mail_confirmed: true, grade: 8, admin: false)
+    auteur_id = dauteur[:id]
+
     identify dauteur
     visit forum_page
     expect(page).to have_tag('h2', text: 'Forum d’écriture')
     within('div.forum_boutons.top'){click_link 'Liste des sujets'}
     expect(page).to have_tag('h2', text: 'Forum : sujets')
     expect(page).to have_tag('a', with:{href: 'forum/sujet/new'}, text: 'Nouveau sujet/nouvelle question')
-    success 'Il trouve de lien « Nouveau sujet/nouvelle question »'
+    success 'Il trouve le lien « Nouveau sujet/nouvelle question »'
 
     within('div.forum_boutons.top'){click_link 'Nouveau sujet/nouvelle question'}
     expect(page).to have_tag('h3', text: 'Nouveau sujet')
-    titre_new_sujet = "Un nouveau sujet par #{dauteur[:pseudo]}"
+    titre_new_sujet = "Un nouveau sujet par #{dauteur[:pseudo]} le #{Time.now.to_i.as_human_date}"
+    new_sujet_first_post = "Premier message pour #{titre_new_sujet}"
     within('form#forum_sujet_form') do
       fill_in(:sujet_titre, with: titre_new_sujet)
+      fill_in(:sujet_first_post, with: new_sujet_first_post)
       select('Question technique d’écriture', from: 'sujet_type_s')
-      click_button 'Créer'
+      click_button 'Initier ce sujet'
     end
-    success "#{dauteur[:pseudo]} peut remplir le formulaire et le soumettre avec un sujet d'un autre type"
+    success "#{dauteur[:pseudo]} peut remplir le formulaire et le soumettre avec un sujet de type Question"
 
 
     # ============ VÉRIFICATION ===============
-    expect(page).to have_tag('h2', text: 'Forum : sujets')
+    expect(page).to have_tag('h2', text: /Forum/)
 
-    hsujet = site.db.select(:forum, 'sujets',"created_at > #{start_time}").first
+    hsujet = site.db.select(:forum, 'sujets',"created_at > #{start_time} AND creator_id = #{auteur_id}").first
     sid = hsujet[:id]
+    hpost = site.db.select(:forum,'posts',{user_id: auteur_id, sujet_id: sid}).first
+
     expect(hsujet).not_to eq nil
     expect(hsujet[:titre]).to eq titre_new_sujet
     expect(hsujet[:creator_id]).to eq dauteur[:id]
@@ -281,30 +287,63 @@ feature "Création de sujet/question technique" do
     expect(specs[4]).to eq '1' # pas d'annonce pour un sujet qui doit être validé
     success 'Le nouveau sujet a été créé dans la base de donnée Forum avec les données correctes.'
 
-    expect(page).to have_content("Le nouveau sujet est créé")
+    expect(hpost).not_to eq nil # le premier post doit exister
+    expect(hpost[:options][0]).to eq '1'
+    success 'le premier post existe lui aussi, validé'
+
+    # sleep 60
+    expect(page).to have_content("La nouvelle question technique est créée")
     expect(page).not_to have_content('doit être validé')
-    expect(page).to have_tag('a', with:{href: "forum/post/new?sid=#{sid}"})
+    expect(page).to have_tag('a', with:{href: "forum/sujet/list?sid=#{sid}"}, text: 'la liste des sujets')
     expect(page).to have_tag('div', with: { class: 'forum_boutons'}) do
       with_tag('a', with: {href: 'forum/sujet/list'}, text: 'Liste des sujets')
     end
     success 'l’auteur arrive sur une page valide confirmant la création'
 
-    within('div.forum_boutons.top'){ click_link 'Liste des sujets'}
-    expect(page).to have_tag('h2', text: 'Forum : sujets')
-    # page.execute_script('__notice("Vous pouvez vérifier la présence du sujet #'+sid.to_s+'")')
-    # sleep 5 * 60
-    expect(page).to have_tag('fieldset', with: {id: 'forum_sujet_list'}) do
-      with_tag('div', with: {class: 'sujet', id: "sujet-#{sid}"}) do
-        with_tag('a', with:{ href: "forum/sujet/#{sid}"}, text: hsujet[:titre])
-        with_tag('span', with:{class: 'messages_count', id: "messages_count-#{sid}"})
-        with_tag('span', with:{class: 'last_message_date', id:"last_message_date-#{sid}"})
-        with_tag('span', with: {class: 'created_at'}, text: Time.at(hsujet[:created_at]).strftime('%d %m %Y - %H:%M'))
-        with_tag('span', with: {class: 'creator'}, text: dauteur[:pseudo])
+    # Il rejoint l'accueil du Forum
+    click_link 'Forum'
+    # sleep 5*60
+    expect(page).to have_tag('h2', text: /Forum/)
+    expect(page).to have_tag('fieldset#last_messages')do
+      with_tag('div', with:{class: 'sujet', id: "sujet-#{sid}"}) do
+        with_tag('span', with:{ class: 'posts_count'}, text: '1')
+        with_tag('span', with:{class: 'sujet_creator'}) do
+          with_tag('a', with: {href: "user/profil/#{auteur_id}"}, text: dauteur[:pseudo])
+        end
       end
     end
-    success 'l’auteur peut rejoindre la liste des sujets et verra son nouveau sujet'
+    success 'l’auteur peut rejoindre l’accueil et verra son nouveau sujet, conforme'
+
+    message_init = ["forum/sujet/#{sid}?from=1", "user/profil/#{auteur_id}"]
+    data_mail = {
+      sent_after: start_time,
+      subject:    'Création d’un nouveau sujet',
+      message:    nil
+    }
+    data_mail[:message] = (message_init + ['Chère administratrice'])
+    expect(marion).to have_mail(data_mail)
+    data_mail[:message] = (message_init + ['Cher administrateur'])
+    expect(phil).to have_mail(data_mail)
+
+
+    success 'Un simple mail d’annonce a été envoyé à l’administration, avec l’adresse vers le sujet'
 
   end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   scenario 'une administratrice (Marion) peut créer un sujet quelconque directement confirmé' do
     start_time = Time.now.to_i
@@ -323,7 +362,7 @@ feature "Création de sujet/question technique" do
     within('form#forum_sujet_form') do
       fill_in(:sujet_titre, with: titre_new_sujet)
       select('Question technique d’écriture', from: 'sujet_type_s')
-      click_button 'Créer'
+      click_button 'Initier ce sujet'
     end
     success 'Marion peut remplir le formulaire et le soumettre avec un sujet d’un autre type'
 

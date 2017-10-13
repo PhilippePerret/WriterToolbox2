@@ -28,4 +28,8 @@ class User
     @f_sse ||= (homme? ? '' : 'sse')
   end
 
+  def f_ere # p.e. Ch<er|ère>
+    @f_ere ||= (homme? ? 'er' : 'ère')
+  end
+
 end #/User

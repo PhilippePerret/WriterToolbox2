@@ -13,6 +13,12 @@ class Forum
       @id = sid
     end
 
+    def route full = false, fin = false
+      uri = "forum/sujet/#{self.id}"
+      full === true && full = :online
+      full == :online && uri = "http://#{site.configuration.url_online}/#{uri}"
+      uri << "?from=#{fin ? '-1' : '1'}"
+    end
 
     # Retourne un Hash des données du sujet courant, celui
     # dont on doit afficher la liste des messages

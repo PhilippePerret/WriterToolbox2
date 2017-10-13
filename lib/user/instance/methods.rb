@@ -17,4 +17,10 @@ class User
     Mailer.send_mail_to_user(self, data_mail)
   end
 
+  def route full = false
+    uri = "user/profil/#{self.id}"
+    full === true && full = :online
+    full == :online && uri = "http://#{site.configuration.url_online}/#{uri}"
+    return uri
+  end
 end#/ User

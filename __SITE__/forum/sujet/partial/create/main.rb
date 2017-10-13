@@ -43,8 +43,14 @@ class Forum
 
         # Si le sujet doit être validé, il faut envoyer un message à
         # l'administration pour le premier message
+        # Sinon, on lui envoie un simple message d'information
+        # Note : les deux méthodes suivantes sont définies dans la librairie
+        # `create_post` du forum
+        ipost = Forum::Post.new(new_post_id)
         if creator.grade < 7
-          Forum::Post.new(new_post_id).notify_admin_post_require_validation new_sujet = true
+          ipost.notify_admin_post_require_validation new_sujet = true
+        else
+          ipost.notify_admin_new_sujet(creator, new_sujet_id)
         end
 
         # Pour terminer, on doit régler la valeur du dernier post du sujet
