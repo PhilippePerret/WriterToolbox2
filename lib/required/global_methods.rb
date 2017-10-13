@@ -63,6 +63,16 @@ def simple_link href, titre = nil, css = nil
   "<a href=\"#{href}\"#{css}>#{titre || href}</a>"
 end
 
+def bulle message, type, style = nil
+  style.nil? || style = " style=\"#{style}\""
+  <<-HTML
+  <p class="bulle #{type}"#{style}>
+    <img src="./img/ui/bulle-#{type}.png" class="bulle" />
+    <span>#{message}</span>
+  </p>
+  HTML
+end
+
 # Raccourci pour faire un débug
 # Cf. ./lib/site/debug.rb
 def debug ca
