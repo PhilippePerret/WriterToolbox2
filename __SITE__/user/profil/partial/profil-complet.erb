@@ -1,0 +1,16 @@
+<% 
+  # Profil complet d'un utilisateur autre que l'user courant
+  # lorsque cet user courant est inscrit et identifié
+%>
+<h2>Profil de <%= u.pseudo %></h2>
+
+<p class="tiny">Vous êtes inscrit<%= user.f_e %> au site, vous pouvez donc voir un profil complet de cet<%= u.f_te %> autre inscrit<%= u.f_e %>.</p>
+
+<section class="user_card card">
+  <%= u.row_inscrit_depuis %>
+  <%= u.row_grade %>
+  <%= u.row_privileges %>
+  <%= u.row_is_administrateur %>
+  <%= u.row_contact %>
+</section>
+

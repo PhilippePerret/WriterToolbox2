@@ -81,8 +81,6 @@ feature "Édition des données d'une page" do
       # LIVRE
       with_tag('select', with:{id: 'page_livre_id'})
       expect(page.find("select#page_livre_id option[value=\"#{hpage[:livre_id]}\"]")).to be_selected
-      # HANDLER
-      with_tag('input', with:{id:'page_handler', name:'page[handler]', value: hpage[:handler]})
       # CB TYPE WEB/PAPIER
       with_tag('label', with:{for:'page_only_web'}, text: 'Version en ligne seulement (pas papier)')
       dweb = {type: 'checkbox', name:'page[only_web]', id:'page_only_web'}
@@ -105,11 +103,9 @@ feature "Édition des données d'une page" do
 
     new_titre   = "Nouveau titre pour la page test à #{NOW}"
     new_desc    = "Nouvelle description à #{NOW}"
-    new_handler = 'un/nouveau/handler'
     within('form#narration_edit_data_form') do
       fill_in 'page_titre',       with: new_titre
       fill_in 'page_description', with: new_desc
-      fill_in 'page_handler',     with: new_handler
       select('Achevée', from: 'page_nivdev')
       check('page_only_web')
       uncheck('page_create_file')
@@ -122,13 +118,13 @@ feature "Édition des données d'une page" do
     dpage = get_data_page(nid)
     expect(dpage[:titre]).to eq new_titre
     expect(dpage[:description]).to eq new_desc
-    expect(dpage[:handler]).to eq new_handler
     expect(dpage[:options]).to start_with '1014'
     success 'l’admin peut changer les données de la page'
 
-    md_file = File.join('.','__SITE__','narration','_data','','un','nouveau','handler.md')
+    raise "Il faut recalculer le path du fichier ci-dessous"
+    md_file = File.join('.','__SITE__','narration','_data',)
     expect(File.exist?(md_file)).not_to eq true
-    success 'n’a pas créé de fichier avec le handler car pas de livre'
+    success 'n’a pas créé de fichier car pas de livre'
 
     expect(page).not_to have_tag('div', with:{id: 'utils_page_buttons'})
     expect(page).not_to have_tag('a', text: 'texte')
@@ -157,7 +153,6 @@ feature "Édition des données d'une page" do
     datapage = narration_data_page({
       type: 'page',
       livre_id: 3, # La Dynamique narrative
-      handler: 'tests/page_test',
       nivdev: 3,
       priority: 1,
       only_web: false,
@@ -187,7 +182,6 @@ feature "Édition des données d'une page" do
     dpage = get_data_page(new_last_id)
     expect(dpage[:id]).to eq new_last_id
     expect(dpage[:titre]).to eq datapage[:titre][:value]
-    expect(dpage[:handler]).to eq datapage[:handler][:value]
     expect(dpage[:description]).to eq datapage[:description][:value]
     expect(dpage[:options]).to eq datapage[:options][:value]
     expect(dpage[:created_at]).to be > start_time
@@ -230,7 +224,7 @@ feature "Édition des données d'une page" do
       click_link 'Init new'
     end
     expect(page).to have_tag('h2', text: 'Administration collection Narration')
-    ['id', 'titre','handler'].each do |prop|
+    ['id', 'titre'].each do |prop|
       expect(page).to have_tag('input', with:{id:"page_#{prop}", value: ''})
     end
 
@@ -238,7 +232,6 @@ feature "Édition des données d'une page" do
     # ==========> TEST <==========
     # Entrée des données pour un chapitre
     datapage = narration_data_page(type: 'chapitre', livre_id: 1, titre: "Un chapitre nouveau")
-    datapage[:handler][:value] = 'un/faux/handler'
     narration_fill_form_with datapage, (submit = false)
     within('form#narration_edit_data_form') do
       check('page_create_file')
@@ -258,54 +251,17 @@ feature "Édition des données d'une page" do
 
     expect(res[:titre]).to eq "Un chapitre nouveau"
     expect(res[:options][0]).to eq '3'
-    expect(res[:handler]).to eq nil
     success 'les données enregistrées dans la base sont correctes'
 
     expect(page).not_to have_link('texte')
     expect(page).not_to have_link('afficher')
     success 'la page n’a  pas de bouton pour éditer le texte ou l’afficher'
 
-    badfile = File.join('.','__SITE__','narration','_data','structure','un','faux','handler.md')
+    raise "Il faut recalculer le path ci-dessous (il n'y a plus de  h a n d l e r)"
+    badfile = File.join('.','__SITE__','narration','_data','structure','un','faux','.md')
     expect(File.exist?(badfile)).not_to eq true
-    success 'aucun fichier n’a été créé (même avec le handler fourni et la case cochée)'
+    success 'aucun fichier n’a été créé'
 
-  end
-
-  scenario 'une erreur est produite si les données sont manquantes ou invalides' do
-    start_time = Time.now.to_i
-
-    identify phil
-    visit "#{base_url}/admin/narration?op=edit_data"
-
-    datapage = narration_data_page(type: 1, livre_id: 1, titre: "Une page avec mauvais handler")
-    # =======> TESTS <========
-    narration_fill_form_with(datapage, submit = false)
-
-    within('form#narration_edit_data_form') do
-      fill_in 'page_titre', with: ''
-      click_button 'Créer'
-    end
-    expect(page).to have_tag('div.error', text: "Il faut impérativement définir le titre.")
-    expect(site.db.count(:cnarration,'narration',"created_at > #{start_time}")).to eq 0
-    success 'produit une erreur si le titre n’est pas fourni et ne crée pas de donnée'
-
-    narration_fill_form_with(datapage, submit = false)
-    within('form#narration_edit_data_form') do
-      fill_in 'page_handler', with: ''
-      click_button 'Créer'
-    end
-    expect(page).to have_tag('div.error', text: "Pour une page, il faut impérativement définir le handler (path au fichier).")
-    expect(site.db.count(:cnarration,'narration',"created_at > #{start_time}")).to eq 0
-    success 'produit une erreur si le handler n’est pas fourni pour une page et ne crée pas de donnée'
-
-    narration_fill_form_with(datapage, submit = false)
-    within('form#narration_edit_data_form') do
-      fill_in 'page_handler', with: 'un mauvais handler! '
-      click_button 'Créer'
-    end
-    expect(page).to have_tag('div.error', text: /Le handler est un chemin invalide/)
-    expect(site.db.count(:cnarration,'narration',"created_at > #{start_time}")).to eq 0
-    success 'produit une erreur si le handler est invalide et ne crée pas de donnée.'
   end
 
 end

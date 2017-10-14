@@ -1,0 +1,163 @@
+// On supprime la décoration des liens partout
+//fieldset, div.forum_boutons
+section#contents *
+  a
+    text-decoration : none!important
+
+
+div.forum_boutons
+  font-size       : 0.85em
+
+nav.nav_boutons, div.boutons, .buttons, .forum_boutons
+  text-align    : right
+  a
+    font-size     : .85em
+    font-family   : Helvetica
+    margin-left   : 1em
+    font-variant  : small-caps
+    &:not(.exergue)
+      opacity       : 0.4
+      &:hover
+        opacity : 1
+    // Le bouton en exergue (nouveau sujet)
+    &.exergue
+      background-color : #FAEEDD
+      padding           : 4px 10px 3px
+  // &.top
+  //   margin-bottom   : 1em
+  &.bottom
+    margin-top      : 2em
+
+// Tous les libellés
+span.libelle
+  color         : #999
+  font-size     : .75em
+  //  font-style    : italic
+  margin-right  : .3em
+  margin-left   : 2em
+
+
+// Un div contenant les données d'un sujet
+div.sujet
+  margin-bottom   : 1em
+  border-bottom   : 1px solid #AAA
+  border-top      : 1px solid #AAA
+  padding         : 8px 1em
+  font-size       : 0.9em
+  span.titre
+    display         : block
+    font-weight     : bold
+    font-size       : 1.075em
+    margin          : 0.6em 0
+  .last_message
+    margin        : .4em 0
+  .infos_sujet
+    text-align    : right
+    font-size     : .75em
+  div.last_post
+    margin-top  : 1em
+
+.date
+  font-size   : 0.85em
+
+div.user_card
+  float             : left
+  width             : 250px
+  font-size         : 13.2pt!important
+  border-radius     : .5em
+  background-color  : #DAE4E3
+  color             : black
+  padding           : 1.2em
+  margin            : 1em 4em 4em 0
+  > div
+    margin-bottom   : .4em
+  .libelle
+    font-size : 13pt
+    margin-left : 0
+    &:not(.noblock)
+      display     : inline-block
+      width       : 86px
+  > .pseudo
+    display     : block
+    font-size   : 1.4em!important
+    font-weight : bold
+    margin-bottom : .5em
+  span.fame
+    font-weight     : bold
+    letter-spacing  : 1px
+    &.bon
+      color : green
+    &.bad
+      color : red
+
+div.post
+  margin-bottom   : 6em
+  div.post_header, div.post_footer
+    background-color    : #DAE4E3
+    text-align          : right
+    padding             : 4px 1em
+    font-size           : .85em
+    clear               : both
+  div.post_header
+    div.post_specs
+      float : left
+      span.post_id
+        font-size   : .85em
+        color       : #999
+
+  div.post_footer
+    span.post_date
+      float     : left
+  // -----------------------------------
+  // Le contenu du message, son texte
+  // ------------------------------------
+  div.content
+    padding   : 2em
+    // Une citation d'un autre message
+    div.post_citation
+      font-size         : .85em
+      font-weight       : normal
+      margin            : 2em
+      background-color  : #D9F7F7
+      border-radius     : 1em
+      padding           : 2em
+      div.auteur-citation
+        font-weight       : bold
+    // La date de dernière modification (if any)
+    div.date_last_update
+      font-size         : .6em
+      margin-top        : 4em
+
+  span.post_upvotes, .post_downvotes
+    font-size : .9em
+  span.post_upvotes
+    color   : green
+  span.post_votes_down
+    span.post_downvotes
+      color   : red
+  span.post_cote
+    font-size : 1.1em
+    font-weight : bold
+
+  a
+    // Pour le bouton "Répondre" en bas du message
+    &.exergue
+      background-color  : white!important
+      padding           : 6px 12px 4px
+      color             : black!important
+      font-weight       : bold
+      font-size         : 1em
+      letter-spacing    : 0.4px
+
+// Boutons contenant les liens vers les panneaux suivant/précédent
+// et derniers messages
+div.btns_other_posts
+  text-align      : right
+  > span
+    margin-left     : 1em
+    a
+      font-variant    : small-caps
+      font-size       : .75em
+      opacity         : .4
+      &:hover
+        opacity         : 1

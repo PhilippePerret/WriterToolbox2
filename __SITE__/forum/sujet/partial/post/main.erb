@@ -1,0 +1,27 @@
+<% 
+# Module pour afficher tous les messages d'un sujet donné
+%>
+<h2><%= simple_link('forum/home', 'Forum') %> — <%= simple_link("forum/sujet/#{sujet.id}?from=1", "sujet ##{sujet.id}") %></h2>
+<%= Forum.boutons(:top) %>
+<%= sujet.encart_data %>
+<%= sujet.boutons(:top) %>
+<% 
+  # On doit faire la liste des messages avant de l'afficher, notamment
+  # pour pouvoir régler correctement les boutons pour passer aux autres
+  # messages.
+  params = {
+    pid:    param(:pid), 
+    from:   param(:from), 
+    nombre: param(:nombre), 
+    dir:    param(:dir),
+    grade:  param(:grade)
+  }
+  liste_messages = sujet.post_list(params)
+%>
+<fieldset class="post_list" id="post_list-<%=sujet.id%>">
+  <legend>Liste des messages</legend>
+  <%= sujet.boutons_autres_messages(:top) %>
+  <%= liste_messages %>
+  <%= sujet.boutons_autres_messages(:bottom) %>
+</fieldset>
+<%= sujet.boutons(:bottom) %>

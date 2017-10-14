@@ -1,5 +1,24 @@
 <%= header %>
 <h2>Forum d’écriture</h2>
 
+<% 
+
+  # Définir les boutons qui permettent de consulter les autres sujets
+  # Ils sont ajoutés par la méthode Forum.boutons ci-dessous.
+  Forum.define_boutons_sujets_next_previous(param(:from), 20)
+
+%>
+
+<%= Forum.invite_pour_user(user) %>
+<%= Forum.boutons(:top) %>
+
+<fieldset id="last_<%=user.grade < 1 ? 'public_' : ''%>messages">
+  <legend>Derniers messages<%=user.grade < 1 ? ' publics' : '' %></legend>
+  <%= Forum.last_messages(param(:from), 20, {grade: user.grade}) %>
+</fieldset>
+
+
+<%= Forum.boutons(:bottom) %>
+
 
 <%= footer %>

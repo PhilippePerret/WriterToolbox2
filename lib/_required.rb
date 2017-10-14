@@ -21,6 +21,9 @@ def site
   @site ||= Site.instance
 end
 
+# Pour voir
+# debug "Au début du chargement, site.session['last_page'] = #{site.session['last_page'].inspect}"
+
 # Chargement de la configuration du site courant
 site.load_configuration # cf. in lib/site/config.rb
 
@@ -36,3 +39,4 @@ end
 # Exécution d'un script quelconque
 # require './lib/procedure/scripts/NOM DU SCRIPT'
 # require './lib/procedure/scripts/recuperer_all_quiz'
+# require './lib/procedure/scripts/drop_tables'

@@ -15,6 +15,7 @@ class User
     @patronyme ||= "Ernest Dupont"
   end
 
+  def bind; binding() end
   def base_n_table
     @base_n_table ||= [:hot, 'users']
   end

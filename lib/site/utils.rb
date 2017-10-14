@@ -61,9 +61,11 @@ class Site
       fullpath = "./__SITE__/#{relpath}/main.erb"
       File.exist?(fullpath) || return # (1)
       deserb(fullpath)
+    rescue NotAccessibleViewError => e
+      load_error_page('not_accessible', e)
     rescue Exception => e
       debug "PROBLÈME AVEC LA VUE : #{relpath}"
-      raise e
+      load_error_page('erb_error', e)
     end
   end
 
@@ -113,27 +115,34 @@ class Site
 
   # Charge les fichiers du dossier, à commencer par le fichier main.rb
   #
+  # Noter qu'à présent, on ne charge que les fichiers qui se trouvent à
+  # la racine de solid_path, sans `**/*.rb`
+  #
   # Passe seulement le dossier `partial` s'il existe à la racine du
   # dossier
   def folder_load_ruby solid_path
     # On regarde au préalable si le dossier principal contient un sous-dossier
     # de path '_lib/_required' qu'il faut toujours charger
+    # Noter que les TESTS ne pourront pas passer par ici si l'objet de route 
+    # n'est pas défini, c'est la raison pour laquelle on ne peut pas faire 
+    # juste site.load_folder pour charger les _lib/_required.
     route.objet && begin
       objet_required_folder = "./__SITE__/#{route.objet}/_lib/_required"
-      File.exist?( objet_required_folder ) && begin
-        require_folder( objet_required_folder )
-      end
+      File.exist?(objet_required_folder) && require_folder(objet_required_folder)
     end
     Dir["#{solid_path}/**"].each do |element|
       if File.directory?(element)
         if File.basename(element) != 'partial'
-          Dir["#{element}/**/*.rb"].each{|m|require m}
+          Dir["#{element}/*.rb"].each{|m|require m}
         end
       elsif element.end_with?('.rb')
         require element
       end
     end
   end
+
+  # On charge les fichier SASS/CSS qui se trouve à la racinde de +relpath+
+  # Note : on ne fait plus les fichiers `**/*.sass`
   def folder_load_css relpath
     require './lib/utils/sass_all'
 
@@ -160,7 +169,8 @@ class Site
     curpath = File.join('.','__SITE__')
     for cfolder in folders
       curpath = File.join(curpath, cfolder)
-      all_sass = Dir["#{curpath}/#{curpath == solid_path ? '**/*.sass' : '*.sass'}"]
+      # all_sass = Dir["#{curpath}/#{curpath == solid_path ? '**/*.sass' : '*.sass'}"]
+      all_sass = Dir["#{curpath}/*.sass"]
       !all_sass.empty? || next
       all_sass.each { |src| self.all_css << SassSite.send(meth, src) }
     end

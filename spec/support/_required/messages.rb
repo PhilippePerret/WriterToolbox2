@@ -5,14 +5,6 @@
       mode_verbose true/false
 
 =end
-
-# Pour écrire un message de succès en console
-def success message
-  verbose? || return
-  puts "\e[32m#{success_tab}#{message}\e[0m"
-  sleep 0.1
-end
-
 # Pour définir la tabulation avec le message de success
 # Par défaut, elle est composée de deux espaces
 def success_tab value = nil
@@ -22,6 +14,21 @@ def success_tab value = nil
     @success_tab || '  '
   end
 end
+
+# Pour écrire un message neutre en console
+def notice message
+  verbose? || return
+  puts "\e[33m#{success_tab}#{message}\e[0m"
+  sleep 0.1
+end
+
+# Pour écrire un message de succès en console
+def success message
+  verbose? || return
+  puts "\e[32m#{success_tab}#{message}\e[0m"
+  sleep 0.1
+end
+
 
 def failure message
   verbose? || return

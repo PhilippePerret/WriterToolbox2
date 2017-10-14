@@ -1,0 +1,32 @@
+<% 
+  # On tente de créer le sujet
+  #
+  # Noter qu'en cas d'erreur l'user sera reconduit au formulaire
+  hsujet = Forum::Sujet.get_in_params
+  new_sujet_id = Forum::Sujet.create hsujet, user
+
+  type_s = hsujet[:type_s].to_i
+  is_question = type_s == 2
+  grade_pour_sujet = user.grade > 4
+  
+%>
+<h2><a href="forum/home">Forum</a></h2>
+<h3>Confirmation de la création du sujet</h3>
+<%= Forum.boutons(:top) %>
+<div class="big air">
+  <strong><%= 
+    case type_s
+  when 1 then 'Le nouveau sujet est créé'
+  when 2 then 'La nouvelle question technique est créée'
+  else 'Le nouveau sujet quelconque est créé'
+  end
+    %></strong>. Merci à vous pour votre participation.
+</div>
+<% if user.grade < 7 %>
+  <p>Merci de noter, conformément à votre grade, que <%= 
+   is_question ? 'cette question doit être validée' : 'ce sujet doit être validé' 
+   %> avant de pouvoir être annoncé et apparaitre dans la <a href="forum/sujet/list" class="exergue">liste des sujets</a>.</p>
+<% else %>
+  <p>Vous pouvez retrouver ce sujet dans <%= simple_link("forum/sujet/list?sid=#{new_sujet_id}", 'la liste des sujets', 'exergue') %>.</p>
+<% end %>
+

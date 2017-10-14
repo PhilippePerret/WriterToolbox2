@@ -6,7 +6,10 @@ class User
   end
 
   def admin?
-    identified? && id < 10
+    if @is_admin === nil
+      @is_admin = identified? && (data[:options][0].to_i & 1 > 0) # id < 10
+    end
+    @is_admin
   end
 
   def homme?

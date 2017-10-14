@@ -4,6 +4,8 @@ La configuration du site est définie dans `./__SITE__/_config/main.rb`.
 
 ## Propriétés configurées
 
+Toutes ces propriétés peuvent s'obtenir en faisant `site.configuration.<propriété>`
+
 ```
   titre
 

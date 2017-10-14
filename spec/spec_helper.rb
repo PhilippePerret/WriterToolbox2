@@ -73,6 +73,12 @@ RSpec.configure do |config|
     require_folder './spec/support/quiz'
   end
 
+  def require_support_forum
+    require_folder './spec/support/forum'
+  end
+
+
+
   # Pour les tests have_tag etc.
   config.include RSpecHtmlMatchers
 

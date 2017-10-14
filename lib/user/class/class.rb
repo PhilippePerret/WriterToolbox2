@@ -9,6 +9,7 @@ class << self
     forcer && @_users[user_id] = nil
     @_users[user_id] ||= begin
       udata = site.db.select(:hot, 'users', {id: user_id}).first
+      # debug "udata dans User.get : #{udata.inspect}"
       udata.nil? ? nil : User.new(udata)
     end
     @_users[user_id]

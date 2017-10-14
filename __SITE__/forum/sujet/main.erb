@@ -1,0 +1,24 @@
+<% 
+# Module principal de gestion des sujets
+  #
+  # Il existe trois moyens d'atteindre une route précise de sujet :
+  #
+  # 1. Avec une route de type 'forum/sujet/<partiel>'
+  #    C'est la route par exemple pour créer un nouveau sujet
+  # 2. Avec une route de type 'forum/sujet/<sujet ID>?op=<operation partial>'
+  #    C'est la route par exemple pour suivre un sujet déterminé. +op+ correspond
+  #    alors à un des partials.
+  # 3. Avec une route de type 'forum/sujet/<sujet ID>'
+  #    C'est la route pour afficher la liste des messages du sujet.
+  #    Noter qu'on ne peut pas utiliser d'op dans l'url, sinon on tombe dans
+  #    le cas 2.
+  #
+%>
+
+<%= header(:small) %>
+
+<%= partial(
+  site.route.objet_id.is_a?(Fixnum) ? (param(:op) || 'post') : site.route.objet_id
+) %>
+
+<%= footer %>

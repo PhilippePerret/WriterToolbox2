@@ -129,7 +129,7 @@ class User
 
   # Les options par défaut
   def default_options
-    '0000000000' # pour le moment
+    '0100000000' # note : le 1 au bit 2 correspond au grade forum
   end
 
 

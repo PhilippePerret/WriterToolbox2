@@ -1,0 +1,55 @@
+<% 
+# Partiel de réponse à une question
+
+  require_form_support
+
+
+if param(:op) == 'save'
+  post.save_and_publish
+end
+
+%>
+<h2><%= simple_link('forum/home', 'Forum') %> - répondre</h2>
+<%= 
+  # Faut-il construire l'aperçu ?
+  param(:op) == 'apercu' && post.apercu
+
+  # Le texte qu'il faut sortir optionnellement, par exemple l'aperçu
+  # du message ou un lien pour revenir au sujet lorsque le message doit
+  # être validé.
+  post.output_post_operation
+%>
+
+<form id="post_answer_form" action="forum/post/<%= site.route.objet_id %>" method="POST">
+  <% 
+    # Je ne sais pas du tout pourquoi, mais avec `operation` ci-dessous au lieu de `op`
+    # ça ne fonctionne pas du tout...
+  %>
+  <input type="hidden" name="op" value="save" />
+  <input type="hidden" name="post[id]" id="post_id" value="<%= site.route.objet_id %>" />
+  <input type="hidden" name="post[auteur_reponse_id]" id="post_auteur_reponse_id" value="<%= user.id %>" />
+
+  <div>
+    <label for="post_answer">Votre réponse</label>
+    <span class="field">
+      <textarea name="post[answer]" id="post_answer" rows="8"><%= post.answer %></textarea>
+    </span>
+  </div>
+
+  <div>
+    <label for="post_suivre">&nbsp;</label>
+    <span class="field">
+      <input type="checkbox" name="post[suivre]" id="post_suivre" value="" checked="CHECKED" />
+      <label for="post_suivre">Suivre ce sujet</label>
+    </span>
+  </div>
+
+  <div class="buttons">
+    <button class="btn fleft" onclick="setOperationApercu(this.form);">Aperçu</button>
+   <input type="submit" class="main btn" value="Publier" />
+  </div>
+</form>
+  <script type="text/javascript" charset="utf-8">
+//function setOperationApercu(form){form.op.value="apercu";form.submit();}
+  </script>
+ 

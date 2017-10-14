@@ -16,6 +16,10 @@ class Site
 
     preload
 
+    # On mémorise cette dernière page comme :last_page
+    self.session['last_page'] = self.full_route
+    # debug "session[last_page] mis à #{site.session['last_page']}"
+
     cgi.out{
       cgi.html{
         cgi.head{head} +

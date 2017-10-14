@@ -1,0 +1,19 @@
+<% 
+# Pour traiter la route forum/post/...
+%>
+<%= header(:small) %>
+<%= right_margin %>
+
+<%=
+  partial(
+    case param(:op)
+    when 'a', 'apercu', 'save' then 'answer'
+    when 'v', 'validate', 'refus', 'kill' then 'validate'
+    when 'm', 'modify' then 'modify'
+    when 'u', 'd'      then 'mini_operation'
+    else 'unknown'
+    end
+  )
+
+%>
+<%= footer %>

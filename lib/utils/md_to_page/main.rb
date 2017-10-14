@@ -25,6 +25,8 @@ class MD2Page
   #
   # @param {Hash} options
   #
+  #   options[:dest]          Le path du fichier destination. Si nil, on
+  #                           retourne le code.
   #   options[:code]          Le code à traiter, s'il n'a pas été défini
   #                           par src_path.
   #   options[:owner]         Possesseur du fichier (à voir)

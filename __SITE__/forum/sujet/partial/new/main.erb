@@ -1,0 +1,83 @@
+<%
+# Partiel pour créer un nouveau sujet
+
+  require_form_support
+
+grade_pour_sujet = user.identified? && user.grade > 4
+
+# Le lien indicatif
+# Note : on le met dans une variable pour qu'il n'apparaisse qu'une seule fois
+# lorsque l'user n'est pas identifié et deux fois lorsque le formulaire est dans
+# la page.
+cliquer_sur_titre = <<-HTML
+<p class="tiny big air right" style="margin-top:4em;">Cliquer sur le titre « Forum » pour revenir à l’accueil du forum.</p>
+HTML
+%>
+<h2><a href="forum/home">Forum</a></h2>
+<%= cliquer_sur_titre %>
+<h3><%= grade_pour_sujet ? 'Nouveau sujet' : 'Nouvelle question' %></h3>
+<% if user.identified? %>
+  <form id="forum_sujet_form" action="forum/sujet/create" method="POST">
+
+
+    <div>
+      <label for="sujet_titre"><%= 
+        grade_pour_sujet ? "Titre de sujet ou question technique" : "Poser une question"
+      %></label>
+  <span class="field">
+    <input type="text" name="sujet[titre]" id="sujet_titre" value="" />
+  </span>
+  <div class="explication visible">
+    <% if user.grade < 5 %>
+      Votre grade ne vous permet que de poser une question (qui devra être validée).
+    <% elsif user.grade < 7 %>
+      Votre grade vous permet de créer un sujet, mais il devra être validé avant de pouvoir être diffusé.
+    <% else %>
+      Votre grade est suffisant pour initier un nouveau sujet ou poser une question technique sans validation requise.
+    <% end  %>
+  </div>
+    </div>
+
+
+
+    <div>
+      <label for="sujet_first_post"><%= 
+        grade_pour_sujet ? 'Premier message' : 'Merci de préciser votre question'
+      %></label>
+      <span class="field">
+        <textarea name="sujet[first_post]" id="sujet_first_post" rows="4"></textarea>
+      </span>
+      <div class="explication">
+        Merci de préciser votre question ou votre sujet en composant le premier message qui sera affiché.
+      </div>
+    </div>
+    <% ### TYPE S ###
+      if grade_pour_sujet
+    %>
+      <div>
+        <label for="sujet_type_s">Type du sujet</label>
+        <span class="field">
+          <%= Form.build_select(id: 'sujet_type_s', name: 'sujet[type_s]', values: Forum::Sujet::TYPES_S) %>
+        </span>
+      </div>
+
+    <% else %>
+      <input type="hidden" name="sujet[type_s]" id="sujet_type_s" value="2" />
+    <% end %>
+  <div class="buttons">
+    <% bouton_submit = grade_pour_sujet ? 'Initier ce sujet' : 'Poser cette question' %>
+    <input type="submit" class="main btn" value="<%= bouton_submit %>" />
+  </div>
+</form>
+
+
+<%= cliquer_sur_titre %>
+<% 
+  else # Quand le visiteur n'est pas identifié
+%>
+<%= 
+  message = "Houps !… Pour pouvoir poser une question ou initier un nouveau sujet sur le forum, vous devez être inscrit ou inscrite sur le site (#{simple_link("user/signup", 'inscription gratuite', 'exergue')})."
+  bulle(message, 'warning', 'width:50%;margin-left:8em;') %>
+<%= cliquer_sur_titre %>
+<% end  %>
+

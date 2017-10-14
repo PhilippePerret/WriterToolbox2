@@ -1,0 +1,11 @@
+<% 
+# Partiel pour lister les sujets
+%>
+<h2><a href="forum/home">Forum</a> : <a href="forum/sujet/list">sujets</a></h2>
+<%= Forum.boutons(:top)  %>
+<fieldset id="forum_sujet_list">
+  <legend>Liste des sujets</legend>
+  <%= Forum::Sujet.nav_boutons(param(:from)||0, :top)%>
+  <%= Forum::Sujet.list(param(:from) || 0) %>
+  <%= Forum::Sujet.nav_boutons(param(:from)||0, :bottom)%>
+</fieldset>

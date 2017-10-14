@@ -1,8 +1,21 @@
-* [UNAN][QUIZ]
-  - Ne pas rafficher le bouton du quiz si…
-  - Enregistrer les résultats dans la base
-  - Recharger les résultats s'ils existent (comment faire la distinction : simplement en traitant par rapport à l'opération. Si évaluation : pas de recherche dans la table, sinon oui).
+* [FORUM]
+  * Reprendre tous les tests
+  * Régler le fait qu'on progresse dans les grades par rapport aux messages validés.
+  * Implémentation testée de la destruction d'un sujet
+  * Pouvoir modifier le type d'un sujet/question
+  * Indiquer, lorsque c'est une question technique, que les posts sont classés par ordre de pertinence
+  * CRON. Mettre en place le cron qui doit traiter les messages forum.
 
+* [UNAN] Mettre en forme le bureau (panneau des données générales)
+
+* [UNAN] Utiliser la méthode `Fixnum#ago` pour savoir combien de temps reste pour accomplir le travail ou depuis combien de temps il est en dépassement.
+
+* Dès qu'un visiteur est inscrit, son grade forum doit être de 1.
+  -> Tester
+* Quand on joue user/profil/<id user>, on affiche :
+  * le profil éditable si l'user courant correspond à <id user>
+  * le profil simplifié sinon (consultation d'un profil, par exemple depuis le forum)
+  -> Tester
 
 * [UNAN]
   - Traiter l'affichage d'un quiz. Maintenant que le traitement des quiz est presque terminé, on procède ainsi : si un quiz doit être traité :
@@ -15,13 +28,6 @@
 * [UNAN]
   - Implémenter et tester unanunscript/page_cours/ qui permet de lire une page de cours du programme. S'inspirer très exactement de narration.
   - Tester l'affichage d'une page de cours (en prenant sur les dix jours ou sur le premier)
-
-* [NARRATION]
-  - Abandonner l'utilisation des handler et enregistrer les fichiers dans le dossier de leur livre avec leur identifiant.
-  Exemple : la page d'ID #12 du livre Structure (donc du livre d'identifiant #1) doit être enregistré dans `narration/_data/1/12.erb`
-    - faire un script qui transforme les pages actuelles
-    - modifier la façon d'enregistrer les pages
-    - supprimer la donnée handler
 
 * [UNAN] Tester, tester, tester le réglage des travaux.
   - la création correcte des travaux relatifs lorsque l'on crée un auteur directement au 10e jour

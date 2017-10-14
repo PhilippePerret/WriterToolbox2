@@ -1,4 +1,4 @@
-<% 
+<%
 # Pour lire un article du blog (spécifié dans l'url)
 #
 #%>
@@ -6,16 +6,16 @@
 <%= right_margin %>
 
 
-<h2>Blog de Phil<%= lien_edit_if_admin %></h2>
+<h2>Le Blog de Phil<%= lien_edit_if_admin %></h2>
 
 <%= liens_next_previous_pages(:top) %>
 
-<%= 
+<%=
 
   if File.exist? Blog.article_erb_path
     deserb Blog.article_erb_path
   else
-    kramdown Blog.article_md_path
+    kramdown File.read(Blog.article_md_path)
   end
 
 %>

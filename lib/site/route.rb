@@ -12,6 +12,16 @@ class Site
     @route ||= Route.new(self)
   end
 
+  # La "route" complète, avec paramètres s'ils existent
+  # @alias def full_route
+  def uri
+    uri = ENV['REQUEST_URI'].split('/')
+    uri.shift
+    site.offline? && uri.shift
+    return uri.join('/')
+  end
+  alias :full_route :uri
+
   # Charge tout ce qui se trouve à la route voulue
   def load_route ; route.load end
 
@@ -49,7 +59,8 @@ class Site
       # que l'user soit un administrateur. Dans le cas contraire, on le redirige
       # vers une page de redirection.
       objet == 'admin' && !user.admin? && redirect_to('site/unauthorized_page')
-      File.exist?(solid_path) || return
+      # Il faut que la route existe
+      File.exist?(solid_path) || redirect_to('site/error_page?e=404&r='+CGI.escape(short_route))
       site.load_folder(short_route)
       @loaded = true
     end

@@ -21,23 +21,31 @@ div#flash
   font-size   : 0.7em
 
 .center
-  text-align  : center
+  text-align  : center!important
 .right
-  text-align  : right
+  text-align  : right!important
 
 // Ajoute un cadre arrondi
 .cadre
   border        : 2px solid $darkTextColor
   border-radius : 1em
+  display       : inline-block
   &:not(.large)
     width         : 50%
     max-width     : 50%
   &:not(.air)
     padding       : 1em
-  &.air
+    margin        : 1em
+
+.air
+  &:not(.big)
+  padding         : 1.75em
+  margin          : 1.75em
+  border-radius   : 1.75em
+  &.big
     padding       : 3em
     margin        : 3em
-
+    border-radius : 2em
 
 // Un livre, un film, etc.
 span.oeuvre

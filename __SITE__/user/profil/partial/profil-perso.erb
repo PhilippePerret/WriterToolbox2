@@ -1,0 +1,51 @@
+<% 
+    # Page de profil de l'auteur
+  # C'est la page la plus complète, avec notamment la possibilité de
+  # régler ses préférences.
+
+  # On en a besoin, que ce soit pour sauver les préférences
+  # ou pour les afficher
+  require_lib('user:preferences')
+  require_form_support
+
+  case param(:op)
+  when 'save_preferences' then user.save_preferences
+  end
+%>
+<h2>Votre profil</h2>
+<p class="small">Bienvenue dans votre profil, <%= user.pseudo %>, vous pouvez régler ici tout ce qui concerne vos préférences et vos options sur <%= site.configuration.name %>.</p>
+
+
+<section class="user_card card">
+  <%= u.row_inscrit_depuis %>
+
+  
+  <fieldset id="preferences">
+    <legend>Préférences</legend>
+    <form id="prefs_form" action="" method="POST">
+      <input type="hidden" name="op" value="save_preferences" />
+      <%= u.row_preference_contact %>
+      <%= u.row_preference_after_login %>
+      <%= u.row_preference_notification %>
+      <div class="buttons">
+        <input type="submit" class="main btn" value="Enregistrer" />
+      </div>
+    </form>
+  </fieldset>
+
+  
+  <fieldset id="forum">
+    <legend>Forum</legend>
+    <p>
+    [Bientôt ici la liste des sujets forum que vous suivez]
+    </p>
+  </fieldset>
+
+
+  <fieldset id="narration">
+    <legend>Collection Narration</legend>
+    <p>Bientôt ici tout ce qui concerne la collection Narration</p>
+  </fieldset>
+
+
+</section>

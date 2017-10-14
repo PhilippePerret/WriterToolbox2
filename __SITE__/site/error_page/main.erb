@@ -1,0 +1,24 @@
+<%
+# Page d'erreur
+%>
+<%= header %>
+<h2>Page introuvable</h2>
+<%= right_margin %>
+
+<div class="cadre big air red">
+<%=
+case param(:e)
+when '404'
+  if param(:r)
+    "<p>Désolé, mais la route `#{param(:r)}` est un cul de sac.</p>"
+  else
+    '<p>Désolé, mais la route que vous demandez est inconnue.</p>'
+  end
+else
+  '<p>Je ne connais pas cette erreur.'
+end
+%>
+</div>
+
+
+<%= footer %>

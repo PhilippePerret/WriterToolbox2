@@ -25,7 +25,6 @@ class User
 class << self
 
   def check_login dlogin
-    debug "-> check_login"
 
     login_data_ok?(dlogin) || return
 
@@ -36,15 +35,22 @@ class << self
   end
 
   def redirect_after_login
-    redirect_to(
-      case user.var['goto_after_login']
-      when 0, nil then 'home'
-      when 1 then 'user/profil'
-      when 2 then user.get_var('last_route') || 'home'
-      when 9 then 'unanunscript/bureau'
-      else 'home'
-      end
-    )
+    if site.session['route_after_login']
+      redir = site.session['route_after_login']
+      site.session['route_after_login'] = nil
+      redirect_to redir
+    else
+      redirect_to(
+        case user.var['goto_after_login']
+        when 0, nil then 'home'
+        when 1 then 'user/profil'
+        when 2 then user.var['last_route'] || 'home'
+        when 3 then user.var['page_after_login'] || 'home' # une page spécifique
+        when 9 then 'unanunscript/bureau'
+        else 'home'
+        end
+      )
+    end
   end
 
   def login_data_ok? dlogin
@@ -61,8 +67,6 @@ class << self
 
     umail = dlogin[:mail].nil_if_empty
     upwd  = dlogin[:password].nil_if_empty
-
-    debug "umail = #{umail.inspect} / upwd = #{upwd.inspect}"
 
     umail != nil || raise('Comment vous reconnaitre, sans votre mail ?…')
     upwd  != nil || raise('Comment vous reconnaitre, sans votre mot de passe ?…')
