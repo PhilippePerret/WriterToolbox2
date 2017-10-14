@@ -17,15 +17,20 @@ class Forum
       # @param {Hash}   pdata
       #                 Les données à enregistrer, et principalement :content
       #                 le contenu textuel non traité du message.
+      #                 :parent_id      ID du message parent, si c'est une réponse
+      #                 :content        {String} Le contenu du message
+      #                 :is_new_sujet   Mis à true si c'est un nouveau sujet.
       #
       # @return {Fixnum} ID du nouveau message
       #
       def create auteur, sujet_id, pdata
+
+        # Données à enregistrer
         data2save = {
           sujet_id:  sujet_id,
           user_id:   auteur.id,
           parent_id: pdata[:parent_id],
-          options:   options_post(auteur)
+          options:   options_post(pdata.merge(auteur: auteur))
         } 
         post_id = site.db.insert(:forum,'posts',data2save)
 
@@ -43,13 +48,14 @@ class Forum
 
       # Retourne les options pour le nouveau message, en fonction
       # de l'auteur du message
-      def options_post auteur
+      def options_post pdata
+        grade = pdata[:auteur].grade
+        validation_required = grade < 4 || (pdata[:is_new_sujet] && grade < 7)
         o = String.new
-        o << (auteur.grade < 4 ? '0' : '1')
+        o << (validation_required ? '0' : '1')
         o << '0'*7
         return o
       end
-
 
       # Retourne le contenu du message formaté
       def cformated content

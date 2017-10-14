@@ -191,6 +191,7 @@ feature "Création de sujet/question technique" do
     last_post_id = hpost[:id]
 
     expect(hsujet).not_to eq nil
+    expect(hpost).not_to eq nil
     expect(hsujet[:titre]).to eq titre_new_sujet
     specs = hsujet[:specs]
     expect(specs[0]).to eq '0'
@@ -198,6 +199,7 @@ feature "Création de sujet/question technique" do
     expect(specs[4]).to eq '0' # pas d'annonce pour un sujet qui doit être validé
     expect(hsujet[:count]).to eq 1
     expect(hsujet[:last_post_id]).to eq last_post_id
+    expect(hpost[:options][0]).to eq '0' # doit être validé
     success 'Le nouveau sujet a été créé dans la base de donnée Forum avec les données valides.'
 
     expect(page).to have_content("Le nouveau sujet quelconque est créé")

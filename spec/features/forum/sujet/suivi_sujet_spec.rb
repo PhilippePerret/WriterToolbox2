@@ -13,6 +13,10 @@ require_support_db_for_test
 require_support_mails_for_test
 
 feature "Suivi d'un sujet" do
+  before(:all) do
+    # En cas d'erreur, on peut relancer :
+    # reset_all_data_forum
+  end
 
   context 'avec un user ne suivant pas le sujet' do
 
@@ -22,6 +26,7 @@ feature "Suivi d'un sujet" do
         hsujet = forum_get_sujet
         sujet_id = hsujet[:id]
         visit "#{base_url}/forum/sujet/#{sujet_id}"
+        # sleep 30
         expect(page).to have_tag('section#contents') do
           with_tag('div.buttons.top') do
             with_tag('a', with:{href: "forum/sujet/#{sujet_id}?op=suivre&v=1"}, text: 'Suivre ce sujet')
@@ -41,7 +46,7 @@ feature "Suivi d'un sujet" do
         end
         success 'le visiteur non identifié trouve une page lui indiquant qu’il doit s’inscrire'
 
-        expect(page).to have_tag('a', with:{href: "forum/sujet/#{sujet_id}"}, text: '→ Retourner au sujet')
+        expect(page).to have_tag('a', with:{href: "forum/sujet/#{sujet_id}?from=1"}, text: '→ Retourner au sujet')
         success 'la page contient aussi un lien pour retourner au sujet'
 
         within('section#contents'){click_link 'S’inscrire'}
@@ -83,7 +88,7 @@ feature "Suivi d'un sujet" do
         expect(nombre).to eq 1
         success 'le visiteur identifié s’inscrit avec succès au sujet'
 
-        expect(page).to have_tag('a', with:{href: "forum/sujet/#{sujet_id}"}, text: '→ Retourner au sujet')
+        expect(page).to have_tag('a', with:{href: "forum/sujet/#{sujet_id}?from=1"}, text: '→ Retourner au sujet')
         expect(page).to have_content("Vous pouvez retrouver tous les sujets que vous suivez sur votre page de profil.")
         expect(page).to have_tag('section#contents')do
           with_tag('a', with:{href: "user/profil"}, text: 'votre page de profil')
@@ -141,7 +146,7 @@ feature "Suivi d'un sujet" do
       expect(nombre).to eq 0
       success 'l’user ne suit plus le sujet'
 
-      expect(page).to have_tag('a', with:{href: "forum/sujet/#{sujet_id}"}, text: '→ Retourner au sujet')
+      expect(page).to have_tag('a', with:{href: "forum/sujet/#{sujet_id}?from=1"}, text: '→ Retourner au sujet')
       expect(page).to have_content("Vous pouvez retrouver tous les sujets que vous suivez sur votre page de profil.")
       expect(page).to have_tag('section#contents')do
         with_tag('a', with:{href: "user/profil"}, text: 'votre page de profil')

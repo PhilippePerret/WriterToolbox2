@@ -67,6 +67,9 @@ class Forum
     # devront être chargées, soit mini soit entière, en appelant :
     #     `post.data_mini` ou `post.data`
     # Ensuite, il suffit d'utiliser `which_data` pour récupérer la donnée.
+    # Noter que ça vaut pour les données générales du post, car pour les données
+    # particulières telles que le :content ou le :vote, il faut obligatoirement
+    # passer par @data.
     def which_data
       @data_mini || @data || data_mini
     end

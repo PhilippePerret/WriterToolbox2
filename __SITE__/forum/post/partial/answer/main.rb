@@ -4,7 +4,7 @@ class Forum
 
     # Pour sauver la réponse et la publier immédiatement si le grade de
     # l'auteur le permet.
-    # 
+    #
     # Publier une réponse revient à créer un nouveau message
     # pour le fil (sujet) courant, désigné par `post.data[:sujet_id]`
     #
@@ -25,7 +25,7 @@ class Forum
       # premier message de ce sujet, et la validation du premier message doit aussi
       # valider le sujet
       #
-      validation_requise = 
+      validation_requise =
         if auteur_reponse.grade < 4
           true
         elsif auteur_reponse.grade < 7
@@ -41,17 +41,15 @@ class Forum
         parent_id: self.id,
         content:   answer   # non formaté (le sera dans la méthode create ci-dessous)
       }
-      new_post_id = Forum::Post.create auteur_reponse, self.sujet_id, pdata 
+      new_post_id = Forum::Post.create auteur_reponse, self.sujet_id, pdata
 
       # Instance {Forum::Post} du nouveau message
       new_post = Forum::Post.new(new_post_id)
-      
+
       # Si le bouton pour suivre est coché, il faut faire suivre le
       # sujet par l'auteur de la réponse.
       suivre_sujet = data_param[:suivre] != nil
-      debug "suivre_sujet est #{suivre_sujet.inspect}"
       auteur_rep_suit = Forum::Sujet.user_suit_sujet?(auteur_reponse, data[:sujet_id])
-      debug "auteur_rep_suit est #{auteur_rep_suit.inspect}"
       if auteur_rep_suit != suivre_sujet
         site.db.use_database :forum
         values = [auteur_reponse.id, data[:sujet_id]]
@@ -71,6 +69,11 @@ class Forum
         __notice(message)
       end
 
+      if validation_requise
+        debug "VALIDATION REQUISE (##{new_post.id})"
+      else
+        debug "VALIDATION NON REQUISE (##{new_post.id})"
+      end
       if validation_requise
         # Le message a besoin d'être validé, on s'arrête là en en informant
         # l'auteur.
@@ -99,7 +102,7 @@ class Forum
     def output_post_operation
       @OUTPUT || ''
     end
-    
+
     # Pour montre l'aperçu du message
     #
     # La méthode retourne le code HTML à insérer dans la page pour voir

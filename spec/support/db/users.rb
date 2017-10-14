@@ -7,7 +7,7 @@
 
 =end
 
-PSEUDOS_FEMME = ['Marie','Michele','Salome','Ellie','Bernadette','Berthe','Martine','Sylvie','Camille','Julie','Juliette','Joan','Sandrine','Sandra','Vera', 'Pascale','Marine','Maude']
+PSEUDOS_FEMME = ['Marie','Michele','Salome','Ellie','Bernadette','Berthe','Martine','Sylvie','Camille','Julie','Juliette','Joan','Sandrine','Sandra','Vera','Pascale','Marine','Maude']
 PSEUDOS_HOMME = ['Elie','Michel','Mike','Sam','Bernard','Martin','Renauld','Gerard','Gustave','Hugo','Yvain','Hector','Victor','Kevin','Vernon','Pascal','Bruno','Patrick','Andre','Khajag','Marin','Marcel']
 PATRONYMES    = ['Marais','Durand','Dupont','Beauvoir','Bavant','Barthe','Valais','Flaubert','Berlioz','Wagram','Duchaussois']
 
@@ -172,7 +172,7 @@ end
 
 
 NOMBRE_PSEUDOS_HOMMES = PSEUDOS_HOMME.count
-NOMBRE_PSEUDOS_FEMMES = PSEUDOS_HOMME.count
+NOMBRE_PSEUDOS_FEMMES = PSEUDOS_FEMME.count
 NOMBRE_PATRONYME      = PATRONYMES.count
 def get_random_pseudo sexe, icreated
   case sexe

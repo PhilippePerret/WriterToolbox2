@@ -14,12 +14,13 @@
   # L'opération est 'v' quand on doit valider le message, mais c'est vraiment
   # 'validate', en toutes lettres, lorsqu'on clique sur le bouton pour vraiment
   # valider le message
-  debug "param(:op) = #{param(:op).inspect}"
   case param(:op)
   when 'validate' then post.validation_par_admin( user )
   when 'refus'    then post.refus_par_admin( user )
   when 'kill'     then post.destroy_par_admin( user )
   end
+
+  debug "post.data : #{post.data.inspect}"
 
   require_form_support
 %>
@@ -28,7 +29,7 @@
 <form id="post_validate_form" action="" method="POST">
   <input type="hidden" name="op" value="validate" />
   <div id="post_content">
-    <%= Forum::Post.mise_en_forme_post_content({id: post.id, content: post.data[:content]}) %>
+    <%= post.mise_en_forme_post_content %>
   </div>
   <div>
     <label for="post_refus">Motif du refus (si refus)</label>

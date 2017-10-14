@@ -12,7 +12,7 @@ class Forum
       #
       def div_post hpost
         ipost = new(hpost[:id])
-        ipost.data = hpost
+        ipost.instance_variable_set("@data", hpost)
         return ipost.as_div_for(user)
       end
 
@@ -26,7 +26,6 @@ class Forum
     # 
     # -----------------------------------------------------------------------------
     
-    attr_accessor :data
     attr_accessor :reader # l'user courant, en fait
     
     def id ; @id ||= data[:id] end

@@ -20,7 +20,7 @@ class Forum
             <span class="libelle">créé par</span>
             #{span_creator_sujet(hsujet)}
             <span class="libelle">le</span>
-            <span class="sujet_date">#{(hsujet[:sujet_date]||Time.now.to_i).as_human_date}</span>
+            <span class="sujet_date">#{(hsujet[:created_at]||Time.now.to_i).as_human_date}</span>
             <span class="libelle">Messages</span>
             <span class="posts_count">#{hsujet[:count]}</span>
             <span class="libelle">Type</span>

@@ -22,17 +22,18 @@ class Forum
       # On indique que c'est le tout dernier message du sujet
       # Si le sujet n'était pas encore validé, la validation
       # de ce premier message validera automatiquement le sujet.
+      # On marque aussi le bit d'annonce (5e) qui sera mis à 0 lorsque
+      # le sujet aura été annoncé par le cronjob.
       # On met le résultat dans @validation_sujet car ce sont les
       # autres méthodes qui auront besoin de cette valeur, et notamment
       # la validation par l'administrateur.
-      new_data_sujet = {last_post_id: self.if}
-      sujet_specs = site.db.select(:forum,'sujets',{id:sujet_id},[:specs]).first[:specs]
-      @validation_sujet = sujet_specs[0] == '0'
-      @validation_sujet && 
-        begin
-          sujet_specs[0] = '1'
-          new_data_sujet.merge!(specs: sujet_specs)
-        end
+      hsujet = site.db.select(:forum,'sujets',{id:sujet_id}).first
+      new_data_sujet = {last_post_id: self.id, count: hsujet[:count] + 1}
+      @validation_sujet = hsujet[:specs][0] == '0'
+      if @validation_sujet
+        require_lib('forum:validate_sujet')
+        new_data_sujet.merge!(Forum::Sujet.data_validation(hsujet))
+      end
       site.db.update(:forum,'sujets',new_data_sujet,{id:sujet_id})
 
       # Pour rafraichir les données

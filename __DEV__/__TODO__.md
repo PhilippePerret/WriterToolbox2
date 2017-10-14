@@ -1,10 +1,10 @@
 * [FORUM]
+  * Reprendre tous les tests
   * Régler le fait qu'on progresse dans les grades par rapport aux messages validés.
   * Implémentation testée de la destruction d'un sujet
   * Pouvoir modifier le type d'un sujet/question
   * Indiquer, lorsque c'est une question technique, que les posts sont classés par ordre de pertinence
   * CRON. Mettre en place le cron qui doit traiter les messages forum.
-  * Préciser que les privilèges sont définis dans le profil (lien vers le profil)
 
 * [UNAN] Mettre en forme le bureau (panneau des données générales)
 

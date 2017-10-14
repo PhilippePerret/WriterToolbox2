@@ -41,11 +41,11 @@ feature "Liste des sujets", teste: true do
       all_sujets_forum(0,19).each do |hsujet|
         sid = hsujet[:id]
         with_tag('div', with: {class: 'sujet', id: "sujet-#{sid}"}) do
-          with_tag('a', with:{ href: "forum/sujet/#{sid}"}, text: hsujet[:titre])
-          with_tag('span', with:{class: 'messages_count', id: "messages_count-#{sid}"})
-          with_tag('span', with:{class: 'last_message_date', id:"last_message_date-#{sid}"})
-          with_tag('span', with: {class: 'created_at'}, text: Time.at(hsujet[:created_at]).strftime('%d %m %Y - %H:%M'))
-          with_tag('span', with: {class: 'creator'}, text: hsujet[:creator_pseudo])
+          with_tag('a', with:{ href: "forum/sujet/#{sid}?from=-1"}, text: hsujet[:titre])
+          with_tag('span', with:{class: 'posts_count'})
+          with_tag('span', with:{class: 'post_date'})
+          with_tag('span', with: {class: 'sujet_date'})
+          with_tag('span', with: {class: 'sujet_creator'}, text: hsujet[:creator_pseudo])
         end
       end
     end
@@ -67,11 +67,11 @@ feature "Liste des sujets", teste: true do
       all_sujets_forum(20,20).each do |hsujet|
         sid = hsujet[:id]
         with_tag('div', with: {class: 'sujet', id: "sujet-#{sid}"}) do
-          with_tag('a', with:{ href: "forum/sujet/#{sid}"}, text: hsujet[:titre])
-          with_tag('span', with:{class: 'messages_count', id: "messages_count-#{sid}"})
-          with_tag('span', with:{class: 'last_message_date', id:"last_message_date-#{sid}"})
-          with_tag('span', with: {class: 'created_at'}, text: Time.at(hsujet[:created_at]).strftime('%d %m %Y - %H:%M'))
-          with_tag('span', with: {class: 'creator'}, text: hsujet[:creator_pseudo])
+          with_tag('a', with:{ href: "forum/sujet/#{sid}?from=-1"}, text: hsujet[:titre])
+          with_tag('span', with:{class: 'posts_count'})
+          with_tag('span', with:{class: 'post_date'})
+          with_tag('span', with: {class: 'sujet_date'})
+          with_tag('span', with: {class: 'sujet_creator'}, text: hsujet[:creator_pseudo])
         end
       end
     end
@@ -90,11 +90,11 @@ feature "Liste des sujets", teste: true do
       derniers_sujets.each do |hsujet|
         sid = hsujet[:id]
         with_tag('div', with: {class: 'sujet', id: "sujet-#{sid}"}) do
-          with_tag('a', with:{ href: "forum/sujet/#{sid}"}, text: hsujet[:titre])
-          with_tag('span', with:{class: 'messages_count', id: "messages_count-#{sid}"})
-          with_tag('span', with:{class: 'last_message_date', id:"last_message_date-#{sid}"})
-          with_tag('span', with: {class: 'created_at'}, text: Time.at(hsujet[:created_at]).strftime('%d %m %Y - %H:%M'))
-          with_tag('span', with: {class: 'creator'}, text: hsujet[:creator_pseudo])
+          with_tag('a', with:{ href: "forum/sujet/#{sid}?from=-1"}, text: hsujet[:titre])
+          with_tag('span', with:{class: 'posts_count'})
+          with_tag('span', with:{class: 'post_date'})
+          with_tag('span', with: {class: 'sujet_date'}, text: Time.at(hsujet[:created_at]).strftime('%d %m %Y - %H:%M'))
+          with_tag('span', with: {class: 'sujet_creator'}, text: hsujet[:creator_pseudo])
         end
       end
     end
@@ -113,11 +113,11 @@ feature "Liste des sujets", teste: true do
       all_sujets_forum(20,20).each do |hsujet|
         sid = hsujet[:id]
         with_tag('div', with: {class: 'sujet', id: "sujet-#{sid}"}) do
-          with_tag('a', with:{ href: "forum/sujet/#{sid}"}, text: hsujet[:titre])
-          with_tag('span', with:{class: 'messages_count', id: "messages_count-#{sid}"})
-          with_tag('span', with:{class: 'last_message_date', id:"last_message_date-#{sid}"})
-          with_tag('span', with: {class: 'created_at'}, text: Time.at(hsujet[:created_at]).strftime('%d %m %Y - %H:%M'))
-          with_tag('span', with: {class: 'creator'}, text: hsujet[:creator_pseudo])
+          with_tag('a', with:{ href: "forum/sujet/#{sid}?from=-1"}, text: hsujet[:titre])
+          with_tag('span', with:{class: 'posts_count'})
+          with_tag('span', with:{class: 'post_date'})
+          with_tag('span', with: {class: 'sujet_date'}, text: Time.at(hsujet[:created_at]).strftime('%d %m %Y - %H:%M'))
+          with_tag('span', with: {class: 'sujet_creator'}, text: hsujet[:creator_pseudo])
         end
       end
     end
@@ -144,7 +144,7 @@ feature "Liste des sujets", teste: true do
       all_sujets_forum(0,20).each do |hsujet|
         sid = hsujet[:id]
         with_tag('div', with: {class: 'sujet', id: "sujet-#{hsujet[:id]}"}) do
-          with_tag('a', with:{ href: "forum/sujet/#{sid}"}, text: hsujet[:titre])
+          with_tag('a', with:{ href: "forum/sujet/#{sid}?from=-1"}, text: hsujet[:titre])
         end
       end
     end

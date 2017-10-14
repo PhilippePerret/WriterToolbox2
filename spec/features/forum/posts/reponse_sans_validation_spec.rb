@@ -148,30 +148,16 @@ feature "Création de message" do
     first_post  = hposts.first
     last_post   = hposts.last
 
-    hmarceline = site.db.select(:hot,'users',{pseudo: 'MarcelineRédactrice'}).first
-    if hmarceline
-      # Si MarcelineRédactrice existe déjà, il faut supprimer tous ses
-      # messages, au cas où (pour ne pas arriver sur une page qui contiendrait
-      # tous ses messages et donc aucun lien pour "Répondre")
-      delete_all_posts_of(hmarceline[:id])
-    else
-      hmarceline = create_new_user({
-        mail_confirmed: true,
-        grade:  4,
-        pseudo: 'MarcelineRédactrice',
-        sexe:   'F',
-        password:  'marceline'
-        })
-    end
-    hmarceline.merge!(password: 'marceline')
+    hmarceline = get_data_random_user(mail_confirmed: true, grade: 4, sexe: 'F', admin: false)
 
     # Nombre de messages au départ, doit être 0
     initial_count = 0
     hmar = site.db.select(:forum,'users',{id: hmarceline[:id]}).first
     if hmar
       initial_count = hmar[:count]
+    else
+      expect(initial_count).to eq 0
     end
-    expect(initial_count).to eq 0
 
     # puts "Premier post : #{hposts.first.inspect}"
 
@@ -227,12 +213,12 @@ feature "Création de message" do
     TXT
     within('form#post_answer_form') do
       fill_in('post_answer', with: reponse_marceline)
-      # sleep 30
+      # sleep 10
       click_button 'Publier'
     end
     success 'Marceline peut transmettre sa réponse'
 
-    # sleep 30
+    sleep 4
 
 
     # On récupère le nouveau message créé

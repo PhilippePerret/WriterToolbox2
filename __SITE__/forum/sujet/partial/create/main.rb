@@ -39,7 +39,11 @@ class Forum
         # Création du premier message
 
         require_lib('forum:create_post')
-        new_post_id = Forum::Post.create creator, new_sujet_id, {content: hsujet[:first_post]}
+        pdata = {
+          content:      hsujet[:first_post],
+          is_new_sujet: true
+        }
+        new_post_id = Forum::Post.create(creator, new_sujet_id, pdata)
 
         # Si le sujet doit être validé, il faut envoyer un message à
         # l'administration pour le premier message
