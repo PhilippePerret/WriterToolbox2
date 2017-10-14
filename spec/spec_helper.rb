@@ -77,6 +77,10 @@ RSpec.configure do |config|
     require_folder './spec/support/forum'
   end
 
+  def require_support_analyse
+    require_folder './spec/support/analyse'
+  end
+
 
 
   # Pour les tests have_tag etc.

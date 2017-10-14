@@ -20,6 +20,19 @@
       ALTER TABLE scenodico ADD COLUMN created_at INT(10);
       ALTER TABLE filmodico ADD COLUMN created_at INT(10);
 
+# ANALYSE
+
+* Détruire les colonnes, titre, titre_fr, annee, film_id, sym dans la table `boite-a-outils_biblio`.films_analyses
+    ALTER TABLE films_analyses DROP COLUMN titre;
+    ALTER TABLE films_analyses DROP COLUMN titre_fr;
+    ALTER TABLE films_analyses DROP COLUMN annee;
+    ALTER TABLE films_analyses DROP COLUMN film_id;
+    ALTER TABLE films_analyses DROP COLUMN sym;
+* Changer la colonne 'options' pour 'specs'
+    ALTER TABLE films_analyses CHANGE COLUMN options specs VARCHAR(16);
+* Réduire la longueur de la colonne `realisateur`
+  ALTER TABLE films_analyses CHANGE COLUMN realisateur realisateur VARCHAR(100);
+
 # NARRATION
 
 * Supprimer la colonne `handler` dans la table cnarration.narration

@@ -7,4 +7,8 @@
 <h2>Les Analyses de films</h2>
 <%= right_margin %>
 
+<fieldset id="fs_analyse_list">
+  <legend>Analyses</legend>
+  <%= Analyse.list_for(user) %>
+</fieldset>
 <%= footer %>

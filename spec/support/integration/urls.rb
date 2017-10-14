@@ -28,6 +28,11 @@ def forum_page
   "#{base_url}/forum/home"
 end
 
+def analyse_page
+  "#{base_url}/analyse/home"
+end
+alias :analyses_page :analyse_page
+
 def base_url
   url = offline? ? 'localhost/WriterToolbox2' : 'www.laboiteaoutilsdelauteur.fr'
   "http://#{url}"
