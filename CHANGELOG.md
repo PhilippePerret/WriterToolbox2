@@ -1,8 +1,16 @@
+### 2.0.12
+
+  * [FORUM] Implémentation testée de la création de post (tout grade)
+  * [FORUM] Implémentation testée de la validation de post
+  * [FORUM] Implémentation testée de la création d'un sujet (tout grade)
+  * [FORUM] Implémentation testée de l'affichage des sujets et messages
+  * [BDD] Mise en place de la sauvegarde complète des bases (versions vierges)
+
 ### 2.0.11
 
   * Implémentation testée des données du projet UN AN UN SCRIPT
   * Implémentation testée des préférences pour le programme UN AN UN SCRIPT
-  
+
 ### 2.0.10
 
   * Implémentation testée de la tables des variables pour un utilisateur.
