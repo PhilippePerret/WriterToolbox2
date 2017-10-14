@@ -368,7 +368,8 @@ feature "Création de sujet/question technique" do
 
 
     # ============ VÉRIFICATION ===============
-    expect(page).to have_tag('h2', text: 'Forum : sujets')
+    expect(page).to have_tag('h2', text: /Forum/)
+    expect(page).to have_tag('h3', text: /Confirmation de la création/)
 
     hsujet = site.db.select(:forum, 'sujets',"created_at > #{start_time}").first
     sid = hsujet[:id]
@@ -381,9 +382,9 @@ feature "Création de sujet/question technique" do
     expect(specs[4]).to eq '1' # Annonce car sujet validé
     success 'Le nouveau sujet a été créé dans la base de donnée Forum avec les données correctes.'
 
-    expect(page).to have_content("Le nouveau sujet est créé")
+    expect(page).to have_content("La nouvelle question technique est créée")
     expect(page).not_to have_content('doit être validé')
-    expect(page).to have_tag('a', with:{href: "forum/post/new?sid=#{sid}"})
+    expect(page).to have_tag('a', with:{href: "forum/sujet/list?sid=#{sid}"})
     expect(page).to have_tag('div', with: { class: 'forum_boutons'}) do
       with_tag('a', with: {href: 'forum/sujet/list'}, text: 'Liste des sujets')
     end
@@ -393,14 +394,28 @@ feature "Création de sujet/question technique" do
     expect(page).to have_tag('h2', text: 'Forum : sujets')
     expect(page).to have_tag('fieldset', with: {id: 'forum_sujet_list'}) do
       with_tag('div', with: {class: 'sujet', id: "sujet-#{sid}"}) do
-        with_tag('a', with:{ href: "forum/sujet/#{sid}"}, text: hsujet[:titre])
-        with_tag('span', with:{class: 'messages_count', id: "messages_count-#{sid}"})
-        with_tag('span', with:{class: 'last_message_date', id:"last_message_date-#{sid}"})
-        with_tag('span', with: {class: 'created_at'}, text: Time.at(hsujet[:created_at]).strftime('%d %m %Y - %H:%M'))
-        with_tag('span', with: {class: 'creator'}, text: 'Marion')
+        with_tag('a', with:{ href: "forum/sujet/#{sid}?from=-1"}, text: hsujet[:titre])
+        with_tag('span', with: {class: 'sujet_creator'}) do
+          with_tag('a', with:{ href: "user/profil/#{marion.id}"}, text: 'Marion')
+        end
+        with_tag('span', with: {class: 'sujet_date'}, text: Time.at(hsujet[:created_at]).strftime('%d %m %Y - %H:%M'))
+        with_tag('span', with:{class: 'posts_count'}, text: '1')
+        with_tag('span', with:{class: 'post_date'})
       end
     end
     success 'Marion peut rejoindre la liste des sujets et verra son nouveau sujet'
+
+
+    message_init = ["forum/sujet/#{sid}?from=1", "user/profil/#{marion.id}"]
+    data_mail = {
+      sent_after: start_time,
+      subject:    'Création d’un nouveau sujet',
+      message:    nil
+    }
+    data_mail[:message] = (message_init + ['Chère administratrice'])
+    expect(marion).to have_mail(data_mail)
+    data_mail[:message] = (message_init + ['Cher administrateur'])
+    expect(phil).to have_mail(data_mail)
 
   end
 
