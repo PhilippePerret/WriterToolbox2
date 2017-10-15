@@ -37,7 +37,32 @@ feature 'Accueil de la section analyse' do
     end
     success 'il trouve la liste des films'
 
-    expect(page).to have_tag('a', with: {href: "analyse/contribute", class: 'exergue'}, text: 'contribuer aux anlyses')
+    expect(page).to have_tag('a', with: {href: "analyse/contribuer", class: 'exergue'}, text: 'contribuer aux anlyses')
     success 'il trouve un lien vers la partie « Contribuer »'
+  end
+
+  scenario '=> Un visiteur quelconque peut atteindre les différentes parties depuis l’accueil des analyses' do
+    visit analyse_page
+
+    lifilm = page.all('ul#analyse_list li.film')[5]
+    titre_film = lifilm.find('a')[:text].strip
+    # puts "titre_film : #{titre_film}"
+    lifilm.click
+    expect(page).to have_tag('h2', text: 'Analyses de films')
+    expect(page).to have_tag('h3', text: titre_film)
+    success 'Il peut atteindre l’analyse d’un film'
+
+    within('h2'){click_link 'Analyses de films'}
+    expect(page).to have_tag('h2', text: 'Les Analyses de films')
+    click_link 'contribuer aux analyses'
+    expect(page).to have_tag('h2', text: 'Contribuer aux analyses de films')
+    success 'il peut atteindre la partie contribuer'
+
+    within('h2'){click_link 'analyses de films'} # à l'intérieur du titre
+    expect(page).to have_tag('h2', text: 'Les Analyses de films')
+    click_link('consulter l’aide')
+    expect(page).to have_tag('h2', text: 'Aide')
+    expect(page).to have_tag('h3', text: 'Aide pour les analyses de films')
+    success 'il peut atteindre l’aide des analyses de film'
   end
 end

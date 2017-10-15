@@ -1,0 +1,12 @@
+<% 
+# Partie principale pour consulter une analyse de film
+%>
+<%= header(:small) %>
+
+<%= titre_page(simple_link("analyse/home",'Analyses de films')) %>
+<% 
+    #debug "film.data = #{film.data.inspect}"
+%>
+<h3><%= film.titre %></h3>
+
+<%= footer(:small) %>
