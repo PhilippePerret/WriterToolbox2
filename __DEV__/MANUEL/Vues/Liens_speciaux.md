@@ -1,10 +1,19 @@
 # Liens spéciaux
 
+* [Pseudos liés](#pseudos_users_linked)
 * [Liens mis en exergue](#liens_en_exergue)
 * [Les liens vers page avant et après](#link_to_next_prev_pages)
 * [Span de lien pour éditer la page courante (admin)](#link_to_edit_current_page)
 * [Lien pour éditer un fichier quelconque](#lien_edition_fichier_quelconque)
 * [Lien vers les pages de la collection Narration](#links_to_narration)
+
+## Pseudos liés {#pseudos_users_linked}
+
+```ruby
+User.pseudo_linked(<data user>[, with ID[, classe CSS]])
+```
+
+Retourne le prénom lié à la page de profil.
 
 ## Liens mis en exergue {#liens_en_exergue}
 

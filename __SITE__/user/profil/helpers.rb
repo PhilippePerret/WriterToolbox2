@@ -4,13 +4,13 @@
 # Division modulaire permettant d'offrir les quatre sortes de carte différentes.
 class User
 
-  
+
   # --------------------------------------------------------------------------------
   #
   #   CONSTRUCTION DES RANGÉES
   #
   # --------------------------------------------------------------------------------
-  
+
   def row_inscrit_depuis
     since_and_ago = <<-HTML
     <span class="created_at date">#{data[:created_at].as_human_date}</span> <span class="small">(#{data[:created_at].ago})</span>
@@ -67,8 +67,11 @@ class User
     # On rassemble les privilèges
     a = Array.new
     (0..grade-1).each do |igrade|
-      priv = GRADES[igrade][:privilege_forum]
-      priv.start_with?('!!!') || a << "#{priv},"
+      privs = GRADES[igrade][:privilege_forum]
+      privs.is_a?(Array) || privs = [privs]
+      privs.each do |priv|
+        priv.start_with?('!!!') || a << "#{priv},"
+      end
     end
     # :privilege_forum peut être soit un String soit un Array
     privs = GRADES[self.grade][:privilege_forum]

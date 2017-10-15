@@ -1,0 +1,21 @@
+<% 
+    user.admin? || raise(NotAccessibleViewError.new("Seul un administrateur peut passer dans cette section."))
+# Affichage des candidatures
+  #
+  # Les deux options pour valider ou refuser la candidature
+  case param(:op)
+when 'valider_candidature' then Analyse::Analyste.validate(site.route.objet_id)
+when 'refuser_candidature' then Analyse::Analyste.refuser(site.route.objet_id)
+end
+require_form_support
+%>
+<fieldset id="candidatures">
+  <legend>Candidatures aux analyses de films</legend>
+  <p class="tiny italic">Ces candidatures doivent être validées ou refusées. En cas de refus, un champ de texte permettra de donner la raison du refus.</p>
+  <ul id="candidats" class="simple">
+    <% Analyse::Analyste.candidats.each do |hcandidat| %>
+      <%= Analyse::Analyste.li_candidat(hcandidat)  %>
+    <% end %>
+  </ul>
+</fieldset>
+

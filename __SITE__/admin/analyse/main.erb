@@ -4,3 +4,9 @@
 <%= header(:small) %>
 
 <%= titre_page("Tableau de bord des "+simple_link('analyse/home','analyses de films')) %>
+
+<% if Analyse::Analyste.candidats? %>
+  <%= partial('candidatures') %>
+<% end %>
+
+<%= footer(:small) %>

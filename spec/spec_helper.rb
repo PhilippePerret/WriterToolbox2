@@ -11,7 +11,7 @@ Capybara.default_driver     = :selenium
 require 'rspec-html-matchers'
 
 
-def require_folder folder
+def require_folder folder, dont_check_if_exist = false
   Dir["#{folder}/**/*.rb"].each{ |m| require m }
 end
 

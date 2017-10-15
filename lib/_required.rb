@@ -4,7 +4,10 @@ require 'singleton'
 require 'erb'
 require 'json'
 
-def require_folder relpath
+# Charge tout le dossier +relpath+
+# Si +dont_check_if_exists+, on ne vérifie pas que le dossier existe. N'est
+# pas encore utilisé pour le moment.
+def require_folder relpath, dont_check_if_exists = false
   Dir["./#{relpath}/**/*.rb"].each{|m| require m}
 end
 
