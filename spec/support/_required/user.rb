@@ -43,6 +43,11 @@ end
 #               :admin      Si true, il faut un admin. Si false, il ne faut
 #                           pas un admin.
 #
+#               :analyste   Si true, est passé en analyste de niveau indifférent
+#                           c'est-à-dire 3. Sinon, si Fixnum, est cherché comme
+#                           analyste (17e bit).
+# =>                        Si false, on ne doit pas avoir d'analyste
+#
 def get_data_random_user params = nil
 
   defined?(Site) || require_lib_site
@@ -68,6 +73,15 @@ def get_data_random_user params = nil
     wheres << "CAST(SUBSTRING(options,2,1) AS UNSIGNED) <= #{params[:grade_max]}"
   elsif params[:grade].is_a?(Fixnum)
     wheres << "SUBSTRING(options,2,1) = '#{params[:grade]}'"
+  end
+
+  if params.key?(:analyste)
+    if params[:analyste] === false
+      wheres << "CAST(SUBSTRING(options,17,1) AS UNSIGNED) = 0"
+    else
+      params[:analyste] === true && params[:analyste] = 3
+      wheres << "SUBSTRING(options,17,1) = '#{params[:analyste]}'"
+    end
   end
 
   case params[:admin]
@@ -111,6 +125,7 @@ def get_data_random_user params = nil
       duser.merge!(grade: [params[:grade_max]-1,1].max)
     end
     params[:is_admin] && duser.merge!(admin: true)
+    params.key?(:analyste) && duser.merge!(analyste: params[:analyste])
     # puts "Je crée l'user voulu avec les données #{duser.inspect}"
     return create_new_user(duser)
   else

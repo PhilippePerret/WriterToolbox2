@@ -80,6 +80,7 @@ RSpec.configure do |config|
   def require_support_analyse
     require_folder './spec/support/analyse'
   end
+  alias :require_support_analyses :require_support_analyse
 
 
 

@@ -33,6 +33,15 @@ BIT   OFFSET    DESCRIPTION
                 0: Aucune notification
                 1: Notification quotidienne (défaut)
                 2: Notification hebdomadaire
+                -----------------
+17    16        Niveau d'analyste
+                =================
+                0: pas analyste
+                1: demande de participation non validée
+                2: demande de participation refusée ou rejetée
+                3: demande de participation acceptée, premier niveau
+                9: analyse confirmé, a tous les privilèges
+                ------------
 32    31        1: C'est un icarien
                 2: C'est un icarien actif
 ```

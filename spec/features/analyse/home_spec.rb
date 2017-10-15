@@ -64,5 +64,8 @@ feature 'Accueil de la section analyse' do
     expect(page).to have_tag('h2', text: 'Aide')
     expect(page).to have_tag('h3', text: 'Aide pour les analyses de films')
     success 'il peut atteindre l’aide des analyses de film'
+
   end
+
+  
 end

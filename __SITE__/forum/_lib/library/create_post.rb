@@ -31,7 +31,7 @@ class Forum
           user_id:   auteur.id,
           parent_id: pdata[:parent_id],
           options:   options_post(pdata.merge(auteur: auteur))
-        } 
+        }
         post_id = site.db.insert(:forum,'posts',data2save)
 
         # Donnée pour le contenu
@@ -71,7 +71,7 @@ class Forum
     # la création du nouveau sujet d'identifiant +sujet_id+ par
     # l'user +creator+ dont le post courant est le premier message
     def notify_admin_new_sujet creator, sujet_id
-      require_lib('forum:mails')
+      require_lib('site:mails_admins')
       isujet = Forum::Sujet.new(sujet_id)
       message_template = <<-HTML
         <p>Ch<%=f_ere%> administrat<%=f_rice%>,</p>
@@ -84,7 +84,7 @@ class Forum
         formated: true,
         message: message_template
       }
-      Forum.message_to_admins(data_mail)
+      site.mail_to_admins(data_mail, forum: true)
     end
 
     # Méthode pour notifier les administrateurs que ce nouveau message
@@ -93,9 +93,9 @@ class Forum
     # grade inférieur ou un sujet créé.
     def notify_admin_post_require_validation for_new_sujet = false
       debug "for_new_sujet = #{for_new_sujet.inspect}"
-      require_lib('forum:mails')
+      require_lib('site:mails_admins')
       subject = for_new_sujet ? 'Sujet forum à valider' : 'Message forum à valider'
-      ajout_nouveau_sujet = 
+      ajout_nouveau_sujet =
         if for_new_sujet
           '<p>Ce post validera par la même occasion le sujet dont il est le premier post.</p>'
         else
@@ -117,7 +117,7 @@ class Forum
         formated: true,
         message: message_template
       }
-      Forum.message_to_admins( data_mail )
+      site.mail_to_admins( data_mail, forum: true )
     end
   end #/Post
 end #/Forum

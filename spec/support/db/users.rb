@@ -94,6 +94,7 @@ end
 #                           False/Nil : faire un non administrateur
 #                           <nombre> : degré de l'administrateur
 #               :mail_confirmed   Si true, le mail sera directement confirmé
+#               :analyste   Valeur du bit 16 (17e bit)
 #
 def create_new_user duser = nil
 
@@ -151,6 +152,11 @@ def get_data_for_new_user duser = nil
     when Fixnum     then duser[:admin].to_s
     end
 
+  opts = "#{bit_admin}#{duser[:grade]||1}#{mail_is_conf ? '1' : '0'}0000000"
+  if duser[:analyste]
+    opts = opts.ljust(16,'0') + duser[:analyste].to_s
+  end
+
   # ATTENTION ! NE PAS AJOUTER D'AUTRES DONNÉES, CAR ELLES SERVENT
   # À ÊTRE ENREGISTRÉES DANS LA BDD
   udata = {
@@ -158,7 +164,7 @@ def get_data_for_new_user duser = nil
     patronyme:  patronyme,
     sexe:       sexe,
     mail:       duser[:mail]      || "#{patronyme.split(' ').join('.').downcase}.#{nows}@mail.com",
-    options:    duser[:options]   || "#{bit_admin}#{duser[:grade]||1}#{mail_is_conf ? '1' : '0'}0000000",
+    options:    duser[:options]   || opts,
     salt:       duser[:salt]      || 'dusel',
     password:   duser[:password]  || 'motdepasse', # sera retiré
     cpassword:  nil

@@ -7,27 +7,27 @@ class Forum
       user.id == auteur.id || user.admin? || raise('Cette opération ne vous est pas permise.')
 
       # Enregistrement du texte
-     
+
       new_content = Forum::Post.traite_before_save(param(:post)[:content])
       site.db.update(:forum,'posts_content',{content: new_content, modified_by: user.id},{id: self.id})
 
       # Si le grade de l'auteur le nécessite, il faut transmettre une nouvelle
       # demande de validation aux administrateurs.
-      # SAUF si cette demande a déjà été émise (on le sait en regardant le 4e bit 
+      # SAUF si cette demande a déjà été émise (on le sait en regardant le 4e bit
       # des options).
       # Note : cela arrive aussi lorsque le message était refusé.
       # Lorsque ce n'est pas un refus, on met le 4e bit à 1 pour indiquer que le message
       # doit être validé mais qu'il peut tout de même être affiché.
       if user.grade < 4 && (refused? || data[:options][3] == '0')
-        # Noter qu'un administrateur ne passera jamais par là, même lorsqu'il modifie 
+        # Noter qu'un administrateur ne passera jamais par là, même lorsqu'il modifie
         # le message d'un auteur de grade < 4
         if false == refused?
           opts = data[:options]
           opts[3] = '1'
           site.db.update(:forum,'posts',{options: opts},{id: self.id})
         end
-        require_lib('forum:mails')
-        Forum.message_to_admins({
+        require_lib('site:mails_admins')
+        site.mail_to_admins({
           subject: "Message forum modifié à valider",
           formated: true,
           message: <<-HTML
@@ -37,7 +37,7 @@ class Forum
           <p class="center">#{simple_link(self.route(:full)+'?op=v', 'Valider le message')}</p>"
           <p class="tiny">Le lien ci-dessus permet de rejoindre le formulaire de validation du message, pour l'accepter, le détruire ou le refuser.</p>
           HTML
-        })
+        }, forum: true)
         __notice 'Une nouvelle demande de validation a été envoyée aux administrateur. Merci de votre patience.'
       end
       # On retourne au sujet

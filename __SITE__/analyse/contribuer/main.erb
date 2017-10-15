@@ -4,6 +4,10 @@
 <%= header(:small) %>
 
 <%= titre_page("Contribuer aux "+simple_link('analyse/home','analyses de films')) %>
+<p class="right"><%= simple_link('aide?p=admin/analyse/contribuer', '→ Aide pour la contribution','exergue small') %></p>
+
+<%= Analyse.invite_by_niveau(user) %>
+<%= param(:op) && partial(param(:op)) %>
 
 <%= footer(:small) %>
 
