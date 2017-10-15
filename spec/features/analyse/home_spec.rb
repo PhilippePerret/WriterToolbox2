@@ -19,14 +19,25 @@ feature 'Accueil de la section analyse' do
   scenario '=> Un visiteur quelconque trouve un accueil conforme' do
 
     # On prend un film qui peut être vu par n'importe qui
-    hfilm = get_film_analyse(access: :public)
-    puts "hfilm = #{hfilm.inspect}"
+    hfilms = get_films_analyse(access: :suscribed)
     visit analyse_page
     expect(page).to have_tag('fieldset', with:{id: "fs_analyse_list"}) do
       with_tag('legend', text: 'Analyses')
       with_tag('ul', with: {id: 'analyse_list'}) do
-        with_tag('li', with: {class: 'film', id: "film-#{hfilm[:id]}"}, text: /#{hfilm[:titre]}/)
+        hfilms.each do |hfilm|
+          titre_film = hfilm[:titre].force_encoding('utf-8')
+          with_tag('li', with: {class: 'film', id: "film-#{hfilm[:id]}"}, text: /#{titre_film}/) do
+            with_tag('a', with: {href: "analyse/lire/#{hfilm[:id]}"})
+            director_name = hfilm[:director].force_encoding('utf-8').split(' ').last
+            with_tag('span.director', text: /#{director_name}/)
+            with_tag('span.annee', text: hfilm[:annee].to_s)
+          end
+        end
       end
     end
+    success 'il trouve la liste des films'
+
+    expect(page).to have_tag('a', with: {href: "analyse/contribute", class: 'exergue'}, text: 'contribuer aux anlyses')
+    success 'il trouve un lien vers la partie « Contribuer »'
   end
 end

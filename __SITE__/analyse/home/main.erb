@@ -4,11 +4,16 @@
   #
 %>
 <%= header %>
-<h2>Les Analyses de films</h2>
-<%= right_margin %>
+<%= titre_page("Les Analyses de films") %>
 
 <fieldset id="fs_analyse_list">
   <legend>Analyses</legend>
   <%= Analyse.list_for(user) %>
 </fieldset>
+
+<p class="small">
+  <span>Vous pouvez également </span>
+  <%= simple_link("analyse/contribute", 'contribuer aux analyses', 'exergue') %>
+  <span> en participant à un projet d’analyse ou en l’initiant vous-même.</span>
+</p>
 <%= footer %>

@@ -1,3 +1,8 @@
+### 2.0.13
+
+  * Ajout du titre de la page à la balise TITLE
+  * Première mise ne place des parties « Analyses de film »
+  
 ### 2.0.12
 
   * [FORUM] Implémentation testée de la création de post (tout grade)

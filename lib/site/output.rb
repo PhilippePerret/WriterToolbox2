@@ -3,6 +3,20 @@
 class Site
   include Singleton
 
+  # Cf. Manuel > Vue > Titre.md
+  def titre_page titre = nil, classe = nil
+    if titre
+      # Pour la page en question
+      classe && classe = " class=\"#{classe}\""
+      @titre_page = titre.gsub(/<.*?>/,'')
+      "<h2#{classe}>#{titre}</h2>"
+    else
+      # Pour la balise TITLE
+      " #{@titre_page}" || ''
+    end
+  end
+
+
   # Sortie de la page complète (envoi au navigateur)
   def output
 
@@ -49,7 +63,8 @@ class Site
   end
 
   def head_titre
-    @head_titre ||= site.configuration.titre
+    @head_titre ||= 
+      (site.configuration.title || site.configuration.titre) + titre_page
   end
 
   # ---------------------------------------------------------------------

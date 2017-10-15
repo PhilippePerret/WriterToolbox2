@@ -21,6 +21,9 @@ site.configure do |s|
   # Le titre raccourci
   # ------------------
   s.short_titre = "BOA"
+  # Le titre pour la balise Title (auquel sera ajouté
+  # le titre de la page)
+  s.title = "BOA"
 
   # Mail principal
   # --------------
