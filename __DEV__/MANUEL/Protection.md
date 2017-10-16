@@ -40,3 +40,19 @@ Par exemple, sur le forum, on ne peut pas forcer l'adresse `forum/sujet/new` pou
 ```
 
 Cette erreur est gérée par le module.
+
+### Module réservé à l'administration
+
+Pour protéger un module qui ne peut être atteint que par un administrateur, il suffit de mettre :
+
+```ruby
+administrator_only
+```
+
+Ou
+
+```erb
+<% administrator_only %>
+```
+
+> Noter que si l'user n'est pas encore identifié, il est d'abord redirigé vers la page d'identification.

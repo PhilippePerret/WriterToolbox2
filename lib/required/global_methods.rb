@@ -100,3 +100,8 @@ def identification_required message = nil
   site.session['route_after_login'] = site.uri
   redirect_to('user/signin', message || "Pour atteindre la page demandée, vous devez être identifié.")
 end
+def administrator_only mess = nil
+  user.admin? && return # OK
+  user.identified? || identification_required(mess)
+  raise NotAccessibleViewError.new(mess||'Cette opération nécessite des privilèges d’administrateur.')
+end
