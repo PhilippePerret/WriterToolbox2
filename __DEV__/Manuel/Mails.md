@@ -27,6 +27,25 @@ destinataire.send_mail({
 
 ```
 
+## Lien dans un mail
+
+On peut utiliser la méthode pratique `full_link` pour ajouter un lien dans un mail. Cette méthode fonctionne comme `simple_link` mais retourne une URL complète.
+
+Par exemple :
+
+```ruby
+"Vous pouvez vous rendre à #{full_link('site/home?next=aide%2Fsite', 'l’accueil du site', 'exergue')} pour trouver ces informations."
+```
+
+Si `site.configuration.online` est égal à "www.laboiteaoutilsdelauteur.fr", alors le code précédent produira :
+
+```html
+a<p>Vous pouvez vous rendre à <a href="http://www.laboiteaoutilsdelauteur.fr?next=aide%2Fsite" class="exergue">l’accueil du site</a> pour trouver ces informations.</p>
+```
+
+
+> Rappel : remplacer les "/" par des "%2F" dans les adresses en paramètres.
+
 ## Toutes les options possibles {#mail_all_options}
 
 Résumé de toutes les options possibles (voir le détail plus bas dans le document) :

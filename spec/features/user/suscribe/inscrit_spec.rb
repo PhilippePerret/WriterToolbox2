@@ -88,7 +88,7 @@ feature "Abonnement par un user déjà inscrit" do
     expect(page).to have_content("vous êtes maintenant abonnée pour un an au site")
     success '… le message de confirmation'
     expect(page).to have_tag('section#contents') do
-      with_tag('a', with:{href:'site/aide'}, text: 'aide du site')
+      with_tag('a', with:{href:'aide'}, text: 'aide du site')
     end
     success '… un lien vers l’aide du site'
     expect(page).to have_tag('a', with:{href:'user/profil'}, text: "votre profil")

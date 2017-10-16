@@ -16,11 +16,14 @@ def deserb path, bindee = nil
   end
 end
 
-# Formate un texte quelconque
-# cf. Manuel > Markdown.md
-def formate code
+# cf. Manuel > Vues > Formatage.md
+def formate code, options = nil
   defined?(MD2Page) || require_folder('./lib/utils/md_to_page')
-  MD2Page.transpile(nil,{dest:nil, code: code.force_encoding('utf-8')})
+  res = MD2Page.transpile(nil,{dest:nil, code: code.force_encoding('utf-8')})
+  if options && options[:deserb]
+    res = ERB.new(res).result(options[:bind] || site.bind)
+  end
+  return res
 end
 alias :kramdown :formate
 
@@ -61,6 +64,9 @@ end
 def simple_link href, titre = nil, css = nil
   css = css ? " class=\"#{css}\"" : ''
   "<a href=\"#{href}\"#{css}>#{titre || href}</a>"
+end
+def full_link href, titre = nil, css = nil
+  simple_link("http://#{site.configuration.url_online}/#{href}", titre, css)
 end
 
 def bulle message, type, style = nil

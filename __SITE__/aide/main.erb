@@ -1,9 +1,9 @@
-<% 
+<%
 # Page principale de l'aide
 %>
 <%= header(:small) %>
 <%= titre_page(Aide.titre_page) %>
 
-<%= Aide.output(param(:p)) %>
+<%= Aide.output(param(:p) || 'tdm') %>
 
 <%= footer(:small) %>

@@ -22,6 +22,7 @@ class Analyse
           vient d’être acceptée.</p>
           <p>Bravo à vous !</p>
           <p>Si vous vous demandez par où commencer, le mieux est de consulter l'aide à ce sujet.</p>
+          <p class="center">#{full_link("aide?p=analyse%2Fcontribuer%2Fou_commencer",'Par où commencer ?')}</p>
           <p>Et bien entendu, n'hésitez pas à vous mettre en relation avec les autres candidats
           qui pourront eux aussi vous aiguiller sur les travaux à accomplir.</p>
           <p>Encore merci pour votre proposition et bon courage à vous !</p>
