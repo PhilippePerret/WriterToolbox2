@@ -33,6 +33,16 @@
 * Réduire la longueur de la colonne `realisateur`
   ALTER TABLE films_analyses CHANGE COLUMN realisateur realisateur VARCHAR(100);
 
+* Créer la table qui va contenir l'indication des analystes qui font les analyses :
+  CREATE TABLE user_per_analyse (
+    user_id INTEGER,
+    film_id INTEGER,
+    role    VARCHAR(3),
+    created_at INTEGER(10),
+    updated_at INTEGER(10),
+    PRIMARY KEY (user_id, film_id)
+    );
+
 # NARRATION
 
 * Supprimer la colonne `handler` dans la table cnarration.narration

@@ -231,7 +231,7 @@ end
 
 # ---------------------------------------------------------------------
 #
-#   BACKUP DE LA TABLE BIBLIO (Scénodico, Filmodico, etc.)
+#   BACKUP DE LA TABLE BIBLIO (Scénodico, Filmodico, Analyses, etc.)
 #
 # ---------------------------------------------------------------------
 def backup_base_biblio
@@ -239,8 +239,11 @@ def backup_base_biblio
     puts "Appeler la méthode `retreive_base_biblio` pour récupérer les données Biblio"
     `mkdir -p ~/xbackups;cd ~/xbackups;mysqldump -u root -p#{db_data_offline[:password]} --databases 'boite-a-outils_biblio' > #{backup_biblio_filepath_of_day}`
     puts "= Backup complet des données exécuté dans #{backup_biblio_filepath_of_day} ="
+    puts "\nRécupérer les données initiales de la base Biblio en appelant la méthode\n`retreive_base_biblio` à la fin de la session de test."
+    true
+  else
+    false
   end
-  puts "\nRécupérer les données initiales de la base Biblio en appelant la méthode\n`retreive_base_biblio` à la fin de la session de test\n(chercher 'retreive_base_biblio' dans le spec_helper.rb).\n"
 
 end
 def retreive_base_biblio

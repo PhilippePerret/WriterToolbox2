@@ -45,7 +45,7 @@ feature 'Accueil de la section de contribution aux analyses de films' do
 
       t = "Pour contribuer aux analyses, puisque vous êtes déjà inscrit#{v.f_e}, il vous suffit de soumettre une demande de participation."
       expect(page).to have_content(t)
-      expect(page).to have_tag('a', with:{href:'analyse/contribuer?op=candidater', class: 'exergue'}, text: 'soumettre une demande de participation')
+      expect(page).to have_tag('a', with:{href:'analyse/contribuer/candidater', class: 'exergue'}, text: 'soumettre une demande de participation')
       success 'un lien lui permet de candidater pour les analyses'
 
       click_link 'soumettre une demande de participation'
@@ -66,7 +66,7 @@ feature 'Accueil de la section de contribution aux analyses de films' do
       success 'Les administrateurs ont reçu une demande de participation'
 
       expect(page).not_to have_link('soumettre une demande de participation')
-      expect(page).to have_content('votre candidature est à l’étude')
+      expect(page).to have_content('Votre demande a été transmise')
       success 'si l’user ressoumet sa candidature, on lui dit qu’elle est déjà à l’étude'
     end
   end
@@ -82,7 +82,7 @@ feature 'Accueil de la section de contribution aux analyses de films' do
       expect(page).to have_tag('h2', text: 'Contribuer aux analyses de films')
       success 'il peut rejoindre la page de conbribution'
 
-      expect(page).to have_content("votre candidature est à l’étude")
+      expect(page).to have_content("Votre candidature est à l’étude")
       expect(page).not_to have_tag('a', with:{href:'analyse/contribuer?op=candidater', class: 'exergue'}, text: 'soumettre une demande de participation')
       success 'On l’informe que sa candidature est à l’étude et aucun lien ne lui permet pas de candidater à nouveau'
 
@@ -101,7 +101,8 @@ feature 'Accueil de la section de contribution aux analyses de films' do
       expect(page).to have_tag('h2', text: 'Contribuer aux analyses de films')
       success 'il peut rejoindre la page de conbribution'
 
-      expect(page).to have_content("Vous êtes analyste.")
+      expect(page).to have_content("Vous êtes analyste")
+      expect(page).to have_content("vous pouvez contribuer aux analyses ou en initier")
       success 'la page lui indique qu’il est analyste'
 
     end

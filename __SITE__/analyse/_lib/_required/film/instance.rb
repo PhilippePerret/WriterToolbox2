@@ -29,3 +29,9 @@ class Analyse
   end #/Film
 end #/Analyse
 
+# Le film courant
+#
+# Défini seulement si l'objet_id de la route est un Fixnum.
+def film
+  Analyse::Film.current
+end

@@ -1,0 +1,61 @@
+<% 
+# Pour initier une nouvelle analyse
+  #
+
+
+  case param(:op)
+  when 'create' then Analyse.create_new(user, param(:analyse))
+  end
+%>
+
+
+<% if user.analyste? %>
+  <% 
+      require_form_support
+  %>
+
+  <p>Film dont vous voulez initier l'analyse <span class="tiny">(si ce film est déjà analysé, on vous le signalera)</span> :</p>
+  <form id="analyse_new_film_form" method="POST">
+    <input type="hidden" name="op" id="" value="create" />
+    <div>
+      <label for="">Titre du film à analyser <span>(merci de prendre soin à l’orthographe)</span></label>
+      <span class="field">
+        <input type="text" name="analyse[film_titre]" id="analyse_film_titre" value="" />
+      </span>
+    </div>
+
+    <div>
+      <label for="">Année de sortie de ce film <span>(pour éviter les confusions de titre)</span></label>
+      <span class="field">
+         <input type="text" class="short" name="analyse[film_annee]" id="analyse_film_annee" value="" />
+      </span>
+    </div>
+
+
+    <div>
+      <label for="">Ou choisir un film du scénodico <span>(cette liste ne présente que les films non analysés)</span></label>
+      <span class="field"><%= Analyse::Film.menu_films_unanalysed %></span>
+    </div>
+    
+    <div class="buttons">
+      <input type="submit" class="main" value="Initier l’analyse de ce film" />
+    </div>
+  </form>
+
+
+
+<% elsif user.identified? %>
+
+
+
+  <p>Pour pouvoir initier une nouvelle analyse de film, vous devez déposer une <a href="analyse/contribuer/candidater" class="exergue">demande de contribution aux analyses</a>.</p>
+
+
+
+<% else %>
+
+  
+  <p>Pour pouvoir initier une nouvelle analyse de film, vous devez impérativement <a href="user/signup" class="exergue">être inscrit sur le site</a> et avoir fait une <a href="analyse/contribuer/candidater" class="exergue">demande de contribution aux analyses</a>.</p>
+
+
+<% end %>

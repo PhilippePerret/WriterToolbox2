@@ -6,7 +6,7 @@
 # analyses de film.
 # Une demande est envoyée aux administrateurs.
 #
-user.identified? || require_identification
+user.identified? || identification_required("Merci de vous identifier, pour pouvoir candidater pour les analyses de films.")
 
 case
 when user.analyste?

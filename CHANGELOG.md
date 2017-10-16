@@ -1,7 +1,8 @@
 ### 2.0.14
 
+  * Mise en place de l'aide sur les analyses de films
   * Gestion de la validation ou du refus de la candidature aux analyses de films.
-  
+
 ### 2.0.13
 
   * Ajout du titre de la page à la balise TITLE

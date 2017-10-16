@@ -1,5 +1,22 @@
 <% 
 # Partie principale pour consulter une analyse de film
+  #
+  # Le partiel peut être défini de différentes manière :
+  # - par le paramètre `op`
+  # - par l'objet_id de la route si ce n'est pas un nombre
+  #
+  # Si l'objet_id est un nombre, c'est l'identifiant d'un film analysé
+  #
+
+  # Définition du partiel
+  partiel = nil
+  if site.route.objet_id.is_a?(String)
+    partiel = site.route.objet_id
+  elsif site.route.objet_id.is_a?(Fixnum)
+    Analyse::Film.set_current(site.route.objet_id)
+  elsif param(:op)
+    partiel = param(:op)
+  end
 %>
 <%= header(:small) %>
 
@@ -7,6 +24,10 @@
 <% 
     #debug "film.data = #{film.data.inspect}"
 %>
-<h3><%= film.titre %></h3>
+<h3><%= film && film.titre %></h3>
+
+
+<%= partiel && partial(partiel) %>
+
 
 <%= footer(:small) %>
