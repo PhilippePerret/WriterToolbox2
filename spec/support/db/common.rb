@@ -234,12 +234,16 @@ end
 #   BACKUP DE LA TABLE BIBLIO (Scénodico, Filmodico, Analyses, etc.)
 #
 # ---------------------------------------------------------------------
+
+# Retourne TRUE si le backup a dû être fait, FALSE dans le cas contraire,
+# i.e. il a déjà été effectué.
 def backup_base_biblio
-  File.exist?(backup_biblio_filepath_of_day) || begin
-    puts "Appeler la méthode `retreive_base_biblio` pour récupérer les données Biblio"
+  if false == File.exist?(backup_biblio_filepath_of_day)
     `mkdir -p ~/xbackups;cd ~/xbackups;mysqldump -u root -p#{db_data_offline[:password]} --databases 'boite-a-outils_biblio' > #{backup_biblio_filepath_of_day}`
     puts "= Backup complet des données exécuté dans #{backup_biblio_filepath_of_day} ="
-    puts "\nRécupérer les données initiales de la base Biblio en appelant la méthode\n`retreive_base_biblio` à la fin de la session de test."
+    unless $protect_base_biblio
+      puts "\nRécupérer les données initiales de la base Biblio en appelant la méthode\n`retreive_base_biblio` à la fin de la session de test."
+    end
     true
   else
     false
@@ -247,8 +251,10 @@ def backup_base_biblio
 
 end
 def retreive_base_biblio
-  File.exist?(backup_biblio_filepath_of_day) && begin
+  if File.exist?(backup_biblio_filepath_of_day)
+    puts "\n\n*** Récupération des données de la base BIBLIO ***"
     `cd ~/xbackups;mysql -u root -p#{db_data_offline[:password]} < #{backup_biblio_filepath_of_day}`
+    puts "=== Données BIBLIO récupérées avec succès ==="
   end
 end
 def backup_biblio_filepath_of_day

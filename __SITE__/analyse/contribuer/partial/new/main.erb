@@ -3,13 +3,17 @@
   #
 
 
-  case param(:op)
-  when 'create' then Analyse.create_new(user, param(:analyse))
-  end
+  output =
+    case param(:op)
+    when 'create' then Analyse.create_new(user, param(:analyse))
+    else nil
+    end
 %>
 
-
-<% if user.analyste? %>
+<%# S'il y a une sortie prévue par l'opération %>
+<% if output %>
+  <%= output %>
+<% elsif user.analyste? %>
   <% 
       require_form_support
   %>

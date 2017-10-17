@@ -84,6 +84,16 @@ RSpec.configure do |config|
 
 
 
+  # Il faut appeler cette méthode en haut de toutes les feuilles de
+  # test qui utilisent la base `boite-a-outils_biblio`.
+  # Cela permet de faire une sauvegarde au début de la suite et de
+  # recharger les données initiales à la fin de la suite.
+  # Si plusieurs feuilles de test sont jouées, la protection se fait
+  # seulement en début et en fin de test.
+  def protect_biblio
+    $protect_base_biblio = true
+  end
+
   # Pour les tests have_tag etc.
   config.include RSpecHtmlMatchers
 
@@ -122,6 +132,15 @@ RSpec.configure do |config|
 
     # *** Au lancement des scripts de test on… ***
 
+    # Protection de la base biblio
+    if $protect_base_biblio
+      start = Time.now.to_f
+      if backup_base_biblio
+        laps  = (Time.now.to_f - start).round(5)
+        puts "Durée du backup de la base `boite-a-outils_biblio` : #{laps}"
+      end
+    end
+
     # … vide le dossier des screenshots
     empty_screenshot_folder
 
@@ -129,6 +148,14 @@ RSpec.configure do |config|
 
   config.after :suite do
     destroy_files_to_destroy
+
+    # Récupérer les données de la base biblio
+    if $protect_base_biblio
+      start = Time.now.to_f
+      retreive_base_biblio
+      laps  = (Time.now.to_f - start).round(5)
+      puts "Durée du retrieve de la base `boite-a-outils_biblio` : #{laps}"
+    end
 
     # Décommenter la ligne suivante pour réinjecter les données de la
     # collection Narration dans la base

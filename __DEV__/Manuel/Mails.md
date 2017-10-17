@@ -27,6 +27,41 @@ destinataire.send_mail({
 
 ```
 
+## Envoi d'un mail aux administrateurs
+
+La méthode `site.mail_to_admins` permet d'envoyer un mail à tous les administrateurs du site.
+
+Usage :
+
+```ruby
+
+# Charger la librairie qui gère cette fonctionnalité
+require_lib('site:mails_admins')
+
+# Définir le mail
+data_mail = {
+  subject: "le sujet",
+  formated: true,
+  message: "Le message formaté"
+}
+
+# Envoyer le mail
+site.mail_to_admins(data_mail[, <option>])
+```
+
+Les options peuvent définir :
+
+```ruby
+
+  {
+    forum:     true,       # Les grades 9 du forum seront également contactés
+    analyses:  true,       # Les analystes administrateurs seront également
+                           # contactés
+  }
+
+```
+
+
 ## Lien dans un mail
 
 On peut utiliser la méthode pratique `full_link` pour ajouter un lien dans un mail. Cette méthode fonctionne comme `simple_link` mais retourne une URL complète.
