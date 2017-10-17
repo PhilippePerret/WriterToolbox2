@@ -1,10 +1,17 @@
+// Pour des libellés à mettre au-dessus d'une liste à colonne,
+// sans que ces libellés soient forcément aligner parfaitement.
+div.libelle_colonnes
+  font-size   : .7em
+  color       : #777
+  font-style  : italic
+
 ul
   li
     vertical-align  : text-top
     > div.float, > span, > a, > div > span
       vertical-align  : text-top
     div, span, a
-      margin-left : 4px
+      margin-left : 12px
     // Les boutons dans un DIV "buttons"
     div.buttons
       a

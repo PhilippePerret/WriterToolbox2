@@ -7,7 +7,6 @@ class Analyse
     #
     def as_li_for adata, reader
       adata.merge!(reader: reader)
-      titre = adata[:titre].force_encoding('utf-8')
       <<-HTML
         <li class="analyse" id="analyse-#{adata[:id]}">
           <div class="fright buttons discret">
@@ -17,13 +16,20 @@ class Analyse
           <div class="fright states tiny">
             #{analyse_states(adata)}
           </div>
-          <span class="titre">#{titre}</span>
+          <span class="titre">#{titre_linked(adata)}</span>
       </li>
       HTML
     end
 
+    # Code HTML du titre du film lié à sa fiche dans le
+    # Filmodico
+    def titre_linked adata
+      titre = adata[:titre].force_encoding('utf-8')
+      simple_link("filmodico/voir/#{adata[:id]}", titre, 'nodeco')
+    end
+
     def bouton_contribuer adata
-      if Analyse.has_contributor?(adata[:id], adata[:reader].id)
+      if Analyse.has_contributor?(adata, adata[:reader].id)
         '<span class="minuscule">vous<br>contribuez</span>'
       else
         "<a href=\"analyse/contribuer/#{adata[:id]}\">contribuer</a>"
@@ -35,32 +41,38 @@ class Analyse
 
     def analyse_states adata
      <<-HTML
-     <span title="Initiateur de l'analyse">#{User.pseudo_linked(adata[:creator_id])}</span>
+     <span class="creator" title="Initiateur de l'analyse">#{creator_linked(adata)}</span>
      <span title="Date de dernière modification">#{adata[:updated_at].as_human_date}</span>
-     <span title="Nombre de contributeurs">Ctbr: #{nombre_contributeurs(adata[:id])}</span>
+     <span class="contributors" title="#{pseudos_contributors(adata)}">Ctbr: #{nombre_contributeurs(adata)}</span>
      HTML
     end
 
     # Retourne un lien vers le créateur de l'analyse
-    def creator_linked
-      # Pour trouver le créateur de l'analyse (qui doit toujours exister), on 
-      # doit chercher l'user dans user_per_analyse en lien avec le film et qui
-      # a 1 dans son rôle.
-      # Pour le relever au cours de la relève des données du film, on peut faire
-      # INNER JOIN user_per_table upt ON fa.id = upt.film_id
-      # avec en colonne à remonter : upt.user_id AS contributors
-      
+    def creator_linked adata
+      # Le créator est le premier user de :contributors
+      hcreator = adata[:contributors].first
+      "<a href=\"user/profil/#{hcreator[:id]}\">#{hcreator[:pseudo]}</a>"
     end
 
     # Retourne le nombre de contributeur à l'analyse du film +film_id+
-    def nombre_contributeurs film_id
-      site.db.count(:biblio,'user_per_analyse',{film_id: film_id})
+    def nombre_contributeurs adata
+      adata[:contributors].count
+    end
+    # Liste des pseudos des contributeurs de l'analyse, tels que définis
+    # dans la données :contributors
+    def pseudos_contributors adata
+      adata[:contributors].collect do |hcont|
+        hcont[:pseudo]
+      end.join(', ')
     end
 
     # Méthode qui retourne TRUE si l'user +user_id+ contribue à l'analyse
     # du film d'ID +film_id+, et FALSE dans le cas contraire.
-    def has_contributor?(film_id, user_id)
-      site.db.count(:biblio,'user_per_analyse',{user_id: user_id, film_id: film_id}) > 0
+    def has_contributor?(adata, user_id)
+      adata[:contributors].each do |hcontrib|
+        hcontrib[:id] == user_id && (return true)
+      end
+      return false
     end
   end #<<self
 end #/Analyse
