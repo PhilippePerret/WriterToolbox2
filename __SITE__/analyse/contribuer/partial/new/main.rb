@@ -2,6 +2,15 @@
 class Analyse
   class << self
 
+    # Pour définir ou récupérer la sortie à écrire dans la page
+    def output sometext = nil
+      if sometext
+        @outputs ||= String.new
+        @outputs << sometext
+      else
+        @outputs
+      end
+    end
     # Méthode pour créer une nouvelle analyse
     # @param {User} analyste
     #               L'analyste qui veut initier cette analyse
@@ -39,7 +48,7 @@ class Analyse
       # Les données générales de l'analyse, pour information
       # Elles seront écrites dans le document.
 
-      data_generale_analyse(fdata)
+      output(data_generale_analyse(fdata))
 
     end
 
@@ -108,20 +117,28 @@ class Analyse
     # notamment recherche l'identifiant du film s'il a été fourni
     # par son titre (et son année) ou inversement définit son titre
     # et son année s'il a été défini par son ID.
+    #
+    # Noter que la définition du titre explicite est prioritaire sur le
+    # choix dans le menu.
+    #
+    # @param {Hash} adata
+    #               Les données du film, transmises par le formulaire.
+    #               Contient:
+    #                 :film_titre     Le titre du film (if any)
+    #                 :film_annee     L'année (string) du film (if any)
+    #                 :film_id        L'ID (string) du film (défini par le menu)
+    #               Peut être nil en cas de "forçage" d'url
     def prepare_data adata
+      
+      if adata.nil?
 
-      if adata[:film_id].nil_if_empty
-
-        film_id = adata[:film_id]
-        hf = site.db.select(:biblio,'filmodico',{id: film_id},[:titre, :annee, :id]).first
-        hf != nil || raise("L'identifiant du film est inconnu…")
-        return hf
+        raise("Il faut fournir les données du film dont il faut initier l'analyse.")
 
       elsif adata[:film_titre].nil_if_empty
 
         film_titre = adata[:film_titre].strip
-        film_annee = adata[:film_annee].nil_if_empty
-        film_annee != nil || raise("Il faut fournir l'année du film quand on fournit son titre.")
+        film_annee = adata[:film_annee].nil_if_empty.to_i
+        film_annee > 1894 || raise("Il faut fournir l'année du film quand on fournit son titre, et une année supérieur à 1894 (= #{film_annee.inspect}).")
         # Pour faire la recherche du titre dans la base de données, on doit supprimer
         # toutes les lettres majuscules et autres, car contrairement à ce que je lis
         # partout la recherche est case sensitive, et si l'user a entrer des lettres 
@@ -159,6 +176,17 @@ class Analyse
 
         end
 
+      elsif adata[:film_id].nil_if_empty
+
+        # Si un film a été choisi dans le menu des films
+        # pas encore analysés.
+
+        film_id = adata[:film_id]
+        hf = site.db.select(:biblio,'filmodico',{id: film_id},[:titre, :annee, :id]).first
+        hf != nil || raise("L'identifiant du film est inconnu…")
+
+        return hf
+
       else
 
         raise("Il faut soit donner le titre du film, soit le choisir dans le menu.")
@@ -175,7 +203,17 @@ class Analyse
     # Sinon, affiche l'erreur et retourne false pour interrompre la
     # procédure
     def initiate_enabled? fdata
-      Film.is_analysed?(fdata[:id]) && raise("L’analyse de ce film est déjà initiée.")
+      Film.is_analysed?(fdata[:id]) && 
+        begin
+          titre_upcase = "<span class='film'>#{fdata[:titre].upcase}</span>"
+          output(
+            <<-HTML
+             <p><a href="analyse/lire/#{fdata[:id]}">⇥ Consulter l’analyse de #{titre_upcase}</a> 
+             <p><a href="analyse/contribuer/#{fdata[:id]}">⇥ Contribuer à l’analyse de #{titre_upcase}</a> 
+            HTML
+          )
+          raise("Ce film fait déjà l’objet d’une analyse.")
+      end
     rescue Exception => e
       debug e
       __error(e.message)
@@ -228,7 +266,7 @@ class Analyse
         site.db.execute(request).collect do |hfilm|
           titre = hfilm[:titre].force_encoding('utf-8')
           hfilm[:titre_fr].nil_if_empty && titre << " (#{hfilm[:titre_fr].force_encoding('utf-8')})"
-          "<option value=\"#{hfilm[:id]}\">#{hfilm[:annee]} #{titre}</option>"
+          "<option value=\"#{hfilm[:id]}\">#{hfilm[:annee]} - #{titre}</option>"
         end.join +
         '</select>'
       end

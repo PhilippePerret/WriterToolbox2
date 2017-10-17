@@ -10,7 +10,7 @@ require_support_mail_for_test
 
 protect_biblio
 
-feature 'Initiation d’une nouvelle analyse' do
+feature 'Initier une nouvelle analyse de film' do
 
   before(:each) do
     @start_time = Time.now.to_i
@@ -40,6 +40,7 @@ feature 'Initiation d’une nouvelle analyse' do
 
 
   scenario '=> Un inscrit analyste peut initier une nouvelle analyse par le menu Filmodico' do
+    notice '* Un analyse veut initier une nouvelle analyse par le menu Filmodico'
     hanalyste = get_data_random_user(mail_confirmed: true, admin: false, analyste: true)
     analyste_id = hanalyste[:id]
     identify hanalyste
@@ -65,6 +66,8 @@ feature 'Initiation d’une nouvelle analyse' do
       click_button 'Initier l’analyse de ce film'
     end
     success 'l’analyste peut soumettre la demande d’initiation'
+
+    # sleep 10
 
     expect(page).to have_tag('h2', text: /analyses de films/i)
     expect(page).to have_tag('div.notice', text: /L’analyse a été initiée/)
@@ -98,7 +101,9 @@ feature 'Initiation d’une nouvelle analyse' do
 
   end
 
+
   scenario 'Un analyste ne peut pas initier l’analyse d’un film déjà analysé avec son ID' do
+    notice '* Un analyste essaie initier un film déjà analysé par son ID'
     # NOTE : Noter que par défaut, seuls les films non analysés sont présents.
     # Donc, pour analyser un film inexistant, il faut soit le rentrer sous forme
     # de titre sans savoir qu'il existe, soit forcer l'url avec un identifiant
@@ -106,16 +111,19 @@ feature 'Initiation d’une nouvelle analyse' do
     film_id = site.db.select(:biblio,'filmodico',{titre: "Seven"},[:id]).first[:id]
 
     identify hanalyste
-    visit "#{base_url}/analyse/contribuer/new?op=create&analyse_film_id=#{film_id}&analyse_film_annee=1995"
+    visit "#{base_url}/analyse/contribuer/new?op=create&analyse[film_id]=#{film_id}&analyse[film_annee]=1995"
     expect(page).to have_tag('h2', text: /analyses de films/i)
     expect(page).to have_tag('div.error', text: /Ce film fait déjà l’objet d’une analyse/)
     expect(page).to have_tag('a', with:{href: "analyse/lire/#{film_id}"}, text: /Consulter l’analyse de SEVEN/)
   end
 
+
   scenario '=> Un analyste ne peut pas initier une analyse d’un film déjà analysé avec son titre' do
+    notice '* Quand un analyste essaie d’initier une analyse déjà initiée, par son titre'
     # Lire la NOTE ci-dessus
     hanalyste = get_data_random_user(mail_confirmed: true, admin: false, analyste: true)
     analyste_id = hanalyste[:id]
+    film_id = 137 # C'est l'ID de Taxi Driver
     identify hanalyste
     visit "#{base_url}/analyse/contribuer/new"
     expect(page).to have_tag('h2', text: /analyses de films/i)
@@ -124,26 +132,17 @@ feature 'Initiation d’une nouvelle analyse' do
       fill_in('analyse_film_annee', with: '1976')
       click_button 'Initier l’analyse de ce film'
     end
+    # sleep 3
     expect(page).to have_tag('h2', text: /analyses de films/i)
     expect(page).to have_tag('div.error', text: /Ce film fait déjà l’objet d’une analyse/)
-    success 'alerte indique que l’analyse existe déjà'
-    expect(page).to have_tag('a', with:{href: "analyse/lire/137"}, text: /Consulter l’analyse de TAXI DRIVER/)
+    success 'une alerte indique que l’analyse existe déjà'
+    expect(page).to have_tag('a', with:{href: "analyse/lire/#{film_id}"}, text: /Consulter l’analyse de TAXI DRIVER/)
+    expect(page).to have_tag('a', with:{href: "analyse/contribuer/#{film_id}"}, text: /Contribuer à l’analyse de TAXI DRIVER/)
     success 'un lien permet de rejoindre cette analyse'
 
     nb = site.db.count(:biblio,'user_per_analyse',{user_id: analyste_id, film_id: film_id})
     expect(nb).to eq 0
     success 'aucun lien n’a été créé entre l’analyste et l’analyse mais un message lui suggère de rejoindre l’analyse'
-  end
-
-  scenario '=> Un analyste qui n’a pas suffisamment de privilège ne peut initier que l’analyse d’un film Filmodico' do
-    pending
-    # TODO Un message lui explique qu'une demande a été faite auprès de
-    # l'administration, qui créera la fiche du film pour lui permettre de procéder à cette
-    # analyse.
-
-    # TODO Le film n'existe pas dans les films_analyses
-    success 'l’analyse n’a pas été créée'
-
   end
 
 end
