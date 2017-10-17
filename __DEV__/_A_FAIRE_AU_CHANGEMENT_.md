@@ -22,6 +22,8 @@
 
 # ANALYSE
 
+VOIR DANS LE FICHIER __TODO__/analyse_seed.sql les données à injecter
+
 * Détruire les colonnes, titre, titre_fr, annee, film_id, sym dans la table `boite-a-outils_biblio`.films_analyses
     ALTER TABLE films_analyses DROP COLUMN titre;
     ALTER TABLE films_analyses DROP COLUMN titre_fr;

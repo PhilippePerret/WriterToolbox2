@@ -1,12 +1,12 @@
-<% 
+<%
     user.admin? || raise(NotAccessibleViewError.new("Seul un administrateur peut passer dans cette section."))
 # Affichage des candidatures
   #
   # Les deux options pour valider ou refuser la candidature
   case param(:op)
-  when 'valider_candidature' 
+  when 'valider_candidature'
     Analyse::Analyste.validate(site.route.objet_id)
-  when 'refuser_candidature' 
+  when 'refuser_candidature'
     # Noter que contrairement à la validation d'une candidature qui se fait en
     # un seul temps, donc avec une seule adresse, le refus d'un candidat passe
     # par un formulaire qui permet de définir le motif du refus. Par commodité,
@@ -20,10 +20,9 @@
 <fieldset id="candidatures">
   <legend>Candidatures aux analyses de films</legend>
   <p class="tiny italic">Ces candidatures doivent être validées ou refusées. En cas de refus, un champ de texte permettra de donner la raison du refus.</p>
-  <ul id="candidats" class="simple">
+  <ul id="candidats" class="simple sensible">
     <% Analyse::Analyste.candidats.each do |hcandidat| %>
       <%= Analyse::Analyste.li_candidat(hcandidat)  %>
     <% end %>
   </ul>
 </fieldset>
-

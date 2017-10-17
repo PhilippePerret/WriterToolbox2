@@ -1,3 +1,18 @@
+ul
+  li
+    vertical-align  : text-top
+    > div.float, > span, > a, > div > span
+      vertical-align  : text-top
+    div, span, a
+      margin-left : 4px
+    // Les boutons dans un DIV "buttons"
+    div.buttons
+      a
+        &:not(.small), &:not(.tiny)
+          font-size : .6em
+          border    : 1px solid #999
+          padding   : 1px 4px 3px
+
 ul.simple
   list-style    : none
   margin        : 0
@@ -6,8 +21,19 @@ ul.simple
     clear         : both
     border-bottom : 1px solid #CCC
     padding       : 0 1em
+
+ul.sensible
+  li
     &:hover
       background-color    : #EEE
+
+ul.discrete
+  li
+    .discret
+      visibility   : hidden
+    &:hover
+      .discret
+        visibility   : visible
 
 
 // Listes de définition

@@ -32,9 +32,7 @@ Dans sa nouvelle version, la propriété `:specs` des analyses dans la table `fi
                           -----------------
                           0: Cette analyse n'est plus en cours
                           1: Cette analyse est en cours, c'est-à-dire qu'un
-                          analyste au moins s'en occupe. On peut avoir dans la
-                          propriété 'analystes' la liste des analystes qui s'en
-                          occupent.
+                          analyste au moins s'en occupe.
 
   7         6             1: Analyse en cours de relecture
   8         7             1: L'analyse est complètement achevée

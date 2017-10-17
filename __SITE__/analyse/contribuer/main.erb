@@ -21,15 +21,19 @@
   end
 
   #debug "partiel = #{partiel.inspect}"
+
+  lien_aide_contribution = "→ " + simple_link(
+    'aide?p=analyse%2Fcontribuer', 
+    'Aide pour la contribution','exergue'
+  )+'.'
 %>
 <%= header(:small) %>
 
-<%= titre_page("Contribuer aux "+simple_link('analyse/home','analyses de films')) %>
-<p class="right"><%= simple_link('aide?p=admin%2Fanalyse%2Fcontribuer', '→ Aide pour la contribution','exergue small') %></p>
+<%= titre_page(simple_link('analyse/contribuer', 'Contribuer') + " aux "+simple_link('analyse/home','analyses de films')) %>
+<p class="right"><%=  %></p>
 
 <% 
     if partiel 
-
       #
       # = UN PARTIEL DEMANDÉ =
       #
@@ -53,6 +57,8 @@
     <p>Votre candidature est à l’étude. Merci de votre patience.</p>
   <% elsif user.analyste? %>
     <p>Vous êtes analyste, vous pouvez contribuer aux analyses ou en initier.</p>
+    <p>→ <a href="analyse/contribuer/new" class="exergue">Initier une nouvelle analyse de film</a>.</p>
+    <p>→ <a href="analyse/contribuer/list" class="exergue">Contribuer à une analyse en cours</a>.</p>
   <% elsif user.identified? %>
     <p>Pour contribuer aux analyses, puisque vous êtes déjà inscrit<%=user.f_e%>, il vous suffit de <a href="analyse/contribuer/candidater" class="exergue">soumettre une demande de participation</a>.</p>
   <% else %>
@@ -60,5 +66,7 @@
   <% end %>
 <% end %>
 
+<p><%= lien_aide_contribution %></p>
+<p class="tiny italic">Comme pour toutes les pages, c'est le titre qui vous permet de vous déplacer facilement. Dans cette section, le mot “Contribuer” dans le titre vous permet de revenir sur cette page de départ tandis que les termes “analyses de films”, toujours dans le titre, vous permet de revenir à l'accueil des analyses.</p>
 <%= footer(:small) %>
 

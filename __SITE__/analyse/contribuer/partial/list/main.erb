@@ -1,0 +1,21 @@
+<% 
+# Affichage de la liste des films analysés
+%>
+<h3>Analyses en cours</h3>
+
+<ul id="analyses" class="simple sensible discrete">
+  <% 
+      require_lib('analyse:listes')
+      
+      # Filtre défini
+      # Au minimum, ce sont les analyses courantes qu'il faut voir
+
+      filtre = param(:filtre) || Hash.new
+      filtre.merge!(current: true)
+      
+      Analyse.all(filtre).each do |hanalyse| %>
+
+      <%= Analyse.as_li_for(hanalyse, user) %>
+
+    <% end %>
+</ul>

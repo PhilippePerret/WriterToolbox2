@@ -37,20 +37,24 @@ CREATE TABLE user_per_analyse (
     # Film dont s’occupe l’user user_id
     film_id     INTEGER,
 
-    #  ROLE
-    # ------
-    # Rôle que joue l’user dans ce film. C’est une valeur décimale sur 3 entiers
-    # de 0 à 511 donc avec 9 bits possibles
-    # 1:    L’user est le créateur de l’analyste, l’initiateur
-    # 2:    L’user est le co-créateur
-    # 4:    L’user n’est plus actif sur cette analyse, mais il y a participé.
-    # 8:
-    # 16:   L’user peut modifier des fichiers de cette analyse dont il n’est
-    #       pas l’auteur.
-    # 32:
-    # 64:   L’user peut détruire n’importe quel fichier de cette analyse
-    # 128:  L’user peut modifier les données générales de l’analyse.
-    # 256:  L’user peut détruire l’analyse
+    --  ROLE
+    -- ------
+    -- Rôle que joue l’user dans ce film. C’est une valeur décimale sur 3 entiers
+    -- Le créateur a le rôle 1|32|64|128|256
+    -- Un co-créateur :      1|16|64|128
+    -- Un correcteur  :      1|4
+    -- de 0 à 511 donc avec 9 bits possibles
+    -- Noter qu’on peut modifier à l'occasion un user, par exemple pour lui
+    -- donner le droit de détruire l'analyse.
+    -- 1:    L’user est actif (si 0: inactif mais a participé)
+    -- 2:    
+    -- 4:    L’user est seulement CORRECTEUR
+    -- 8:    L’user est RÉDACTEUR OCCASIONNEL
+    -- 16:   L’user est CO-CREATEUR
+    -- 32:   L’user est le CRÉATEUR de l’analyste, l’initiateur
+    -- 64:   L’user peut détruire n’importe quel fichier de cette analyse
+    -- 128:  L’user peut modifier les données générales de l’analyse.
+    -- 256:  L’user peut détruire l’analyse
     role        INTEGER(3),
 
     #  CREATED_AT

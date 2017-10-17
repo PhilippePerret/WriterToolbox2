@@ -17,11 +17,12 @@ feature 'Accueil de la section de contribution aux analyses de films' do
   let(:start_time) { @start_time }
 
   context 'un visiteur quelconque' do
-    scenario '=> Il trouve une page conforme' do
+    scenario '=> trouve une page conforme' do
       visit analyses_page
       click_link('contribuer aux analyses')
       expect(page).to have_tag('h2', text: 'Contribuer aux analyses de films')
-      success 'il peut rejoindre la page de conbribution'
+      expect(page).to have_tag('a', with:{href: 'aide?p=analyse%2Fcontribuer'})
+      success 'il peut rejoindre une page de conbribution valide (avec lien vers l’aide)'
 
       expect(page).to have_content("Pour contribuer aux analyses, vous devez au préalable vous inscrire sur le site.")
       expect(page).to have_tag('a', with:{href:'user/signup', class: 'exergue'}, text: /vous inscrire sur le site/)
@@ -106,8 +107,11 @@ feature 'Accueil de la section de contribution aux analyses de films' do
       expect(page).to have_content("Vous êtes analyste")
       expect(page).to have_content("vous pouvez contribuer aux analyses ou en initier")
       success 'la page lui indique qu’il est analyste'
+      expect(page).to have_tag('a', with: {href: 'analyse/contribuer/new'})
+      expect(page).to have_tag('a', with: {href: 'analyse/contribuer/list'})
+      success 'la page lui offre des liens pour rejoindre les différentes parties'
 
     end
 
   end
-end
+enda
