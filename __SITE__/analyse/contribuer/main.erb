@@ -16,6 +16,7 @@
     partiel = site.route.objet_id
   elsif site.route.objet_id.is_a?(Fixnum)
     Analyse::Film.set_current(site.route.objet_id)
+    partiel = 'analyse'
   elsif param(:op)
     partiel = param(:op)
   end

@@ -1,0 +1,18 @@
+<% 
+# Tableau de bord de l'analyse du film
+%>
+<% 
+
+    case param(:op)
+    when 'proposition' then Analyse.proposition_contribution(film.id, user)
+    end
+%>
+<h3><%= film.titre %></h3>
+
+<div class="right">
+  <a href="analyse/contribuer/<%=film.id%>?op=proposition">→ Contribuer</a>
+</div>
+
+<div>
+  Ici, bientôt, toute la fiche de développement de l'analyse du film <%= film.titre %>.
+</div>

@@ -1,8 +1,8 @@
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'capybara/rspec'
 
 require 'selenium-webdriver'
-require 'capybara/rspec'
 Capybara.javascript_driver  = :selenium
 Capybara.default_driver     = :selenium
 

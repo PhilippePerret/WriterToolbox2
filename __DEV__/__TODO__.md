@@ -1,3 +1,7 @@
+* [ANALYSES]
+  * Faire un script qui va composer le code SQL pour toutes les analyses, tel qu'amorcé pour les analyses en cours.
+  * Pour la date, essayer de prendre celle définie dans les fichiers (le plus vieux qu'on puisse trouver)
+  
 * [FORUM]
   * Reprendre tous les tests
   * Régler le fait qu'on progresse dans les grades par rapport aux messages validés.

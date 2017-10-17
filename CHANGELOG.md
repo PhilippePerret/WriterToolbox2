@@ -1,5 +1,6 @@
 ### 2.0.14
 
+  * Implémentation de la création intelligente des tickets
   * Mise en place de l'initialisation de l'analyse de film.
   * Mise en place de l'aide sur les analyses de films.
   * Gestion de la validation ou du refus de la candidature aux analyses de films.

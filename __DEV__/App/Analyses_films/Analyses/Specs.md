@@ -3,7 +3,7 @@
 Dans sa nouvelle version, la propriété `:specs` des analyses dans la table `films_analyses` doit définir le maximum de choses, en reprenant les informations des options précédentes.
 
 
-## Signification des bits dans la propriété `:specs` des films de la table `boite-a-outils_biblio.films_analyses`.
+## Signification des bits dans la propriété `:specs` des films de la table `films_analyses` (`boite-a-outils_biblio`).
 
 ```
 

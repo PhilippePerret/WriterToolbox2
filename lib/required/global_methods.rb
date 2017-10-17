@@ -111,3 +111,4 @@ def administrator_only mess = nil
   user.identified? || identification_required(mess)
   raise NotAccessibleViewError.new(mess||'Cette opération nécessite des privilèges d’administrateur.')
 end
+alias :only_administrator :administrator_only

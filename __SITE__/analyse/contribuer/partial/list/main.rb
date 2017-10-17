@@ -30,7 +30,7 @@ class Analyse
 
     def bouton_contribuer adata
       if Analyse.has_contributor?(adata, adata[:reader].id)
-        '<span class="minuscule">vous<br>contribuez</span>'
+        "<a class=\"vouscont\" href=\"analyse/contribuer/#{adata[:id]}\">vous contribuer</a>"
       else
         "<a href=\"analyse/contribuer/#{adata[:id]}\">contribuer</a>"
       end
@@ -58,6 +58,8 @@ class Analyse
     def nombre_contributeurs adata
       adata[:contributors].count
     end
+
+
     # Liste des pseudos des contributeurs de l'analyse, tels que définis
     # dans la données :contributors
     def pseudos_contributors adata
@@ -66,13 +68,6 @@ class Analyse
       end.join(', ')
     end
 
-    # Méthode qui retourne TRUE si l'user +user_id+ contribue à l'analyse
-    # du film d'ID +film_id+, et FALSE dans le cas contraire.
-    def has_contributor?(adata, user_id)
-      adata[:contributors].each do |hcontrib|
-        hcontrib[:id] == user_id && (return true)
-      end
-      return false
-    end
+
   end #<<self
 end #/Analyse
