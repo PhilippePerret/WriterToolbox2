@@ -10,9 +10,15 @@
 <h3><%= film.titre %></h3>
 
 <div class="right">
-  <a href="analyse/contribuer/<%=film.id%>?op=proposition">→ Contribuer</a>
+  <% if Analyse.has_contributor?(film.id, user.id) %>
+    <span class="tiny">Vous contribuez à cette analyse</span>
+  <% elsif user.analyste? %>
+    <a href="analyse/contribuer/<%=film.id%>?op=proposition" class="nodeco">→ Contribuer</a>
+  <% else %>
+    <a href="aide?p=analyse%2Fcontribuer" class="nodeco">→ Devenir analyste</a>
+  <% end %>
 </div>
 
-<div>
+<div class="air">
   Ici, bientôt, toute la fiche de développement de l'analyse du film <%= film.titre %>.
 </div>

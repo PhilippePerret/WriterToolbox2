@@ -10,7 +10,7 @@ class Analyse
       <<-HTML
         <li class="analyse" id="analyse-#{adata[:id]}">
           <div class="fright buttons discret">
-            #{bouton_contribuer(adata)}
+            #{reader.analyste? ? bouton_contribuer(adata) : ''}
             #{bouton_lire(adata)}
           </div>
           <div class="fright states tiny">
@@ -30,7 +30,7 @@ class Analyse
 
     def bouton_contribuer adata
       if Analyse.has_contributor?(adata, adata[:reader].id)
-        "<a class=\"vouscont\" href=\"analyse/contribuer/#{adata[:id]}\">vous contribuer</a>"
+        "<a class=\"vouscont\" href=\"analyse/contribuer/#{adata[:id]}\">vous contribuez</a>"
       else
         "<a href=\"analyse/contribuer/#{adata[:id]}\">contribuer</a>"
       end
@@ -49,6 +49,7 @@ class Analyse
 
     # Retourne un lien vers le créateur de l'analyse
     def creator_linked adata
+      debug "adata = #{adata.inspect}"
       # Le créator est le premier user de :contributors
       hcreator = adata[:contributors].first
       "<a href=\"user/profil/#{hcreator[:id]}\">#{hcreator[:pseudo]}</a>"

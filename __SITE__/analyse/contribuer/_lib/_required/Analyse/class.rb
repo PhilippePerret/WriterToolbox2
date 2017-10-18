@@ -11,7 +11,7 @@ class Analyse
     #                      Soit les données incomplètes (sans :contributors), mais
     #                      avec l'ID du film (i.e. de l'analyse)
     def has_contributor?(adata, user_id)
-      if adata.is_a?(Hash) 
+      if adata.is_a?(Hash) && adata[:contributors]
         if adata.key?(:contributors)
           adata[:contributors].each do |hcont|
             hcont[:id] == user_id && (return true)
