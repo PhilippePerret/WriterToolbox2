@@ -23,7 +23,7 @@ class Analyse
       # L'analyse doit être en cours
 
       analyse.specs[5] == '1' || 
-        (return __notice('Désolé, mais cette analyse n’est pas en cours. Impossible d’y contribuer.'))
+        (return __error('Désolé, mais cette analyse n’est pas en cours. Impossible d’y contribuer.'))
       
       # Le candidat ne doit pas faire partie des analystes de l'analyse
       

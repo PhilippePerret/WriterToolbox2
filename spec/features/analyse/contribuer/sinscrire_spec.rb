@@ -59,7 +59,7 @@ feature 'Proposition de contribution à une analyse en cours' do
     e.style.visibility = 'visible';
     JS
 
-    sleep 10
+    # sleep 10
 
     within("ul#analyses li#analyse-#{hanalyse[:id]} div.buttons") do
       click_link 'contribuer'
@@ -217,6 +217,21 @@ feature 'Proposition de contribution à une analyse en cours' do
 
     expect(page).to have_tag('div.notice', text: /Vous contribuez déjà à cette analyse/)
     success 'un message lui annonce qu’il contribue déjà'
+
+  end
+
+  scenario '=> Un analyste ne peut pas proposer sa contribution sur une analyse qui n’est pas en cours' do
+    huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: true)
+
+    where = "SUBSTRING(specs,6,1) = '0' LIMIT 1"
+    hanalyse = site.db.select(:biblio,'films_analyses',where).first
+    expect(hanalyse).not_to eq nil # Une analyse non en cours doit exister
+    identify huser
+    visit analyse_page
+
+    visit "#{base_url}/analyse/contribuer/#{hanalyse[:id]}?op=proposition"
+    expect(page).to have_tag('h2', text: /Contribuer/)
+    expect(page).to have_tag('div.error', text: /cette analyse n’est pas en cours/i)
 
   end
 
