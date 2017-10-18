@@ -2,6 +2,7 @@
 # Tableau de bord de l'analyse du film
 %>
 <% 
+    require_form_support
 
     case param(:op)
     when 'proposition' then Analyse.proposition_contribution(film.id, user)
@@ -10,15 +11,35 @@
 <h3><%= film.titre %></h3>
 
 <div class="right">
-  <% if Analyse.has_contributor?(film.id, user.id) %>
-    <span class="tiny">Vous contribuez à cette analyse</span>
-  <% elsif user.analyste? %>
-    <a href="analyse/contribuer/<%=film.id%>?op=proposition" class="nodeco">→ Contribuer</a>
-  <% else %>
-    <a href="aide?p=analyse%2Fcontribuer" class="nodeco">→ Devenir analyste</a>
-  <% end %>
+  <%= Analyse.visitor_state(user) %>
 </div>
 
-<div class="air">
-  Ici, bientôt, toute la fiche de développement de l'analyse du film <%= film.titre %>.
-</div>
+
+<fieldset>
+  <legend>Fichiers de l’analyse</legend>
+  <ul id="files_analyses">
+    <%= analyse.file_list %>
+  </ul>
+  <div id="files_buttons" class="right">
+    <%= analyse.files_buttons %>
+  </div>
+</fieldset>
+
+
+<fieldset>
+  <legend>Contributeurs</legend>
+  <ul id="contributors">
+    <%= analyse.contributor_list %>
+  </ul>
+</fieldset>
+
+
+<fieldset>
+  <legend>Planning/tâches</legend>
+  <ul id="taches">
+    <%= analyse.tache_list %>
+  </ul>
+  <div id="taches_buttons" class="right">
+    <%= analyse.taches_buttons %>
+  </div>
+</fieldset>

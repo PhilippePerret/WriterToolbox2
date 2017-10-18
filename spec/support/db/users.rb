@@ -61,23 +61,32 @@ def truncate_table_users
   forum_tables.each do |table_name|
     db_client.query("TRUNCATE TABLE #{table_name}")
   end
-
 end
 
 def db_get_user_by_pseudo pseudo
   db_client.query('use `boite-a-outils_hot`;')
   statement = db_client.prepare('SELECT * FROM users WHERE pseudo = ? LIMIT 1')
+  user_row = nil
   statement.execute(pseudo).each do |row|
-    return row
+    user_row = row
+    break
   end
+  # On essaie de retourner son mot de passe
+  user_row.merge!(password: db_get_password_for_user(user_row[:id]))
 end
 
 def db_get_user_by_id uid
   db_client.query('use `boite-a-outils_hot`;')
+  # On essaie de résupérer son mot de passe
   statement = db_client.prepare('SELECT * FROM users WHERE id = ?')
   statement.execute(uid).each do |row|
-    return row
+    return row.merge!(password: db_get_password_for_user(uid))
   end
+end
+
+def db_get_password_for_user uid
+  hd = site.db.select(:users_tables,"variables_#{uid}",{name: 'password'},[:value])[0]
+  hd.nil? ? nil : hd[:value]
 end
 
 

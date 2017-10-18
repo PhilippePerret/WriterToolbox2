@@ -80,6 +80,20 @@ Ajouter les classes suivantes pour modifier les tailles :
 
 ```
 
+## Définir la taille des labels en mode in-line {#form_label_width}
+
+Si la form.class contient `div-inline`, on peut définir aussi la taille des libellés :
+
+```
+
+  lab50pc     Les libellés feront 50% de la largeur (les champs aussi)
+  lab30pc     Les libellés feront 30% de la largeur, (les champs 70%)
+  lab20pc     Les libellés feront 20% de la largeur
+
+```
+
+
+
 Toujours penser qu'il doit pouvoir s'afficher sur un mobile.
 
 ## Définir la taille des champs

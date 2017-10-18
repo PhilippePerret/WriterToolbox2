@@ -7,6 +7,7 @@ form
   padding         : 2em 1em 1em 1em
   font-family     : inherit
   font-size       : inherit
+  text-align      : left
 
   &.w30pc
     width         : 25%
@@ -84,8 +85,33 @@ form
         vertical-align  : middle
         input, label
           vertical-align  : middle
-        > select
-          max-width   : 45%
+
+  // Quand le class du form définit la largeur du libelle
+  &.lab50pc
+    > div
+      > label
+        width   : 48%!important
+      > span.field, > *
+        width   : 48%
+  &.lab40pc
+    > div
+      > label
+        width   : 38%!important
+      > span.field, > span.field > *
+        width   : 58%!important
+  &.lab30pc
+    > div
+      > label
+        width   : 28%!important
+      > span.field, > span.field > *
+        width   : 68%!important
+  &.lab20pc
+    > div
+      > label
+        width   : 18%!important
+      > span.field, > span.field > *
+        width   : 78%!important
+
 
   &:not(.div-inline)
     > div

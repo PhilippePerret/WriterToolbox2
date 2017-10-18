@@ -40,6 +40,7 @@ Dans sa nouvelle version, la propriété `:specs` des analyses dans la table `fi
                              quelques notes. Mais cette spécifications pourrait
                              disparaitre au profit de traitements qui tiendraient
                              compte des fichiers, etc.
+                             => OBSOLÈTE
 
 ```
 

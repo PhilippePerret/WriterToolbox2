@@ -25,7 +25,12 @@ class Analyse
     #               :current    
     #
     #                   Si TRUE, seulement les analyses en cours.
+    #                   SAUF si :all et à '1'
     #                   
+    #               :all
+    #
+    #                   Si '1', toutes les analyses, courantes ou pas
+    #
     #               :not_analysed 
     #
     #                   Si TRUE, on ne prend que les films non analysés. FALSE par 
@@ -46,7 +51,9 @@ class Analyse
       
       
       # S'il faut seulement les films en cours d'analyse
-      filtre[:current] && specs_pattern[5] = '1'
+      unless filtre[:all] == '1'
+        filtre[:current] && specs_pattern[5] = '1'
+      end
 
       # Finalisation de la pattern pour :specs
       specs_pattern.gsub!(/_+$/,'')
@@ -96,7 +103,6 @@ class Analyse
         analyse.merge! contributors: data_contribs[analyse[:id]]
       end
 
-      #debug "analyses : #{analyses.inspect}"
       return analyses
     end
 

@@ -11,7 +11,15 @@ function __notice(mess){Flash.notice(mess)}
 function DOM(id){
   return document.getElementById(id);
 }
-
+// ---------------------------------------------------------------------
+window.UI = {
+  // Usage : UI.toggle(<jid>)
+  toggle: function(jid){
+    let e = document.querySelector(jid);
+    if(e.style.display=='none'){e.style.display=''}
+    else{e.style.display='none'}
+  }
+}
 // ---------------------------------------------------------------------
 //  Private
 window.Flash = {

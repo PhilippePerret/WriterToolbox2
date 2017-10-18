@@ -3,6 +3,7 @@
 %>
 <h3>Analyses en cours</h3>
 
+
 <div class="libelle_colonnes">
   Titre du film / initiateur de l’analyse / dernière modification /
   nombre de contributeurs /
@@ -24,3 +25,6 @@
 
     <% end %>
 </ul>
+<div class="right">
+  <%= simple_link("analyse/contribuer/list?filtre[all]=1", 'Voir toutes les analyses', 'small exergue') %>
+</div>
