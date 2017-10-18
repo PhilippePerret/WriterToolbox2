@@ -82,6 +82,9 @@ RSpec.configure do |config|
   end
   alias :require_support_analyses :require_support_analyse
 
+  def require_support_tickets
+    require_folder './spec/support/tickets'
+  end
 
 
   # Il faut appeler cette méthode en haut de toutes les feuilles de

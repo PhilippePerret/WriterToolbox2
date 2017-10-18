@@ -3,27 +3,13 @@
   Test de la création d'un ticket
 
 =end
-require_lib_site
-
 
 describe 'Création d’un ticket' do
 
-  def remove_tickets
-    site.db.use_database(:hot)
-    site.db.execute('TRUNCATE TABLE tickets')
-  end
-
-  # Retourne le nombre de tickets
-  def tickets_count
-    site.db.count(:hot,'tickets')
-  end
-
-  # Retourne le tout dernier ticket
-  def last_ticket
-    site.db.select(:hot,'tickets',"1 = 1 ORDER BY created_at DESC LIMIT 1").first
-  end
 
   before(:all) do
+    require_lib_site
+    require_support_tickets
     remove_tickets
     require_folder('./lib/procedure/ticket')
   end

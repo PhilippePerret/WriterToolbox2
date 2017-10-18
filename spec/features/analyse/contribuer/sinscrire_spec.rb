@@ -20,6 +20,12 @@ require_support_analyse
 protect_biblio
 
 feature 'Proposition de contribution à une analyse en cours' do
+
+  before(:all) do
+    require_support_tickets
+    remove_tickets
+  end
+
   before(:each) do
     @start_time = Time.now.to_i
   end
