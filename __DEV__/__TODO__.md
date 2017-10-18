@@ -1,5 +1,4 @@
 * [ANALYSES]
-  * Mettre la proposition de contribution dans une librairie, car la méthode est longue
   * Faire un script qui va composer le code SQL pour toutes les analyses, tel qu'amorcé pour les analyses en cours.
   * Pour la date, essayer de prendre celle définie dans les fichiers (le plus vieux qu'on puisse trouver)
   * Si l'user est analyste, ajouter les analyses auxquelles il contribue dans sa page de profil

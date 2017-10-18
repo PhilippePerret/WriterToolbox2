@@ -3,6 +3,8 @@
   PRODUIT UNE SAUVEGARDE "INTELLIGENTE" DE TOUTES LES BASES DE DONNÉES
   DE LA BOITE À OUTILS
 
+  Pour le lancer, jouer simplement : CTRL + CMD + T
+
   "INTELLIGENTE" signifie que :
   - seules les tables de la boite à outils sont sauvegardées
   - une ligne est ajoutée pour détruire toutes les tables de 'users_tables'
