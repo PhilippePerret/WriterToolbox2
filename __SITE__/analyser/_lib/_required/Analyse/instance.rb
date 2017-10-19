@@ -1,10 +1,7 @@
 # encoding: utf-8
 class Analyse
 
-  def initialize analyse_id
-    @id = analyse_id
-  end
-
+  require_lib 'analyse:common'
 
   # TRUE si l'user d'ID +uid+ est le créateur de cette
   # analyse.
@@ -37,4 +34,9 @@ class Analyse
         site.db.execute(request)
       end
   end
+
 end #/Analyse
+
+
+# L'analyse courante, pour tout le dossier
+def analyse ; Analyse.current end

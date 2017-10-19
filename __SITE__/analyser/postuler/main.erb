@@ -1,42 +1,109 @@
-<%= # noter qu'on renvoie le texte
+<%# 
+  # On arrive ici soit parce qu'on postule "en général" pour les analyses (dans ce cas,
+  # site.route.objet_id est nil), soit pour postuler à une analyse en particulier (dans ce
+  # cas, site.route.objet_id contient l'ID de l'analyse, et donc `analyse` est l'instance
+  # de l'analyse dont il est question).
+  #
+  #
+%>
+<%
 
-# encoding: utf-8
-#
-# Partiel appelé lorsque le visiteur (inscrit) veut candidater pour les
-# analyses de film.
-# Une demande est envoyée aux administrateurs.
-#
-user.identified? || identification_required("Merci de vous identifier, pour pouvoir candidater pour les analyses de films.")
-
-case
-when user.analyste?
-  "<p>Voyons, vous êtes déjà analyste.</p>"
-when user.data[:options][16] == '1'
-  "<p>Vous avez déjà transmis une demande de participation. Elle est sûrement à l'étude.</p>"
-when user.data[:options][16] == '2'
-  "<p class=\"red\">Vous ne pouvez plus faire de demande de participation, vous avez été rejeté#{user.f_e}.</p>"
-else
-  require_lib('site:mails_admins')
-  opts = user.data[:options].ljust(17,'0')
-  opts[16] = '1'
-  user.set(options: opts)
-  lien_dashboard = simple_link("http://#{site.configuration.url_online}/admin/analyse", 'bureau d’administration des analyses')
-  mess = <<-HTML
-  <p>Ch\<%=f_ere%\> administrat\<%=f_rice%\>,</p>
-  <p>Je vous fais part de la demande de participation aux analyses de films de #{user.pseudo} (##{user.id}).</p>
-  <p>Pour <strong>valider cette demande</strong>, il faut rejoindre le #{lien_dashboard}.</p>
-  <p>Merci de votre attention.</p>
-  HTML
-  data_mail = {
-    subject: "Demande de participation aux analyses de films",
-    formated: true,
-    message:  mess 
-  }
-  site.mail_to_admins(data_mail)
-  <<-HTML
-  <p class="notice cadre" style="width:80%;">Votre demande a été transmise. Les administrateurs du site y répondront dans les plus brefs délais.<br><br>Un grand merci à vous.</p>
-  <p>En attendant, vous pourriez par exemple <a href="aide?p=analyse/contribuer" class="exergue">consulter l'aide</a> pour en apprendre plus sur les possibilités de participation.</p>
-  HTML
-end
+  case param(:op)
+  when 'confirm' then Analyse.confirmation(analyse.id, user)
+  end
 
 %>
+<%= header(:small) %>
+<%= Analyse.main_title %>
+
+<% if analyse %>
+  <h3><%= analyse.film.titre %></h3>
+<% end %>
+
+<%
+    #
+  # Partiel appelé lorsque le visiteur (inscrit) veut candidater pour les
+  # analyses de film.
+  # Une demande est envoyée aux administrateurs.
+  #
+  user.identified? || 
+  identification_required("Merci de vous identifier, pour pouvoir candidater pour les analyses de films.")
+
+case
+
+when user.analyste?
+  
+  # Quand c'est un analyste qui postule, soit aucune analyse n'est définie et on lui dit
+  # simplement qu'il est déjà analyste, en lui proposant des liens vers les analyses.
+  # Soit une analyse est définie en paramètre (site.route.objet_id) et on lui demande
+  # alors de confirmer sa volonté d'inscription.
+  #
+  # Dans l'ordre des cas qui se présentent ci-dessous :
+  #
+  # 1. L'analyste vient de confirmer sa demande de participation à l'analyse courante
+  # 2. L'analyste contribue déjà à cette analyse. On lui signale gentiment
+  # 3. L'analyste arrive, on lui demande de confirmer sa demande de participation en
+  #    cliquant sur le bouton adéquat.
+  # 4. Il n'y a pas d'analyse courante, l'analyste n'a aucune raison de passer par
+  #    là.
+  #
+  if analyse && Analyse.confirmed? %>
+    <p>Votre demande a été prise en compte.</p>
+  <% elsif !analyse.en_cours? %>
+
+    <p>Cette analyse n’est pas en cours, vous ne pouvez donc pas soumettre de demande de contribution.</p>
+    <p>En revanche, vous trouverez dans la <a href="analyser/list" class="exergue">liste des analyses en cours</a> des projets qui auront certainement besoin de votre participation.</p>
+
+  <% elsif analyse && Analyse.has_contributor?(analyse.id, user.id) %>
+
+    <p>Vous contribuez déjà à cette analyse, une demande de participation est donc inutile.</p>
+    <p>En revanche, vous pouvez <a href="analyser/dashboard/<%= analyse.id %>" class="exergue">rejoindre le tableau de bord de cette analyse</a> pour soumettre un fichier ou achever une tâche.</p>
+    
+  <% elsif analyse %>
+
+    <p>Merci de confirmer votre proposition de particpation à l'analyse de ce film.</p>
+    <p><a href="analyser/postuler/<%= analyse.id %>?op=confirm">→ Confirmer la demande de contribution</a></p>
+
+  <% else %>
+
+    <p>Voyons, vous êtes déjà analyste. Vous ne devriez rien avoir à faire ici ;-).</p>
+
+  <% end %>
+  
+<% when user.data[:options][16] == '1' %>
+
+  <p>Vous avez déjà transmis une demande de participation. Elle est sûrement à l'étude.</p>
+  
+<% when user.data[:options][16] == '2' %>
+
+  <p class="red">Vous ne pouvez plus faire de demande de participation, vous avez été rejeté#{user.f_e}.</p>
+
+<% when analyse != nil 
+    # On passe par ici lorsque l'user n'est pas un analyste mais qu'il y 
+    # a pourtant une analyse dans l'url, ce qui ne devrait pas arriver
+    # sans forcer une URL (mais ça peut être un analyste qui n'est pas 
+    # identifié et qui se sert de l'URL d'un mail)
+%>
+ <p class="red">Seul un analyste peut proposer sa contribution à une analyse de film.</p>
+ <p>Si vous êtes déjà analyste, merci de <a href="user/signin" class="exergue">vous identifier</a> et dans le cas contraire vous pouvez <a href="analyser/postuler" class="exergue">postuler pour devenir analyste</a>.</p>
+
+<% else 
+
+    # On passe ici lorsque l'user arrive sur la page, sans analyse courante, pour
+    # proposer sa contribution aux analyses. On envoie directement sa demande aux
+    # administrateurs.
+    #
+    # Noter qu'on va également passer par ici si une analyse est définie dans l'url,
+    # mais qu'on n'en tiendra aucun compte.
+
+    Analyse.demande_de_participation(user)
+%>
+
+  <p class="notice cadre" style="width:80%;">Votre demande a été transmise. Les administrateurs du site y répondront dans les plus brefs délais.</p>
+  <p>Un grand merci à vous.</p>
+  
+<% end %>
+
+  <p>Pour de plus amples informations, vous pouvez <a href="aide?p=analyse%2Fcontribuer" class="exergue">consulter l'aide</a> pour en apprendre plus sur la contribution aux analyses de films.</p>
+
+<%= footer(:small) %>

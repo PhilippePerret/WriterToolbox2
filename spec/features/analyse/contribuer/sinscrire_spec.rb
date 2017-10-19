@@ -19,7 +19,7 @@ require_support_analyse
 
 protect_biblio
 
-feature 'Proposition de contribution à une analyse en cours' do
+feature 'Proposition de contribution à une analyse en cours', check: false do
 
   before(:all) do
     require_support_tickets
@@ -38,10 +38,13 @@ feature 'Proposition de contribution à une analyse en cours' do
     visit analyse_page
     expect(page).to have_tag('h2', text: /analyses de films/i)
     expect(page).to have_tag('a', {href: "analyser/list"})
-    page.find("a[href=\"analyser/postuler\"]").click
-    expect(page).to have_tag('h2', text: /Contribuer/)
+    page.find("a[href=\"analyser\"]").click
+    # page.find("a[href=\"analyser/postuler\"]").click
+    expect(page).to have_tag('h2', text: /Contribuer/) do
+      with_tag('a', with: {href: "analyser"}, text: 'Contribuer')
+      with_tag('a', with: {href: 'analyse/home'}, text: /analyses de films/i)
+    end
     page.find("a[href=\"analyser/list\"]").click
-    # sleep 10
     expect(page).to have_tag('h3', 'Analyses en cours')
     success 'il peut rejoindre la liste des analyses en cours'
 
@@ -70,12 +73,13 @@ feature 'Proposition de contribution à une analyse en cours' do
     within("ul#analyses li#analyse-#{hanalyse[:id]} div.buttons") do
       click_link 'contribuer'
     end
+    # sleep 60
     expect(page).to have_tag('h2', text: /analyses de films/i)
     expect(page).to have_tag('h3', text: /#{hanalyse[:titre]}/)
-    expect(page).to have_tag('a', with: {href: "analyser/postuler/#{hanalyse[:id]}"}, text: '→ Contribuer')
-    success 'il peut rejoindre une analyse en cours'
+    expect(page).to have_tag('a', with: {href: "analyser/postuler/#{hanalyse[:id]}?op=confirm"}, text: '→ Confirmer la demande de contribution')
+    success 'il arrive sur la page de confirmation de la demande de contribution'
 
-    click_link('→ Contribuer')
+    click_link('→ Confirmer la demande de contribution')
     expect(page).to have_tag('h2', text: /analyses de films/i)
     expect(page).to have_tag('div.notice', text: /Votre proposition de contribution vient d’être transmise/)
     expect(page).to have_tag('div.notice', text: /vous répondre rapidement/)
@@ -128,7 +132,7 @@ feature 'Proposition de contribution à une analyse en cours' do
     visit analyse_page
     expect(page).to have_tag('h2', text: /analyses de films/i)
     expect(page).to have_tag('a', {href: "analyser/list"})
-    page.find("a[href=\"analyser/postuler\"]").click
+    page.find("a[href=\"analyser\"]").click
     expect(page).to have_tag('h2', text: /Contribuer/)
     # sleep 30
     page.find("a[href=\"analyser/list\"]").click
@@ -149,8 +153,13 @@ feature 'Proposition de contribution à une analyse en cours' do
 
     within("ul#analyses li#analyse-#{hanalyse[:id]} div.buttons") do
       expect(page).not_to have_link('contribuer')
+      if hanalyse[:specs][4] == '1'
+        expect(page).to have_link('voir')
+      else
+        expect(page).not_to have_link('voir')
+      end
     end
-    success 'l’user ne trouve pas le bouton pour contribuer'
+    success 'l’user ne trouve pas le bouton pour contribuer mais seulement un bouton « voir » si l’analyse est lisible'
 
   end
 
@@ -165,11 +174,11 @@ feature 'Proposition de contribution à une analyse en cours' do
     visit "#{base_url}/analyser/postuler/#{hanalyse[:id]}"
     # sleep 10
     expect(page).to have_tag('h2', text: /Contribuer/)
-    expect(page).to have_tag('div.error', text: /Seul un analyste peut proposer sa contribution/i)
+    expect(page).to have_content("Seul un analyste peut proposer sa contribution")
     success 'l’user reçoit un message d’erreur'
 
     expect(page).not_to have_tag('a', with: {href: "analyser/postuler/#{hanalyse[:id]}"}, text: '→ Contribuer')
-    expect(page).to have_tag('a', text:/Devenir analyste/)
+    expect(page).to have_tag('a', with: { href: "analyser/postuler", class: 'exergue'}, text:/postuler pour devenir analyste/)
     success 'la page ne contient pas le bouton Contribuer mais le bouton pour devenir analyste'
 
   end
@@ -181,7 +190,7 @@ feature 'Proposition de contribution à une analyse en cours' do
     visit analyse_page
     expect(page).to have_tag('h2', text: /analyses de films/i)
     expect(page).to have_tag('a', {href: "analyser/list"})
-    page.find("a[href=\"analyser/postuler\"]").click
+    page.find("a[href=\"analyser\"]").click
     expect(page).to have_tag('h2', text: /Contribuer/)
     # sleep 30
     page.find("a[href=\"analyser/list\"]").click
@@ -207,7 +216,7 @@ feature 'Proposition de contribution à une analyse en cours' do
       site.db.insert(:biblio,'user_per_analyse',datacont)
     end
 
-    visit "#{base_url}/analyser/dashboard/#{hanalyse[:id]}"
+    visit "#{base_url}/analyser/postuler/#{hanalyse[:id]}"
     success 'il peut rejoindre la page d’analyse du film'
 
     # sleep 30
@@ -215,14 +224,15 @@ feature 'Proposition de contribution à une analyse en cours' do
     expect(page).not_to have_tag('a', with: {href: "analyser/postuler/#{hanalyse[:id]}"}, text: '→ Contribuer')
     expect(page).not_to have_tag('a', text:/Devenir analyste/)
     success 'il ne trouve ni le bouton « Contribuer » (puisqu’il contribue déjà à cette analyse) ni le bouton « Devenir analyse »'
-    expect(page).to have_content('Vous contribuez à cette analyse')
-    success 'en revanche, un text lui indique qu’il contribue à cette analyse'
+    expect(page).to have_content('Vous contribuez déjà à cette analyse')
+    expect(page).to have_tag('a', with: {href: "analyser/dashboard/#{hanalyse[:id]}"}, text: /rejoindre le tableau de bord/)
+    success 'en revanche, un text lui indique qu’il contribue à cette analyse et un lien pour la rejoindre'
 
     notice '* il essaie de proposer à nouveau par l’URL'
     visit "#{base_url}/analyser/postuler/#{hanalyse[:id]}"
 
-    expect(page).to have_tag('div.notice', text: /Vous contribuez déjà à cette analyse/)
-    success 'un message lui annonce qu’il contribue déjà'
+    expect(page).to have_content('Vous contribuez déjà à cette analyse')
+    success 'un texte lui annonce qu’il contribue déjà'
 
   end
 
@@ -232,12 +242,24 @@ feature 'Proposition de contribution à une analyse en cours' do
     where = "SUBSTRING(specs,6,1) = '0' LIMIT 1"
     hanalyse = site.db.select(:biblio,'films_analyses',where).first
     expect(hanalyse).not_to eq nil # Une analyse non en cours doit exister
+
     identify huser
     visit analyse_page
 
     visit "#{base_url}/analyser/postuler/#{hanalyse[:id]}"
     expect(page).to have_tag('h2', text: /Contribuer/)
-    expect(page).to have_tag('div.error', text: /cette analyse n’est pas en cours/i)
+    expect(page).to have_content("Cette analyse n’est pas en cours")
+    expect(page).to have_content("vous ne pouvez donc pas soumettre de demande de contribution")
+    success 'il trouve un message lui indiquant que l’analyse n’est pas courante'
+
+    expect(page).to have_tag('a', with: {href: "analyser/list", class: 'exergue'}, text: /liste des analyses en cours/)
+    success 'il trouve un lien conduisant à la liste des analyses en cours'
+
+    click_link 'liste des analyses en cours'
+
+    expect(page).to have_tag('h2') do
+      with_tag('a', with: {href: 'analyser'}, text: 'Contribuer')
+    end
 
   end
 

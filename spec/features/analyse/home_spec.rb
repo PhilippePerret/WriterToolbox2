@@ -2,7 +2,7 @@ require_lib_site
 require_support_integration
 require_support_analyse
 
-feature 'Accueil de la section analyse' do
+feature 'Accueil de la section analyse', check: false do
   scenario 'Un visiteur quelconque peut rejoindre la section Analyse depuis les outils' do
     visit home_page
     within('section#header'){ click_link 'outils' }
@@ -37,7 +37,7 @@ feature 'Accueil de la section analyse' do
     end
     success 'il trouve la liste des films'
 
-    expect(page).to have_tag('a', with: {href: "analyser/postuler", class: 'exergue'}, text: 'contribuer aux anlyses')
+    expect(page).to have_tag('a', with: {href: "analyser", class: 'exergue'}, text: 'contribuer aux analyses')
     success 'il trouve un lien vers la partie « Contribuer »'
   end
 
@@ -55,7 +55,10 @@ feature 'Accueil de la section analyse' do
     within('h2'){click_link 'Analyses de films'}
     expect(page).to have_tag('h2', text: 'Les Analyses de films')
     click_link 'contribuer aux analyses'
-    expect(page).to have_tag('h2', text: 'Contribuer aux analyses de films')
+    expect(page).to have_tag('h2') do
+      with_tag('a', with: {href: "analyser"}, text: 'Contribuer')
+      with_tag('a', with: {href: "analyse/home"}, text: 'analyses de films')
+    end
     success 'il peut atteindre la partie contribuer'
 
     within('h2'){click_link 'analyses de films'} # à l'intérieur du titre
@@ -67,5 +70,5 @@ feature 'Accueil de la section analyse' do
 
   end
 
-  
+
 end

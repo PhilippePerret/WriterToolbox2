@@ -1,6 +1,8 @@
 <% 
 # Affichage de la liste des films analysés
 %>
+<%= header(:small) %>
+<%= Analyse.main_title %>
 <h3>Analyses en cours</h3>
 
 
@@ -26,5 +28,11 @@
     <% end %>
 </ul>
 <div class="right">
-  <%= simple_link("analyser/list?filtre[all]=1", 'Voir toutes les analyses', 'small exergue') %>
+  <% if user.analyste? %>
+    <%= simple_link("analyser/list?filtre[all]=1", 'Voir toutes les analyses', 'small exergue') %>
+  <% else %>
+    <%= simple_link('contribuer', 'Contribuer aux analyses', 'small exergue') %>
+  <% end %>
 </div>
+
+<%= footer(:small) %>

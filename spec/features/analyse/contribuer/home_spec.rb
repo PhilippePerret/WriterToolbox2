@@ -10,7 +10,7 @@ require_support_mail_for_test
 
 protect_biblio
 
-feature 'Accueil de la section de contribution aux analyses de films' do
+feature 'Accueil de la section de contribution aux analyses de films', check: false do
   before(:each) do
     @start_time = Time.now.to_i
   end
@@ -24,7 +24,7 @@ feature 'Accueil de la section de contribution aux analyses de films' do
       expect(page).to have_tag('a', with:{href: 'aide?p=analyse%2Fcontribuer'})
       success 'il peut rejoindre une page de conbribution valide (avec lien vers l’aide)'
 
-      expect(page).to have_content("Pour contribuer aux analyses, vous devez au préalable vous inscrire sur le site.")
+      expect(page).to have_content("Pour contribuer aux analyses, vous devez au préalable vous inscrire sur le site")
       expect(page).to have_tag('a', with:{href:'user/signup', class: 'exergue'}, text: /vous inscrire sur le site/)
       success 'un lien pour rejoindre l’inscription'
 
@@ -114,4 +114,4 @@ feature 'Accueil de la section de contribution aux analyses de films' do
     end
 
   end
-enda
+end

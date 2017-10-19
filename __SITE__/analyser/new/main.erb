@@ -8,6 +8,8 @@
   when 'create' then Analyse.create_new(user, param(:analyse))
   end
 %>
+<%= header(:small) %>
+<%= Analyse.main_title %>
 
 <%# S'il y a une sortie prévue par l'opération %>
 <% if Analyse.output %>
@@ -51,14 +53,16 @@
 
 
 
-  <p>Pour pouvoir initier une nouvelle analyse de film, vous devez déposer une <a href="analyse/contribuer/candidater" class="exergue">demande de contribution aux analyses</a>.</p>
+  <p>Pour pouvoir initier une nouvelle analyse de film, vous devez déposer une <a href="analyse/postuler" class="exergue">demande de contribution aux analyses</a>.</p>
 
 
 
 <% else %>
 
   
-  <p>Pour pouvoir initier une nouvelle analyse de film, vous devez impérativement <a href="user/signup" class="exergue">être inscrit sur le site</a> et avoir fait une <a href="analyse/contribuer/candidater" class="exergue">demande de contribution aux analyses</a>.</p>
+  <p>Pour pouvoir initier une nouvelle analyse de film, vous devez impérativement <a href="user/signup" class="exergue">être inscrit sur le site</a> et avoir fait une <a href="analyse/postuler" class="exergue">demande de contribution aux analyses</a>.</p>
 
 
 <% end %>
+
+<%= footer(:small) %>

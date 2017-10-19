@@ -2,16 +2,11 @@
 class Analyse
   class << self
 
-    def current= a ; @current = a end
-    def current
-      @current ||=
-        begin
-          if site.route.objet_id.is_a?(Fixnum)
-            new(site.route.objet_id)
-          else nil end
-        end
-    end
 
+    # Pour simplifier l'affichage du titre principal.
+    def main_title options = nil
+      site.titre_page(simple_link("analyser", 'Contribuer')+' aux '+simple_link('analyse/home',"analyses de films"))
+    end
 
     # Retourne TRUE si l'user +user_id+ contribue à l'analyse
     # du film d'ID +film_id+, et FALSE dans le cas contraire.
@@ -43,6 +38,3 @@ class Analyse
   end #/<<self
 end #/Analyse
 
-
-# L'analyse courante, pour tout le dossier
-def analyse ; Analyse.current end

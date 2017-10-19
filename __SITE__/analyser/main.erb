@@ -2,85 +2,59 @@
 
 
     # Page principale pour la contribution aux analyses de films
-  #
-  # Le partiel peut être défini de différentes manière :
-  # - par le paramètre `op`
-  # - par l'objet_id de la route si ce n'est pas un nombre
-  #
-  # Si l'objet_id est un nombre, c'est l'identifiant d'un film analysé
-  #
 
-  # Définition du partiel
-  partiel = nil
-  if site.route.objet_id.is_a?(String)
-    partiel = site.route.objet_id
-  elsif site.route.objet_id.is_a?(Fixnum)
-    Analyse::Film.set_current(site.route.objet_id)
-    partiel = 'analyse'
-  elsif param(:op)
-    partiel = param(:op)
-  end
-
-  #debug "partiel = #{partiel.inspect}"
-
-  lien_aide_contribution = "→ " + simple_link(
-    'aide?p=analyse%2Fcontribuer', 
-    'Aide pour la contribution','exergue'
-  )+'.'
 %>
 <%= header(:small) %>
-
-<%= titre_page(simple_link('analyse/contribuer', 'Contribuer') + " aux "+simple_link('analyse/home','analyses de films')) %>
-<p class="right"><%=  %></p>
-
+<%= Analyse.main_title %>
 <% 
-    if partiel 
-      #
-      # = UN PARTIEL DEMANDÉ =
-      #
-  %>
 
-  
-  <%= partial(partiel) %>
+    # Différents affichages en fonction du "statut" du visiteur, qui peut être :
+  # - administrateur
+  # - analyste
+  # - postulant analyste
+  # - simple inscrit (identifié)
+  # - simple visiteur non identifié
+  #
 
-<% 
-    
-  else
-
-    #
-    # = AUCUN PARTIEL DEMANDÉ =
-    #
-    # Lorsque seul l'url analyse/contribuer a été spécifiée, sans partiel et
-    # sans film. Dans ce cas, un message différent attend les visiteurs, en 
-    # fonction de leur inscription.
 %>
+<% if user.admin? %>
 
-  <% if user.postulant? %>
+  <p>En tant qu'administrateur, vous avez tous les privilèges dans cette partie.</p>
+  <p>→ <a href="analyser/list" class="exergue">Liste des analyses en cours</a>.</p>
+  <p>→ <a href="analyser/new" class="exergue">Initier une nouvelle analyse de film</a>.</p>
+  <p>→ <a href="analyser/list" class="exergue">Contribuer à une analyse en cours</a>.</p>
 
-    <p>Votre candidature est à l’étude. Merci de votre patience.</p>
-    <p>→ <a href="analyser/list" class="exergue">Liste des analyses en cours</a>.</p>
+<% elsif user.postulant? %>
 
-  <% elsif user.analyste? %>
+  <p>Votre candidature est à l’étude. Merci de votre patience.</p>
+  <p>→ <a href="analyser/list" class="exergue">Liste des analyses en cours</a>.</p>
 
-    <p>Vous êtes analyste, vous pouvez contribuer aux analyses ou en initier.</p>
-    <p>→ <a href="analyser/new" class="exergue">Initier une nouvelle analyse de film</a>.</p>
-    <p>→ <a href="analyser/list" class="exergue">Contribuer à une analyse en cours</a>.</p>
+<% elsif user.analyste? %>
 
-  <% elsif user.identified? %>
+  <p>Vous êtes analyste, vous pouvez contribuer aux analyses ou en initier.</p>
+  <p>→ <a href="analyser/new" class="exergue">Initier une nouvelle analyse de film</a>.</p>
+  <p>→ <a href="analyser/list" class="exergue">Contribuer à une analyse en cours</a>.</p>
 
-    <p>Pour contribuer aux analyses, puisque vous êtes déjà inscrit<%=user.f_e%>, il vous suffit de <a href="analyse/contribuer/candidater" class="exergue">soumettre une demande de participation</a>.</p>
-    <p>→ <a href="analyser/list" class="exergue">Liste des analyses en cours</a>.</p>
+<% elsif user.identified? %>
 
-  <% else %>
+  <p>Pour contribuer aux analyses, puisque vous êtes déjà inscrit<%=user.f_e%>, il vous suffit de <a href="analyser/postuler" class="exergue">soumettre une demande de participation</a>.</p>
+  <p>→ <a href="analyser/list" class="exergue">Liste des analyses en cours</a>.</p>
 
-    <p>Pour contribuer aux analyses, vous devez au préalable <a href="user/signup" class="exergue">vous inscrire sur le site</a> ou <a href="user/signin" class="exergue">vous identifier</a> si vous êtes déjà inscrit(e).</p>
-    <p>→ <a href="analyser/list" class="exergue">Liste des analyses en cours</a>.</p>
+<% else %>
 
-  <% end %>
+  <p>Pour contribuer aux analyses, vous devez au préalable <a href="user/signup" class="exergue">vous inscrire sur le site</a> ou <a href="user/signin" class="exergue">vous identifier</a> si vous êtes déjà inscrit(e).</p>
+  <p>→ <a href="analyser/list" class="exergue">Liste des analyses en cours</a>.</p>
 
 <% end %>
 
-<p><%= lien_aide_contribution %></p>
+<p><%= 
+  "→ " + simple_link(
+    'aide?p=analyse%2Fcontribuer', 
+    'Aide pour la contribution','exergue'
+  )+'.'
+%></p>
+
 <p class="tiny italic">Comme pour toutes les pages, c'est le titre qui vous permet de vous déplacer facilement. Dans cette section, le mot “Contribuer” dans le titre vous permet de revenir sur cette page de départ tandis que les termes “analyses de films”, toujours dans le titre, vous permet de revenir à l'accueil des analyses.</p>
+
 <%= footer(:small) %>
 

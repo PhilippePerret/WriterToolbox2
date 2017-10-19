@@ -17,12 +17,12 @@ require_support_analyse
 # On va intervenir sur les tables, donc il faut protéger les données
 protect_biblio
 
-feature 'Tableau de bord de l’analyse d’un film' do
+feature 'Tableau de bord de l’analyse d’un film', check: false do
   context 'pour un administrateur' do
     scenario '=> Un administrateur trouve une page conforme' do
 
       identify phil
-      visit "#{base_url}/analyser/postuler/4"
+      visit "#{base_url}/analyser/dashboard/4"
       expect(page).to have_tag('h2', text: /Contribuer/)
       expect(page).to have_tag('h3', text: /21 Grams/)
 
@@ -68,7 +68,7 @@ feature 'Tableau de bord de l’analyse d’un film' do
 
       # On rejoint l'analyse
       identify hbenoit
-      visit "#{base_url}/analyser/postuler/#{hanalyse[:id]}"
+      visit "#{base_url}/analyser/dashboard/#{hanalyse[:id]}"
 
       sleep 4
 
@@ -97,7 +97,7 @@ feature 'Tableau de bord de l’analyse d’un film' do
       expect(page).to have_tag('div#taches_buttons') do
         with_tag('a', text: '+')
       end
-      success 'la page contient la liste des tâche à faire (planning)'
+      success 'la page contient la liste des tâches à faire (planning)'
 
     end
   end

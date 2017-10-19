@@ -104,9 +104,11 @@ class Analyse
     # Données générales de l'initialisation, écrites dans le document
     # quand tout s'est bien passé
     def data_generale_analyse fdata
+      lien_online_postuler = full_link("analyser/postuler/#{fdata[:id]}", "postuler à “#{fdata[:titre]}”")
       <<-HTML
       <p class="bold">Données générales de l’analyse du film “#{fdata[:titre]}” :</p>
       <p>Pour produire les documents de cette analyse : #{simple_link("analyser/dashboard/#{fdata[:id]}")}.</p>
+      <p>Pour transmettre à d’autres analystes la lien pour la contribution : #{lien_online_postuler}.</p>
       <p>Pour consulter l'analyse en ligne : #{simple_link("analyse/lire/#{fdata[:id]}")}.</p>
       <p>Pour trouver de l'aide sur la création et la rédaction des documents d'analyse : 
       #{simple_link("aide?p=analyse%2Fcontribuer", 'Aide à la contribution')}.</p>

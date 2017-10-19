@@ -27,8 +27,12 @@ class Analyse
         "<li class=\"file\" id=\"file-#{hfile[:id]}\">#{file_buttons(hfile)}#{hfile[:titre]}</li>"
       end.join
     else
-      'Cette analyse ne comporte encore aucun fichier. '+
-      'Pour ajouter des fichiers, cliquer sur le « + » ci-dessous.'
+      <<-HTML
+      <p class="small">
+        Cette analyse ne comporte encore aucun fichier.
+        Pour en ajouter, cliquer sur le bouton « + » ci-dessous.
+      </p>
+      HTML
     end
   end
 
@@ -122,7 +126,12 @@ class Analyse
         "<li class=\"tache\" id=\"tache-#{htache[:id]}\">#{htache[:action]}</li>"
       end.join
     else
-      'Cette analyse ne comporte encore aucune tâche. Pour ajouter une tâche, cliquer sur le « + » ci-dessous.'
+      <<-HTML
+      <p class="small">
+        Cette analyse ne comporte encore aucune tâche. Pour en ajouter une, cliquer sur 
+        le bouton « + » ci-dessous.
+      </p>
+      HTML
     end
   end
 
@@ -172,7 +181,7 @@ class Analyse
           Boutons pour créer la tache
           -->
       <div class="buttons">
-        <input type="submit" value="Ajouter ce fichier" />
+        <input type="submit" value="Ajouter cette tâche" />
       </div>
     </form>
     HTML

@@ -10,7 +10,7 @@ require_support_mail_for_test
 
 protect_biblio
 
-feature 'Initier une nouvelle analyse de film' do
+feature 'Initier une nouvelle analyse de film', check: false do
 
   before(:each) do
     @start_time = Time.now.to_i
@@ -73,7 +73,9 @@ feature 'Initier une nouvelle analyse de film' do
     expect(page).to have_tag('div.notice', text: /L’analyse a été initiée/)
     expect(page).to have_tag('p', text: /Données générales de l’analyse du film/)
     success 'Un message confirme l’initiation de l’analyse et on se trouve sur sa page'
-    expect(page).to have_tag('a', with: {href: "analyser/postuler/#{film_id}"})
+
+    expect(page).to have_tag('a', with: {href: "analyser/dashboard/#{film_id}"})
+    expect(page).to have_tag('a', with: {href: "http://#{site.configuration.url_online}/analyser/postuler/#{film_id}"})
     expect(page).to have_tag('a', with: {href: "analyse/lire/#{film_id}"})
     expect(page).to have_tag('a', with: {href: "aide?p=analyse%2Fcontribuer"})
     success 'il contient tous les liens utiles (pour lire, contribuer ou trouver de l’aide)'

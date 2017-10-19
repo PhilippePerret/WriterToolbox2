@@ -6,12 +6,13 @@ class Analyse
     # +adata+ pour le lecteur +reader+
     #
     def as_li_for adata, reader
+      #debug "reader(#{reader.pseudo}/#{reader.id}).analyste? #{reader.analyste?.inspect}"
       adata.merge!(reader: reader)
       <<-HTML
         <li class="analyse" id="analyse-#{adata[:id]}">
           <div class="fright buttons discret">
             #{reader.analyste? ? bouton_contribuer(adata) : ''}
-            #{bouton_lire(adata)}
+            #{bouton_lire(adata, reader)}
           </div>
           <div class="fright states tiny">
             #{analyse_states(adata)}
@@ -35,7 +36,12 @@ class Analyse
         "<a href=\"analyser/postuler/#{adata[:id]}\">contribuer</a>"
       end
     end
-    def bouton_lire adata
+
+    # Le bouton lire est affiché tout le temps lorsque c'est un analyste ou
+    # un administrateur qui voit la liste des films, mais il ne l'est que
+    # lorsque l'analyse est lisible dans le cas contraire.
+    def bouton_lire adata, reader
+      reader.analyste? || adata[:specs][4] == '1' || reader.admin? || (return '')
       "<a href=\"analyse/lire/#{adata[:id]}\">voir</a>"
     end
 

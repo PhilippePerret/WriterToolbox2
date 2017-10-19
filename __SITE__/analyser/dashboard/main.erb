@@ -1,23 +1,23 @@
 <% 
 # Tableau de bord de l'analyse du film
 %>
+
+<%= header(:small) %>
+<%= Analyse.main_title %>
+
 <% 
     require_form_support
-
-    case param(:op)
-    when 'proposition' then Analyse.proposition_contribution(film.id, user)
-    end
 %>
-<h3><%= film.titre %></h3>
+<h3><%= analyse.film.titre %></h3>
 
 <div class="right">
   <%= Analyse.visitor_state(user) %>
 </div>
 
 
-<fieldset>
+<fieldset class="plain">
   <legend>Fichiers de l’analyse</legend>
-  <ul id="files_analyses" class="simple sensible discrete">
+  <ul id="files_analyses" class="plain sensible discrete">
     <%= analyse.file_list %>
   </ul>
   <div id="files_buttons" class="right">
@@ -26,20 +26,23 @@
 </fieldset>
 
 
-<fieldset>
+<fieldset class="plain">
   <legend>Contributeurs</legend>
-  <ul id="contributors" class="simple sensible discrete">
+  <ul id="contributors" class="plain sensible discrete">
     <%= analyse.contributor_list %>
   </ul>
 </fieldset>
 
 
-<fieldset>
+<fieldset class="plain">
   <legend>Planning/tâches</legend>
-  <ul id="taches" class="simple sensible discrete">
+  <ul id="taches" class="plain sensible discrete">
     <%= analyse.tache_list %>
   </ul>
   <div id="taches_buttons" class="right">
     <%= analyse.taches_buttons %>
   </div>
 </fieldset>
+
+
+<%= footer(:small) %>

@@ -89,7 +89,14 @@ end
 # Cf. Manuel > Librairies_et_modules.md
 def require_lib path
   objet, affixe = path.split(':')
-  require "./__SITE__/#{objet}/_lib/library/#{affixe}.rb"
+  p = "./__SITE__/#{objet}/_lib/library/#{affixe}"
+  if File.exist?(p) && File.directory?(p) 
+    require_folder(p)
+  elsif File.exist?("#{p}.rb")
+    require p
+  else
+    raise "La librairie #{p} est introuvable."
+  end
 end
 alias :require_library :require_lib
 

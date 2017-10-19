@@ -30,7 +30,8 @@ ul.simple
     padding       : 0 1em
 
 // Similaire à "simple", mais occupe toute la largeur de son container
-// Si c'est un fielset, il faut mettre le padding de ce fieldset à 0
+// Si c'est un fielset, il faut mettre sa classe à "plain" elle aussi
+// pour que son padding soit à 0
 ul.plain
   list-style    : none
   margin        : 0
@@ -39,6 +40,11 @@ ul.plain
     clear           : both
     border-bottom   : 1px solid #CCC
     padding         : 0 .6em
+
+fieldset.plain
+  padding     : 1px 0 0px 0
+  p
+    margin      : 0 2em
 
 // Les rangées se colorent lorsqu'on passe la souris dessus
 ul.sensible

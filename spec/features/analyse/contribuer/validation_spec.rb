@@ -9,7 +9,7 @@ require_lib_site
 require_support_integration
 require_support_mail_for_test
 
-feature 'Validation ou refus de contribution aux analyses' do
+feature 'Validation ou refus de contribution aux analyses', check: false do
   before(:each) do
     @start_time = Time.now.to_i
   end
