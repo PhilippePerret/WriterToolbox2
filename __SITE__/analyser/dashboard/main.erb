@@ -1,6 +1,11 @@
 <% 
 # Tableau de bord de l'analyse du film
 %>
+<%
+
+    # Toutes les opérations
+    param(:op) && Analyse.traite_operation(user, param(:op))
+%>
 
 <%= header(:small) %>
 <%= Analyse.main_title %>
@@ -15,7 +20,7 @@
 </div>
 
 
-<fieldset class="plain">
+<fieldset id="fs_files" class="plain">
   <legend>Fichiers de l’analyse</legend>
   <ul id="files_analyses" class="plain sensible discrete">
     <%= analyse.file_list %>
@@ -26,7 +31,7 @@
 </fieldset>
 
 
-<fieldset class="plain">
+<fieldset id="fs_contributors" class="plain">
   <legend>Contributeurs</legend>
   <ul id="contributors" class="plain sensible discrete">
     <%= analyse.contributor_list %>
@@ -34,7 +39,7 @@
 </fieldset>
 
 
-<fieldset class="plain">
+<fieldset id="fs_taches" class="plain">
   <legend>Planning/tâches</legend>
   <ul id="taches" class="plain sensible discrete">
     <%= analyse.tache_list %>

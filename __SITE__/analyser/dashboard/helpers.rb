@@ -42,8 +42,8 @@ class Analyse
   def file_buttons hfile
     <<-HTML
     <div class="fright small">
-      <a href="analyser/file/#{hfile[:id]}?op=edit" class="btn">edit</a>
-      <a href="analyser/file/#{hfile[:id]}?op=rem" class="btn">sup</a>
+      <a href="analyser/file/#{hfile[:id]}?op=edit" class="small btn">edit</a>
+      <a href="analyser/file/#{hfile[:id]}?op=rem" class="small btn warning">sup</a>
     </div>
     HTML
   end

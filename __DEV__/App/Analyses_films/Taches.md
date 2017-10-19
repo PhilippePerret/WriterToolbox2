@@ -1,5 +1,29 @@
 # Tâches dans les analyses {#analyses_taches}
 
+## Spécifications de la tâche
+
+`specs`, sur 32 caractères
+
+```
+
+  BITS   OFFSETS    DESCRIPTION
+ ------------------------------------------------------------------
+  1      0          ÉTAT (STATE) DE LA TACHE
+                    ========================
+                    0: Non prise en main
+                    1: Prise en main par l'user_id
+                    ...
+                    9: Tâche terminée
+
+  2      1          TYPES DE LA TÂCHE
+                    =================
+                    Non encore définie, mais pourra concerner une tâche sur un
+                    fichier, une annonce à faire, un travail dans un fichier,
+                    un mail à envoyer, etc.
+
+```
+
+
 ## Table MySQL
 
 ```SQL

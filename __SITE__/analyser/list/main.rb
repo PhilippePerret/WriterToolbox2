@@ -11,7 +11,7 @@ class Analyse
       <<-HTML
         <li class="analyse" id="analyse-#{adata[:id]}">
           <div class="fright buttons discret">
-            #{reader.analyste? ? bouton_contribuer(adata) : ''}
+            #{reader.analyste? || reader.admin? ? bouton_contribuer(adata) : ''}
             #{bouton_lire(adata, reader)}
           </div>
           <div class="fright states tiny">

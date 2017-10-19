@@ -21,10 +21,12 @@ Ces spécifications sont renseignées dans la propriété `specs` du fichier dan
   2         1                 Le type du fichier
                               -------------------
                               0:  Simple texte (markdown)
-                              1:  Fichier de collecte
-                              2:  Fichier de personnages
-                              3:  Fichier de structure
-                              4:  Fichier de procédés
+                              1:  Fichier de collecte (.film)
+                              2:  Fichier de personnages (.persos)
+                              3:  Fichier de brins (.brins)
+                              3:  Fichier de structure (.stt)
+                              4:  Fichier de procédés (.prc)
+                              5:  Autre fichier
 
   3         2                 État du fichier
                               ---------------

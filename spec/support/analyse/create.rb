@@ -66,3 +66,125 @@ def create_analyse_for howner, options
   return options.merge!(id: film_id)
 
 end
+
+# Crée des fichiers factices pour une analyse et retourne les
+# données.
+# Note : on s'assure que
+def create_files_analyse analyse_id, nombre, options = nil
+  # Si on passe par ici, il faut absolument protéger les données biblio qui
+  # vont être modifiées. On doit les sauver si nécessaire et demander leur
+  # rechargement.
+  backup_base_biblio # seulement si nécessaire
+  protect_biblio
+
+  contributors = site.db.select(:biblio,'user_per_analyse',{film_id: analyse_id})
+  nombre_conts = contributors.count
+  nombre_conts > 0 || raise("Impossible de créer les données sans contributeurs pour l'analyse #{analyse_id}")
+
+  files = Array.new
+
+
+
+  nombre.times do |i|
+
+
+    specs     = '0'*16
+    type_file = rand(10) # type du fichier
+    specs[1]  = type_file.to_s
+    # Extension du fichier en fonction du type
+    ext = ['md','film','persos','brins','stt','prc'][type_file] || 'md'
+
+    data_file = {
+      titre: "Fichier ##{i+1} pour l'analyse #{analyse_id}",
+      film_id: analyse_id,
+      specs:   specs
+    }
+    file_id = site.db.insert(:biblio,'files_analyses',data_file)
+    data_file.merge!(id: file_id)
+
+    # Une fois que la donnée a été construite, on peut :
+    # 1. créer physiquement le fichier
+    # 2. le confier à un contributeur de l'analyse
+
+    ffolder= File.expand_path("./__SITE__/analyser/_data_/files/#{analyse_id}")
+    fpath = File.expand_path("#{ffolder}/#{file_id}.#{ext}")
+    File.exist?(fpath) || begin
+      `mkdir -p "#{ffolder}"`
+      File.open(fpath,'wb'){|f| f.write("# Un fichier de type #{type_file} pour voir\n\n")}
+      # On ajoute ce fichier à détruire
+      add_file_2_destroy fpath
+    end
+
+    hauteur_fichier = contributors[rand(nombre_conts)]
+    # puts "Auteur fichier : #{hauteur_fichier.inspect}"
+    data_user_file = {
+      file_id: file_id,
+      user_id: hauteur_fichier[:user_id],
+      role:    1
+    }
+    data_file.merge!(user_id: data_user_file[:user_id])
+    site.db.insert(:biblio,'user_per_file_analyse', data_user_file)
+
+
+    files << data_file
+  end
+
+  return files
+
+end
+
+# Liste de tâches pour factory
+ACTIONS_ANALYSES = [
+  'Relire le fichier spécifié',
+  'Demander une correction pour le fichier spécifié',
+  'Approfondir le fichier spécifié',
+  'Mettre en forme la structure du fichier spécifié',
+  'Faire une proposition de correction',
+  'Corriger le fichier spécifié',
+  'Annoncer la fin de l’analyse du film',
+  'Annoncer le nouveau fichier concernant le film',
+  'Passer le fichier en version publique'
+]
+NOMBRE_ACTIONS_ANALYSES = ACTIONS_ANALYSES.count
+
+# Création de tâche
+# =================
+#
+#
+# Note : si des tâches et des fichiers doivent être créés, il faut
+# faire les fichiers d'abord, afin de pouvoir "hériter" de ces fichiers pour
+# leur adjoindre des tâches.
+#
+def create_taches_analyse analyse_id, nombre, options = nil
+  # Si on passe par ici, il faut absolument protéger les données biblio qui
+  # vont être modifiées. On doit les sauver si nécessaire et demander leur
+  # rechargement.
+  backup_base_biblio # seulement si nécessaire
+  protect_biblio
+
+  contributors = site.db.select(:biblio,'user_per_analyse',{film_id: analyse_id})
+  nombre_conts = contributors.count
+
+  # On prend aussi les fichiers qui ont pu être créé
+  hfiles = site.db.select(:biblio,'files_analyses', {film_id: analyse_id})
+  nombre_files = hfiles.count
+
+  taches = Array.new
+
+  nombre.times do |i|
+    data_task = {
+      action:  ACTIONS_ANALYSES[rand(NOMBRE_ACTIONS_ANALYSES)],
+      user_id: contributors[rand(nombre_conts)][:id],
+      film_id: analyse_id,
+      echeance: Time.now.to_i + rand(100000)*3600, # Toutes dans le futur
+      file_id: hfiles[rand(nombre_files)][:id],
+      specs:   "10000000"
+    }
+    task_id = site.db.insert(:biblio,'taches_analyses', data_task)
+
+    taches << data_task.merge!(id: task_id)
+
+  end
+
+  return taches
+end

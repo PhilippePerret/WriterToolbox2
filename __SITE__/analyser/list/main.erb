@@ -28,10 +28,10 @@
     <% end %>
 </ul>
 <div class="right">
-  <% if user.analyste? %>
+  <% if user.analyste? || user.admin? %>
     <%= simple_link("analyser/list?filtre[all]=1", 'Voir toutes les analyses', 'small exergue') %>
   <% else %>
-    <%= simple_link('contribuer', 'Contribuer aux analyses', 'small exergue') %>
+    <%= simple_link('analyser', 'Contribuer aux analyses', 'small exergue') %>
   <% end %>
 </div>
 
