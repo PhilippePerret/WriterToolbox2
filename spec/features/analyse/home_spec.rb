@@ -37,7 +37,7 @@ feature 'Accueil de la section analyse' do
     end
     success 'il trouve la liste des films'
 
-    expect(page).to have_tag('a', with: {href: "analyse/contribuer", class: 'exergue'}, text: 'contribuer aux anlyses')
+    expect(page).to have_tag('a', with: {href: "analyser/postuler", class: 'exergue'}, text: 'contribuer aux anlyses')
     success 'il trouve un lien vers la partie « Contribuer »'
   end
 

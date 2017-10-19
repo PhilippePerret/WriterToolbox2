@@ -1,6 +1,11 @@
 # encoding: utf-8
 class Analyse
 
+  def initialize analyse_id
+    @id = analyse_id
+  end
+
+
   # TRUE si l'user d'ID +uid+ est le créateur de cette
   # analyse.
   def creator? uid

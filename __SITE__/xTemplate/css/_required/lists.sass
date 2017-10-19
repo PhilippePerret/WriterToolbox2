@@ -29,11 +29,28 @@ ul.simple
     border-bottom : 1px solid #CCC
     padding       : 0 1em
 
+// Similaire à "simple", mais occupe toute la largeur de son container
+// Si c'est un fielset, il faut mettre le padding de ce fieldset à 0
+ul.plain
+  list-style    : none
+  margin        : 0
+  padding       : 1em 0
+  li
+    clear           : both
+    border-bottom   : 1px solid #CCC
+    padding         : 0 .6em
+
+// Les rangées se colorent lorsqu'on passe la souris dessus
 ul.sensible
   li
     &:hover
       background-color    : #EEE
 
+// Dans cette liste :
+//  - tous les éléments tagger "discret" se cache (visibiliy) jusqu'au
+//    passage de la souris.
+//  Rappel : pour le test, modifier le style.visibility de l'élément pour
+//  le faire apparaitre.
 ul.discrete
   li
     .discret

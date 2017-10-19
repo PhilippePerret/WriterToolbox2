@@ -58,23 +58,23 @@
   <% if user.postulant? %>
 
     <p>Votre candidature est à l’étude. Merci de votre patience.</p>
-    <p>→ <a href="analyse/contribuer/list" class="exergue">Liste des analyses en cours</a>.</p>
+    <p>→ <a href="analyser/list" class="exergue">Liste des analyses en cours</a>.</p>
 
   <% elsif user.analyste? %>
 
     <p>Vous êtes analyste, vous pouvez contribuer aux analyses ou en initier.</p>
-    <p>→ <a href="analyse/contribuer/new" class="exergue">Initier une nouvelle analyse de film</a>.</p>
-    <p>→ <a href="analyse/contribuer/list" class="exergue">Contribuer à une analyse en cours</a>.</p>
+    <p>→ <a href="analyser/new" class="exergue">Initier une nouvelle analyse de film</a>.</p>
+    <p>→ <a href="analyser/list" class="exergue">Contribuer à une analyse en cours</a>.</p>
 
   <% elsif user.identified? %>
 
     <p>Pour contribuer aux analyses, puisque vous êtes déjà inscrit<%=user.f_e%>, il vous suffit de <a href="analyse/contribuer/candidater" class="exergue">soumettre une demande de participation</a>.</p>
-    <p>→ <a href="analyse/contribuer/list" class="exergue">Liste des analyses en cours</a>.</p>
+    <p>→ <a href="analyser/list" class="exergue">Liste des analyses en cours</a>.</p>
 
   <% else %>
 
     <p>Pour contribuer aux analyses, vous devez au préalable <a href="user/signup" class="exergue">vous inscrire sur le site</a> ou <a href="user/signin" class="exergue">vous identifier</a> si vous êtes déjà inscrit(e).</p>
-    <p>→ <a href="analyse/contribuer/list" class="exergue">Liste des analyses en cours</a>.</p>
+    <p>→ <a href="analyser/list" class="exergue">Liste des analyses en cours</a>.</p>
 
   <% end %>
 

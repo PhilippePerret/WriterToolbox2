@@ -1,9 +1,4 @@
 # encoding: utf-8
-class Analyse
-  class << self
-
-  end #/<<self Analyse
-end #/Analyse
 class User
 
   # Retourne true si l'user a fait une demande de participation

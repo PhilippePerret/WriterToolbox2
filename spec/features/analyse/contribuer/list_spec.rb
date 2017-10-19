@@ -18,10 +18,10 @@ feature 'Liste des analyses en cours' do
       # Il faut qu'il y ait des analyses en cours
       expect(all_analyses.count).to be > 0
 
-      visit "#{base_url}/analyse/contribuer/list"
+      visit "#{base_url}/analyser/list"
       # sleep 30
       expect(page).to have_tag('h2') do
-        with_tag('a', with: {href: 'analyse/contribuer'}, text: 'Contribuer')
+        with_tag('a', with: {href: 'analyser/postuler'}, text: 'Contribuer')
       end
       expect(page).to have_tag('h3', text: 'Analyses en cours')
       expect(page).to have_tag('ul#analyses') do
@@ -47,7 +47,7 @@ feature 'Liste des analyses en cours' do
               with_tag('span', with:{class: 'contributors', title: pseudos_contributors})
             end
             with_tag('div', with: {class: 'buttons'}) do
-              with_tag('a', with: {href: "analyse/contribuer/#{analyse[:id]}"}, text: 'contribuer')
+              with_tag('a', with: {href: "analyser/dashboard/#{analyse[:id]}"}, text: 'contribuer')
               with_tag('a', with: {href: "analyse/lire/#{analyse[:id]}"}, text: 'voir')
             end
           end
@@ -63,9 +63,9 @@ feature 'Liste des analyses en cours' do
 
   context 'Un non analyste' do
     scenario '=> trouve une liste minimale des analyses en cours' do
-      visit "#{base_url}/analyse/contribuer/list"
+      visit "#{base_url}/analyser/list"
       expect(page).to have_tag('h2') do
-        with_tag('a', with: {href: 'analyse/contribuer'}, text: 'Contribuer')
+        with_tag('a', with: {href: 'analyser/postuler'}, text: 'Contribuer')
       end
       expect(page).to have_tag('h3', text: 'Analyses en cours')
     end

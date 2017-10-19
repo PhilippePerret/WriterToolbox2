@@ -30,9 +30,9 @@ class Analyse
 
     def bouton_contribuer adata
       if Analyse.has_contributor?(adata, adata[:reader].id)
-        "<a class=\"vouscont\" href=\"analyse/contribuer/#{adata[:id]}\">vous contribuez</a>"
+        "<a class=\"vouscont\" href=\"analyser/dashboard/#{adata[:id]}\">vous contribuez</a>"
       else
-        "<a href=\"analyse/contribuer/#{adata[:id]}\">contribuer</a>"
+        "<a href=\"analyser/postuler/#{adata[:id]}\">contribuer</a>"
       end
     end
     def bouton_lire adata

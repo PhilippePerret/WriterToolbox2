@@ -22,7 +22,7 @@ feature 'Tableau de bord de l’analyse d’un film' do
     scenario '=> Un administrateur trouve une page conforme' do
 
       identify phil
-      visit "#{base_url}/analyse/contribuer/4"
+      visit "#{base_url}/analyser/postuler/4"
       expect(page).to have_tag('h2', text: /Contribuer/)
       expect(page).to have_tag('h3', text: /21 Grams/)
 
@@ -68,7 +68,7 @@ feature 'Tableau de bord de l’analyse d’un film' do
 
       # On rejoint l'analyse
       identify hbenoit
-      visit "#{base_url}/analyse/contribuer/#{hanalyse[:id]}"
+      visit "#{base_url}/analyser/postuler/#{hanalyse[:id]}"
 
       sleep 4
 

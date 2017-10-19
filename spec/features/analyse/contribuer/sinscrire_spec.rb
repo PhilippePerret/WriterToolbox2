@@ -37,10 +37,10 @@ feature 'Proposition de contribution à une analyse en cours' do
     identify hanalyste
     visit analyse_page
     expect(page).to have_tag('h2', text: /analyses de films/i)
-    expect(page).to have_tag('a', {href: "analyse/contribuer/list"})
-    page.find("a[href=\"analyse/contribuer\"]").click
+    expect(page).to have_tag('a', {href: "analyser/list"})
+    page.find("a[href=\"analyser/postuler\"]").click
     expect(page).to have_tag('h2', text: /Contribuer/)
-    page.find("a[href=\"analyse/contribuer/list\"]").click
+    page.find("a[href=\"analyser/list\"]").click
     # sleep 10
     expect(page).to have_tag('h3', 'Analyses en cours')
     success 'il peut rejoindre la liste des analyses en cours'
@@ -72,7 +72,7 @@ feature 'Proposition de contribution à une analyse en cours' do
     end
     expect(page).to have_tag('h2', text: /analyses de films/i)
     expect(page).to have_tag('h3', text: /#{hanalyse[:titre]}/)
-    expect(page).to have_tag('a', with: {href: "analyse/contribuer/#{hanalyse[:id]}?op=proposition"}, text: '→ Contribuer')
+    expect(page).to have_tag('a', with: {href: "analyser/postuler/#{hanalyse[:id]}"}, text: '→ Contribuer')
     success 'il peut rejoindre une analyse en cours'
 
     click_link('→ Contribuer')
@@ -127,11 +127,11 @@ feature 'Proposition de contribution à une analyse en cours' do
     identify huser
     visit analyse_page
     expect(page).to have_tag('h2', text: /analyses de films/i)
-    expect(page).to have_tag('a', {href: "analyse/contribuer/list"})
-    page.find("a[href=\"analyse/contribuer\"]").click
+    expect(page).to have_tag('a', {href: "analyser/list"})
+    page.find("a[href=\"analyser/postuler\"]").click
     expect(page).to have_tag('h2', text: /Contribuer/)
     # sleep 30
-    page.find("a[href=\"analyse/contribuer/list\"]").click
+    page.find("a[href=\"analyser/list\"]").click
     expect(page).to have_tag('h3', 'Analyses en cours')
     success 'il peut rejoindre la liste des analyses en cours'
 
@@ -162,13 +162,13 @@ feature 'Proposition de contribution à une analyse en cours' do
     require_lib 'analyse:listes'
     hanalyse = Analyse.all(current: true).first
     # On fake le bouton contribuer
-    visit "#{base_url}/analyse/contribuer/#{hanalyse[:id]}?op=proposition"
+    visit "#{base_url}/analyser/postuler/#{hanalyse[:id]}"
     # sleep 10
     expect(page).to have_tag('h2', text: /Contribuer/)
     expect(page).to have_tag('div.error', text: /Seul un analyste peut proposer sa contribution/i)
     success 'l’user reçoit un message d’erreur'
 
-    expect(page).not_to have_tag('a', with: {href: "analyse/contribuer/#{hanalyse[:id]}?op=proposition"}, text: '→ Contribuer')
+    expect(page).not_to have_tag('a', with: {href: "analyser/postuler/#{hanalyse[:id]}"}, text: '→ Contribuer')
     expect(page).to have_tag('a', text:/Devenir analyste/)
     success 'la page ne contient pas le bouton Contribuer mais le bouton pour devenir analyste'
 
@@ -180,11 +180,11 @@ feature 'Proposition de contribution à une analyse en cours' do
     identify huser
     visit analyse_page
     expect(page).to have_tag('h2', text: /analyses de films/i)
-    expect(page).to have_tag('a', {href: "analyse/contribuer/list"})
-    page.find("a[href=\"analyse/contribuer\"]").click
+    expect(page).to have_tag('a', {href: "analyser/list"})
+    page.find("a[href=\"analyser/postuler\"]").click
     expect(page).to have_tag('h2', text: /Contribuer/)
     # sleep 30
-    page.find("a[href=\"analyse/contribuer/list\"]").click
+    page.find("a[href=\"analyser/list\"]").click
     expect(page).to have_tag('h3', 'Analyses en cours')
     success 'il peut rejoindre la liste des analyses en cours'
 
@@ -207,19 +207,19 @@ feature 'Proposition de contribution à une analyse en cours' do
       site.db.insert(:biblio,'user_per_analyse',datacont)
     end
 
-    visit "#{base_url}/analyse/contribuer/#{hanalyse[:id]}"
+    visit "#{base_url}/analyser/dashboard/#{hanalyse[:id]}"
     success 'il peut rejoindre la page d’analyse du film'
 
     # sleep 30
 
-    expect(page).not_to have_tag('a', with: {href: "analyse/contribuer/#{hanalyse[:id]}?op=proposition"}, text: '→ Contribuer')
+    expect(page).not_to have_tag('a', with: {href: "analyser/postuler/#{hanalyse[:id]}"}, text: '→ Contribuer')
     expect(page).not_to have_tag('a', text:/Devenir analyste/)
     success 'il ne trouve ni le bouton « Contribuer » (puisqu’il contribue déjà à cette analyse) ni le bouton « Devenir analyse »'
     expect(page).to have_content('Vous contribuez à cette analyse')
     success 'en revanche, un text lui indique qu’il contribue à cette analyse'
 
     notice '* il essaie de proposer à nouveau par l’URL'
-    visit "#{base_url}/analyse/contribuer/#{hanalyse[:id]}?op=proposition"
+    visit "#{base_url}/analyser/postuler/#{hanalyse[:id]}"
 
     expect(page).to have_tag('div.notice', text: /Vous contribuez déjà à cette analyse/)
     success 'un message lui annonce qu’il contribue déjà'
@@ -235,7 +235,7 @@ feature 'Proposition de contribution à une analyse en cours' do
     identify huser
     visit analyse_page
 
-    visit "#{base_url}/analyse/contribuer/#{hanalyse[:id]}?op=proposition"
+    visit "#{base_url}/analyser/postuler/#{hanalyse[:id]}"
     expect(page).to have_tag('h2', text: /Contribuer/)
     expect(page).to have_tag('div.error', text: /cette analyse n’est pas en cours/i)
 

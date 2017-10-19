@@ -18,7 +18,7 @@ feature 'Initier une nouvelle analyse de film' do
   let(:start_time) { @start_time }
 
   scenario '=> Un visiteur lambda ne peut pas initer une nouvelle analyse' do
-    visit "#{base_url}/analyse/contribuer/new"
+    visit "#{base_url}/analyser/new"
     expect(page).to have_tag('h2', text: /analyses de films/i)
     expect(page).to have_content('Pour pouvoir initier une nouvelle analyse de film')
     expect(page).to have_content('vous devez impérativement être inscrit sur le site et avoir fait une demande de contribution aux analyses')
@@ -29,7 +29,7 @@ feature 'Initier une nouvelle analyse de film' do
   scenario '=> Un visiteur inscrit non analyste ne peut pas initier une nouvelle analyse' do
     huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: false)
     identify huser
-    visit "#{base_url}/analyse/contribuer/new"
+    visit "#{base_url}/analyser/new"
     expect(page).to have_tag('h2', text: /analyses de films/i)
     expect(page).to have_content('Pour pouvoir initier une nouvelle analyse de film')
     expect(page).to have_content('vous devez déposer une demande de contribution aux analyses')
@@ -44,7 +44,7 @@ feature 'Initier une nouvelle analyse de film' do
     hanalyste = get_data_random_user(mail_confirmed: true, admin: false, analyste: true)
     analyste_id = hanalyste[:id]
     identify hanalyste
-    visit "#{base_url}/analyse/contribuer/new"
+    visit "#{base_url}/analyser/new"
     expect(page).to have_tag('h2', text: /analyses de films/i)
     expect(page).to have_tag('form', with:{id: "analyse_new_film_form"}) do
       with_tag('input', with:{type: 'submit', value: 'Initier l’analyse de ce film'})
@@ -73,7 +73,7 @@ feature 'Initier une nouvelle analyse de film' do
     expect(page).to have_tag('div.notice', text: /L’analyse a été initiée/)
     expect(page).to have_tag('p', text: /Données générales de l’analyse du film/)
     success 'Un message confirme l’initiation de l’analyse et on se trouve sur sa page'
-    expect(page).to have_tag('a', with: {href: "analyse/contribuer/#{film_id}"})
+    expect(page).to have_tag('a', with: {href: "analyser/postuler/#{film_id}"})
     expect(page).to have_tag('a', with: {href: "analyse/lire/#{film_id}"})
     expect(page).to have_tag('a', with: {href: "aide?p=analyse%2Fcontribuer"})
     success 'il contient tous les liens utiles (pour lire, contribuer ou trouver de l’aide)'
@@ -111,7 +111,7 @@ feature 'Initier une nouvelle analyse de film' do
     film_id = site.db.select(:biblio,'filmodico',{titre: "Seven"},[:id]).first[:id]
 
     identify hanalyste
-    visit "#{base_url}/analyse/contribuer/new?op=create&analyse[film_id]=#{film_id}&analyse[film_annee]=1995"
+    visit "#{base_url}/analyser/new?op=create&analyse[film_id]=#{film_id}&analyse[film_annee]=1995"
     expect(page).to have_tag('h2', text: /analyses de films/i)
     expect(page).to have_tag('div.error', text: /Ce film fait déjà l’objet d’une analyse/)
     expect(page).to have_tag('a', with:{href: "analyse/lire/#{film_id}"}, text: /Consulter l’analyse de SEVEN/)
@@ -125,7 +125,7 @@ feature 'Initier une nouvelle analyse de film' do
     analyste_id = hanalyste[:id]
     film_id = 137 # C'est l'ID de Taxi Driver
     identify hanalyste
-    visit "#{base_url}/analyse/contribuer/new"
+    visit "#{base_url}/analyser/new"
     expect(page).to have_tag('h2', text: /analyses de films/i)
     within("form#analyse_new_film_form") do
       fill_in('analyse_film_titre', with: "Taxi Driver")
@@ -137,7 +137,7 @@ feature 'Initier une nouvelle analyse de film' do
     expect(page).to have_tag('div.error', text: /Ce film fait déjà l’objet d’une analyse/)
     success 'une alerte indique que l’analyse existe déjà'
     expect(page).to have_tag('a', with:{href: "analyse/lire/#{film_id}"}, text: /Consulter l’analyse de TAXI DRIVER/)
-    expect(page).to have_tag('a', with:{href: "analyse/contribuer/#{film_id}"}, text: /Contribuer à l’analyse de TAXI DRIVER/)
+    expect(page).to have_tag('a', with:{href: "analyser/postuler/#{film_id}"}, text: /Contribuer à l’analyse de TAXI DRIVER/)
     success 'un lien permet de rejoindre cette analyse'
 
     nb = site.db.count(:biblio,'user_per_analyse',{user_id: analyste_id, film_id: film_id})

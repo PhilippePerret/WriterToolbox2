@@ -11,7 +11,7 @@ class Analyse
       elsif Analyse.has_contributor?(analyse.id, he.id)
         '<span class="tiny">Vous contribuez à cette analyse.</span>'
       elsif he.analyste?
-        "<a href=\"analyse/contribuer/#{film.id}?op=proposition\" class=\"nodeco\">→ Contribuer</a>"
+        "<a href=\"analyser/postuler/#{film.id}\" class=\"nodeco\">→ Contribuer</a>"
       else
         "<a href=\"aide?p=analyse%2Fcontribuer\" class=\"nodeco\">→ Devenir analyste</a>"
       end
@@ -24,13 +24,25 @@ class Analyse
   def file_list
     if fichiers_analyse.count > 0
       fichiers_analyse.collect do |hfile|
-        "<li class=\"file\" }id=\"file-#{hfile[:id]}\">#{hfile[:titre]}</li>"
+        "<li class=\"file\" id=\"file-#{hfile[:id]}\">#{file_buttons(hfile)}#{hfile[:titre]}</li>"
       end.join
     else
-      'Cette analyse ne comporte encore aucun fichier. Pour ajouter des fichiers, cliquer sur le « + » ci-dessous.'
+      'Cette analyse ne comporte encore aucun fichier. '+
+      'Pour ajouter des fichiers, cliquer sur le « + » ci-dessous.'
     end
   end
 
+  # Boutons pour chaque fichier de la liste
+  # Noter la différence avec `files_buttons` qui concerne les boutons de
+  # tous les fichiers, SOUS la liste.
+  def file_buttons hfile
+    <<-HTML
+    <div class="fright small">
+      <a href="analyser/file/#{hfile[:id]}?op=edit" class="btn">edit</a>
+      <a href="analyser/file/#{hfile[:id]}?op=rem" class="btn">sup</a>
+    </div>
+    HTML
+  end
   def files_buttons
     btns = Array.new
     btns << simple_link("javascript:UI.toggle('form#new_file_form')", '+', 'btn small')
@@ -81,10 +93,27 @@ class Analyse
   # Code HTML des LI des contributors de l'analyse
   def contributor_list
     contributors.collect do |hcont|
-      "<li class=\"contributor\" id=\"contributor-#{hcont[:id]}>#{hcont[:pseudo]}</li>"
+      "<li class=\"contributor\" id=\"contributor-#{hcont[:id]}\">#{contributor_buttons(hcont)}#{hcont[:pseudo]}</li>"
     end.join
   end
 
+  def contributor_buttons hcont
+    hcont[:id] != user.id || (return '')
+    # Le bouton de destruction de l'analyste (retrait de l'analyse) n'est accessible que
+    # si l'user courant a ce privilège (256) et que ce n'est pas le créateur de l'analyse
+    # qui est concerné par ce retrait.
+    bouton_remove =
+      if hcont[:role] & 32 == 0 && user.role & 256 > 0 # peut détruire des analystes
+        "<a href=\"analyser/analyste/#{hcont[:id]}?op=rem\">supprimer</a>"
+      end || ''
+    <<-HTML
+    <div class="fright small">
+      <a href="user/contact/#{hcont[:id]}">contacter</a>
+      #{bouton_remove}
+      
+    </div>
+    HTML
+  end
 
   # Code HTML des LI des taches de l'analyse
   def tache_list

@@ -54,7 +54,7 @@ CREATE TABLE user_per_analyse (
     -- 32:   L’user est le CRÉATEUR de l’analyste, l’initiateur
     -- 64:   L’user peut détruire n’importe quel fichier de cette analyse
     -- 128:  L’user peut modifier les données générales de l’analyse.
-    -- 256:  L’user peut détruire l’analyse
+    -- 256:  L’user peut détruire l’analyse ou supprimer des analystes
     role        INTEGER(3),
 
     #  CREATED_AT

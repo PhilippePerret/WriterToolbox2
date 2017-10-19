@@ -11,6 +11,8 @@ class Analyse
         @outputs
       end
     end
+
+
     # Méthode pour créer une nouvelle analyse
     # @param {User} analyste
     #               L'analyste qui veut initier cette analyse
@@ -104,7 +106,7 @@ class Analyse
     def data_generale_analyse fdata
       <<-HTML
       <p class="bold">Données générales de l’analyse du film “#{fdata[:titre]}” :</p>
-      <p>Pour produire les documents de cette analyse : #{simple_link("analyse/contribuer/#{fdata[:id]}")}.</p>
+      <p>Pour produire les documents de cette analyse : #{simple_link("analyser/dashboard/#{fdata[:id]}")}.</p>
       <p>Pour consulter l'analyse en ligne : #{simple_link("analyse/lire/#{fdata[:id]}")}.</p>
       <p>Pour trouver de l'aide sur la création et la rédaction des documents d'analyse : 
       #{simple_link("aide?p=analyse%2Fcontribuer", 'Aide à la contribution')}.</p>
@@ -209,7 +211,7 @@ class Analyse
           output(
             <<-HTML
              <p><a href="analyse/lire/#{fdata[:id]}">⇥ Consulter l’analyse de #{titre_upcase}</a> 
-             <p><a href="analyse/contribuer/#{fdata[:id]}">⇥ Contribuer à l’analyse de #{titre_upcase}</a> 
+             <p><a href="analyser/postuler/#{fdata[:id]}">⇥ Contribuer à l’analyse de #{titre_upcase}</a> 
             HTML
           )
           raise("Ce film fait déjà l’objet d’une analyse.")

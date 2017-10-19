@@ -67,7 +67,7 @@ class Analyse
         <p class="center">#{lien_validation}</p>
         <p>Pour refuser directement cette proposition (en fournissant une raison) :</p>
         <p class="center">#{lien_refus}</p>
-        <p>Dans tous les cas vous pouvez gérer ces propositions depuis le <a href="analyse/contribuer/#{film_id}" class="exergue">tableau de bord de votre analyse</a>.</p>
+        <p>Dans tous les cas vous pouvez gérer ces propositions depuis le <a href="analyser/dashboard/#{film_id}" class="exergue">tableau de bord de votre analyse</a>.</p>
         <p>Merci de votre attention.</p>
         HTML
       })
@@ -83,7 +83,7 @@ class Analyse
         <p>Juste pour information, une demande de proposition de contribution vient d'être déposée.</p>
         <p>Informations sur cette proposition de contribution :</p>
         <p>
-          <div>Film : <a href="analyse/contribuer/#{film_id}">#{analyse.film.titre}</a></div>
+          <div>Film : #{full_link("analyser/dashboard/#{film_id}", analyse.film.titre)}</div>
           <div>Créateur de l'analyse : #{lien_creator} (##{analyse.creator_id} - #{analyse.creator.mail})</div>
           <div>Demandeur : #{lien_candidat} (##{candidat.id} - #{candidat.mail})</div>
           <div>Date proposition : #{Time.now.to_i.as_human_date}</div>
