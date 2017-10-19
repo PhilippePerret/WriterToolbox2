@@ -16,7 +16,8 @@ Ces spécifications sont renseignées dans la propriété `specs` du fichier dan
   BITS      OFFSETS           DESCRIPTION
  -------------------------------------------------------------------------
   1         0                 1: Le fichier est lisible par tous, il est
-                                 terminé.
+                                 terminé et il a été dupliqué dans la partie
+                                 "analyse" du site.
 
   2         1                 Le type du fichier
                               -------------------
@@ -30,6 +31,8 @@ Ces spécifications sont renseignées dans la propriété `specs` du fichier dan
 
   3         2                 État du fichier
                               ---------------
+                              0:  Il vient d'être initié (il n'existe pas encore
+                                  physiquement).
                               1:  En cours de rédaction/d'élaboration/réécriture
                               2:  En cours d'achèvement
                               3:  En attente de corrections

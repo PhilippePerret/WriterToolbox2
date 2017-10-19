@@ -24,7 +24,12 @@ class Analyse
   def file_list
     if fichiers_analyse.count > 0
       fichiers_analyse.collect do |hfile|
-        "<li class=\"file\" id=\"file-#{hfile[:id]}\">#{file_buttons(hfile)}#{hfile[:titre]}</li>"
+        <<-HTML
+        <li class="file" id="file-#{hfile[:id]}">
+          #{file_buttons(hfile)}
+          <span class="titre">#{hfile[:titre]}</span>
+        </li>
+        HTML
       end.join
     else
       <<-HTML
@@ -56,15 +61,15 @@ class Analyse
 
   def new_file_form
     <<-HTML
-    <form id="new_file_form" method="POST" class="small div-inline lab30pc w50pc" style="display:none">
+    <form id="new_file_form" action="" method="POST" class="small div-inline lab30pc w50pc" style="display:none">
       <input type="hidden" name="op" value="add_file" />
       <!--
           Titre pour le fichier
           -->
       <div>
-        <label for="file_name">Titre du fichier</label>
+        <label for="file_titre">Titre du fichier</label>
         <span class="field">
-          <input type="text" name="file[name]" id="file_name" />
+          <input type="text" name="file[titre]" id="file_titre" />
         </span>
       </div>
 
