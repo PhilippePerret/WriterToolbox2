@@ -34,7 +34,7 @@ feature 'Ajout d’un fichier à une analyse' do
     # - Michou est simple correcteur
     # - Benoit ne fait rien
 
-    prepare_base_analyse
+    prepare_base_analyse(film_id: @film_id)
 
   end
 

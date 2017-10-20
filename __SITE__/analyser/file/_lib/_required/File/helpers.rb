@@ -25,11 +25,8 @@ class Analyse
 
     def contenu_displayed ope, who
 
-      debug "-> contenu_displayed avec who = #{who.pseudo} (#{who.id} - #{role_of(who).inspect})"
 
       redactor?(who) || analyse.contributor?(who) || corrector?(who) || who.admin? || visible_par_inscrit? || (return '')
-
-      debug "-> contenu_displayed il passe avec who = #{who.pseudo} (#{who.id})"
 
       <<-HTML
       <div class="file_content" id="file-#{id}-content">
@@ -70,16 +67,12 @@ class Analyse
       who_is_redactor   = self.redactor?(who)
       who_is_corrector  = self.corrector?(who)
 
-      debug "is_creator_analyse: #{is_creator_analyse.inspect}"
-      debug "who role : #{role_of(who).inspect}"
-
       if who_is_redactor || is_creator_analyse || who_is_corrector || who.admin? 
         ope != 'edit'    && btn_edit    = bouton_editer 
         ope != 'publish' && btn_publish = bouton_publier 
         btn_save = bouton_sauver 
         ( is_creator_analyse || who.admin? || creator?(who) ) && 
           begin
-            debug "Le bouton remove peut être écrit"
             btn_remove = bouton_remove 
         end
       end

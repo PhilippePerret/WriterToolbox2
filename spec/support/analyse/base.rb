@@ -3,7 +3,9 @@
 #
 # Benoit est analyste, mais pas de l'analyse courante
 #
-def prepare_base_analyse params
+def prepare_base_analyse params = nil
+
+  params ||= Hash.new
 
   @film_id = params[:film_id]
 

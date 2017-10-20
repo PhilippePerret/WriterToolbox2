@@ -175,34 +175,43 @@ feature 'Edition d’un fichier d’analyse de travail' do
 
 
 
-  context 'Le créateur de l’analyse' do
+  context 'Le créateur de l’analyse', check: true do
     scenario '=> peut éditer et modifier tous les fichiers' do
 
-      pending
-
+      identify @hANACreator
 
       # ---------------------------------------------------------------------
       #     LA PAGE DU FICHIER
       # ---------------------------------------------------------------------
-      visit "#{base_url}/analyser/file/#{@ftest_id}?op=voir"
-      expect(page).to have_tag('h2', text:/Contribuer aux analyses/)
-      expect(page).to have_tag('h3', text: /#{@titre_analyse}/i)
-      expect(page).to have_tag('h4', text: @ftest_titre)
-      expect(page).to have_tag('div.file_content')
-      if File.exist?(@ftest_path)
-        expect(page).to have_content(@ftest_extrait)
+
+      (0..1).each do |i|
+        suffix = ['', '2'][i]
+
+        fid       = eval("@ftest#{suffix}_id")
+        ftitre    = eval("@ftest#{suffix}_titre")
+        fpath     = eval("@ftest#{suffix}_path")
+        fextrait  = eval("@ftest#{suffix}_extrait")
+
+        visit "#{base_url}/analyser/file/#{fid}?op=voir"
+        expect(page).to have_tag('h2', text:/Contribuer aux analyses/)
+        expect(page).to have_tag('h3', text: /#{@titre_analyse}/i)
+        expect(page).to have_tag('h4', text: ftitre)
+        expect(page).to have_tag('div.file_content')
+        if File.exist?(fpath)
+          expect(page).to have_content(fextrait)
+        end
+        success 'il peut voir la page'
+
+        expect(page).to have_tag('div.file_buttons') do
+          with_tag('a', text: 'éditer',       with: {href: "analyser/file/#{fid}?op=edit"})
+          with_tag('a', text: 'publier',      with: {href: "analyser/file/#{fid}?op=publish"})
+          with_tag('a', text: 'sauver',  with: {href: "analyser/file/#{fid}?op=save"})
+          with_tag('a', text: 'détruire',     with: {href: "analyser/file/#{fid}?op=rem"})
+        end
+        success 'il trouve tous les boutons (publication, édition, etc.)'
+
       end
-      success 'il peut voir la page'
-
-      expect(page).to have_tag('div.file_buttons') do
-        with_tag('a', text: 'éditer',       with: {href: "analyser/file/#{@ftest_id}?op=edit"})
-        with_tag('a', text: 'publier',      with: {href: "analyser/file/#{@ftest_id}?op=publish"})
-        with_tag('a', text: 'sauver',  with: {href: "analyser/file/#{@ftest_id}?op=save"})
-        with_tag('a', text: 'détruire',     with: {href: "analyser/file/#{@ftest_id}?op=rem"})
-      end
-      success 'il trouve tous les boutons (publication, édition, etc.)'
-
-
+      #/ loop sur chaque fichier
     end
   end
 

@@ -6,7 +6,6 @@ class Analyse
     # +adata+ pour le lecteur +reader+
     #
     def as_li_for adata, reader
-      #debug "reader(#{reader.pseudo}/#{reader.id}).analyste? #{reader.analyste?.inspect}"
       adata.merge!(reader: reader)
       <<-HTML
         <li class="analyse" id="analyse-#{adata[:id]}">
