@@ -11,6 +11,15 @@ require_support_mail_for_test
 protect_biblio
 
 feature 'Accueil de la section de contribution aux analyses de films', check: false do
+
+  before(:all) do
+    # Si on passe par ici, il faut absolument protéger les données biblio qui
+    # vont être modifiées. On doit les sauver si nécessaire et demander leur
+    # rechargement.
+    backup_base_biblio # seulement si nécessaire
+    protect_biblio
+  end
+
   before(:each) do
     @start_time = Time.now.to_i
   end

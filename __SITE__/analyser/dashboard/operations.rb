@@ -9,73 +9,26 @@ class Analyse
 
     # Traite l'opération désignée par +op+ dans les paramètres
     #
+    # Chaque opération fait l'objet d'une librairie dans _lib/library,
+    # cette méthode ne doit servir qu'à l'appeler
+    #
+    # TODO À l'avenir, s'il était avéré que l'opération peut porter
+    # sans problème le même nom que la librairie, on pourrait automatiser
+    # les choses par convention :
+    #     Soit une opération            : 'mon_operation'
+    #     Elle appellerait la librairie : '_lib/library/mon_operation.rb'
+    #     Et contient la méthode        : do_mon_operation()
+    #
     def traite_operation he, ope
       he.analyste? || he.admin? || (return eject_user)
       case ope
       when 'add_file'
         has_contributor?(analyse.id, he.id) || (return eject_user)
+        require_lib('analyser:add_file')
         analyse.add_file(param(:file), he)
       end
     end
 
   end #/<< self
-
-  #--------------------------------------------------------------------------------
-  #
-  #   INSTANCE
-  #
-  #--------------------------------------------------------------------------------
-
-
-  # Ajout d'un fichier à l'analyse
-  #
-  # @param {hash}   hfile
-  #                 Données pour le fichier et notamment :
-  #                 :titre    Le titre du fichier
-  #                 :type     Le type du fichier (2e bit)
-  # @param {User}   owner
-  #                 Possesseur du fichier, c'est-à-dire celui qui crée
-  #                 la donnée. Il sera mis en `user_id` dans la base.
-  #
-  def add_file hfile, owner
-    ftype = hfile.delete(:type).to_i
-    specs = '0'*8
-    specs[1] = ftype.to_s
-    hfile.merge!(film_id: self.id, specs: specs)
-    file_id = 
-      site.db.insert(
-        :biblio,
-        'files_analyses',
-        hfile.merge!({
-          film_id: self.id,
-          specs:   specs
-        })
-      )
-
-    # La donnée par `user_per_file_analyse`
-    site.db.insert(
-      :biblio,
-      'user_per_file_analyse',
-      {
-        file_id: file_id,
-        user_id: owner.id,
-        role:    1
-      }
-    )
-
-    unless owner.creator?
-      creator.send_mail({
-        subject: "Nouveau fichier créé sur votre analyse", 
-        formated: true,
-        message: <<-HTML
-        <p>Bonjour #{creator.pseudo},</p>
-        <p>Je vous informe qu'un de vos contributeurs vient de déposer un fichier 
-        sur votre analyse de #{film.titre}</p>
-        <p>Voici les infos précises sur ce dépôt :</p>
-
-        HTML
-      })
-    end
-  end
 
 end #/Analyse

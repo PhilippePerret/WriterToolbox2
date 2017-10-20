@@ -21,7 +21,12 @@ end
 #
 def get_data_user uid
   reader = User.get(uid)
-  site.db.select(:hot,'users',{id: uid}).first.merge!(password: reader.var['password'])
+  res = site.db.select(:hot,'users',{id: uid}).first.merge!(password: reader.var['password'])
+  case res[:id]
+  when 1 then res.merge!(password: data_phil[:password])
+  when 3 then res.merge!(password: data_marion[:password])
+  end
+  return res
 end
 
 # Retourne les données d'un user choisi au hasard

@@ -20,6 +20,12 @@ protect_biblio
 feature 'Tableau de bord de l’analyse d’un film', check: false do
   before(:all) do
 
+    # Si on passe par ici, il faut absolument protéger les données biblio qui
+    # vont être modifiées. On doit les sauver si nécessaire et demander leur
+    # rechargement.
+    backup_base_biblio # seulement si nécessaire
+    protect_biblio
+
     pending "Il faut reprendre tous ces tests une fois qu'il y aura des fichiers/taches"
 
     # On produit quelques fichiers pour l'analyse et quelques

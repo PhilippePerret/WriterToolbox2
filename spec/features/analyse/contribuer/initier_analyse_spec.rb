@@ -8,10 +8,15 @@ require_support_integration
 require_support_db_for_test
 require_support_mail_for_test
 
-protect_biblio
-
 feature 'Initier une nouvelle analyse de film', check: false do
-
+  before(:all) do
+    # Si on passe par ici, il faut absolument protéger les données biblio qui
+    # vont être modifiées. On doit les sauver si nécessaire et demander leur
+    # rechargement.
+    backup_base_biblio # seulement si nécessaire
+    protect_biblio
+  end
+  
   before(:each) do
     @start_time = Time.now.to_i
   end

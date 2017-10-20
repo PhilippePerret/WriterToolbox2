@@ -17,13 +17,16 @@ require_support_db_for_test
 require_support_mail_for_test
 require_support_analyse
 
-protect_biblio
-
 feature 'Proposition de contribution à une analyse en cours', check: false do
 
   before(:all) do
     require_support_tickets
     remove_tickets
+    # Si on passe par ici, il faut absolument protéger les données biblio qui
+    # vont être modifiées. On doit les sauver si nécessaire et demander leur
+    # rechargement.
+    backup_base_biblio # seulement si nécessaire
+    protect_biblio
   end
 
   before(:each) do

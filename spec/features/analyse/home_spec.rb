@@ -1,8 +1,18 @@
 require_lib_site
 require_support_integration
 require_support_analyse
+require_support_db_for_test
 
 feature 'Accueil de la section analyse', check: false do
+
+  before(:all) do
+    # Si on passe par ici, il faut absolument protéger les données biblio qui
+    # vont être modifiées. On doit les sauver si nécessaire et demander leur
+    # rechargement.
+    backup_base_biblio # seulement si nécessaire
+    protect_biblio
+  end
+
   scenario 'Un visiteur quelconque peut rejoindre la section Analyse depuis les outils' do
     visit home_page
     within('section#header'){ click_link 'outils' }
