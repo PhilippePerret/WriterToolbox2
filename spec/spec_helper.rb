@@ -93,8 +93,26 @@ RSpec.configure do |config|
   # recharger les données initiales à la fin de la suite.
   # Si plusieurs feuilles de test sont jouées, la protection se fait
   # seulement en début et en fin de test.
+  #
+  # NOTER QUE : si la méthode est appelée à l'intérieur du before(:all),
+  # il faut  impérativement ajouter `backup_base_biblio` avec d'appeler
+  # cette méthode, car le backup ne serait pas fait (il n'est fait qu'avant
+  # le lancement des tests, donc avant le before(:all))
   def protect_biblio
     $protect_base_biblio = true
+  end
+
+  # En appelant cette méthode, on s'assure que la base :hot (contenant
+  # notamment les users) reste intacte après le test
+  # Ça commence par faire un backup en début de test si nécessaire,
+  # puis ça remet toujours ce backup à la fin
+  #
+  # NOTER QUE : si la méthode est appelée à l'intérieur du before(:all),
+  # il faut  impérativement ajouter `backup_base_hot` avec d'appeler
+  # cette méthode, car le backup ne serait pas fait (il n'est fait qu'avant
+  # le lancement des tests, donc avant le before(:all))
+  def protect_hot
+    $protect_base_hot = true
   end
 
   # Pour les tests have_tag etc.
@@ -135,6 +153,15 @@ RSpec.configure do |config|
 
     # *** Au lancement des scripts de test on… ***
 
+    # Protection de la base :hot
+    if $protect_base_hot
+      start = Time.now.to_f
+      if backup_base_hot
+        laps  = (Time.now.to_f - start).round(5)
+        puts "Durée du backup de la base `boite-a-outils_hot` : #{laps}"
+      end
+    end
+
     # Protection de la base biblio
     if $protect_base_biblio
       start = Time.now.to_f
@@ -150,23 +177,54 @@ RSpec.configure do |config|
   end
 
   config.after :suite do
-    destroy_files_to_destroy
 
-    # Récupérer les données de la base biblio
-    if $protect_base_biblio
-      start = Time.now.to_f
-      retreive_base_biblio
-      laps  = (Time.now.to_f - start).round(5)
-      puts "Durée du retrieve de la base `boite-a-outils_biblio` : #{laps}"
+    begin
+      destroy_files_to_destroy
+    rescue Exception => e
+      puts "\n### PROBLÈME EN DÉTRUISANT LES FICHIERS :"
+      puts e.message
+      puts e.backtrace.inspect
     end
 
-    # Décommenter la ligne suivante pour réinjecter les données de la
-    # collection Narration dans la base
-    # retreive_data_narration
+    # Récupérer les données de la base hot protégée
+    begin
+      if $protect_base_hot
+        start = Time.now.to_f
+        retreive_base_hot
+        laps  = (Time.now.to_f - start).round(5)
+        puts "Durée du retrieve de la base `boite-a-outils_hot` : #{laps}"
+      end
+    rescue Exception => e
+      puts "\n### PROBLÈME EN RÉCUPÉRANT LES DONNÉES HOT :"
+      puts e.message
+      puts e.backtrace.inspect
+    end
 
-    # Décommenter la ligne suivant pour réinjecter les données biblio
-    # dans mySql.
-    # retreive_base_biblio
+    # Récupérer les données de la base biblio
+    begin
+      if $protect_base_biblio
+        start = Time.now.to_f
+        retreive_base_biblio
+        laps  = (Time.now.to_f - start).round(5)
+        puts "Durée du retrieve de la base `boite-a-outils_biblio` : #{laps}"
+      end
+    rescue Exception => e
+      puts "\n### PROBLÈME EN RÉCUPÉRANT LES DONNÉES BIBLIO :"
+      puts e.message
+      puts e.backtrace.inspect
+    end
+
+    # # Décommenter la ligne suivante pour réinjecter les données de la
+    # # collection Narration dans la base
+    # begin
+    #   retreive_data_narration
+    # rescue Exception => e
+    #   puts "\n### PROBLÈME EN RÉCUPÉRANT LES DONNÉES NARRATION :"
+    #   puts e.message
+    #   puts e.backtrace.inspect
+    # end
+
+
   end
 
   # ---------------------------------------------------------------------

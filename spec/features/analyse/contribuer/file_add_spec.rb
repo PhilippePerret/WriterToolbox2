@@ -11,15 +11,81 @@ require_support_db_for_test
 feature 'Ajout d’un fichier à une analyse' do
   before(:all) do
 
+    # On protège les données HOT (donc les users, tickets, etc.)
+    backup_base_hot
+    protect_hot
+
     # Si on passe par ici, il faut absolument protéger les données biblio qui
     # vont être modifiées. On doit les sauver si nécessaire et demander leur
     # rechargement.
     backup_base_biblio # seulement si nécessaire
     protect_biblio
 
+
     remove_mails
 
     @film_id = 180 # Un héros très discret
+
+    # On en fait une analyse où :
+    # - Phil n'est qu'un administrateur (pas contributeur/créateur)
+    # - Marion est administratrice
+    # - Boboche est le créateur
+    # - Patrick est contributeur
+    # - Michou est simple correcteur
+    # - Benoit ne fait rien
+    benoit_id = 2
+
+    # Il faut faire du film @film_id un film en cours
+    hfilm = site.db.select(:biblio,'films_analyses',{id: @film_id}).first
+    specs = hfilm[:specs] || '0'*16
+    specs[0] = '1'
+    specs[5] = '1'
+    site.db.update(:biblio,'films_analyses',{specs: specs},{id: @film_id})
+
+    # On crée les deux utilisateurs utiles
+    hBoboche = create_new_user(mail_confirmed: true, pseudo: 'Boboche', admin: false, analyste: true)
+    hMichou  = create_new_user(mail_confirmed: true, pseudo: 'Michou', admin: false, analyste: true)
+    hPatrick = create_new_user(mail_confirmed: true, pseudo: 'Patrick', admin: false, analyste: true)
+
+    @hBoboche = hBoboche
+    @hMichou  = hMichou
+    @hPatrick = hPatrick
+    @hBenoit  = get_data_user(2)
+
+    # On détruit tous les fichier et toutes les références aux fichiers
+    site.db.use_database(:biblio)
+    site.db.execute('TRUNCATE TABLE files_analyses;')
+    site.db.execute('TRUNCATE TABLE user_per_file_analyse;')
+
+    # Benoit ne fait rien
+    site.db.delete(:biblio,'user_per_analyse',{film_id: @film_id, user_id: benoit_id})
+
+    # Phil ne fait rien
+    site.db.delete(:biblio,'user_per_analyse',{film_id: @film_id, user_id: phil.id})
+
+    # Marion ne fait rien
+    site.db.delete(:biblio,'user_per_analyse',{film_id: @film_id, user_id: marion.id})
+
+    # Boboche est mis en créateur de l'analyse
+    site.db.insert(
+      :biblio,
+      'user_per_analyse',
+      {film_id:@film_id,user_id: hBoboche[:id], role: 1|32|64|128|256}
+    )
+
+    # Patrick est mis en correcteur de l'analyse
+    site.db.insert(
+      :biblio,
+      'user_per_analyse',
+      {film_id: @film_id, user_id: hPatrick[:id], role: 1|8}
+    )
+
+    # Michou est mis en correcteur de l'analyse
+    site.db.insert(
+      :biblio,
+      'user_per_analyse',
+      {film_id: @film_id, user_id: hMichou[:id], role: 1|4}
+    )
 
   end
 
@@ -28,25 +94,157 @@ feature 'Ajout d’un fichier à une analyse' do
   end
   let(:start_time) { @start_time }
 
-  context 'Un administrateur' do
+  after(:all) do
 
   end
 
 
 
 
-  context 'Le créateur de l’analyse' do
-    scenario '=> peut créer un fichier' do
-      hs = site.db.select(:biblio,'user_per_analyse', 'role & 32').first
-      analyse_id  = hs[:film_id]
-      analyste_id = hs[:user_id]
-      hanalyste = get_data_user(analyste_id)
-      opts = hanalyste[:options]
-      if opts[16].to_i != 3
-        opts = opts.ljust(17,'0')
-        opts[16] = '3'
-        site.db.update(:hot,'users',{options: opts},{id: hanalyste[:id]})
+
+
+  context 'Un administrateur (Marion)' do
+    scenario '=> peut créer un fichier dans n’importe quelle analyse et devient contributeur' do
+
+      hanalyste = get_data_user(marion.id)
+
+      analyse_id  = @film_id
+      analyste_id = hanalyste[:id]
+
+      # puts "Analyste id : #{hanalyste[:id]} (#{hanalyste[:pseudo]})"
+      # puts "Analyse ID : #{analyse_id}"
+
+      # =========== PRÉ-VÉRIFICATIONS ===========
+      nombre_fichiers_init = site.db.count(:biblio,'files_analyses', {film_id: analyse_id})
+
+      # Marion n'est pas contributrice du projet
+      nb = site.db.count(:biblio,'user_per_analyse',{film_id: analyse_id, user_id: analyste_id})
+      expect(nb).to eq 0
+
+
+      identify hanalyste
+      visit "#{base_url}/analyser/dashboard/#{analyse_id}"
+
+      # sleep 60
+
+      # ===============> TEST <==============
+      expect(page).to have_tag('h2') do
+        with_tag('a', text: 'Contribuer')
+        with_tag('a', text: 'analyses de films')
       end
+      expect(page).to have_tag('fieldset#fs_files') do
+        with_tag('ul#files_analyses')
+        with_tag('div#files_buttons') do
+          with_tag('a', text: '+')
+        end
+        # without_tag('form#new_file_form')
+      end
+      success 'trouve le bouton pour créer un nouveau fichier'
+
+      within('fieldset#fs_files div#files_buttons') do
+        click_link('+')
+      end
+      expect(page).to have_tag('fieldset#fs_files') do
+        with_tag('form#new_file_form', visible: true)
+      end
+      success 'en cliquant sur le bouton, fait apparaitre le formulaire'
+
+      file_titre = "Un fichier à #{Time.now.to_i}"
+      within('form#new_file_form') do
+        fill_in('file_titre', with: file_titre)
+        # On garde le type par défaut
+        click_button 'Ajouter ce fichier'
+      end
+      success 'remplit le formulaire et le soumet'
+      # sleep 30
+
+
+      # ========== VÉRIFICATION ============
+      expect(page).not_to be_home_page
+      nombre_fichiers_apres = site.db.count(:biblio,'files_analyses', {film_id: analyse_id})
+      expect(nombre_fichiers_apres).to eq nombre_fichiers_init + 1
+      where = "film_id = #{analyse_id} AND created_at > #{start_time}"
+      hfiledb = site.db.select(:biblio,'files_analyses',where).first
+      expect(hfiledb[:created_at]).to be > start_time
+
+      hupf = site.db.select(:biblio,'user_per_file_analyse',{file_id: hfiledb[:id]}).first
+      expect(hupf).not_to eq nil
+      expect(hupf[:user_id]).to eq hanalyste[:id]
+      expect(hupf[:created_at]).to be > start_time
+      success 'un nouveau fichier a été créé (et lié à l’admin) dans la base de données avec les bonnes données'
+
+      nb = site.db.count(:biblio,'user_per_analyse',{film_id: analyse_id, user_id: analyste_id})
+      expect(nb).to eq 1
+      success 'l’administrateur devient automatiquement contributeur'
+
+      # Le fichier n'a pas encore été créé en dur
+      expect(File.exist?("./__SITE__/analyser/_data_/files/#{analyse_id}/#{hfiledb[:id]}.md")).to eq false
+      success 'le fichier physique n’existe pas encore'
+
+      expect(page).to have_tag('ul#files_analyses') do
+        with_tag('li', with: {class: 'file', id: "file-#{hfiledb[:id]}"}) do
+          with_tag('span', text: file_titre)
+        end
+      end
+      success 'le fichier apparait dans la liste des fichiers'
+
+      creator = User.get(@hBoboche[:id])
+      expect(creator).to have_mail({
+        sent_after: start_time,
+        subject: "Nouveau fichier créé sur votre analyse",
+        message: [
+          hanalyste[:pseudo], "analyser/file/#{hfiledb[:id]}", hfiledb[:titre],
+          "analyser/dashboard/#{analyse_id}"
+        ]
+        })
+      success 'le créateur reçoit l’annonce du nouveau fichier'
+
+      mdata = {
+        sent_after: start_time,
+        subject: "Nouveau fichier sur une analyse à laquelle vous contribuez",
+        message: ["analyser/dashboard/#{analyse_id}", "analyser/file/#{hfiledb[:id]}"]
+      }
+      site.db.select(:biblio,'user_per_analyse',{film_id: analyse_id})
+        .each do |hcont|
+          hcont[:role] & 32 > 0 && next
+          # On passe aussi marion, qui ne faisait pas encore partie des
+          # contributeurs
+          hcont[:user_id] != 3 || next
+          # Sinon, les autres ont dû recevoir le mail
+          cont = User.get(hcont[:user_id])
+          expect(cont).to have_mail(mdata)
+      end
+      success 'les contributors sauf le créateur reçoivent tous un message'
+
+    end
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  context 'Le créateur de l’analyse', checked: true do
+    scenario '=> peut créer un fichier' do
+      hanalyste = @hBoboche
+
+      analyse_id  = @film_id
+      analyste_id = hanalyste[:id]
 
       # puts "Analyste id : #{hanalyste[:id]} (#{hanalyste[:pseudo]})"
       # puts "Analyse ID : #{analyse_id}"
@@ -86,7 +284,7 @@ feature 'Ajout d’un fichier à une analyse' do
         click_button 'Ajouter ce fichier'
       end
       success 'remplit le formulaire et le soumet'
-      # sleep 10
+      # sleep 30
 
 
       # ========== VÉRIFICATION ============
@@ -140,13 +338,14 @@ feature 'Ajout d’un fichier à une analyse' do
 
 
 
-  context 'Un contributeur de l’analyse' do
+  context 'Un contributeur de l’analyse', checked: true do
     scenario '=> peut créer un fichier' do
-      where = "NOT( role & 32 )"
-      hs = site.db.select(:biblio,'user_per_analyse', where).first
-      analyse_id  = hs[:film_id]
-      analyste_id = hs[:user_id]
-      hanalyste = get_data_user(analyste_id)
+
+      hanalyste = @hPatrick
+
+      analyse_id  = @film_id
+      analyste_id = hanalyste[:id]
+
       opts = hanalyste[:options]
       if opts[16].to_i != 3
         opts = opts.ljust(17,'0')
@@ -220,10 +419,7 @@ feature 'Ajout d’un fichier à une analyse' do
       end
       success 'le fichier apparait dans la liste des fichiers'
 
-      where = "film_id = #{analyse_id} AND role & 32 LIMIT 1"
-      hcreator = site.db.select(:biblio,'user_per_analyse',where).first
-      creator = User.get(hcreator[:user_id])
-      expect(creator).to have_mail({
+      expect(User.get(@hBoboche[:id])).to have_mail({
         sent_after: start_time,
         subject: "Nouveau fichier créé sur votre analyse",
         message: [
@@ -244,6 +440,10 @@ feature 'Ajout d’un fichier à une analyse' do
           if hcont[:user_id] == hanalyste[:id]
             # Le dépositeur du fichier ne reçoit pas de mail
             expect(cont).not_to have_mail(mdata)
+          elsif hcont[:user_id] == @hBoboche[:id]
+            # <= Le créateur
+            # => déjà vérifié
+            next
           else
             expect(cont).to have_mail(mdata)
           end
@@ -252,40 +452,62 @@ feature 'Ajout d’un fichier à une analyse' do
 
     end
   end
-  context 'Un analyste non contributeur' do
-    scenario '=> ne peut pas créer un fichier pour l’analyse' do
-      huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: true)
-      # Trouver une analyse à laquelle ne collabore pas l'user
-      ids = site.db.select(:biblio,'user_per_analyse',{user_id: huser[:id]},[:film_id])
-              .collect{|h| h[:film_id]}
-      ana_id =
-        if ids.count == 0 # l'user ne participe à aucune analyse, on peut garder la même
-          @film_id
-        else
-          where = "id NOT IN (#{ids.join(', ')})"
-          site.db.select(:biblio,'films_analyses',where,[:id])[0][:id]
-        end
+
+
+
+
+
+
+
+
+
+  context 'Un simple correcteur de l’analyse', checked: false do
+    scenario '=> ne peut pas créer un fichier pour cette analyse' do
+      huser = @hMichou
+      ana_id = @film_id
+
       identify huser
       visit "#{base_url}/analyser/dashboard/#{ana_id}?op=add_file"
-      expect(page).to be_home_page
-      expect(page).to have_tag('div.error', text: /Vous n’êtes pas en mesure d’accomplir cette opération…/)
+      # sleep 30
+      expect(page).to have_tag('h2', text: /Contribuer aux analyses de films/)
+      expect(page).to have_tag('div.error', text: /Vous n’êtes pas en mesure d’accomplir cette opération/i)
+      expect(page).to have_tag('div.error', text: /Vous êtes simple correcteur sur cette analyse/)
     end
   end
-  context 'Un inscrit non analyste' do
+
+
+
+
+
+
+
+  context 'Un analyste non contributeur', checked: false do
+    scenario '=> ne peut pas créer un fichier pour l’analyse' do
+
+      huser = @hBenoit
+
+      identify huser
+      visit "#{base_url}/analyser/dashboard/#{@film_id}?op=add_file"
+      expect(page).to be_home_page
+      expect(page).to have_tag('div.error', text: /Vous n’êtes pas en mesure d’accomplir cette opération/)
+    end
+  end
+
+  context 'Un inscrit non analyste', checked: false do
     scenario '=> ne peut pas créer un fichier pour une analyse en forçant l’URL' do
       huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: false)
       identify huser
       visit "#{base_url}/analyser/dashboard/#{@film_id}?op=add_file"
       expect(page).to be_home_page
-      expect(page).to have_tag('div.error', text: /Vous n’êtes pas en mesure d’accomplir cette opération…/)
+      expect(page).to have_tag('div.error', text: /Vous n’êtes pas en mesure d’accomplir cette opération/)
     end
   end
 
-  context 'Un simple visiteur' do
+  context 'Un simple visiteur', checked: false do
     scenario '=> ne peut pas créer un fichier pour une analyse en forçant l’URL' do
       visit "#{base_url}/analyser/dashboard/#{@film_id}?op=add_file"
       expect(page).to be_home_page
-      expect(page).to have_tag('div.error', text: /Vous n’êtes pas en mesure d’accomplir cette opération…/)
+      expect(page).to have_tag('div.error', text: /Vous n’êtes pas en mesure d’accomplir cette opération/)
     end
   end
 

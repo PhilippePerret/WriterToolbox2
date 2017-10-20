@@ -2,7 +2,6 @@
 # Tableau de bord de l'analyse du film
 %>
 <%
-    debug "-> param(:op) = #{param(:op).inspect}"
     # Toutes les opérations
     param(:op) && Analyse.traite_operation(user, param(:op))
 

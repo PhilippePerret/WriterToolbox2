@@ -29,6 +29,11 @@ def get_data_user uid
   return res
 end
 
+def get_user_by_pseudo pseudo
+  require_support_db_for_test
+  db_get_user_by_pseudo(pseudo) # peut être nil
+end
+
 # Retourne les données d'un user choisi au hasard
 # Le fabrique si nécessaire.
 #

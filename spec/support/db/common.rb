@@ -229,6 +229,47 @@ def backup_narration_filepathofday
   end
 end
 
+
+# ---------------------------------------------------------------------
+#
+#   BACKUP DE LA TABLE HOT (User, Tickets, etc.)
+#
+# ---------------------------------------------------------------------
+
+
+# Retourne TRUE si le backup a dû être fait, FALSE dans le cas contraire,
+# i.e. il a déjà été effectué.
+def backup_base_hot
+  if false == File.exist?(backup_hot_filepath_of_day)
+    `mkdir -p ~/xbackups;cd ~/xbackups;mysqldump -u root -p#{db_data_offline[:password]} --databases 'boite-a-outils_hot' > #{backup_hot_filepath_of_day}`
+    puts "= Backup complet des données hot exécuté dans #{backup_hot_filepath_of_day} ="
+    unless $protect_base_hot
+      puts "\nRécupérer les données initiales de la base hot en appelant la méthode\n`retreive_base_hot` à la fin de la session de test."
+    end
+    true
+  else
+    false
+  end
+
+end
+def retreive_base_hot
+  if File.exist?(backup_hot_filepath_of_day)
+    puts "\n\n*** Récupération des données de la base HOT ***"
+    `cd ~/xbackups;mysql -u root -p#{db_data_offline[:password]} < #{backup_hot_filepath_of_day}`
+    puts "=== Données hot récupérées avec succès ==="
+  end
+end
+def backup_hot_filepath_of_day
+  @backup_hot_filepath_of_day ||= begin
+    File.join(Dir.home,'xbackups',backup_hot_filename_of_day)
+  end
+end
+def backup_hot_filename_of_day
+  @backup_hot_filename_of_day ||= begin
+    "hot_bckup_#{Time.now.strftime('%Y-%m-%d')}.sql"
+  end
+end
+
 # ---------------------------------------------------------------------
 #
 #   BACKUP DE LA TABLE BIBLIO (Scénodico, Filmodico, Analyses, etc.)

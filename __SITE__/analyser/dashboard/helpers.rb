@@ -122,6 +122,9 @@ class Analyse
       
     </div>
     HTML
+  rescue Exception => e
+    debug e
+    return "[PROBLÈME AVEC user ##{hcont[:id]}]"
   end
 
   # Code HTML des LI des taches de l'analyse

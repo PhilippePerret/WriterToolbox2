@@ -68,11 +68,8 @@ def db_get_user_by_pseudo pseudo
   statement = db_client.prepare('SELECT * FROM users WHERE pseudo = ? LIMIT 1')
   user_row = nil
   statement.execute(pseudo).each do |row|
-    user_row = row
-    break
+    return row.merge!(password: db_get_password_for_user(row[:id]))
   end
-  # On essaie de retourner son mot de passe
-  user_row.merge!(password: db_get_password_for_user(user_row[:id]))
 end
 
 def db_get_user_by_id uid
@@ -163,8 +160,10 @@ def get_data_for_new_user duser = nil
 
   opts = "#{bit_admin}#{duser[:grade]||1}#{mail_is_conf ? '1' : '0'}0000000"
   if duser[:analyste]
+    duser[:analyste] === true && duser[:analyste] = 3
     opts = opts.ljust(16,'0') + duser[:analyste].to_s
   end
+  # puts "Options pour #{pseudo} : #{opts}"
 
   # ATTENTION ! NE PAS AJOUTER D'AUTRES DONNÉES, CAR ELLES SERVENT
   # À ÊTRE ENREGISTRÉES DANS LA BDD

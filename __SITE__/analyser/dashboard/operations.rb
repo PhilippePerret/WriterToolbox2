@@ -2,9 +2,13 @@
 class Analyse
   class << self
 
-    def eject_user mess = nil
-      mess ||= "Vous n’êtes pas en mesure d’accomplir cette opération…"
-      redirect_to('home', [mess, :error])
+    def eject_user mess = nil, redirige = true
+      mess = "Vous n’êtes pas en mesure d’accomplir cette opération#{mess.nil? ? '' : ' : '+mess}…"
+      if redirige
+        redirect_to('home', [mess, :error])
+      else
+        return __error(mess)
+      end
     end
 
     # Traite l'opération désignée par +op+ dans les paramètres
@@ -20,10 +24,9 @@ class Analyse
     #     Et contient la méthode        : do_mon_operation()
     #
     def traite_operation he, ope
-      he.analyste? || he.admin? || (return eject_user)
+      he.analyste? || he.admin? || (return eject_user('vous n’êtes ni analyste ni administrateur'))
       case ope
       when 'add_file'
-        has_contributor?(analyse.id, he.id) || (return eject_user)
         require_lib('analyser:add_file')
         analyse.add_file(param(:file), he)
       end
