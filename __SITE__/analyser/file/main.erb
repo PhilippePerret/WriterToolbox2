@@ -1,0 +1,34 @@
+<% 
+# Vue principal pour la gestion des fichiers d'analyse
+%>
+
+<% 
+    param(:op) || param(:op, 'voir')
+    param(:op) && Analyse::AFile.do_operation(param(:op), user)
+%>
+
+<%= header(:small) %>
+<%= Analyse.main_title %>
+
+<h3><%= afile.analyse.film.titre %></h3>
+
+<% unless user.analyste? || user.admin? %>
+  <div class="right">
+    <%= simple_link("analyser/postuler",'→ Postuler pour devenir analyste','exergue') %>
+  </div>
+<% end %>
+
+<h4><%= afile.titre_displayed %></h4>
+
+<%= afile.buttons(:top, param(:op), user) %>
+
+<%= 
+
+  # === AFFICHAGE DU FICHIER ===
+  
+  afile.output(param(:op), user) %>
+
+
+<%= afile.buttons(:bottom, param(:op), user) %>
+
+<%= footer %>

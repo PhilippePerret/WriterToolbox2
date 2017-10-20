@@ -25,9 +25,10 @@ Ces spécifications sont renseignées dans la propriété `specs` du fichier dan
                               1:  Fichier de collecte (.film)
                               2:  Fichier de personnages (.persos)
                               3:  Fichier de brins (.brins)
-                              3:  Fichier de structure (.stt)
-                              4:  Fichier de procédés (.prc)
-                              5:  Autre fichier
+                              4:  Fichier de structure (.stt)
+                              5:  Fichier évènemencier (.evc)
+                              6:  Fichier de procédés (.prc)
+                              9:  Autre fichier
 
   3         2                 État du fichier
                               ---------------
@@ -39,6 +40,13 @@ Ces spécifications sont renseignées dans la propriété `specs` du fichier dan
                               4:  En cours de correction
                               9 : achevé
 
+  4         3                 Chantier visible
+                              ----------------
+                              1: Le fichier est visible bien qu'il soit encore
+                              en chantier, par n'importe qui à partir du moment
+                              ou ce n'importe qui est inscrit sur le site.
+                              0: Seuls peuvent voir ce fichier les contributeurs
+                              à l'analyse auquel il appartient.
 ```
 
 ## Définition des tables
@@ -48,8 +56,9 @@ Ces spécifications sont renseignées dans la propriété `specs` du fichier dan
 
 CREATE TABLE files_analyses
 (
-  id          INTEGER,
-  film_id     INTEGER, # ID fixnum
+  id          INTEGER AUTO_INCREMENT,
+  film_id     INTEGER NOT NULL, # ID fixnum
+  titre       VARCHAR(200) NOT NULL,
   specs       VARCHAR(16),
   created_at  INTEGER(10),
   updated_at  INTEGER(10),

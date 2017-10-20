@@ -7,16 +7,6 @@ require_support_forum
 # le faire chaque fois qu'on lance le test.
 PREMIERE_FOIS_MESS_DISP_SPEC = false
 
-
-def get_user_by_pseudo pseudo
-  res = site.db.select(:hot,'users',{pseudo: pseudo}).first
-  if res.nil?
-    reset_all_data_forum
-    @all_sujets = all_sujets_forum
-    return get_user_by_pseudo(pseudo)
-  end
-  return res
-end
 feature "Affichage des messages" do
   before(:all) do
     if PREMIERE_FOIS_MESS_DISP_SPEC
@@ -25,17 +15,17 @@ feature "Affichage des messages" do
     else
 
       # Si ce n'est pas la première fois
-      @drene                = get_user_by_pseudo('René').merge(password: 'motdepasserene')
-      @dmaude               = get_user_by_pseudo('Maude').merge(password: 'motdepassemaude')
-      @dbenoit              = get_user_by_pseudo('Benoit').merge(password: 'motdepassebenoit')
-      @dlise                = get_user_by_pseudo('Lise').merge(password: 'motdepasselise')
-      @dApprentiSurveilled  = get_user_by_pseudo('ApprentiSurveillé').merge(password:'motdepasse')
-      @dSimpleRedactrice    = get_user_by_pseudo('SimpleRedactrice').merge(password:'simpleredactrice')
-      @dRedacteur           = get_user_by_pseudo('Rédacteur').merge(password:'vrairedacteur')
-      @dRedacteurEmerite    = get_user_by_pseudo('RédacteurEmérite').merge(password:'motdepasse')
-      @dRedactriceConfirmee = get_user_by_pseudo('RédactriceConfirmée').merge(password:'motdepasse')
-      @dMaitreRedacteur     = get_user_by_pseudo('MaitreRédacteur').merge(password:'motdepasse')
-      @dExperteEcriture     = get_user_by_pseudo('ExperteEcriture').merge(password:'motdepasse')
+      @drene                = get_user_by_pseudo('René')#.merge(password: 'motdepasserene')
+      @dmaude               = get_user_by_pseudo('Maude')#.merge(password: 'motdepassemaude')
+      @dbenoit              = get_user_by_pseudo('Benoit')#.merge(password: 'motdepassebenoit')
+      @dlise                = get_user_by_pseudo('Lise')#.merge(password: 'motdepasselise')
+      @dApprentiSurveilled  = get_user_by_pseudo('ApprentiSurveillé')#.merge(password:'motdepasse')
+      @dSimpleRedactrice    = get_user_by_pseudo('SimpleRedactrice')#.merge(password:'simpleredactrice')
+      @dRedacteur           = get_user_by_pseudo('Rédacteur')#.merge(password:'vrairedacteur')
+      @dRedacteurEmerite    = get_user_by_pseudo('RédacteurEmérite')#.merge(password:'motdepasse')
+      @dRedactriceConfirmee = get_user_by_pseudo('RédactriceConfirmée')#.merge(password:'motdepasse')
+      @dMaitreRedacteur     = get_user_by_pseudo('MaitreRédacteur')#.merge(password:'motdepasse')
+      @dExperteEcriture     = get_user_by_pseudo('ExperteEcriture')#.merge(password:'motdepasse')
 
       @all_sujets = all_sujets_forum
     end

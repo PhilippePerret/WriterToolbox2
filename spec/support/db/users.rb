@@ -70,6 +70,7 @@ def db_get_user_by_pseudo pseudo
   statement.execute(pseudo).each do |row|
     return row.merge!(password: db_get_password_for_user(row[:id]))
   end
+  return nil
 end
 
 def db_get_user_by_id uid
@@ -79,6 +80,7 @@ def db_get_user_by_id uid
   statement.execute(uid).each do |row|
     return row.merge!(password: db_get_password_for_user(uid))
   end
+  return nil
 end
 
 def db_get_password_for_user uid

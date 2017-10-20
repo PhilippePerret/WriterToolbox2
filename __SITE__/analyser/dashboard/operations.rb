@@ -2,15 +2,6 @@
 class Analyse
   class << self
 
-    def eject_user mess = nil, redirige = true
-      mess = "Vous n’êtes pas en mesure d’accomplir cette opération#{mess.nil? ? '' : ' : '+mess}…"
-      if redirige
-        redirect_to('home', [mess, :error])
-      else
-        return __error(mess)
-      end
-    end
-
     # Traite l'opération désignée par +op+ dans les paramètres
     #
     # Chaque opération fait l'objet d'une librairie dans _lib/library,

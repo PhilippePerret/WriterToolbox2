@@ -8,6 +8,24 @@ class Analyse
       site.titre_page(simple_link("analyser", 'Contribuer')+' aux '+simple_link('analyse/home',"analyses de films"))
     end
 
+    # Pour éjecter (plutôt violemment un user).
+    # Méthode mise ici car nécessaire souvent pour faire barrière
+    #
+    # @param {String} mess
+    #                 Le message pour préciser la raison (ou nil)
+    # @param {Bool}   redirige
+    #                 Si TRUE (défaut), l'user est redirigé vers l'accueil.
+    #                 Sinon, on affiche simplement l'erreur, c'est une éjection plus
+    #                 douce de l'opération courante.
+    def eject_user mess = nil, redirige = true
+      mess = "Vous n’êtes pas en mesure d’accomplir cette opération#{mess.nil? ? '' : ' : '+mess}…"
+      if redirige
+        redirect_to('home', [mess, :error])
+      else
+        return __error(mess)
+      end
+    end
+
     # Retourne TRUE si l'user +user_id+ contribue à l'analyse
     # du film d'ID +film_id+, et FALSE dans le cas contraire.
     #

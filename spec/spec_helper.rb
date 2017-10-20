@@ -233,10 +233,13 @@ RSpec.configure do |config|
 
   # Permet d'ajouter des fichiers à détruire en fin de test, s'ils
   # existent.
+  # def add_file_to_destroy     alias
+  # def add_file2destroy        alias
   def add_file_2_destroy path
     @files_to_destroy ||= Array.new
     @files_to_destroy << path
   end
+  alias :add_file2destroy :add_file_2_destroy
   alias :add_file_2_remove :add_file_2_destroy
   alias :add_file_to_remove :add_file_2_destroy
   alias :add_file_to_destroy :add_file_2_destroy

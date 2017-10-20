@@ -5,11 +5,24 @@ class Analyse
 
   # TRUE si l'user d'ID +uid+ est le créateur de cette
   # analyse.
+
   def creator? uid
     uid.is_a?(User) && uid = uid.id
     uid == self.creator_id
   end
 
+  # TRUE si +who+ est contributeur de cette analyse
+  #
+  # @param {User|Fixnum} who
+  #                       Soit l'user, soit son identifiant
+  def contributor? who
+    
+    @hcontributors ||= 
+      begin
+        h = Hash.new; contributors.each { |hcont| h.merge!( hcont[:id] => hcont ) }; h
+      end
+    @hcontributors[who.is_a?(User) ? who.id : who] != nil
+  end
 
   # Liste des taches
   #
