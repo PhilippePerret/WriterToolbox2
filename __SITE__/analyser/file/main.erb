@@ -4,7 +4,7 @@
 
 <% 
     param(:op) || param(:op, 'voir')
-    param(:op) && Analyse::AFile.do_operation(param(:op))
+    param(:op) && afile.do_operation(param(:op))
 %>
 
 <%= header(:small) %>

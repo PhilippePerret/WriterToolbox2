@@ -38,6 +38,8 @@ class Analyse
       def corrector? ; state(:corrector) end
       # TRUE is c'est SEULEMENT un correcteur du fichier
       def simple_corrector? ; state(:scorrector) end
+      # TRUE si l'user contribue à l'analyse du fichier
+      def contributor? ; state(:contributor) end
 
       # Quelques raccourcis
       # ===================
@@ -51,6 +53,7 @@ class Analyse
           case key
           when :creator     then role & 1 > 0
           when :redactor    then role & (1|2) > 0
+          when :contributor then role & (1|2|4) > 0
           when :corrector   then role & 4 > 0
           when :scorrector  then role == 4
           else raise "La clé `#{key}` est inconnue comme statut."

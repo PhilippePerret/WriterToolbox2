@@ -15,6 +15,7 @@ class Analyse
   #
   # @param {User|Fixnum} who
   #                       Soit l'user, soit son identifiant
+  
   def contributor? who
     
     @hcontributors ||= 

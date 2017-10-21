@@ -47,6 +47,9 @@ describe 'States d’un user quelconque' do
     it 'admin? retourne false' do
       expect(u).not_to be_admin
     end
+    it 'contributor? return false' do
+      expect(u).not_to be_contributor
+    end
   end
 
 
@@ -62,6 +65,9 @@ describe 'States d’un user quelconque' do
     end
     it 'simple_corrector? retourne false' do
       expect(u).not_to be_simple_corrector
+    end
+    it 'contributor? return false' do
+      expect(u).not_to be_contributor
     end
     it 'admin? retourne false' do
       expect(u).not_to be_admin
@@ -83,6 +89,9 @@ describe 'States d’un user quelconque' do
     end
     it 'simple_corrector? retourne false' do
       expect(u).not_to be_simple_corrector
+    end
+    it 'contributor? return false' do
+      expect(u).not_to be_contributor
     end
     it 'admin? retourne true' do
       expect(u).to be_admin
@@ -109,6 +118,9 @@ describe 'States d’un user quelconque' do
     it 'simple_corrector? retourne false' do
       expect(u).not_to be_simple_corrector
     end
+    it 'contributor? return true' do
+      expect(u).to be_contributor
+    end
     it 'actif? retourne true' do
       expect(u).to be_actif
     end
@@ -122,6 +134,9 @@ describe 'States d’un user quelconque' do
     end
     it 'creator? est true' do
       expect(u).to be_creator
+    end
+    it 'contributor? return true' do
+      expect(u).to be_contributor
     end
     it 'actif? est false' do
       expect(u).not_to be_actif
@@ -144,6 +159,9 @@ describe 'States d’un user quelconque' do
     it 'simple_corrector? retourne false' do
       expect(u).not_to be_simple_corrector
     end
+    it 'contributor? return true' do
+      expect(u).to be_contributor
+    end
     it 'actif? retourne true' do
       expect(u).to be_actif
     end
@@ -155,6 +173,9 @@ describe 'States d’un user quelconque' do
   context 'avec un rédacteur non administrateur de l’analyse INACTIF' do
     before do
       allow_any_instance_of(Analyse::UAnalyser).to receive(:role).and_return(16)
+    end
+    it 'contributor? return true' do
+      expect(u).to be_contributor
     end
     it 'actif? retourne false' do
       expect(u).not_to be_actif
@@ -177,6 +198,9 @@ describe 'States d’un user quelconque' do
     it 'simple_corrector? retourne false' do
       expect(u).not_to be_simple_corrector
     end
+    it 'contributor? return true' do
+      expect(u).to be_contributor
+    end
     it 'actif? retourne true' do
       expect(u).to be_actif
     end
@@ -191,6 +215,9 @@ describe 'States d’un user quelconque' do
     end
     it 'corrector? est true' do
       expect(u).to be_corrector
+    end
+    it 'contributor? return true' do
+      expect(u).to be_contributor
     end
     it 'actif? est false' do
       expect(u).not_to be_actif
@@ -213,6 +240,9 @@ describe 'States d’un user quelconque' do
     end
     it 'simple_corrector? retourne true' do
       expect(u).to be_simple_corrector
+    end
+    it 'contributor? return true' do
+      expect(u).to be_contributor
     end
     it 'actif? retourne true' do
       expect(u).to be_actif
@@ -237,6 +267,9 @@ describe 'States d’un user quelconque' do
     end
     it 'simple_corrector? est true' do
       expect(u).to be_simple_corrector
+    end
+    it 'contributor? return true' do
+      expect(u).to be_contributor
     end
     it 'actif? est false' do
       expect(u).not_to be_actif

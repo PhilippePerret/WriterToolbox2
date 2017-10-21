@@ -57,6 +57,9 @@ describe 'States d’un user quelconque' do
     it 'simple_corrector? retourne false' do
       expect(u).not_to be_simple_corrector
     end
+    it 'contributor? return false' do
+      expect(u).not_to be_contributor
+    end
     describe 'raccourcis d’état' do
       describe 'admin?' do
         it 'répond' do
@@ -111,6 +114,9 @@ describe 'States d’un user quelconque' do
     it 'analyste? retourne false' do
       expect(u).not_to be_analyste
     end
+    it 'contributor? return false' do
+      expect(u).not_to be_contributor
+    end
   end
 
   context 'avec un administrateur sans lien avec l’analyse', check: false do
@@ -138,6 +144,9 @@ describe 'States d’un user quelconque' do
     end
     it 'analyste? retourne false' do
       expect(u).not_to be_analyste
+    end
+    it 'contributor? return false' do
+      expect(u).not_to be_contributor
     end
   end
 
@@ -167,6 +176,9 @@ describe 'States d’un user quelconque' do
     it 'analyste? retourne true' do
       expect(u).to be_analyste
     end
+    it 'contributor? return true' do
+      expect(u).to be_contributor
+    end
   end
 
   context 'avec un rédacteur non administrateur du fichier' do
@@ -194,6 +206,9 @@ describe 'States d’un user quelconque' do
     end
     it 'analyste? retourne true' do
       expect(u).to be_analyste
+    end
+    it 'contributor? return true' do
+      expect(u).to be_contributor
     end
   end
 
@@ -223,6 +238,9 @@ describe 'States d’un user quelconque' do
     it 'analyste? retourne true' do
       expect(u).to be_analyste
     end
+    it 'contributor? return true' do
+      expect(u).to be_contributor
+    end
   end
 
   context 'avec un simple correcteur du fichier' do
@@ -250,6 +268,9 @@ describe 'States d’un user quelconque' do
     end
     it 'analyste? retourne true' do
       expect(u).to be_analyste
+    end
+    it 'contributor? return true' do
+      expect(u).to be_contributor
     end
   end
 

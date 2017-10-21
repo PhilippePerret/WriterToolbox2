@@ -36,6 +36,8 @@ class Analyse
     def corrector? ; state(:corrector) end
     # TRUE si l'user est seulement corrector
     def simple_corrector? ; state(:scorrector) end
+    # TRUE si l'user contribue à l'analyse
+    def contributor? ; state(:contributor) end
     # TRUE si l'user est administrateur
     def admin? ; state(:admin) end
     # TRUE si l'user est actif en ce moment
@@ -49,6 +51,7 @@ class Analyse
         when :redactor    then role & (8|16|32) > 0
         when :corrector   then role & 4 > 0
         when :scorrector  then [4,5].include?(role)
+        when :contributor then role & (4|8|16|32) > 0
         when :admin       then real_user.admin?
         when :actif       then role & 1 > 0
         end

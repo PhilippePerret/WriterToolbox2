@@ -7,6 +7,7 @@ require_lib_site
 require_support_integration
 require_support_mail_for_test
 require_support_db_for_test
+require_support_analyse
 
 feature 'Ajout d’un fichier à une analyse' do
   before(:all) do

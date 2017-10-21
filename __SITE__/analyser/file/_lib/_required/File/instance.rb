@@ -6,6 +6,7 @@ class Analyse
 
     # @param {Fixnum} fid
     #                 ID du fichier (dans la DB)
+    #
     # @param {User}   who
     #                 L'User courant, qui peut être n'importe qui.
     #                 S'il est défini, il permettra de définir la propriété
@@ -14,12 +15,16 @@ class Analyse
     #
     def initialize fid, who = nil
       @id = fid
-      who.nil? || @ufiler = UFiler.new(who)
+      who.nil? ||
+        begin 
+          @ufiler = UFiler.new(analyse, self, who)
+          analyse.define_uanalyser(who)
+      end
+      debug "@ufiler est de classe #{@ufiler.class}"
     end
 
-
     def analyse
-      @analyse ||= Analyse.new(data[:film_id])
+      @analyse ||= Analyse.new(data[:film_id]) # NE PAS METTRE LE SECOND ARG ICI (cf. N0001)
     end
 
     def path

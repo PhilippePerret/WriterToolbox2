@@ -18,7 +18,7 @@ class Analyse
         (return __error('Seul un analyste peut proposer sa contribution à une analyse.'))
 
       # Instance de l'analyse
-      analyse = Analyse.new(film_id)
+      analyse = Analyse.new(film_id, candidat)
 
       # L'analyse doit être en cours
 

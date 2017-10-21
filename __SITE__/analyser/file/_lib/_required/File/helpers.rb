@@ -26,7 +26,7 @@ class Analyse
     def contenu_displayed ope
 
 
-      ufiler.redactor? || analyse.contributor?(who) || ufiler.corrector? || ufiler.admin? || visible_par_inscrit? || (return '')
+      ufiler.redactor? || ufiler.contributor? || ufiler.corrector? || ufiler.admin? || visible_par_inscrit? || (return '')
 
       <<-HTML
       <div class="file_content" id="file-#{id}-content">

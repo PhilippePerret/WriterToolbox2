@@ -13,10 +13,34 @@ class Analyse
   #
   # En revanche, analyse et film partagent absolument le même ID.
   #
-  def initialize film_id
+  # @param {Fixnum} film_id
+  #                 ID du film (dans le filmodico, par exemple), qui est
+  #                 le même ID que l'analyse.
+  #
+  # @param {User}   current_user
+  #                 Instance de l'user courant. Le mieux est de fixer cette
+  #                 valeur afin de simplifier toutes les méthodes de check 
+  #                 du statut de l'utilisateur qui visite l'analyse.
+  #                 Pour le moment, ça ne devrait être utile que pour la 
+  #                 partie `analyser`, donc on fait un check de l'objet de
+  #                 la route, mais ensuite, si les méthodes s'avèrent utiles
+  #                 également dans la partie `analyse` (consultation), on 
+  #                 pourra rapatrier les librairies UAnalyser et UFiler des
+  #                 librairies requises de `analyser`.
+  #
+  def initialize film_id, current_user = nil
     @id = film_id
+    current_user.nil? || site.route.objet == 'analyse' || define_uanalyser(current_user)
+    debug "current_user est de classe #{current_user.class}"
+    debug "Objet de la route : #{site.route.objet.inspect}"
+    debug "À l'instanciation de l'analyse, @uanalyser à la classe #{@uanalyser.class}."
   end
 
+  # L'user quelconque qui visite l'analyse
+  def define_uanalyser who
+    @uanalyser = UAnalyser.new(self, who)
+  end
+  
   # Spécifications de l'analyse
   def specs
     @specs ||=
