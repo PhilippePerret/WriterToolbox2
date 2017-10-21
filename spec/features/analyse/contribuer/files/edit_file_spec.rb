@@ -147,10 +147,10 @@ feature 'Edition d’un fichier d’analyse de travail' do
 
 
 
-  context 'Un administrateur non contributeur' do
+  context 'Un administrateur non contributeur', check: true do
     scenario '=> peut éditer et modifier tous les fichiers' do
 
-
+      identify phil
 
       # ---------------------------------------------------------------------
       #     LA PAGE DU FICHIER
@@ -159,7 +159,10 @@ feature 'Edition d’un fichier d’analyse de travail' do
       expect(page).to have_tag('h2', text:/Contribuer aux analyses/)
       expect(page).to have_tag('h3', text: /#{@titre_analyse}/i)
       expect(page).to have_tag('h4', text: @ftest_titre)
-      expect(page).to have_content(@ftest_extrait)
+      expect(page).to have_tag('div.file_content')
+      if File.exist?(@ftest_path)
+        expect(page).to have_content(@ftest_extrait)
+      end
       success 'il peut voir la page'
 
       expect(page).to have_tag('div.file_buttons') do
@@ -170,12 +173,19 @@ feature 'Edition d’un fichier d’analyse de travail' do
       end
       success 'il trouve tous les boutons (publication, édition, etc.)'
 
+      expect(page).not_to have_tag('form#edit_file_form')
+      within('div.file_buttons.top'){click_link 'éditer'}
+      sleep 10
+      expect(page).to have_tag('form#edit_file_form')
+      success 'il clique le bouton « éditer » et passe le fichier en édition'
+
+
     end
   end
 
 
 
-  context 'Le créateur de l’analyse', check: true do
+  context 'Le créateur de l’analyse', check: false do
     scenario '=> peut éditer et modifier tous les fichiers' do
 
       identify @hANACreator
@@ -217,7 +227,7 @@ feature 'Edition d’un fichier d’analyse de travail' do
 
 
 
-  context 'Un contributeur rédacteur', check: true do
+  context 'Un contributeur rédacteur', check: false do
     scenario '=> peut éditer et modifier tous les fichiers qu’il rédige' do
 
       identify @hANARedacteur
@@ -272,7 +282,7 @@ feature 'Edition d’un fichier d’analyse de travail' do
 
 
 
-  context 'Un contributeur correcteur', check: true do
+  context 'Un contributeur correcteur', check: false do
     scenario '=> peut éditer et modifier tous les fichiers où il est en correcteur' do
 
       identify @hANASimpleCorrector
@@ -327,7 +337,7 @@ feature 'Edition d’un fichier d’analyse de travail' do
   end
 
 
-  context 'Un analyse non contributeur', check: true do
+  context 'Un analyse non contributeur', check: false do
     scenario '=> ne peut rien faire sur un fichier que le voir s’il est lisible' do
 
       identify @hBenoit
@@ -377,7 +387,7 @@ feature 'Edition d’un fichier d’analyse de travail' do
     end
   end
 
-  context 'Un simple inscrit', check: true do
+  context 'Un simple inscrit', check: false do
     scenario '=> ne peut rien faire d’autre sur les fichiers que les visualiser' do
 
       huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: false)
@@ -428,7 +438,7 @@ feature 'Edition d’un fichier d’analyse de travail' do
     end
   end
 
-  context 'Un simple visiteur', check: true do
+  context 'Un simple visiteur', check: false do
     scenario '=> ne peut rien faire sur les fichiers' do
       visit "#{base_url}/analyser/file/#{@ftest_id}?op=voir"
       expect(page).to be_signin_page

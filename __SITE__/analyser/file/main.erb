@@ -4,7 +4,7 @@
 
 <% 
     param(:op) || param(:op, 'voir')
-    param(:op) && Analyse::AFile.do_operation(param(:op), user)
+    param(:op) && Analyse::AFile.do_operation(param(:op))
 %>
 
 <%= header(:small) %>
@@ -20,15 +20,15 @@
 
 <h4><%= afile.titre_displayed %></h4>
 
-<%= afile.buttons(:top, param(:op), user) %>
+<%= afile.buttons(:top, param(:op)) %>
 
 <%= 
 
   # === AFFICHAGE DU FICHIER ===
   
-  afile.output(param(:op), user) %>
+  afile.output(param(:op)) %>
 
 
-<%= afile.buttons(:bottom, param(:op), user) %>
+<%= afile.buttons(:bottom, param(:op)) %>
 
-<%= footer %>
+<%= footer(:small) %>

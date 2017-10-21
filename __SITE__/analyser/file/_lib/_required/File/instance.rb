@@ -4,8 +4,17 @@ class Analyse
 
     attr_reader :id
 
-    def initialize fid
+    # @param {Fixnum} fid
+    #                 ID du fichier (dans la DB)
+    # @param {User}   who
+    #                 L'User courant, qui peut être n'importe qui.
+    #                 S'il est défini, il permettra de définir la propriété
+    #                 `ufiler` du fichier utile pour connaitre le statut 
+    #                 de l'user et savoir ce qu'il peut faire.
+    #
+    def initialize fid, who = nil
       @id = fid
+      who.nil? || @ufiler = UFiler.new(who)
     end
 
 

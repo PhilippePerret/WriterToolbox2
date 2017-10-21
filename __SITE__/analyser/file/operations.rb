@@ -4,11 +4,11 @@ class Analyse
     class << self
 
 
-      def do_operation ope, analyste
+      def do_operation ope
         # Le minimum, c'est que l'user soit identifié
-        analyste.identified? || identification_required
+        ufiler.identified? || identification_required
         # Le minimum aussi, c'est qu'il soit analyse, sauf pour voir la page
-        if ope != 'voir' && analyste.analyste? == false
+        if ope != 'voir' && ufiler.analyste? == false
           __error 'La seule action possible pour un simple inscrit et de visualiser cette page.'
           ope = 'voir'
         end

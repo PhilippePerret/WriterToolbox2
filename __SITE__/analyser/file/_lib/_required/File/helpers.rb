@@ -6,8 +6,8 @@ class Analyse
     #
     # Dépend de l'opération choisie. Par défaut, c'est l'opération 'voir'
     #
-    def output ope, who
-      contenu_displayed(ope, who)
+    def output ope
+      contenu_displayed(ope)
     end
 
     
@@ -23,23 +23,23 @@ class Analyse
     # Qu'il y ait un fichier ou non, le div est inscrit, car il peut
     # aussi contenir le formulaire d'édition du texte.
 
-    def contenu_displayed ope, who
+    def contenu_displayed ope
 
 
-      redactor?(who) || analyse.contributor?(who) || corrector?(who) || who.admin? || visible_par_inscrit? || (return '')
+      ufiler.redactor? || analyse.contributor?(who) || ufiler.corrector? || ufiler.admin? || visible_par_inscrit? || (return '')
 
       <<-HTML
       <div class="file_content" id="file-#{id}-content">
-        #{ope == 'edit' || ope == 'save' ? formulaire_edition(who) : apercu(who) }
+        #{ope == 'edit' || ope == 'save' ? formulaire_edition : apercu }
       </div>
       HTML
     end
 
-    def formulaire_edition who
+    def formulaire_edition
       '[plus tard, je retournerai le formulaire d’édition]'
     end
 
-    def apercu who
+    def apercu
       if File.exist?(path)
         formate_file(path)
       else
@@ -60,21 +60,16 @@ class Analyse
     # @param {User}   who
     #                 Le visiteur pour lequel sont affichés les boutons
     #
-    def buttons where, ope, who
+    def buttons where, ope
       btn_remove = btn_edit = btn_publish = btn_save = btn_voir = ''
 
-      is_creator_analyse = analyse.creator?(who)
-      who_is_redactor   = self.redactor?(who)
-      who_is_corrector  = self.corrector?(who)
+      is_creator_analyse = analyse.uanalyser.creator?
 
-      if who_is_redactor || is_creator_analyse || who_is_corrector || who.admin? 
+      if ufiler.redactor? || is_creator_analyse || ufiler.corrector? || ufiler.admin? 
         ope != 'edit'    && btn_edit    = bouton_editer 
         ope != 'publish' && btn_publish = bouton_publier 
         btn_save = bouton_sauver 
-        ( is_creator_analyse || who.admin? || creator?(who) ) && 
-          begin
-            btn_remove = bouton_remove 
-        end
+        ( is_creator_analyse || ufiler.admin? || ufiler.creator? ) && btn_remove = bouton_remove 
       end
 
       ope != 'voir' && btn_voir = bouton_voir 

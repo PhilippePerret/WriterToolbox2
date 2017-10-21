@@ -51,7 +51,7 @@ CREATE TABLE user_per_analyse (
     -- donner le droit de détruire l'analyse.
     -- 1:    L’user est actif (si 0: inactif mais a participé)
     -- 2:    
-    -- 4:    L’user est CORRECTEUR (si 1|4 => seulement correcteur)
+    -- 4:    L’user est CORRECTEUR (si 4 ou 1|4 => seulement correcteur)
     -- 8:    L’user est RÉDACTEUR OCCASIONNEL
     -- 16:   L’user est CO-CREATEUR
     -- 32:   L’user est le CRÉATEUR de l’analyste, l’initiateur
