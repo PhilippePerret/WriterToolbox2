@@ -14,7 +14,7 @@
 <%# S'il y a une sortie prévue par l'opération %>
 <% if Analyse.output %>
   <%= Analyse.output %>
-<% elsif user.analyste? %>
+<% elsif user.analyste? || user.admin? %>
   <% 
       require_form_support
   %>

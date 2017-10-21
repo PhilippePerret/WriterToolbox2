@@ -1,5 +1,5 @@
 --color
 --require spec_helper
 --format documentation
-//--fail-fast
---tag ~check: false
+--fail-fast
+//--tag ~check: false

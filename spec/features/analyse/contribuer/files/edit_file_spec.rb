@@ -150,7 +150,7 @@ feature 'Edition d’un fichier d’analyse de travail' do
   context 'Un administrateur non contributeur', check: true do
     scenario '=> peut éditer et modifier tous les fichiers' do
 
-      identify phil
+      identify marion
 
       # ---------------------------------------------------------------------
       #     LA PAGE DU FICHIER
@@ -163,22 +163,20 @@ feature 'Edition d’un fichier d’analyse de travail' do
       if File.exist?(@ftest_path)
         expect(page).to have_content(@ftest_extrait)
       end
-      success 'il peut voir la page'
+      success 'peut voir la page'
 
       expect(page).to have_tag('div.file_buttons') do
         with_tag('a', text: 'éditer',     with: {href: "analyser/file/#{@ftest_id}?op=edit"})
-        with_tag('a', text: 'publier',      with: {href: "analyser/file/#{@ftest_id}?op=publish"})
-        with_tag('a', text: 'sauver',  with: {href: "analyser/file/#{@ftest_id}?op=save"})
-        with_tag('a', text: 'détruire',     with: {href: "analyser/file/#{@ftest_id}?op=rem"})
+        with_tag('a', text: 'publier',    with: {href: "analyser/file/#{@ftest_id}?op=publish"})
+        with_tag('a', text: 'détruire',   with: {href: "analyser/file/#{@ftest_id}?op=rem"})
       end
-      success 'il trouve tous les boutons (publication, édition, etc.)'
+      success 'trouve tous les boutons (publication, édition, etc.)'
 
       expect(page).not_to have_tag('form#edit_file_form')
       within('div.file_buttons.top'){click_link 'éditer'}
       sleep 10
       expect(page).to have_tag('form#edit_file_form')
-      success 'il clique le bouton « éditer » et passe le fichier en édition'
-
+      success 'clique le bouton « éditer » et passe le fichier en édition'
 
     end
   end
@@ -215,7 +213,6 @@ feature 'Edition d’un fichier d’analyse de travail' do
         expect(page).to have_tag('div.file_buttons') do
           with_tag('a', text: 'éditer',       with: {href: "analyser/file/#{fid}?op=edit"})
           with_tag('a', text: 'publier',      with: {href: "analyser/file/#{fid}?op=publish"})
-          with_tag('a', text: 'sauver',  with: {href: "analyser/file/#{fid}?op=save"})
           with_tag('a', text: 'détruire',     with: {href: "analyser/file/#{fid}?op=rem"})
         end
         success 'il trouve tous les boutons (publication, édition, etc.)'
@@ -243,15 +240,14 @@ feature 'Edition d’un fichier d’analyse de travail' do
       if File.exist?(@ftest2_path)
         expect(page).to have_content(@ftest2_extrait)
       end
-      success 'il peut voir la page'
+      success 'peut voir la page'
 
       expect(page).to have_tag('div.file_buttons') do
-        with_tag('a', text: 'éditer',     with: {href: "analyser/file/#{@ftest2_id}?op=edit"})
-        with_tag('a', text: 'publier',      with: {href: "analyser/file/#{@ftest2_id}?op=publish"})
-        with_tag('a', text: 'sauver',  with: {href: "analyser/file/#{@ftest2_id}?op=save"})
+        with_tag('a', text: 'éditer',   with: {href: "analyser/file/#{@ftest2_id}?op=edit"})
+        with_tag('a', text: 'publier',  with: {href: "analyser/file/#{@ftest2_id}?op=publish"})
         with_tag('a', text: 'détruire', with: {href: "analyser/file/#{@ftest2_id}?op=rem"})
       end
-      success 'il trouve tous les boutons (publication, édition, etc.)'
+      success 'trouve tous les boutons (publication, édition, etc.)'
 
     end
     scenario '=> ne peut pas éditer ou modifier les autres fichiers' do
@@ -261,21 +257,21 @@ feature 'Edition d’un fichier d’analyse de travail' do
       # ---------------------------------------------------------------------
       #     LA PAGE DU FICHIER
       # ---------------------------------------------------------------------
+
       visit "#{base_url}/analyser/file/#{@ftest_id}?op=voir"
+
       expect(page).to have_tag('h2', text:/Contribuer aux analyses/)
       expect(page).to have_tag('h3', text: /#{@titre_analyse}/i)
       expect(page).to have_tag('h4', text: @ftest_titre)
-      expect(page).to have_tag('div.file_content')
-      success 'il peut voir la page'
+      expect(page).to have_tag('div.file_content', text: /Vous n’avez pas accès au contenu de ce fichier/)
+      success 'peut voir la page (sans le texte)'
 
       expect(page).to have_tag('div.file_buttons') do
-        without_tag('a', text: 'éditer',     with: {href: "analyser/file/#{@ftest_id}?op=edit"})
-        without_tag('a', text: 'publier',      with: {href: "analyser/file/#{@ftest_id}?op=publish"})
-        without_tag('a', text: 'sauver',  with: {href: "analyser/file/#{@ftest_id}?op=save"})
-        without_tag('a', text: 'détruire',     with: {href: "analyser/file/#{@ftest_id}?op=rem"})
+        without_tag('a', text: 'éditer',   with: {href: "analyser/file/#{@ftest_id}?op=edit"})
+        without_tag('a', text: 'publier',  with: {href: "analyser/file/#{@ftest_id}?op=publish"})
+        without_tag('a', text: 'détruire', with: {href: "analyser/file/#{@ftest_id}?op=rem"})
       end
-      success 'il ne trouve pas tous les boutons (publication, édition, etc.)'
-
+      success 'ne trouve pas tous les boutons (publication, édition, etc.)'
 
     end
   end
@@ -301,10 +297,9 @@ feature 'Edition d’un fichier d’analyse de travail' do
       success 'il peut voir la page'
 
       expect(page).to have_tag('div.file_buttons') do
-        with_tag('a', text: 'éditer',     with: {href: "analyser/file/#{@ftest_id}?op=edit"})
+        with_tag('a', text: 'éditer',       with: {href: "analyser/file/#{@ftest_id}?op=edit"})
         with_tag('a', text: 'publier',      with: {href: "analyser/file/#{@ftest_id}?op=publish"})
-        with_tag('a', text: 'sauver',  with: {href: "analyser/file/#{@ftest_id}?op=save"})
-        without_tag('a', text: 'détruire',     with: {href: "analyser/file/#{@ftest_id}?op=rem"})
+        without_tag('a', text: 'détruire',  with: {href: "analyser/file/#{@ftest_id}?op=rem"})
       end
       success 'il trouve tous les boutons (publication, édition, etc.)'
 
@@ -324,15 +319,14 @@ feature 'Edition d’un fichier d’analyse de travail' do
       if File.exists?(@ftest2_path)
         expect(page).to have_content(@ftest2_extrait)
       end
-      success 'il peut voir la page complète du fichier'
+      success 'peut voir la page complète du fichier'
 
       expect(page).to have_tag('div.file_buttons') do
         without_tag('a', text: 'éditer',     with: {href: "analyser/file/#{@ftest2_id}?op=edit"})
-        without_tag('a', text: 'publier',      with: {href: "analyser/file/#{@ftest2_id}?op=publish"})
-        without_tag('a', text: 'sauver',  with: {href: "analyser/file/#{@ftest2_id}?op=save"})
-        without_tag('a', text: 'détruire',     with: {href: "analyser/file/#{@ftest2_id}?op=rem"})
+        without_tag('a', text: 'publier',    with: {href: "analyser/file/#{@ftest2_id}?op=publish"})
+        without_tag('a', text: 'détruire',   with: {href: "analyser/file/#{@ftest2_id}?op=rem"})
       end
-      success 'il ne trouve pas tous les boutons (publication, édition, etc.)'
+      success 'ne trouve pas tous les boutons (publication, édition, etc.)'
     end
   end
 
@@ -345,7 +339,7 @@ feature 'Edition d’un fichier d’analyse de travail' do
       # ---------------------------------------------------------------------
       #     LA PAGE DU FICHIER
       # ---------------------------------------------------------------------
-      ['voir','edit','publish','save','rem'].each do |ope|
+      ['voir','edit','publish','rem'].each do |ope|
         visit "#{base_url}/analyser/file/#{@ftest2_id}?op=#{ope}"
         expect(page).to have_tag('h2', text:/Contribuer aux analyses/)
         expect(page).to have_tag('h3', text: /#{@titre_analyse}/i)
@@ -353,10 +347,9 @@ feature 'Edition d’un fichier d’analyse de travail' do
         expect(page).to have_tag('div', with:{class: 'file_content', id:"file-#{@ftest2_id}-content"})
 
         expect(page).to have_tag('div.file_buttons') do
-          without_tag('a', text: 'éditer',     with: {href: "analyser/file/#{@ftest2_id}?op=edit"})
-          without_tag('a', text: 'publier',      with: {href: "analyser/file/#{@ftest2_id}?op=publish"})
-          without_tag('a', text: 'sauver',  with: {href: "analyser/file/#{@ftest2_id}?op=save"})
-          without_tag('a', text: 'détruire',     with: {href: "analyser/file/#{@ftest2_id}?op=rem"})
+          without_tag('a', text: 'éditer',    with: {href: "analyser/file/#{@ftest2_id}?op=edit"})
+          without_tag('a', text: 'publier',   with: {href: "analyser/file/#{@ftest2_id}?op=publish"})
+          without_tag('a', text: 'détruire',  with: {href: "analyser/file/#{@ftest2_id}?op=rem"})
         end
       end
       success 'peut voir la page avec le texte sans autres boutons pour toutes les tentatives'
@@ -369,21 +362,20 @@ feature 'Edition d’un fichier d’analyse de travail' do
       # ---------------------------------------------------------------------
       #     LA PAGE DU FICHIER
       # ---------------------------------------------------------------------
-      ['voir','edit','publish','save','rem'].each do |ope|
+      ['voir','edit','publish','rem'].each do |ope|
         visit "#{base_url}/analyser/file/#{@ftest_id}?op=#{ope}"
         expect(page).to have_tag('h2', text:/Contribuer aux analyses/)
         expect(page).to have_tag('h3', text: /#{@titre_analyse}/i)
         expect(page).to have_tag('h4', text: @ftest_titre)
-        expect(page).not_to have_tag('div.file_content')
+        expect(page).to have_tag('div.file_content', text: /Vous n’avez pas accès au contenu de ce fichier/)
         expect(page).to have_tag('div.file_buttons') do
-          without_tag('a', text: 'éditer',     with: {href: "analyser/file/#{@ftest_id}?op=edit"})
-          without_tag('a', text: 'publier',      with: {href: "analyser/file/#{@ftest_id}?op=publish"})
-          without_tag('a', text: 'sauver',  with: {href: "analyser/file/#{@ftest_id}?op=save"})
-          without_tag('a', text: 'détruire',     with: {href: "analyser/file/#{@ftest_id}?op=rem"})
+          without_tag('a', text: 'éditer',    with: {href: "analyser/file/#{@ftest_id}?op=edit"})
+          without_tag('a', text: 'publier',   with: {href: "analyser/file/#{@ftest_id}?op=publish"})
+          without_tag('a', text: 'détruire',  with: {href: "analyser/file/#{@ftest_id}?op=rem"})
         end
       end
       success 'peut voir la page sans le texte'
-      success 'il ne trouve pas tous les boutons (publication, édition, etc.)'
+      success 'ne trouve pas tous les boutons (publication, édition, etc.)'
     end
   end
 
@@ -393,19 +385,18 @@ feature 'Edition d’un fichier d’analyse de travail' do
       huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: false)
       identify huser
 
-      ['edit', 'save', 'rem','publish'].each do |ope|
+      ['edit', 'rem','publish'].each do |ope|
         visit "#{base_url}/analyser/file/#{@ftest_id}?op=#{ope}"
         expect(page).to have_tag('div.error', text: /La seule action possible pour un simple inscrit/)
         expect(page).to have_tag('h2', text:/Contribuer aux analyses/)
         expect(page).to have_tag('h3', text: /#{@titre_analyse}/i)
         expect(page).to have_tag('h4', text: @ftest_titre)
         # Pas de contenu pour ce fichier puisqu'il n'est pas visible
-        expect(page).not_to have_tag('div.file_content')
+        expect(page).to have_tag('div.file_content', text: /Vous n’avez pas accès au contenu de ce fichier/)
 
         expect(page).to have_tag('div.file_buttons') do
           without_tag('a', text: 'éditer')
           without_tag('a', text: 'publier')
-          without_tag('a', text: 'sauver')
           without_tag('a', text: 'détruire')
         end
       end
@@ -416,24 +407,22 @@ feature 'Edition d’un fichier d’analyse de travail' do
       expect(page).to have_tag('h3', text: /#{@titre_analyse}/i)
       expect(page).to have_tag('h4', text: @ftest_titre)
       expect(page).not_to have_tag('file_content')
-      success 'il peut voir la page'
+      success 'peut voir la page'
       expect(page).to have_tag('div.file_buttons') do
         without_tag('a', text: 'éditer')
         without_tag('a', text: 'publier')
-        without_tag('a', text: 'sauver')
         without_tag('a', text: 'détruire')
       end
 
       # En revanche, le second fichier peut avoir du contenu
-      ['edit', 'save', 'rem','publish', 'voir'].each do |ope|
+      ['edit', 'rem','publish', 'voir'].each do |ope|
         visit "#{base_url}/analyser/file/#{@ftest2_id}?op=#{ope}"
         expect(page).to have_tag('div', with:{class: 'file_content', id: "file-#{@ftest2_id}-content"})
       end
 
-
       expect(page).to have_link('Contribuer')
       expect(page).to have_link('Postuler pour devenir analyste')
-      success 'la page contient aussi un lien pour postuler'
+      success 'trouve aussi un lien pour postuler'
 
     end
   end

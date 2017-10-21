@@ -31,9 +31,6 @@ class Analyse
   def initialize film_id, current_user = nil
     @id = film_id
     current_user.nil? || site.route.objet == 'analyse' || define_uanalyser(current_user)
-    debug "current_user est de classe #{current_user.class}"
-    debug "Objet de la route : #{site.route.objet.inspect}"
-    debug "À l'instanciation de l'analyse, @uanalyser à la classe #{@uanalyser.class}."
   end
 
   # L'user quelconque qui visite l'analyse

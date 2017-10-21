@@ -25,18 +25,38 @@ class Analyse
 
     def contenu_displayed ope
 
+      debug "visible_par_inscrit? est #{visible_par_inscrit?.inspect}"
 
-      ufiler.redactor? || ufiler.contributor? || ufiler.corrector? || ufiler.admin? || visible_par_inscrit? || (return '')
 
       <<-HTML
       <div class="file_content" id="file-#{id}-content">
-        #{ope == 'edit' || ope == 'save' ? formulaire_edition : apercu }
+        #{
+          if ufiler.redactor? || ufiler.contributor? || 
+              ufiler.corrector? || ufiler.admin? || visible_par_inscrit?
+            if ['edit','save'].include?(ope)
+              formulaire_edition
+            else
+              apercu
+            end
+          else
+            'Vous n’avez pas accès au contenu de ce fichier.'
+          end
+        }
       </div>
       HTML
     end
 
     def formulaire_edition
-      '[plus tard, je retournerai le formulaire d’édition]'
+      require_form_support
+      <<-HTML
+      <form id="edit_file_form" method="POST">
+        <input type="hidden" name="op" value="save" />
+        <textarea id="file_content" name="file[content]"></textarea>
+        <div class="buttons">
+          <input type="submit" class="main btn" value="Enregistrer" />
+        </div>
+      </form>
+      HTML
     end
 
     def apercu
