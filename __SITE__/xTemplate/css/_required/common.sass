@@ -6,11 +6,20 @@ div#flash
     .red
       color : #FFA1A2 !important
 
-.red, .warning
-  color   : red!important
+.bold
+  font-weight   : bold
 
-.green
+.red, .warning:not(a)
+  color   : red!important
+a.warning
+  background-color  : red ! important
+  color             : white ! important
+
+.green:not(a)
   color: green !important
+a.green
+  background-color  : green ! important
+  color             : white ! important
 
 .blue
   color: blue !important

@@ -18,56 +18,6 @@ class Analyse
       data[:titre]
     end
 
-    # Le contenu affiché, en fonction de celui qui visite
-    #
-    # Qu'il y ait un fichier ou non, le div est inscrit, car il peut
-    # aussi contenir le formulaire d'édition du texte.
-
-    def contenu_displayed ope
-
-      debug "visible_par_inscrit? est #{visible_par_inscrit?.inspect}"
-
-
-      <<-HTML
-      <div class="file_content" id="file-#{id}-content">
-        #{
-          if ufiler.redactor? || ufiler.contributor? || 
-              ufiler.corrector? || ufiler.admin? || visible_par_inscrit?
-            if ['edit','save'].include?(ope)
-              formulaire_edition
-            else
-              apercu
-            end
-          else
-            'Vous n’avez pas accès au contenu de ce fichier.'
-          end
-        }
-      </div>
-      HTML
-    end
-
-    def formulaire_edition
-      require_form_support
-      <<-HTML
-      <form id="edit_file_form" method="POST">
-        <input type="hidden" name="op" value="save" />
-        <textarea id="file_content" name="file[content]"></textarea>
-        <div class="buttons">
-          <input type="submit" class="main btn" value="Enregistrer" />
-        </div>
-      </form>
-      HTML
-    end
-
-    def apercu
-      if File.exist?(path)
-        formate_file(path)
-      else
-        '[Ce fichier ne possède pas encore de contenu. Cliquer le bouton “edit” pour le définir.]'
-      end
-    end
-    
-    
 
     # Boutons pour éditer, publier, etc. le fichier courant
     # Les boutons sont affichés en fonction du statut de l'user qui visite
@@ -82,21 +32,25 @@ class Analyse
     #
     def buttons where, ope
       btn_remove = btn_edit = btn_publish = btn_save = btn_voir = ''
+      
+      if ope == 'compare' 
 
-      is_creator_analyse = analyse.uanalyser.creator?
+      else
+        is_creator_analyse = analyse.uanalyser.creator?
 
-      if ufiler.redactor? || is_creator_analyse || ufiler.corrector? || ufiler.admin? 
-        ope != 'edit'    && btn_edit    = bouton_editer 
-        ope != 'publish' && btn_publish = bouton_publier 
-        btn_save = bouton_sauver 
-        ( is_creator_analyse || ufiler.admin? || ufiler.creator? ) && btn_remove = bouton_remove 
+        if ufiler.redactor? || is_creator_analyse || ufiler.corrector? || ufiler.admin? 
+          ope != 'edit'    && btn_edit    = bouton_editer 
+          ope != 'publish' && btn_publish = bouton_publier 
+          ope != 'compare' && 
+          btn_save = bouton_sauver 
+          ( is_creator_analyse || ufiler.admin? || ufiler.creator? ) && btn_remove = bouton_remove 
+        end
+
+        ope != 'voir' && btn_voir = bouton_voir 
       end
-
-      ope != 'voir' && btn_voir = bouton_voir 
-
      <<-HTML
      <div class="file_buttons #{where}">
-     #{btn_remove}#{btn_publish}#{btn_edit}#{btn_voir}#{btn_save}
+     #{btn_remove}#{btn_publish}#{bouton_compare}#{btn_edit}#{btn_voir}#{btn_save}
      </div>
      HTML
     end
@@ -106,7 +60,7 @@ class Analyse
       build_bouton('edit', 'éditer')
     end
     def bouton_publier
-      build_bouton('publish', 'publier')
+      build_bouton('publish', 'publier', 'green')
     end
     def bouton_sauver
       build_bouton('save', 'sauver')
@@ -116,6 +70,11 @@ class Analyse
     end
     def bouton_voir
       build_bouton('voir')
+    end
+    def bouton_compare
+      debug "fpath existe ? #{File.exist?(fpath).inspect}"
+      debug "Fichiers : #{Dir[fpath+'/*.*'].inspect}"
+      Dir["#{fpath}/*.*"].count > 1 ? build_bouton('compare') : ''
     end
 
     # Construit les boutons

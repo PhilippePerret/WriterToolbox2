@@ -231,13 +231,13 @@ RSpec.configure do |config|
   #   Méthodes utiles
   # ---------------------------------------------------------------------
 
-  # Permet d'ajouter des fichiers à détruire en fin de test, s'ils
+  # Permet d'ajouter des fichiers/dossiers à détruire en fin de test, s'ils
   # existent.
   # def add_file_to_destroy     alias
   # def add_file2destroy        alias
   def add_file_2_destroy path
-    @files_to_destroy ||= Array.new
-    @files_to_destroy << path
+    $files_to_destroy ||= Array.new
+    $files_to_destroy << path
   end
   alias :add_file2destroy :add_file_2_destroy
   alias :add_file_2_remove :add_file_2_destroy
@@ -245,11 +245,21 @@ RSpec.configure do |config|
   alias :add_file_to_destroy :add_file_2_destroy
 
   def destroy_files_to_destroy
-    @files_to_destroy || return
-    @files_to_destroy.each do |file|
+    puts "-> destroy_files_to_destroy"
+    $files_to_destroy || begin
+      puts "Il n'y a pas de fichiers à détruire"
+      return
+    end
+    puts "Il y a #{$files_to_destroy.count} fichiers/dossiers à détruire"
+    $files_to_destroy.each do |file|
       File.exist?(file) || next
-      File.unlink(file)
-      puts "= Fichier détruit : #{file}"
+      if File.directory?(file)
+        FileUtils.rm_rf(file)
+        puts "= Dossier détruit : #{file}"
+      else
+        File.unlink(file)
+        puts "= Fichier détruit : #{file}"
+      end
     end
   end
 

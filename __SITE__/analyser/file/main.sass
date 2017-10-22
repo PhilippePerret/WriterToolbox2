@@ -1,3 +1,37 @@
 textarea#file_content
   width       : 98%
   height      : 500px
+
+a.edit
+  font-size   : .7em !important
+
+div.comparaison
+  font-family   : monospace
+  div
+    line-height   : 1.3em
+  div.versions
+    font-size     : 14.8pt
+    border        : 1px solid #CCC
+    border-radius : 1em
+    padding       : 1em
+    margin-bottom : 1em
+    > div
+      margin-left   : 2em
+    > span
+      display       : block
+      font-weight   : bold
+  div.diffs
+    font-size     : 13.8pt
+
+div.file_buttons
+  text-align      : right
+  &.top
+    margin-bottom   : 2em
+  &.bottom
+    margin-top      : 2em
+  a
+    font-size       : 11.1pt
+    margin-left     : .3em
+    border          : 1px solid #DDD
+    padding         : 1px 8px 2px
+    text-decoration : none!important

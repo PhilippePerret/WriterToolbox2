@@ -1,7 +1,20 @@
 * [ANALYSES]
+  * Liste des versions :
+    1. ajouter les dates des fichiers
+    2. enlever le bouton 'compare' (c'est donc quand param(:version1) et param(:version2)
+      ne sont pas définis)
+  * Pouvoir déterminer qu'un contributeur peut rédiger un fichier qu'il n'a pas créer
+    Sauf pour le créateur de l'analyse qui peut tout modifier ?
   * Dans la liste des contributeurs, mettre un lien vers le profil sur le pseudo
   * Regarder le problème au niveau des fichiers qui restent enregistrés dans files_analyses
   * Si l'user est analyste, ajouter les analyses auxquelles il contribue dans sa page de profil
+  * À l'édition d'un fichier, il faut enregistrer la date de dernière modification pour voir
+    si le fichier a été modifié entre temps.
+  * Quand un analyser arrive sur le site, on lui indique les choses qui ont été modifiées
+    (pas par lui) depuis sa dernière visite, par exemple les derniers fichiers modifiés ou ajoutés.
+    => Enregistrer le temps de dernière connexion de l'user à chaque connexion
+    => Enregistrer le temps de dernière modification du fichier à chaque enregistrement (ou
+       alors, lire plutôt le temps des fichiers ? Plus consommateur ?)
 
 * [FORUM]
   * Reprendre tous les tests

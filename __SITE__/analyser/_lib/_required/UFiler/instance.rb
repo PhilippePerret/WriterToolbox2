@@ -25,6 +25,11 @@ class Analyse
         check_args_or_raise
       end
 
+      # --- Raccourcis ---
+      def id      ; @id     || real_user.id     end
+      def pseudo  ; @pseudo || real_user.pseudo end
+
+      # --- Statut de l'ufiler ---
       # TRUE si c'est le créateur du fichier
       def creator? ; state(:creator) end
       # TRUE si c'est un rédacteur du fichier
