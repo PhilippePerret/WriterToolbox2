@@ -10,7 +10,7 @@
 <%= header(:small) %>
 <%= Analyse.main_title %>
 
-<h3><%= afile.analyse.film.titre %></h3>
+<h3><%= simple_link("analyser/dashboard/#{afile.analyse.id}", afile.analyse.film.titre, 'nodeco') %></h3>
 
 <% unless user.analyste? || user.admin? %>
   <div class="right">

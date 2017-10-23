@@ -8,16 +8,29 @@ class Site
 
   def titre_in_logo pour = nil # :home pour la page d'accueil
     pour ||= ''
-    @titre_in_logo ||= begin
-      "<h1 class=\"#{pour}\">" +
-      "la " +
-      "<a href=\"\" title=\"Retour à l’accueil\">boite</a>" + # accueil
-      " à " +
-      "<a href=\"outils\" title=\"Liste des outils\">outils</a>" +
-      " de l’" +
-      "<a href=\"user/profil\" title=\"Votre profil\">auteur</a>" +
-      '</h1>'
-    end
+    @titre_in_logo ||= 
+      begin
+        <<-HTML
+        <h1 class="#{pour}">
+          la
+          <a href="" title="Retour à l’accueil">boite</a>
+          à
+          <a href="outils" title="Liste des outils">outils</a>
+          de l’
+          <a href="user/profil" title="Profils">auteur</a>
+        </h1>
+        HTML
+      end
+  end
+
+  def define_titre_in_logo pour = nil
+    pour ||= ''
+    <<-HTML
+    <h1 class="#{pour}">
+      <a href="" title="Retour à l’accueil">scénariopole</a>
+    </h1>
+    HTML
+    
   end
 
   def incipit

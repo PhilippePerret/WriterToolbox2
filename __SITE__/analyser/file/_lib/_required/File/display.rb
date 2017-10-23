@@ -19,20 +19,11 @@ class Analyse
       <<-HTML
       <div class="file_content" id="file-#{id}-content">
         #{
-          if ufiler.redactor? || ufiler.contributor? || 
-              ufiler.corrector? || ufiler.admin? || visible_par_inscrit?
-            if ['edit','save'].include?(ope)
-              formulaire_edition
-            elsif ope == 'compare'
-              version1 = param(:version1).nil_if_empty
-              version2 = param(:version2).nil_if_empty
-              if version1 && version2
-                comparer_versions(version1, version2)
-              else
-                afficher_liste_versions
-              end
-            else
-              apercu
+          if ufiler.redactor? || ufiler.contributor? || ufiler.corrector? || ufiler.admin? || visible_par_inscrit?
+            case ope
+            when 'edit', 'save' then afficher_formulaire_edition
+            when 'compare'      then operation_compare
+            else afficher_apercu
             end
           else
             'Vous n’avez pas accès au contenu de ce fichier.'
@@ -42,7 +33,35 @@ class Analyse
       HTML
     end
 
-    def formulaire_edition
+    # --------------------------------------------------------------------------------
+    # 
+    #     LES DIFFÉRENTS CONTENUS POSSIBLES :
+    #
+    #         - FORMULAIRE POUR ÉDITER LE FICHIER -> afficher_formulaire_edition
+    #
+    #         - APERÇU DU FICHIER TEL QU'IL APPARAITRA -> afficher_apercu
+    #
+    #         - LISTING DES DIFFÉRENTES VERSIONS -> afficher_liste_versions
+    #
+    #         - AFFICHAGE DE LA DIFFÉRENCE ENTRE DEUX VERSIONS -> afficher_comparaison_versions
+    #
+    #         
+    # --------------------------------------------------------------------------------
+
+    def operation_compare
+      version1 = param(:version1).nil_if_empty
+      version2 = param(:version2).nil_if_empty
+      if version1 && version2
+        afficher_comparaison_versions(version1, version2)
+      else
+        if version1 || version2
+          __notice('Vous devez choisir les deux versions à comparer.')
+        end
+        afficher_liste_versions
+      end
+    end
+
+    def afficher_formulaire_edition
       require_form_support
       <<-HTML
       <form id="edit_file_form" method="POST">
@@ -59,22 +78,30 @@ class Analyse
       HTML
     end
 
-    # Affichage de la liste des versions pour comparaisons
+    # Affichage de la LISTE DES VERSIONS pour comparaisons
     #
     def afficher_liste_versions
       require_form_support
       <<-HTML
+      <div class="titre">Liste des versions du fichier</div>
+      <div class="tiny italic discret">
+      Noter qu'elles sont en ordre inverse c'est-à-dire que la première version (la plus haute est aussi la plus récente.)
+      </div>
+      <div class="tiny">Choisissez la première version à comparer en la cochant dans la première colonne de boutons-radio, choisissez la deuxième version à comparer en la cochant dans la seconde colonne de boutons-radio, puis cliquez sur le bouton “Comparer” pour comparer les deux versions.</div>
+      <div class="tiny">Notez que si vous choisissez d’<strong>éditer</strong> une version, ce n'est pas cette version que vous modifierez, vous créerez <strong>une nouvelle dernière version</strong> du fichier qui repartira de cette version. <span class="warning">Ne le faites donc qu'en toute connaissance de cause.</span></div>
       <form id="versions_compare_form" method="POST">
         <input type="hidden" name="op" value="compare" />
         <ul class="simple">
         #{
-        Dir["#{fpath}/*.*"].sort.collect do |fversion|
+        Dir["#{fpath}/*.*"].sort.reverse.collect do |fversion|
+          fversion_date = File.stat(fversion).mtime.to_i.as_human_date
           nversion = File.basename(fversion)
+          nversion_disp = "#{nversion} - #{fversion_date}"
           <<-SHTML
             <li class="version">
               <input type="radio" id="v1-#{nversion}" name="version1" value="#{nversion}" />
               <input type="radio" id="v2-#{nversion}" name="version2" value="#{nversion}" />
-              #{version_name_linked(nversion)}
+              #{version_name_linked(nversion_disp)}
             </li>
           SHTML
         end.join
@@ -98,13 +125,18 @@ class Analyse
     # @param {String} version2
     #                 Le nom complet du fichier 2
     #
-    def comparer_versions version1, version2
+    def afficher_comparaison_versions version1, version2
 
       # TODO On pourrait enregistrer ces différences puisque les fichiers ne
       # peuvent pas être modifié. Donc après la première demande de différence, on
       # pourrait enregistrer le code produit par diff pour un fichier qui porterait
       # le nom `diff_<version1>-<version2>.txt` et le charger la prochaine fois 
       # qu'on voudrait voir la différence.
+
+      # On classe pour que la version 1 soit toujours la plus ancienne des
+      # deux versions. Leur nom suffit puisqu'il est composé à l'aide du time
+      # d'enregistrement du fichier
+      version1, version2 = [version1, version2].sort_by{|v| v.split('-')[0]}
       
       cmd = "cd \"#{File.expand_path(fpath)}\"; diff -u #{version1} #{version2}"
       res = `#{cmd}`.force_encoding('utf-8')
@@ -128,9 +160,9 @@ class Analyse
       <<-HTML
       <div class="comparaison">
         <div class="versions">
-          <span class="libelle">Comparer la version :</span>
+          <span class="libelle">Comparer l'ancienne version :</span>
           #{div_version1}
-          <span class="libelle">… à la version :</span>
+          <span class="libelle">… à la version plus récente :</span>
           #{div_version2}
         </div>
         <div class="diffs">
@@ -138,6 +170,28 @@ class Analyse
         </div>
       HTML
     end
+
+    # APERCU du fichier tel qu'il pourra apparaitre à l'utilisateur
+    #
+    # Pour le moment, c'est juste un formatage "simple" du fichier markdown
+    # original, mais ça sera des choses beaucoup plus complexes à l'avenir.
+    def afficher_apercu
+      if File.exist?(fpath_version(:last))
+        # TODO Utiliser une librairie `build_page` qui serait dans "analyse"
+        # et qui servirait aussi pour l'affichage normal des analyses.
+        #
+        formate_file(fpath_version(:last))
+      else
+        '[Ce fichier ne possède pas encore de contenu. Cliquer le bouton “edit” pour le définir.]'
+      end
+    end
+    
+    # --------------------------------------------------------------------------------
+    # 
+    #    / FIN AFFICHAGES 
+    #         
+    # --------------------------------------------------------------------------------
+
 
     # Prépare la ligne qui affiche le nom du fichier, son auteur (avec lien), sa
     # date de version et un lien pour l'éditer.
@@ -161,14 +215,6 @@ class Analyse
       return "#{lien} <span class=\"bold\">#{n}</span> - #{User.pseudo_linked(aut)} -"
     end
 
-    def apercu
-      if File.exist?(fpath_version(:last))
-        formate_file(fpath_version(:last))
-      else
-        '[Ce fichier ne possède pas encore de contenu. Cliquer le bouton “edit” pour le définir.]'
-      end
-    end
-    
     # Retourne le contenu de la version voulu du fichier
     #
     # @param {String|Symbol|Hash} version

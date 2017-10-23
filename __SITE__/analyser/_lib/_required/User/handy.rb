@@ -5,6 +5,7 @@
 # Ou pour le dire autrement : dès qu'il s'agit d'une opération que seul un analyste
 # peut faire, il faut commencer par invoquer cette méthode.
 def analyste_only
+  user.admin?      && return 
   user.identified? || require_identification
   user.analyste?   || raise("Seul un analyste peut effectuer cette opération.")
 end

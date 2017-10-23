@@ -19,6 +19,8 @@ class Analyse
       # On charge certaines opérations pour les jouer
       # Pour les autres, elles sont traitées autrement, comme par exemple 'edit'
       # qui est géré simplement au moment d'afficher le contenu.
+      # Les autres opérations sont optenues dans la méthode :
+      # file/_lib/_required/File/display.rb
       
       case ope
       when 'save', 'publish', 'rem'

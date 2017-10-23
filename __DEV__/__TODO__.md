@@ -1,8 +1,4 @@
 * [ANALYSES]
-  * Liste des versions :
-    1. ajouter les dates des fichiers
-    2. enlever le bouton 'compare' (c'est donc quand param(:version1) et param(:version2)
-      ne sont pas définis)
   * Pouvoir déterminer qu'un contributeur peut rédiger un fichier qu'il n'a pas créer
     Sauf pour le créateur de l'analyse qui peut tout modifier ?
   * Dans la liste des contributeurs, mettre un lien vers le profil sur le pseudo

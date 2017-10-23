@@ -16,7 +16,7 @@ feature 'Initier une nouvelle analyse de film', check: false do
     backup_base_biblio # seulement si nécessaire
     protect_biblio
   end
-  
+
   before(:each) do
     @start_time = Time.now.to_i
   end
@@ -94,7 +94,7 @@ feature 'Initier une nouvelle analyse de film', check: false do
     expect(hlien[:created_at]).to be > start_time
     role = hlien[:role]
     # Créateur | Peut modifier les données générale | Peut détruire l'analyse
-    expect(role & (1|128|256)).to eq 1|128|256
+    expect(role & (1|32|64|128|256)).to eq 1|32|64|128|256
     success 'un lien analyste/analyse a été créé, avec le bon rôle pour l’analyste'
 
     [phil,marion].each do |admin|
@@ -150,6 +150,74 @@ feature 'Initier une nouvelle analyse de film', check: false do
     nb = site.db.count(:biblio,'user_per_analyse',{user_id: analyste_id, film_id: film_id})
     expect(nb).to eq 0
     success 'aucun lien n’a été créé entre l’analyste et l’analyse mais un message lui suggère de rejoindre l’analyse'
+  end
+
+  scenario '=> Un administrateur non analyse peut initier une analyse' do
+    notice '* Un administrateur non analyse (Marion) tente de créer une analyse'
+
+    # On s'assure que Marion ne soit pas analyste
+    if true #marion.analyste?
+      opts = marion.data[:options]
+      opts = opts.ljust(17,'0')
+      opts[16] = '0'
+      marion.set(options: opts)
+    end
+
+
+    expect(marion.analyste?).not_to eq true
+    expect(marion.admin?).to eq true
+    success 'Marion n’est pas une analyste, c’est une administratrice'
+
+    # On prend une analyse qui n'est pas initié
+    where = "specs IS NOT NULL AND SUBSTRING(specs,1,1) = '0' LIMIT 10"
+    film_id = site.db.select(:biblio,'films_analyses',where,[:id]).shuffle.first[:id]
+    hfilm   = site.db.select(:biblio,'filmodico',{id: film_id}).first
+    notice "Film ID (non analysé) : #{film_id} / #{hfilm[:titre]}"
+
+    identify marion
+
+    visit "#{base_url}/analyser/new"
+    expect(page).to have_tag('h2', text: /analyses de films/i)
+    expect(page).to have_tag('form#analyse_new_film_form')
+
+    # Marion choisit le film dans le menu
+    within("form#analyse_new_film_form") do
+      select(hfilm[:titre], from: 'analyse_film_id')
+      click_button 'Initier l’analyse de ce film'
+    end
+    success 'marion peut soumettre la demande d’initiation'
+
+
+    expect(page).to have_tag('h2', text: /analyses de films/i)
+    expect(page).to have_tag('div.notice', text: /L’analyse a été initiée/)
+    expect(page).to have_tag('p', text: /Données générales de l’analyse du film/)
+    success 'Un message confirme l’initiation de l’analyse et on se trouve sur sa page'
+
+    expect(page).to have_tag('a', with: {href: "analyser/dashboard/#{film_id}"})
+
+    hfa = site.db.select(:biblio,'films_analyses',{id: film_id}).first
+    expect(hfa[:specs][0]).to eq '1'
+    success 'les specs du film_analyse ont été modifiés (premier bit à 1)'
+
+    hlien = site.db.select(:biblio,'user_per_analyse', {user_id: marion.id, film_id: film_id}).first
+    expect(hlien).not_to eq nil
+    expect(hlien[:created_at]).to be > start_time
+    role = hlien[:role]
+    # Créateur | Peut modifier les données générale | Peut détruire l'analyse
+    expect(role & (1|32|64|128|256)).to eq 1|32|64|128|256
+    success 'Marion a été mise en créatrice de l’analyse'
+
+    expect(phil).to have_mail({
+      subject: "Nouvelle analyse initiée par Marion",
+      sent_after: start_time,
+      message: [marion.mail, "analyse/lire/#{film_id}"]
+    })
+    success 'les administrateurs ont été prévenus de cette nouvelle analyse'
+
+    expect(marion.analyste?).not_to eq true
+    expect(marion.admin?).to eq true
+    success 'Marion n’est toujours pas analyste, mais toujours administratrice'
+
   end
 
 end

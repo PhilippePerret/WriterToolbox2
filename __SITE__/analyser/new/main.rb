@@ -26,6 +26,7 @@ class Analyse
     def create_new analyste, adata
 
       # Produit une erreur si l'analyste n'en est pas un
+      # Note : un administrateur peut aussi passer par là
 
       analyste_only
       
@@ -75,7 +76,7 @@ class Analyse
         :biblio,'user_per_analyse',{
         user_id: analyste.id,
         film_id: fdata[:id],
-        role:    1|128|256
+        role:    1|32|64|128|256 
       })
 
       # On informe l'administration de cette initiation

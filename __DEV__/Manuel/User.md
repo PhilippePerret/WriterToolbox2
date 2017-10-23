@@ -40,6 +40,7 @@ BIT   OFFSET    DESCRIPTION
                 1: demande de participation non validée
                 2: demande de participation refusée ou rejetée
                 3: demande de participation acceptée, premier niveau
+                # Les autres niveaux ne sont pas encore utilisés
                 9: analyse confirmé, a tous les privilèges
                 ------------
 32    31        1: C'est un icarien

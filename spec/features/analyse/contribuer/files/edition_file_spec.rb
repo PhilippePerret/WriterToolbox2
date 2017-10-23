@@ -111,7 +111,7 @@ feature 'Edition d’un fichier d’analyse de travail' do
   context 'Le créateur de l’analyse' do
     scenario '=> peut modifier le fichier à sa guise' do
 
-      puts "@ftest_path : #{@ftest_path.inspect}"
+      # puts "@ftest_path : #{@ftest_path.inspect}"
       expect(File.exist?(@ftest_path)).to eq false
 
       identify @hANACreator
@@ -185,32 +185,11 @@ Le quatrième paragraphe.
     end
   end
 
-  context 'un rédacteur' do
-    scenario '=> peut modifier le fichier à sa guise' do
-
-      # Les contributeurs ne sont pas avertis
-      contributors(@film_id).each do |hcont|
-        expect(User.get(hcont[:id])).not_to have_mail({
-          sent_after: start_time
-        })
-      end
-      success "Aucun contributeur n'a pas été averti du changement"
-    end
-  end
-
   context 'Un administratrateur' do
-    scenario '=> peut modifier le fichier à sa guise' do
-      # Les contributeurs sont avertis
-      # TODO
-      pending
-    end
-  end
+    scenario '=> peut modifier un fichier à sa guise' do
 
-  context 'Un correcteur' do
-    scenario '=> peut modifier le fichier à sa guise' do
-      # Les contributeurs sont avertis
-      # TODO
       pending
+
     end
   end
 
@@ -261,6 +240,12 @@ Le quatrième paragraphe.
 
     fichiers = Dir["#{@ftest_path}/*.*"]
     expect(fichiers.count).to eq 1
+
+    within('h3'){click_link /un héros très discret/i}
+    retour_sur_page
+    expect(page).to have_tag('ul#files_analyses')
+    success 'En cliquant sur le titre, il peut revenir au tableau de bord'
+
 
     click_link 'se déconnecter'
 
@@ -366,7 +351,26 @@ Le quatrième paragraphe.
     end
     success 'le correcteur voit la liste des trois fichiers créés et peut en choisir 2'
 
-    sleep 10*60
+    retour_sur_page
+    expect(page).to have_tag('div', with: {class: 'comparaison'}) do
+      with_tag('div.versions') do
+        with_tag('div.green', text: /#{version1}/) do
+          with_tag('a', with: {class: 'edit', href: "analyser/file/#{@ftest_id}?op=edit&v=#{version1}"})
+        end
+        with_tag('div.blue', text: /#{version2}/) do
+          with_tag('a', with: {class: 'edit', href: "analyser/file/#{@ftest_id}?op=edit&v=#{version2}"})
+        end
+      end
+      with_tag('div.diffs')
+    end
+    success 'le correcteur voit la différence entre les deux fichiers'
+
+    within('h3'){click_link /un héros très discret/i}
+    retour_sur_page
+    expect(page).to have_tag('ul#files_analyses')
+    success 'En cliquant sur le titre, le correcteur peut revenir au tableau de bord'
+
+    # sleep 10*60
 
     # On doit voir les différences entre les deux derniers versions
 

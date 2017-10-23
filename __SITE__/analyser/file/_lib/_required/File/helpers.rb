@@ -27,43 +27,40 @@ class Analyse
     #                 :top ou :bottom pour savoir où ils sont placés
     # @param {String} ope
     #                 L'opération courante, p.e. 'voir' ou 'publish'
-    # @param {User}   who
-    #                 Le visiteur pour lequel sont affichés les boutons
     #
     def buttons where, ope
-      btn_remove = btn_edit = btn_publish = btn_save = btn_voir = ''
-      
-      if ope == 'compare' 
+      is_analyse_creator = analyse.uanalyser.creator?
 
-      else
-        is_creator_analyse = analyse.uanalyser.creator?
+      can_edit  = ufiler.redactor? || is_analyse_creator || ufiler.corrector? || ufiler.admin?
+      can_admin = is_analyse_creator || ufiler.admin? || ufiler.creator?
 
-        if ufiler.redactor? || is_creator_analyse || ufiler.corrector? || ufiler.admin? 
-          ope != 'edit'    && btn_edit    = bouton_editer 
-          ope != 'publish' && btn_publish = bouton_publier 
-          ope != 'compare' && 
-          btn_save = bouton_sauver 
-          ( is_creator_analyse || ufiler.admin? || ufiler.creator? ) && btn_remove = bouton_remove 
-        end
+      boutons = String.new
 
-        ope != 'voir' && btn_voir = bouton_voir 
+      # Les boutons, avec en clé leur préfixe de méthode ("bouton_<prefixe>") et
+      # en valeur true ou false suivant qu'en la circonstance courante on peut les
+      # afficher ou non.
+      {
+        'remove'  => can_admin,
+        'publish' => can_admin,
+        'compare' => true,
+        'edit'    => can_edit,
+        'voir'    => true
+      }.each do |kbutton, visible|
+        kbutton == 'compare' || (visible && ope != kbutton) || next
+        boutons << send("bouton_#{kbutton}".to_sym)
       end
+      
      <<-HTML
-     <div class="file_buttons #{where}">
-     #{btn_remove}#{btn_publish}#{bouton_compare}#{btn_edit}#{btn_voir}#{btn_save}
-     </div>
+     <div class="file_buttons #{where}">#{boutons}</div>
      HTML
     end
 
 
-    def bouton_editer
+    def bouton_edit
       build_bouton('edit', 'éditer')
     end
-    def bouton_publier
+    def bouton_publish
       build_bouton('publish', 'publier', 'green')
-    end
-    def bouton_sauver
-      build_bouton('save', 'sauver')
     end
     def bouton_remove
       build_bouton('rem', 'détruire', 'warning')
@@ -72,8 +69,6 @@ class Analyse
       build_bouton('voir')
     end
     def bouton_compare
-      debug "fpath existe ? #{File.exist?(fpath).inspect}"
-      debug "Fichiers : #{Dir[fpath+'/*.*'].inspect}"
       Dir["#{fpath}/*.*"].count > 1 ? build_bouton('compare') : ''
     end
 

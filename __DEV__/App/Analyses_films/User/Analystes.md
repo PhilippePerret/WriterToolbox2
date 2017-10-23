@@ -1,5 +1,13 @@
 # Analystes
 
+## Donnée générale
+
+Rappel : avant tout, un user est considéré comme “analyste” lorsque le 17ème bit de son `options` (`options[16]`) général est au moins 3 (analyste accepté). C'est la première donnée qui est vérifiée pour s'assurer qu'un user est analyste.
+
+## Administrateurs du site
+
+Par défaut, tous les administrateurs du site sont des analystes et ont tout pouvoir sur les analystes.
+
 ## Films analysés par l'analyste
 
 On peut savoir qui fait les analyses grâce à la table `user_per_analyse` :
@@ -51,10 +59,12 @@ CREATE TABLE user_per_analyse (
     -- donner le droit de détruire l'analyse.
     -- 1:    L’user est actif (si 0: inactif mais a participé)
     -- 2:    
+
     -- 4:    L’user est CORRECTEUR (si 4 ou 1|4 => seulement correcteur)
     -- 8:    L’user est RÉDACTEUR OCCASIONNEL
     -- 16:   L’user est CO-CREATEUR
     -- 32:   L’user est le CRÉATEUR de l’analyste, l’initiateur
+
     -- 64:   L’user peut détruire n’importe quel fichier de cette analyse
     -- 128:  L’user peut modifier les données générales de l’analyse.
     -- 256:  L’user peut détruire l’analyse ou supprimer des analystes
