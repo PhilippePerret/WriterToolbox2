@@ -23,6 +23,7 @@ class Analyse
             case ope
             when 'edit', 'save' then afficher_formulaire_edition
             when 'compare'      then operation_compare
+            when 'contributors' then afficher_contributors
             else afficher_apercu
             end
           else
@@ -77,6 +78,135 @@ class Analyse
       </form>
       HTML
     end
+
+
+    # Affichage et gestion (suivant le privilège) de la 
+    # LISTE DES CONTRIBUTEURS AU FICHIER
+    # (et seulement au fichier)
+    #
+    def afficher_contributors
+
+      case param(:act)
+      when 'remove'
+        require_lib('analyser/file:act_on_contributor')
+        remove_contributor( param(:cid).to_i )
+      when 'add'
+        require_lib('analyser/file:act_on_contributor')
+        add_contributor( param(:new_contributor) )
+      end
+
+      # Si c'est un administrateur ou le créator du fichier, on 
+      # trouve un formulaire pour ajouter un contributeur
+      can_admin = ufiler.creator? || ufiler.admin?
+      # Comme on va devoir afficher les contributeurs au fichier et
+      # se servir des non-contributeur au fichier mais contributeur à 
+      # l'analyse pour créer le menu pour ajouter de nouveaux contributeur,
+      # il faut que je relève tous les contributeurs des deux côtés
+      request = <<-SQL
+        SELECT upf.user_id AS id, upf.role, u.pseudo, upf.created_at
+          FROM user_per_file_analyse upf
+          INNER JOIN `boite-a-outils_hot`.users AS u ON u.id = upf.user_id
+          WHERE file_id = #{self.id}
+          ORDER BY role DESC
+      SQL
+      site.db.use_database(:biblio)
+
+      # On prend les contributeurs à ce fichier et on en fait un Hash avec en
+      # clé leur identifiant et en valeur un hash contenant {:id, :pseudo, :role}
+      # Note : on met en hash pour pouvoir distinguer les contributeurs de l'analyse
+      # qui participe à ce fichier et ceux qui n'y participe pas (utilisés dans le 
+      # menu pour en ajouter)
+      file_contributors = Hash.new
+      file_non_conts    = Hash.new # les nouveaux contributeurs possibles
+
+      site.db.execute(request).each do |h| 
+        file_contributors.merge!( h[:id] => h )
+      end
+      
+      analyse.contributors.each do |h| 
+
+        if file_contributors.key?(h[:id])
+
+          # <= Ce contributeur à l'analyse contribue au fichier
+          # => C'est dans la liste des contributeurs au fichier qu'on l'affichera
+          # => On ne fait rien
+
+        else
+
+          # <= Ce contributeur à l'analyse en contribue pas au fichier
+          # => On l'ajoute dans la liste des contributeurs possibles
+          file_non_conts.merge!( h[:id] => h )
+
+        end
+      end
+
+      debug "Contributeurs analyse : #{analyse.contributors.inspect}"
+      debug "Contributeurs fichier : #{file_contributors.inspect}"
+      debug "Nouveaux contributeurs possibles : #{file_non_conts.inspect}"
+
+      if can_admin
+        require_form_support
+        # On doit prendre les contributeurs à l'analyse
+        # Noter que pour le moment, tout le monde est affiché ici alors qu'il ne faudrait
+        # en vérité que les contributeurs qui ne sont pas déjà impliqués dans le fichier.
+        # Comme on a 
+        menu_new_contributors = Form.build_select({
+          name:   'new_contributor[id]', 
+          id:     'new_contributor_id', 
+          values: file_non_conts.collect{|uid, h|[uid, h[:pseudo]]}
+        })
+        form_add =
+          <<-HTML
+         <form class="none" id="new_contributor_form" method="POST">
+           <input type="hidden" name="op" value="contributors" />
+           <input type="hidden" name="act" value="add" />
+         #{menu_new_contributors} 
+         <select id="new_contributor_role" name="new_contributor[role]">
+          <option value="2">Rédacteur seulement</option>
+          <option value="6">Rédacteur et correcteur</option>
+          <option value="4">Correcteur seulement</option>
+         </select>
+         <input type="submit" class="btn medium main" value="Ajouter" />
+       </form>
+          HTML
+      end
+
+      <<-HTML
+      <ul class="simple" id="contributors">
+      #{
+        file_contributors.collect do |cid, hu|
+          cont = User.get(cid)
+          # Si c'est le créateur ou un administrateur, on trouve
+          # un bouton pour retirer le contributeur. Sauf évidemment si
+          # c'est ce créateur.
+          btn_remove = 
+            if cid != ufiler.id && can_admin 
+              "<a class=\"tiny\" href=\"analyser/file/#{id}?op=contributors&cid=#{cid}&act=remove\">supprimer</a>"
+            else
+              ''
+            end
+          <<-HTM
+          <li class="contributor" id="contributor-#{cid}">
+            <span class="pseudo">#{User.pseudo_linked(hu, false, 'nodeco')}</span>
+            <span class="role">#{
+              r = hu[:role]
+              case
+              when r & 1 > 0 then "créat#{cont.f_rice} du fichier"
+              when r & 2 > 0 then "rédact#{cont.f_rice}"
+              when r & 4 > 0 then "correct#{cont.f_rice}"
+              end
+            }</span>
+            <span class="depuis">#{hu[:created_at].as_human_date('%d %m %Y')}</span>
+            #{can_admin ? btn_remove : ''}
+          </li>
+          HTM
+        end.join
+      }
+      </ul>
+      #{can_admin ? form_add : ''}
+      HTML
+    end
+
 
     # Affichage de la LISTE DES VERSIONS pour comparaisons
     #

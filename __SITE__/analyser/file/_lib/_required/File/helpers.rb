@@ -40,11 +40,12 @@ class Analyse
       # en valeur true ou false suivant qu'en la circonstance courante on peut les
       # afficher ou non.
       {
-        'remove'  => can_admin,
-        'publish' => can_admin,
-        'compare' => true,
-        'edit'    => can_edit,
-        'voir'    => true
+        'contributors' => true,
+        'remove'       => can_admin,
+        'publish'      => can_admin,
+        'compare'      => true,
+        'edit'         => can_edit,
+        'voir'         => true
       }.each do |kbutton, visible|
         kbutton == 'compare' || (visible && ope != kbutton) || next
         boutons << send("bouton_#{kbutton}".to_sym)
@@ -70,6 +71,9 @@ class Analyse
     end
     def bouton_compare
       Dir["#{fpath}/*.*"].count > 1 ? build_bouton('compare') : ''
+    end
+    def bouton_contributors
+      build_bouton('contributors', 'contributeurs')
     end
 
     # Construit les boutons

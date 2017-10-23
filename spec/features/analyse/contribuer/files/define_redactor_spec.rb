@@ -88,13 +88,20 @@ feature 'Définition d’un rédacteur' do
         file_id: @ftest_id, user_id: @hANARedacteur[:id], role: 1
     })
 
+    # On met Marion comme correctrice de ce fichier
+    site.db.insert(
+      :biblio, 'user_per_file_analyse',{
+        file_id: @ftest_id, user_id: marion.id, role: 4
+      }
+    )
+
   end
   # FIN before:all
 
   # Le LI contenant le fichier dans le dashboard
   let(:li_file) { @li_file ||= "li#file-#{@ftest_id}" }
 
-  scenario 'Le créateur de l’analyse peut définir un co-rédacteur' do
+  scenario '=> Le créateur de l’analyse peut définir un co-rédacteur' do
 
     identify @hANACreator
 
@@ -105,15 +112,14 @@ feature 'Définition d’un rédacteur' do
 
     # Là, on doit trouver un truc pour ajouter un user
     retour_sur_page
-    sleep 10 * 60
+    sleep 4 # 10 * 60
 
   end
 
   scenario 'Le créateur du fichier peut définir un co-rédacteur' do
 
-    #  =============== TEST À JOUER ================
-
     identify @hANARedacteur
+
     visit("#{base_url}/analyser/dashboard/#{@film_id}")
     retour_sur_page
     expect(page).to have_tag('li', with: {class: "file", id: "file-#{@ftest_id}"})
@@ -121,7 +127,60 @@ feature 'Définition d’un rédacteur' do
 
     # Là, on doit trouver un truc pour ajouter un user
     retour_sur_page
-    sleep 10 * 60
+    expect(page).to have_tag('div.file_buttons') do
+      with_tag('a', with: {href: "analyser/file/#{@ftest_id}?op=contributors"}, text: 'contributeurs')
+    end
+    within('div.file_buttons.top') { click_link 'contributeurs' }
+    retour_sur_page
+    expect(page).to have_tag('ul#contributors') do
+      with_tag('li', with: {class: 'contributor', id: "contributor-#{@hANARedacteur[:id]}"}) do
+        with_tag('span', with: {class: 'role'}, text: 'créatrice du fichier')
+        with_tag('span', with: {class: 'pseudo'}, text: /#{@hANARedacteur[:pseudo]}/) do
+          with_tag('a', with: {href: "user/profil/#{@hANARedacteur[:id]}"}, text: @hANARedacteur[:pseudo])
+        end
+      end
+      with_tag('li', with: {class: 'contributor', id: "contributor-#{marion.id}"}) do
+        with_tag('span', with: {class: 'pseudo'}, text: /Marion/) do
+          with_tag('a', with: {href: "user/profil/#{marion.id}"}, text: 'Marion')
+        end
+        with_tag('span', with: {class: 'role'}, text: 'correctrice')
+      end
+      without_tag('li', with:{class:'contributor', id: "contributor-#{@hANACreator[:id]}"})
+    end
+    success 'le créateur trouve une liste conforme'
+    expect(page).to have_tag('form', with: {id: 'new_contributor_form'}) do
+      with_tag('select', with:{ name: 'new_contributor[id]', id: 'new_contributor_id'})
+      with_tag('input', with:{type: 'submit', value: 'Ajouter'})
+    end
+    success 'avec un formulaire pour choisir de nouveaux contributeurs'
+
+    # ===============> TEST <================
+
+    within('form#new_contributor_form') do
+      click_button 'Ajouter'
+    end
+    success 'le créateur choisit Boboche comme nouveau rédacteur seul'
+    retour_sur_page
+
+    # ================= VÉRIFICATIONS ================
+    sleep 5
+
+    boboche = User.get(@hANACreator[:id])
+
+    expect(page).to have_tag('ul#contributors') do
+      with_tag('li', with:{class:'contributor', id: "contributor-#{@hANACreator[:id]}"}) do
+        with_tag('span.pseudo', text: /#{@hANACreator[:pseudo]}/)
+        with_tag('span.role', text: 'Rédacteur')
+      end
+    end
+    success 'Boboche est maintenant affiché dans la liste des contributeurs'
+
+    expect(boboche).to have_mail({
+      sent_after: start_time,
+      subject:    "Ajout comme contributeur à un fichier",
+      message:    [ @hANARedacteur[:pseudo], "analyser/dashbord/#{@film_id}", "analyser/file/#{@ftest_id}"]
+      })
+    success 'Patrick reçoit un message l’informant de l’ajout'
 
   end
 

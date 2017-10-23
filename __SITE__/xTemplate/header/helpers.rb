@@ -7,30 +7,30 @@
 class Site
 
   def titre_in_logo pour = nil # :home pour la page d'accueil
-    pour ||= ''
-    @titre_in_logo ||= 
-      begin
-        <<-HTML
-        <h1 class="#{pour}">
-          la
-          <a href="" title="Retour à l’accueil">boite</a>
-          à
-          <a href="outils" title="Liste des outils">outils</a>
-          de l’
-          <a href="user/profil" title="Profils">auteur</a>
-        </h1>
-        HTML
-      end
+    @titre_in_logo ||= define_titre_in_logo(pour || '', :scenariopole) # sinon :boa ou :scenariopole
   end
 
-  def define_titre_in_logo pour = nil
-    pour ||= ''
-    <<-HTML
-    <h1 class="#{pour}">
-      <a href="" title="Retour à l’accueil">scénariopole</a>
-    </h1>
-    HTML
-    
+  def define_titre_in_logo pour = nil, site
+    case site
+    when :scenariopole
+      <<-HTML
+      <h1 class="scenariopole #{pour}">
+        <div class="scenariopole"><a href="" title="Retour à l’accueil">scenariopole</a></div>
+        <div class="top_links"><a href="">accueil</a><a href="outils">outils</a><a href="user/profil">profil</a></div>
+      </h1>
+      HTML
+    when :boa
+      <<-HTML
+      <h1 class="boa #{pour}">
+        la
+        <a href="" title="Retour à l’accueil">boite</a>
+        à
+        <a href="outils" title="Liste des outils">outils</a>
+        de l’
+        <a href="user/profil" title="Profils">auteur</a>
+      </h1>
+      HTML
+    end
   end
 
   def incipit
