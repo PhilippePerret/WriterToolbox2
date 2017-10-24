@@ -188,14 +188,7 @@ class Analyse
           <<-HTM
           <li class="contributor" id="contributor-#{cid}">
             <span class="pseudo">#{User.pseudo_linked(hu, false, 'nodeco')}</span>
-            <span class="role">#{
-              r = hu[:role]
-              case
-              when r & 1 > 0 then "créat#{cont.f_rice} du fichier"
-              when r & 2 > 0 then "rédact#{cont.f_rice}"
-              when r & 4 > 0 then "correct#{cont.f_rice}"
-              end
-            }</span>
+            <span class="role">#{User.human_role(hu[:role], cont)}</span>
             <span class="depuis">#{hu[:created_at].as_human_date('%d %m %Y')}</span>
             #{can_admin ? btn_remove : ''}
           </li>

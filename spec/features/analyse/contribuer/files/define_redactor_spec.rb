@@ -143,7 +143,7 @@ feature 'Définition d’un rédacteur' do
         with_tag('span', with: {class: 'pseudo'}, text: /Marion/) do
           with_tag('a', with: {href: "user/profil/#{marion.id}"}, text: 'Marion')
         end
-        with_tag('span', with: {class: 'role'}, text: 'correctrice')
+        with_tag('span', with: {class: 'role'}, text: 'correctrice du fichier')
       end
       without_tag('li', with:{class:'contributor', id: "contributor-#{@hANACreator[:id]}"})
     end
@@ -170,7 +170,7 @@ feature 'Définition d’un rédacteur' do
     expect(page).to have_tag('ul#contributors') do
       with_tag('li', with:{class:'contributor', id: "contributor-#{@hANACreator[:id]}"}) do
         with_tag('span.pseudo', text: /#{@hANACreator[:pseudo]}/)
-        with_tag('span.role', text: 'Rédacteur')
+        with_tag('span.role', text: 'rédacteur du fichier')
       end
     end
     success 'Boboche est maintenant affiché dans la liste des contributeurs'
@@ -178,7 +178,7 @@ feature 'Définition d’un rédacteur' do
     expect(boboche).to have_mail({
       sent_after: start_time,
       subject:    "Ajout comme contributeur à un fichier",
-      message:    [ @hANARedacteur[:pseudo], "analyser/dashbord/#{@film_id}", "analyser/file/#{@ftest_id}"]
+      message:    [ @hANARedacteur[:pseudo], "analyser/dashboard/#{@film_id}", "analyser/file/#{@ftest_id}"]
       })
     success 'Patrick reçoit un message l’informant de l’ajout'
 

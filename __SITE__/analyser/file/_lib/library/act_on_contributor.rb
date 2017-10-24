@@ -1,13 +1,12 @@
 # encoding: utf-8
 class Analyse
-  def as_full_link
-    @as_link ||= full_link("analyser/dashboard/#{id}", "Analyse de “#{film.titre}”")
-  end
   class AFile
 
+    # Un lien externe vers le fichier courant
     def as_full_link
       @as_link ||= full_link("analyser/file/#{id}", "Voir le fichier #{data[:titre]}")
     end
+    
     # Pour ajouter un contributeur au fichier
     # @param {Hash} hncont
     #               Données contenant le nouveau contributeur
@@ -17,11 +16,12 @@ class Analyse
     # exécuter cette opération.
     #
     def add_contributor hncont
-      afiler.creator? || afiler.admin? || raise(NotAccessibleViewError.new)
-      ncont_id = hncont[:id].to_i
+      ufiler.creator? || ufiler.admin? || raise(NotAccessibleViewError.new)
+      ncont_id   = hncont[:id].to_i
+      ncont_role = hncont[:role].to_i
       site.db.insert(
         :biblio, 'user_per_file_analyse',
-        {user_id: ncont_id, file_id: self.id, role: hncont[:role].to_i}
+        {user_id: ncont_id, file_id: self.id, role: ncont_role}
       )
       newc = User.get(ncont_id)
       newc.send_mail({
@@ -30,7 +30,7 @@ class Analyse
         message:  <<-HTML
         <p>Bonjour #{newc.pseudo},</p>
         <p>Ce message pour vous informer que #{ufiler.pseudo} vient de vous 
-        ajouter comme contributeur (en qualité de #{hrole}) sur l'analyse de
+        ajouter comme contributeur (en qualité de #{User.human_role(ncont_role)}) sur l'analyse de
         “#{analyse.film.titre}” à laquelle vous contribuez.</p>
         <p>Vous pouvez rejoindre cette analyse par le lien :</p>
         <p class="center">#{analyse.as_full_link}</p>

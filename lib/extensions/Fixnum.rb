@@ -2,6 +2,26 @@ class Fixnum
 
   JOUR = 24*3600
 
+  # Permet d'ajouter un "s" au mot lorsque +self+ est
+  # supérieur à un. Par exemple, soit +h+ un nombre d'heures,
+  # on peut écrire : "#{h} heure#{h.s}"
+  def s; self > 1 ? 's' : '' end
+  def x; self > 1 ? 'x' : '' end
+
+  # Comparaison de bit à bit
+  # 9.bitin(1) => true
+  # 9.bitin(8) => true
+  # 9.bitin(4) => false
+  def bitin val
+    val > 0 || (return false)
+    self & val > 0
+  end
+  # 'notbcont' pour 'not bit contains'
+  def bitout val
+    val > 0 || (return false)
+    self & val == 0
+  end
+
   def minute ; self * 60 end
   alias :minutes :minute
 
@@ -23,9 +43,9 @@ class Fixnum
     Time.at(self).strftime(format)
   end
 
-  def ago 
+  def ago
     laps = Time.now.to_i - self
-    case 
+    case
     when laps == 0 then return 'maintenant'
     when laps > 0  then p = 'il y a'
     when laps < 0
@@ -38,7 +58,7 @@ class Fixnum
     j , r  = div_modulo(r, 1.jour)
     h , r  = div_modulo(r, 1.heure)
     mn, sc = div_modulo(r, 1.minute)
-    
+
     str = Array.new
     a  > 0 && str << "#{a} an#{a.s}"
     m  > 0 && str << "#{m} mois"
@@ -61,9 +81,5 @@ class Fixnum
     [val, res]
   end
 
-  # Permet d'ajouter un "s" au mot lorsque +self+ est
-  # supérieur à un. Par exemple, soit +h+ un nombre d'heures,
-  # on peut écrire : "#{h} heure#{h.s}"
-  def s; self > 1 ? 's' : '' end
-  def x; self > 1 ? 'x' : '' end
+
 end #/Fixnum
