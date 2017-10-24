@@ -91,7 +91,13 @@ La valeur peut être de 0 à 63.
 4     correcteur
 8
 16
-32
+32    inactif
+
+        Lorsque l'user a le statut inactif, il ne peut plus participer
+        au fichier. C'est en fait une suppression indirecte, lorsque l'user
+        a produit une version du fichier et qu'on ne peut donc pas le
+        détruire purement et simplement. Donc il est gardé comme contributeur,
+        mais il ne peut plus participer.
 
 ```
 

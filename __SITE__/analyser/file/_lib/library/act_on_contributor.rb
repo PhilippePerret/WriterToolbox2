@@ -44,6 +44,9 @@ class Analyse
 
     # Pour supprimer un contributeur au fichier
     #
+    # Cette opération s'appelle depuis la liste des contributeurs à un
+    # fichier.
+    #
     # Note : seule le créateur du fichier ou un administrateur
     # peut exécuter cette opération.
     #
@@ -59,11 +62,57 @@ class Analyse
     #                 Peut être nil pour le moment.
     #
     def remove_contributor cont_id, motif = nil
-      afiler.creator? || afiler.admin? || raise(NotAccessibleViewError.new)
+      ufiler.creator? || ufiler.admin? || raise(NotAccessibleViewError.new)
       
+      # On ne peut pas faire cette opération sur le créateur du fichier
+      cont_id != creator_id || (return __error("Impossible de supprimer le créateur du fichier lui-même."))
+
+      # Supprimer le contributeur consiste à supprimer sa donnée dans la
+      # table `user_per_file_analyse`. Mais si le contributeur a déjà produit 
+      # des versions du fichier courant, on doit le garder comme contributeur, mais
+      # préciser simplement qu'il n'est plus actif.
+
+      cont_wrote_versions = Dir["#{fpath}/*-#{cont_id}.*"].count > 0 
+      cont = User.get(cont_id)
+
+      if cont_wrote_versions
+        
+        # <= Le contributeur à supprimer a écrit des versions
+        # => Il ne faut pas supprimer son enregistrement dans `user_per_file_analyse`
+        #    mais simplement modifier son rôle.
+
+        site.db.use_database(:biblio)
+        site.db.execute(<<-SQL)
+            UPDATE user_per_file_analyse
+            SET role = role | 32
+            WHERE file_id = #{self.id} AND user_id = #{cont_id}
+          SQL
+
+      else
+
+        # <= Le contributeur à supprimer n'a écrit aucune version du fichier
+        # => On peut détruire simplement son enregistrement dans `user_per_file_analyse`
+
+        site.db.delete(
+          :biblio, 'user_per_file_analyse',
+          {user_id: cont_id, file_id: self.id}
+        )
+
+      end
+
       # Avertir le contributeur
-      # TODO
-      __notice("Je dois supprimer le contributeur #{cont_id}")
+
+      cont.send_mail({
+        subject:    "Changement de votre rôle de contribut#{cont.f_rice}",
+        formated:   true,
+        message: <<-HTML
+        <p>#{cont.pseudo},</p>
+        <p>Je vous informe que vous n'êtes plus contribut#{cont.f_rice} acti#{cont.f_ve} du fichier 
+        "#{self.titre}" de l'analyse de film "#{analyse.film.titre}".</p>
+        <p>Merci de votre attention.</p>
+        HTML
+      })
+      __notice("#{cont.pseudo} ne contribue plus à ce fichier.")
     end
 
   end #/AFiler

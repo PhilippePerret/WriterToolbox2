@@ -140,9 +140,9 @@ class Analyse
         end
       end
 
-      debug "Contributeurs analyse : #{analyse.contributors.inspect}"
-      debug "Contributeurs fichier : #{file_contributors.inspect}"
-      debug "Nouveaux contributeurs possibles : #{file_non_conts.inspect}"
+      #debug "Contributeurs analyse : #{analyse.contributors.inspect}"
+      #debug "Contributeurs fichier : #{file_contributors.inspect}"
+      #debug "Nouveaux contributeurs possibles : #{file_non_conts.inspect}"
 
       if can_admin
         require_form_support
