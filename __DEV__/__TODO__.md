@@ -1,11 +1,10 @@
+* Mettre le debug fermé par défaut avec un bouton pour l'ouvrir
+
 * [ANALYSES]
-  * Pouvoir déterminer qu'un contributeur peut rédiger un fichier qu'il n'a pas créer
-    Sauf pour le créateur de l'analyse qui peut tout modifier ?
-  * Dans la liste des contributeurs, mettre un lien vers le profil sur le pseudo
+  * [BUG] Quand on enregistre le fichier pour la première fois, on doit le revoir tout de suite,
+    alors que pour le moment on est obligé de faire "edit" pour le remettre dans le textarea
   * Regarder le problème au niveau des fichiers qui restent enregistrés dans files_analyses
   * Si l'user est analyste, ajouter les analyses auxquelles il contribue dans sa page de profil
-  * À l'édition d'un fichier, il faut enregistrer la date de dernière modification pour voir
-    si le fichier a été modifié entre temps.
   * Quand un analyser arrive sur le site, on lui indique les choses qui ont été modifiées
     (pas par lui) depuis sa dernière visite, par exemple les derniers fichiers modifiés ou ajoutés.
     => Enregistrer le temps de dernière connexion de l'user à chaque connexion

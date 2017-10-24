@@ -96,7 +96,7 @@ class Analyse
     options ||= Hash.new
     options[:name]  ||= "file[type]"
     options[:id]    ||= "file_type"
-    Form.build_select(options.merge!(values: FILES_TYPES))
+    Form.build_select(options.merge!(values: AFile::FILES_TYPES))
   end
 
   # Code HTML des LI des contributors de l'analyse

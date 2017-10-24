@@ -193,8 +193,9 @@ Le quatrième paragraphe.
     end
   end
 
-
   scenario '=> deux rédacteurs travaillant en même temps sont avertis' do
+
+    pending
     # Le rédacteur vient modifier le fichier
     # TODO
 

@@ -22,7 +22,6 @@
   <p>En tant qu'administrateur, vous avez tous les privilèges dans cette partie.</p>
   <p>→ <a href="analyser/list" class="exergue">Liste des analyses en cours</a>.</p>
   <p>→ <a href="analyser/new" class="exergue">Initier une nouvelle analyse de film</a>.</p>
-  <p>→ <a href="analyser/list" class="exergue">Contribuer à une analyse en cours</a>.</p>
 
 <% elsif user.postulant? %>
 
@@ -32,8 +31,8 @@
 <% elsif user.analyste? %>
 
   <p>Vous êtes analyste, vous pouvez contribuer aux analyses ou en initier.</p>
+  <p>→ <a href="analyser/list" class="exergue">Liste des analyses en cours</a>.</p>
   <p>→ <a href="analyser/new" class="exergue">Initier une nouvelle analyse de film</a>.</p>
-  <p>→ <a href="analyser/list" class="exergue">Contribuer à une analyse en cours</a>.</p>
 
 <% elsif user.identified? %>
 

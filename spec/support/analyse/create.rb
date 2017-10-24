@@ -83,16 +83,18 @@ def create_files_analyse analyse_id, nombre, options = nil
 
   files = Array.new
 
+  # On le fait, pour le moment, juste pour obtenir la 
+  # constante FILES_TYPES
+  require_folder './__SITE__/analyser/_lib/_required/'
 
 
   nombre.times do |i|
-
 
     specs     = '0'*16
     type_file = rand(10) # type du fichier
     specs[1]  = type_file.to_s
     # Extension du fichier en fonction du type
-    ext = ['md','film','persos','brins','stt','prc'][type_file] || 'md'
+    ext = Analyse::AFile::FILES_TYPES[type_file][:ext] || 'md'
 
     data_file = {
       titre: "Fichier ##{i+1} pour l'analyse #{analyse_id}",

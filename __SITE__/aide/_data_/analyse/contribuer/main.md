@@ -4,3 +4,4 @@ Vous pouvez bien sûr lire les [analyses de films](analyse/home), mais vous pouv
 
 * [Comment devenir analyste sur le site ?](aide?p=analyse%2Fcontribuer%2Fcandidater)
 * [Par où commencer ?](aide?p=analyse/contribuer/ou_commencer)
+* [Les fichiers](aide?p=analyse%2Fcontribuer%2Ffichiers)

@@ -35,16 +35,7 @@ class Analyse
     # (je pourrais le mettre dans un Array, mais je préfère bien le lire)
 
     def extension
-      case data[:specs][1].to_i
-      when 0 then 'md'
-      when 1 then 'film' # collecte
-      when 2 then 'persos'
-      when 3 then 'brins'
-      when 4 then 'stt'
-      when 5 then 'evc'
-      when 6 then 'prc'
-      else 'md'
-      end
+      FILES_TYPES[data[:specs][1].to_i][:ext]
     end
 
     # DATA du fichier (dans la table `files_analyses`)
