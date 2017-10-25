@@ -74,7 +74,7 @@ feature 'Vote pour les messages' do
 
 
   scenario '=> un inscrit de grade 2 peut up-voter pour un message' do
-    hreader = create_new_user(mail_confirmed: true, grade: 2)
+    hreader = create_new_user(grade: 2)
     hpost = forum_get_random_post(not_user_id: hreader[:id])
     # On prend aussi les données initiales de l'user
     # ATTENTION : il s'agit de la table users dans le forum
@@ -158,7 +158,7 @@ feature 'Vote pour les messages' do
   end
 
   scenario '=> un inscrit de grade 2 peut down-voter pour un message' do
-    hreader = create_new_user(mail_confirmed: true, grade: 2)
+    hreader = create_new_user(grade: 2)
     hpost = forum_get_random_post(not_user_id: hreader[:id])
     # On prend aussi les données initiales de l'user
     # ATTENTION : il s'agit de la table users dans le forum
@@ -239,7 +239,7 @@ feature 'Vote pour les messages' do
   end
 
   scenario '=> un lecteur de grade 2 peut voter pour un message' do
-    hreader = create_new_user(mail_confirmed: true, grade: 2)
+    hreader = create_new_user(grade: 2)
 
   end
 

@@ -1,0 +1,20 @@
+div.container_buttons
+  vertical-align    : middle
+  span.spec_btn, span.doc_btn
+    display         : inline-block
+    vertical-align  : middle
+    border          : 1px solid #7D7B4A
+    width           : 55px
+    height          : 36px
+    font-size       : 9pt
+    line-height     : 1.2em
+    text-align      : center
+    padding         : 8px 3px 3px 3px
+    margin-top      : 0.5em // quand deux lignes (documents)
+
+    &:not(.actif)
+      background-color  : burlywood
+      color             : black
+    &.actif
+      background-color  : green
+      color             : white

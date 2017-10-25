@@ -9,7 +9,7 @@ require_folder './__SITE__/quiz/_lib/_required'
 
 feature 'Un user identifié' do
   before(:all) do
-    @dauteur  = create_new_user(mail_confirmed: true)
+    @dauteur  = create_new_user
     @auteur   = User.get(@dauteur[:id])
   end
   let(:dauteur) { @dauteur }

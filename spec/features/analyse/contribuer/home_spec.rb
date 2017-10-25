@@ -46,7 +46,7 @@ feature 'Accueil de la section de contribution aux analyses de films', check: fa
   context 'un visiteur inscrit' do
 
     scenario '=> trouve une page de départ de contribution conforme' do
-      huser = get_data_random_user(mail_confirmed: true, admin: false, grade: 4, analyste: false)
+      huser = get_data_random_user(admin: false, grade: 4, analyste: false)
       v = User.get(huser[:id])
 
       identify huser
@@ -85,7 +85,7 @@ feature 'Accueil de la section de contribution aux analyses de films', check: fa
 
   context 'un visiteur ayant postulé pour les analyses' do
     scenario '=> trouve une page de départ de contribution conforme' do
-      huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: 1)
+      huser = get_data_random_user(admin: false, analyste: 1)
       v = User.get(huser[:id])
 
       identify huser
@@ -105,7 +105,7 @@ feature 'Accueil de la section de contribution aux analyses de films', check: fa
   context 'un visiteur participant aux analyses' do
 
     scenario '=> trouve une page de départ de contribution conforme' do
-      huser = get_data_random_user(mail_confirmed: true, admin: false, grade: 4, analyste: true)
+      huser = get_data_random_user(admin: false, grade: 4, analyste: true)
 
       identify huser
       visit analyses_page

@@ -13,7 +13,7 @@ require_support_mails_for_test
 feature "Abonnement par un user déjà inscrit" do
   before(:all) do
     # On fait de l'user un inscrit au site mais pas un abonné
-    @duser = create_new_user(mail_confirmed: true)
+    @duser = create_new_user
   end
   scenario 'Un visiteur inscrit peut s’abonner au site' do
 

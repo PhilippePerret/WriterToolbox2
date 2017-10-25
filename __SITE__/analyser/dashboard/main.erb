@@ -2,6 +2,10 @@
 # Tableau de bord de l'analyse du film
 %>
 <%
+
+  user.identified? || identification_required('Vous devez vous identifier, pour vous rendre dans cette section')
+%>
+<%
     # Toutes les opérations
     param(:op) && Analyse.traite_operation(user, param(:op))
 
@@ -49,5 +53,9 @@
   </div>
 </fieldset>
 
+<fieldset id="fs_specs" class="plain">
+  <legend>Réglages de l'analyse</legend>
+  <%= analyse.fieldset_specs %>
+</fieldset>
 
 <%= footer(:small) %>

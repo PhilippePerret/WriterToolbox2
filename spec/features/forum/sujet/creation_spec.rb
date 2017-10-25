@@ -59,7 +59,7 @@ feature "Création de sujet/question technique" do
   scenario 'un visiteur inscrit peut créer une question technique' do
     start_time = Time.now.to_i
 
-    dauteur = get_data_random_user(mail_confirmed: true, admin: false, grade: 1)
+    dauteur = get_data_random_user(admin: false, grade: 1)
     identify dauteur
     visit forum_page
     expect(page).to have_tag('h2', text: 'Forum d’écriture')
@@ -154,7 +154,7 @@ feature "Création de sujet/question technique" do
 
 
     start_time = Time.now.to_i
-    dauteur = get_data_random_user(mail_confirmed: true, grade: 5, admin:false)
+    dauteur = get_data_random_user(grade: 5, admin:false)
 
     identify dauteur
     visit forum_page
@@ -249,7 +249,7 @@ feature "Création de sujet/question technique" do
 
   scenario 'un rédacteur confirmé (8) peut créer un sujet quelconque directement confirmé' do
     start_time = Time.now.to_i
-    dauteur = get_data_random_user(mail_confirmed: true, grade: 8, admin: false)
+    dauteur = get_data_random_user(grade: 8, admin: false)
     auteur_id = dauteur[:id]
 
     identify dauteur

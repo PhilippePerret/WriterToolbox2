@@ -231,7 +231,7 @@ feature 'Définition d’un rédacteur' do
   scenario 'Le créateur du fichier ne peut que suspendre un contributeur qui a déjà écrit' do
 
     # La contributrice à supprimer
-    husup   = create_new_user(mail_confirmed: true, analyste: true, admin: false, pseudo: 'Albertine', sexe: 'F')
+    husup   = create_new_user(analyste: true, admin: false, pseudo: 'Albertine', sexe: 'F')
     usup_id = husup[:id]
     usup    = User.get(usup_id)
 

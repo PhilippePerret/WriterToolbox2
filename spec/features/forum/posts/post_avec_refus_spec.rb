@@ -7,7 +7,7 @@
   - Un administrateur (Phil) refuse le message
   - L'user vient modifier son message et le soumet à nouveau
   - Un administrateur (Marion) vient accepter le message
-  
+
 =end
 require_lib_site
 require_support_integration
@@ -33,7 +33,6 @@ feature "Forum : réponse à un message et REFUS ARGUMENTÉ par un administrateu
       happrenti.merge!(password: 'apprenti')
     else
       happrenti = create_new_user({
-        mail_confirmed: true,
         grade: 3,
         pseudo:   'Apprenti Surveillé',
         password: 'apprenti'

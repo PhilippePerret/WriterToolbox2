@@ -9,7 +9,7 @@ require_support_integration
 
 feature "Définition du coup de projecteur" do
   before(:all) do
-    @duser = create_new_user(mail_confirmed: true)
+    @duser = create_new_user
   end
   scenario "Un visiteur même identifié ne peut pas le définir" do
     identify @duser

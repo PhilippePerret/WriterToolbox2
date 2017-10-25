@@ -57,7 +57,7 @@ feature 'Validation ou refus de nouveau sujet' do
 
 
   scenario '=> Un auteur de grade 3 peut créer une question technique validée' do
-    dauteur = get_data_random_user(mail_confirmed: true, grade: 3, admin: false)
+    dauteur = get_data_random_user(grade: 3, admin: false)
     auteur_id = dauteur[:id]
     pseudo    = dauteur[:pseudo]
 
@@ -192,7 +192,7 @@ feature 'Validation ou refus de nouveau sujet' do
     site.db.use_database(:cold)
     site.db.execute('TRUNCATE TABLE updates;')
 
-    dauteur = get_data_random_user(mail_confirmed: true, grade: 3, admin: false)
+    dauteur = get_data_random_user(grade: 3, admin: false)
     auteur_id = dauteur[:id]
     pseudo    = dauteur[:pseudo]
 
@@ -328,7 +328,7 @@ feature 'Validation ou refus de nouveau sujet' do
 
   scenario '=> Un auteur de grade 6 peut créer un sujet validé' do
 
-    dauteur = get_data_random_user(mail_confirmed: true, grade: 6, admin: false)
+    dauteur = get_data_random_user(grade: 6, admin: false)
     auteur_id = dauteur[:id]
     pseudo    = dauteur[:pseudo]
 
@@ -466,7 +466,7 @@ feature 'Validation ou refus de nouveau sujet' do
     site.db.execute('TRUNCATE TABLE updates;')
 
 
-    dauteur = get_data_random_user(mail_confirmed: true, grade: 6, admin: false)
+    dauteur = get_data_random_user(grade: 6, admin: false)
     auteur_id = dauteur[:id]
     pseudo    = dauteur[:pseudo]
 

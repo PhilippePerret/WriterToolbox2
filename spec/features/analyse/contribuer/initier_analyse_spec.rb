@@ -32,7 +32,7 @@ feature 'Initier une nouvelle analyse de film', check: false do
 
 
   scenario '=> Un visiteur inscrit non analyste ne peut pas initier une nouvelle analyse' do
-    huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: false)
+    huser = get_data_random_user(admin: false, analyste: false)
     identify huser
     visit "#{base_url}/analyser/new"
     expect(page).to have_tag('h2', text: /analyses de films/i)
@@ -46,7 +46,7 @@ feature 'Initier une nouvelle analyse de film', check: false do
 
   scenario '=> Un inscrit analyste peut initier une nouvelle analyse par le menu Filmodico' do
     notice '* Un analyse veut initier une nouvelle analyse par le menu Filmodico'
-    hanalyste = get_data_random_user(mail_confirmed: true, admin: false, analyste: true)
+    hanalyste = get_data_random_user(admin: false, analyste: true)
     analyste_id = hanalyste[:id]
     identify hanalyste
     visit "#{base_url}/analyser/new"
@@ -114,7 +114,7 @@ feature 'Initier une nouvelle analyse de film', check: false do
     # NOTE : Noter que par défaut, seuls les films non analysés sont présents.
     # Donc, pour analyser un film inexistant, il faut soit le rentrer sous forme
     # de titre sans savoir qu'il existe, soit forcer l'url avec un identifiant
-    hanalyste = get_data_random_user(mail_confirmed: true, admin: false, analyste: true)
+    hanalyste = get_data_random_user(admin: false, analyste: true)
     film_id = site.db.select(:biblio,'filmodico',{titre: "Seven"},[:id]).first[:id]
 
     identify hanalyste
@@ -128,7 +128,7 @@ feature 'Initier une nouvelle analyse de film', check: false do
   scenario '=> Un analyste ne peut pas initier une analyse d’un film déjà analysé avec son titre' do
     notice '* Quand un analyste essaie d’initier une analyse déjà initiée, par son titre'
     # Lire la NOTE ci-dessus
-    hanalyste = get_data_random_user(mail_confirmed: true, admin: false, analyste: true)
+    hanalyste = get_data_random_user(admin: false, analyste: true)
     analyste_id = hanalyste[:id]
     film_id = 137 # C'est l'ID de Taxi Driver
     identify hanalyste

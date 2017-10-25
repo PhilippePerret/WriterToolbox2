@@ -63,7 +63,7 @@ feature "Suivi d'un sujet" do
 
     context 'identifié au site' do
       scenario 'il peut faire la demande de suivi d’un sujet' do
-        hfollower = create_new_user(mail_confirmed: true)
+        hfollower = create_new_user
         hsujet = forum_get_sujet
         sujet_id = hsujet[:id]
 
@@ -109,7 +109,7 @@ feature "Suivi d'un sujet" do
     scenario 'le lecteur peut ne plus suivre ce sujet' do
       # ========= PRÉPARATION =================
       # Un nouveau visiteur doit suivre un sujet tiré au hasard
-      hfollower = create_new_user(mail_confirmed: true)
+      hfollower = create_new_user
       hsujet = forum_get_sujet
       sujet_id = hsujet[:id]
 

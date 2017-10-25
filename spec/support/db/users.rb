@@ -92,8 +92,6 @@ end
 # Crée un utilisateur dans la base de donnée à partir de +duser+ si
 # fourni et retourne toutes les données.
 #
-# Ajouter `mail_confirmed: true` pour faire un user qui a confirmé
-# son email.
 #
 # @param {Hash} duser
 #               Toutes les données normales peuvent être précisées ici,
@@ -144,6 +142,8 @@ end
 def get_data_for_new_user duser = nil
   duser ||= Hash.new
 
+  duser.key?(:mail_confirmed) || duser.merge!(mail_confirmed: true)
+  
   mail_is_conf = duser[:mail_confirmed]
 
   icreated = User.__icreateduser

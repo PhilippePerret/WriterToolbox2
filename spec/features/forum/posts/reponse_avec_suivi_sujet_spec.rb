@@ -20,7 +20,7 @@ feature "Suivi d'un sujet en donnant une réponse" do
   context 'avec un user de grade > 4' do
     scenario 'il peut donner une réponse en demandant à suivre un sujet' do
       start_time = Time.now.to_i
-      hauteur = create_new_user(mail_confirmed: true, grade: 6, password: 'motdepasse')
+      hauteur = create_new_user(grade: 6, password: 'motdepasse')
       hsujet = forum_get_sujet
       sujet_id = hsujet[:id]
 
@@ -128,7 +128,7 @@ feature "Suivi d'un sujet en donnant une réponse" do
   context 'avec un user de grade inférieur à 4' do
     scenario 'il peut donner une réponse en demandant à suivre un sujet' do
       start_time = Time.now.to_i
-      hauteur = create_new_user(mail_confirmed: true, grade: 3)
+      hauteur = create_new_user(grade: 3)
       hsujet = forum_get_sujet
       sujet_id = hsujet[:id]
 

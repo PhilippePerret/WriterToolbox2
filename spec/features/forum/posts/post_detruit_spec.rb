@@ -28,7 +28,6 @@ feature "Forum : réponse à un message et DESTRUCTION ARGUMENTÉ par un adminis
       happrenti.merge!(password: 'apprenti')
     else
       happrenti = create_new_user({
-        mail_confirmed: true,
         grade: 3,
         pseudo:   'Apprenti Surveillé',
         password: 'apprenti'

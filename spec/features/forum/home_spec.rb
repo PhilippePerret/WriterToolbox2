@@ -21,7 +21,7 @@ feature "Forum d'écriture" do
   end
 
   scenario '=> un PADAWAN trouve un accueil de forum avec les bons éléments' do
-    dauteur = create_new_user(mail_confirmed: true)
+    dauteur = create_new_user
     auteur = User.get(dauteur[:id])
     opts = auteur.options
     # On définit le niveau de l'auteur
@@ -49,7 +49,7 @@ feature "Forum d'écriture" do
 
 
   scenario '=> un SIMPLE AUDITEUR trouve un accueil de forum avec les bons éléments' do
-    dauteur = get_data_random_user(mail_confirmed: true, admin: false)
+    dauteur = get_data_random_user(admin: false)
 
     auteur = User.get(dauteur[:id])
     opts = auteur.get(:options)
@@ -79,7 +79,7 @@ feature "Forum d'écriture" do
 
 
   scenario '=> un AUTEUR CONFIRMÉ trouve un accueil de forum avec les bons éléments' do
-    dauteur = get_data_random_user(mail_confirmed: true, admin: false, grade: 7)
+    dauteur = get_data_random_user(admin: false, grade: 7)
     auteur = User.get(dauteur[:id])
 
     identify dauteur

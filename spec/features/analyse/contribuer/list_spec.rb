@@ -18,7 +18,7 @@ feature 'Liste des analyses en cours' do
   context 'Un analyste' do
 
     scenario '=> trouve une liste conforme des analyses en cours' do
-      hanalyste = get_data_random_user(mail_confirmed: true, admin: false, analyste: true)
+      hanalyste = get_data_random_user(admin: false, analyste: true)
 
       require_lib('analyse:listes')
       all_analyses = Analyse.all(current: true)

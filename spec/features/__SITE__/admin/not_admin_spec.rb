@@ -3,7 +3,7 @@ require_support_integration
 
 feature "Accès à la partie administration" do
   before(:all) do
-    @inscrit = create_new_user(mail_confirmed: true)
+    @inscrit = create_new_user()
   end
   scenario "un simple visiteur ne peut pas atteindre les parties d'administration" do
     visit home_page

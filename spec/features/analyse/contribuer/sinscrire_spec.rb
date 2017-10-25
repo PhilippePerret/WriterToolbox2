@@ -35,7 +35,7 @@ feature 'Proposition de contribution à une analyse en cours', check: false do
   let(:start_time) { @start_time }
 
   scenario '=> Un analyste peut proposer sa participation à une analyse en cours' do
-    hanalyste = get_data_random_user(mail_confirmed: true, admin: false, analyste: true)
+    hanalyste = get_data_random_user(admin: false, analyste: true)
 
     identify hanalyste
     visit analyse_page
@@ -129,7 +129,7 @@ feature 'Proposition de contribution à une analyse en cours', check: false do
   end
 
   scenario '=> Un non analyste ne peut pas proposer sa contribution' do
-    huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: false)
+    huser = get_data_random_user(admin: false, analyste: false)
 
     identify huser
     visit analyse_page
@@ -168,7 +168,7 @@ feature 'Proposition de contribution à une analyse en cours', check: false do
 
 
   scenario '=> Un non analyste ne peut pas forcer la proposition de contribution par l’URL' do
-    huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: false)
+    huser = get_data_random_user(admin: false, analyste: false)
     identify huser
     # On prend la première analyse
     require_lib 'analyse:listes'
@@ -187,7 +187,7 @@ feature 'Proposition de contribution à une analyse en cours', check: false do
   end
 
   scenario '=> Un analyste qui contribue déjà ne peut pas soumettre de proposition' do
-    huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: true)
+    huser = get_data_random_user(admin: false, analyste: true)
 
     identify huser
     visit analyse_page
@@ -240,7 +240,7 @@ feature 'Proposition de contribution à une analyse en cours', check: false do
   end
 
   scenario '=> Un analyste ne peut pas proposer sa contribution sur une analyse qui n’est pas en cours' do
-    huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: true)
+    huser = get_data_random_user(admin: false, analyste: true)
 
     where = "SUBSTRING(specs,6,1) = '0' LIMIT 1"
     hanalyse = site.db.select(:biblio,'films_analyses',where).first

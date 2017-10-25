@@ -3,6 +3,7 @@
 
     # Page principale pour la contribution aux analyses de films
 
+  user.identified? || identification_required('Vous devez vous identifier, pour vous rendre dans cette section')
 %>
 <%= header(:small) %>
 <%= Analyse.main_title %>

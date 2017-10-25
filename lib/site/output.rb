@@ -63,7 +63,7 @@ class Site
   end
 
   def head_titre
-    @head_titre ||= 
+    @head_titre ||=
       (site.configuration.title || site.configuration.titre) + titre_page
   end
 
@@ -90,7 +90,7 @@ class Site
   def section_debug
     @secdebug ||= begin
       offline? ? load_template('section_debug') : ''
-      # NOTE Pour le moment, en online, les messages de début ne
+      # NOTE Pour le moment, en online, les messages de debug ne
       # sont pas affichés. Il faudrait absolument les écrire dans un
       # fichier.
     end

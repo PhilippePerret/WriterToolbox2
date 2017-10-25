@@ -23,7 +23,7 @@ feature 'Validation ou refus de contribution aux analyses', check: false do
   let(:start_time) { @start_time }
 
   scenario '=> Un administrateur peut valider la candidature d’un analyste' do
-    hcandidat = get_data_random_user(mail_confirmed: true, admin: false, analyste: 1)
+    hcandidat = get_data_random_user(admin: false, analyste: 1)
 
     identify marion
     visit "#{base_url}/admin/analyse"
@@ -54,7 +54,7 @@ feature 'Validation ou refus de contribution aux analyses', check: false do
   end
 
   scenario '=> Un administrateur peut refuser une candidature' do
-    hcandidat = get_data_random_user(mail_confirmed: true, admin: false, analyste: 1)
+    hcandidat = get_data_random_user(admin: false, analyste: 1)
 
     identify marion
     visit "#{base_url}/admin/analyse"

@@ -19,9 +19,9 @@ describe 'States d’un user quelconque' do
     require_folder './__SITE__/analyser/file/_lib/_required'
 
     @huser =
-      get_data_random_user(mail_confirmed: true, admin: false, analyste: true)
+      get_data_random_user(admin: false, analyste: true)
     @huser_non_analyste =
-      get_data_random_user(mail_confirmed: true, admin: false, analyste: false)
+      get_data_random_user(admin: false, analyste: false)
 
     # On choisit une analyse faite
     hanalyse = site.db.select(

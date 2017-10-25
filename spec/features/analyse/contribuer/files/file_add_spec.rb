@@ -441,7 +441,7 @@ feature 'Ajout d’un fichier à une analyse' do
 
   context 'Un inscrit non analyste', checked: false do
     scenario '=> ne peut pas créer un fichier pour une analyse en forçant l’URL' do
-      huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: false)
+      huser = get_data_random_user(admin: false, analyste: false)
       identify huser
       visit "#{base_url}/analyser/dashboard/#{@film_id}?op=add_file"
       expect(page).to be_home_page

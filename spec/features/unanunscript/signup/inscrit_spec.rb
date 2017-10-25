@@ -14,7 +14,7 @@ require_support_mails_for_test
 feature "Inscription au programme UN AN UN SCRIPT par un user inscrit mais pas abonné" do
   before(:all) do
     # On fait de l'user un inscrit au site mais pas un abonné
-    @duser = create_new_user(mail_confirmed: true)
+    @duser = create_new_user
   end
   scenario 'Un visiteur abonné peut s’inscrire au programme (en payant moins cher)' do
 

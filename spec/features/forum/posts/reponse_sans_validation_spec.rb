@@ -148,7 +148,7 @@ feature "Création de message" do
     first_post  = hposts.first
     last_post   = hposts.last
 
-    hmarceline = get_data_random_user(mail_confirmed: true, grade: 4, sexe: 'F', admin: false)
+    hmarceline = get_data_random_user(grade: 4, sexe: 'F', admin: false)
 
     # Nombre de messages au départ, doit être 0
     initial_count = 0

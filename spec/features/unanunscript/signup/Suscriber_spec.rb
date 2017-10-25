@@ -10,7 +10,7 @@ require_support_mails_for_test
 feature "Inscription au programme UN AN UN SCRIPT (par un user déjà abonné)" do
   before(:all) do
     # On fait de l'user un abonné au site
-    @duser = create_new_user(mail_confirmed: true)
+    @duser = create_new_user
     add_paiement(@duser[:id], {
       user_id: @duser[:id], objet_id: 'ABONNEMENT', created_at: NOW - 12.jours,
       facture: 'PAY-45CJFJKKDKL77', montant: site.configuration.tarif

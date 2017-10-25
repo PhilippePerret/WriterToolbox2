@@ -9,7 +9,7 @@ require_lib_site
 describe 'States d’un user quelconque' do
   before(:all) do
     require_folder './__SITE__/analyser/_lib/_required'
-    @huser = get_data_random_user(mail_confirmed: true, admin: false)
+    @huser = get_data_random_user(admin: false)
 
     # On choisit une analyse faite
     hanalyse = site.db.select(

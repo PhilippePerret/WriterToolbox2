@@ -65,6 +65,9 @@ def get_data_random_user params = nil
   params ||= Hash.new
   wheres = Array.new
 
+  # Par défaut, le mail est toujours confirmé
+  params.key?(:mail_confirmed) || params.merge!(mail_confirmed: true)
+
   if params[:not_in]
     wheres << "id NOT IN (#{params[:not_in].join(', ')})"
   end

@@ -17,9 +17,9 @@ def prepare_base_analyse params = nil
   site.db.update(:biblio,'films_analyses',{specs: specs},{id: @film_id})
 
   # On crée les deux utilisateurs utiles
-  @hANACreator           = get_user_by_pseudo('Boboche') || create_new_user(mail_confirmed: true, pseudo: 'Boboche', sexe: 'H', admin: false, analyste: true)
-  @hANASimpleCorrector   = get_user_by_pseudo('Michou')  || create_new_user(mail_confirmed: true, pseudo: 'Michou', admin: false, analyste: true)
-  @hANARedacteur         = get_user_by_pseudo('Patrick') || create_new_user(mail_confirmed: true, pseudo: 'Patrick', admin: false, analyste: true)
+  @hANACreator           = get_user_by_pseudo('Boboche') || create_new_user(pseudo: 'Boboche', sexe: 'H', admin: false, analyste: true)
+  @hANASimpleCorrector   = get_user_by_pseudo('Michou')  || create_new_user(pseudo: 'Michou', admin: false, analyste: true)
+  @hANARedacteur         = get_user_by_pseudo('Patrick') || create_new_user(pseudo: 'Patrick', admin: false, analyste: true)
 
   # # Débug
   # puts "@hANACreator = #{@hANACreator.inspect}"

@@ -29,7 +29,7 @@ describe 'Unan::Work' do
         end
       end
       it 'construit la table si l’argument est bien un User' do
-        udata = create_new_user(mail_confirmed: true)
+        udata = create_new_user
 
         # On s'assure d'abord que la table n'existe pas
         expect{site.db.count(:users_tables,"unan_works_#{udata[:id]}")}.to raise_error(Mysql2::Error)
@@ -58,7 +58,7 @@ describe 'Unan::Work' do
         themessage = "Je crée la table le #{Time.now}"
         allow(Unan::Work).to receive(:create_table_works){ $message = "#{themessage}"}
 
-        udata = create_new_user(mail_confirmed: true)
+        udata = create_new_user
         # On s'assure d'abord que la table n'existe pas
         expect{site.db.count(:users_tables,"unan_works_#{udata[:id]}")}.to raise_error(Mysql2::Error)
 
@@ -72,7 +72,7 @@ describe 'Unan::Work' do
       end
       it 'ne crée pas la table si elle existe' do
         sleep 1
-        udata = create_new_user(mail_confirmed: true)
+        udata = create_new_user
         u = User.get(udata[:id], force = true)
         Unan::Work.create_table_works(u)
         # ======== PRÉ-VÉRIFICATION =========

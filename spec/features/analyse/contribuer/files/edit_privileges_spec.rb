@@ -380,7 +380,7 @@ feature 'Edition d’un fichier d’analyse de travail' do
   context 'Un simple inscrit', check: false do
     scenario '=> ne peut rien faire d’autre sur les fichiers que les visualiser' do
 
-      huser = get_data_random_user(mail_confirmed: true, admin: false, analyste: false)
+      huser = get_data_random_user(admin: false, analyste: false)
       identify huser
 
       ['edit', 'rem','publish'].each do |ope|
