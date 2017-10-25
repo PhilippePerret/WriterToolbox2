@@ -17,7 +17,7 @@
 <% 
     require_form_support
 %>
-<h3><%= analyse.film.titre %></h3>
+<h3><%= simple_link("analyser/dashboard/#{analyse.id}", analyse.film.titre, 'nodeco') %></h3>
 
 <div class="right">
   <%= Analyse.visitor_state(user) %>

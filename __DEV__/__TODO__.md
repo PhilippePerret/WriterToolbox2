@@ -1,6 +1,8 @@
 * Mettre le debug fermé par défaut avec un bouton pour l'ouvrir
 
 * [ANALYSES]
+  * Liste des analyses en cours : si contributeurs, rejoindre le dashboard en cliquand
+    sur le titre. Sinon, aucun lien, même pas vers le filmodico
   * [BUG] Quand on enregistre le fichier pour la première fois, on doit le revoir tout de suite,
     alors que pour le moment on est obligé de faire "edit" pour le remettre dans le textarea
   * Regarder le problème au niveau des fichiers qui restent enregistrés dans files_analyses

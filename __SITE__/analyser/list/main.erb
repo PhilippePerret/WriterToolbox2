@@ -27,6 +27,12 @@
 
     <% end %>
 </ul>
+<p class="small thiner">
+  En cliquant sur le titre, vous rejoignez le tableau de bord de l'analyse. En survolant la ligne de ce titre, vous faites apparaitre des boutons qui permettent de voir l'analyse, de proposer votre contribution ou encore de consulter la fiche d'identité du film. 
+</p>
+<p class="small thiner discret">
+  Comme partout sur le site, vous pouvez utiliser les titres et sous-titres des pages pour vous déplacer.
+</p>
 <div class="right">
   <% if user.analyste? || user.admin? %>
     <%= simple_link("analyser/list?filtre[all]=1", 'Voir toutes les analyses', 'small exergue') %>

@@ -10,15 +10,16 @@ ul.simple, ul.sensible, ul.discrete
     vertical-align  : text-top
     > div.float, > span, > a, > div > span
       vertical-align  : text-top
-    div, span, a
+    > div, > span, > a
       margin-left : 12px
     // Les boutons dans un DIV "buttons"
     div.buttons
       a
         &:not(.small), &:not(.tiny)
-          font-size : .6em
-          border    : 1px solid #999
-          padding   : 1px 4px 3px
+          font-size     : .6em
+          border        : 1px solid #999
+          padding       : 1px 4px 3px
+          margin-left   : 6px
 
 ul.simple
   list-style    : none

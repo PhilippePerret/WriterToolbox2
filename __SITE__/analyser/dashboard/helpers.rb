@@ -24,6 +24,9 @@ class Analyse
   #
   #    FICHIERS 
   #
+  #    Noter qu'il ne s'agit pas des types de documents, qui sont traités
+  #    plus bas dans ce module.
+  #
   # -------------------------------------------------------------------------------- 
 
 
@@ -235,6 +238,60 @@ class Analyse
     HTML
     
   end
+ 
+  # -------------------------------------------------------------------------------- 
+  #
+  #     SPÉCIFICITÉS DE L'ANALYSE
+  #
+  #     Note : cette partie n'apparait que pour un créateur ou un administrateur
+  #
+  # -------------------------------------------------------------------------------- 
+
+  DATA_BITS_SPECS = {
+
+    # ATTENTION : bit est 1-start
+    
+    analysed: {bit: 1, name: 'analysed', label: "Film\nanalysé",
+     exp_0: 'n’existe pas', exp_1: 'existe' 
+  }, 
+
+  lecon: {bit: 2, name: 'lecon', label: "Leçon\ntirée",
+     exp_0: "ne possède pas de <a href=\"aide?p=analyse%2Ftype%2Flecon_tiree_film\">“leçon tirée d’un film”</a>",
+     exp_1: "présente une <a href=\"aide?p=analyse%2Ftype%2Flecon_tiree_film\">“leçon tirée d’un film”</a>"
+  }, 
+  
+  tm:  {value: '(bit4 & 1 > 0)', name: 'tm', label: "Analyse\nT.M.",
+     exp_0: "n'est pas une <a href=\"aide?p=analyse%2Ftype%2Ftm\">analyse de type TM</a>", 
+     exp_1: "est une <a href=\"aide?p=analyse%2Ftype%2Ftm\">analyse de type TM</a> basée autour d'un fichier de collecte"
+  }, 
+
+  mye:  {value: '(bit4 & 2 > 0 ? 1 : 0)', name: 'mye', label: "Analyse\nMYE",
+     exp_0: "n'est pas une <a href=\"aide?p=analyse%2Ftype%2Fmye\">analyse de type MYE</a>",
+     exp_1: "est une <a href=\"aide?p=analyse%2Ftype%2Fmye\">analyse de type MYE</a>"
+  }, 
+
+  current:  {bit: 6, name: 'current', label: "En\ncours",
+     exp_0: "n'est pas ou plus en cours", exp_1: "est en cours"
+  }, 
+
+  visible:  {bit: 5, name: 'visible', label: "&nbsp;\nVisible",
+     exp_0: "n’est visible que dans la partie contribution (par tout inscrit au site)",
+     exp_1: "est visible dans la partie principale et publique des analyses"
+  },
+
+  relect:  {bit: 7, name: 'relect', label: "En\nrelecture",
+     exp_0: "n'est pas en relecture", exp_1: "est en relecture, pour correction"
+  },
+
+  finish:  {bit: 8, name: 'finish', label: "&nbsp;\nFINIE",
+     exp_0: 'n’est pas encore achevée', exp_1: 'est achevée'
+  }, 
+  
+  partiel:   {bit: 9, name: 'partiel', label: "Quelques\nnotes", 
+     exp_0: 'est complète', exp_1: 'n’est constituée que de quelques notes, peut-être même une seule',
+     last: true
+  } 
+  }
 
   # Sauvegarde des spécificités de l'analyse
   #
@@ -311,60 +368,6 @@ class Analyse
     __notice('Les nouvelles spécificités de l’analyse ont été enregistrées.')
   end
 
-  # -------------------------------------------------------------------------------- 
-  #
-  #     SPÉCIFICITÉS DE L'ANALYSE
-  #
-  # Note : cette partie n'apparait que pour un créateur ou un administrateur
-  #
-  # -------------------------------------------------------------------------------- 
-
-  DATA_BITS_SPECS = {
-
-    # ATTENTION : bit est 1-start
-    
-    analysed: {bit: 1, name: 'analysed', label: "Film\nanalysé",
-     exp_0: 'n’existe pas', exp_1: 'existe' 
-  }, 
-
-  lecon: {bit: 2, name: 'lecon', label: "Leçon\ntirée",
-     exp_0: "ne possède pas de <a href=\"aide?p=analyse%2Ftype%2Flecon_tiree_film\">“leçon tirée d’un film”</a>",
-     exp_1: "présente une <a href=\"aide?p=analyse%2Ftype%2Flecon_tiree_film\">“leçon tirée d’un film”</a>"
-  }, 
-  
-  tm:  {value: '(bit4 & 1 > 0)', name: 'tm', label: "Analyse\nT.M.",
-     exp_0: "n'est pas une <a href=\"aide?p=analyse%2Ftype%2Ftm\">analyse de type TM</a>", 
-     exp_1: "est une <a href=\"aide?p=analyse%2Ftype%2Ftm\">analyse de type TM</a> basée autour d'un fichier de collecte"
-  }, 
-
-  mye:  {value: '(bit4 & 2 > 0 ? 1 : 0)', name: 'mye', label: "Analyse\nMYE",
-     exp_0: "n'est pas une <a href=\"aide?p=analyse%2Ftype%2Fmye\">analyse de type MYE</a>",
-     exp_1: "est une <a href=\"aide?p=analyse%2Ftype%2Fmye\">analyse de type MYE</a>"
-  }, 
-
-  current:  {bit: 6, name: 'current', label: "En\ncours",
-     exp_0: "n'est pas ou plus en cours", exp_1: "est en cours"
-  }, 
-
-  visible:  {bit: 5, name: 'visible', label: "&nbsp;\nVisible",
-     exp_0: "n’est visible que dans la partie contribution (par tout inscrit au site)",
-     exp_1: "est visible dans la partie principale et publique des analyses"
-  },
-
-  relect:  {bit: 7, name: 'relect', label: "En\nrelecture",
-     exp_0: "n'est pas en relecture", exp_1: "est en relecture, pour correction"
-  },
-
-  finish:  {bit: 8, name: 'finish', label: "&nbsp;\nFINIE",
-     exp_0: 'n’est pas encore achevée', exp_1: 'est achevée'
-  }, 
-  
-  partiel:   {bit: 9, name: 'partiel', label: "Quelques\nnotes", 
-     exp_0: 'est complète', exp_1: 'n’est constituée que de quelques notes, peut-être même une seule',
-     last: true
-  } 
-  }
-
   # Méthode principale construisant le formulaire des specs du
   # film analysé (donc de son analyse) qui traite les specs propres et la
   # présence des documents dans l'analyse.
@@ -390,7 +393,7 @@ class Analyse
       #{analyse_specs_panneau}
       #{analyse_documents_panneau}
       <div class="buttons">
-        <input type="submit" class="main btn medium" value="Enregistrer" />
+        <input type="submit" class="main btn small" value="Enregistrer" />
       </div>
     </form>
     HTML
@@ -400,7 +403,7 @@ class Analyse
   # elle est visible, etc.
   def analyse_specs_panneau
     
-    debug "SPECS dans analyse_specs_panneau : #{data[:specs]}"
+    # debug "SPECS dans analyse_specs_panneau : #{data[:specs]}"
 
     specs = (self.data[:specs]||'').split('').collect{|i| i.to_i}
 
@@ -444,7 +447,7 @@ class Analyse
     }
     </div>
     <div class="buttons">
-      <input type="submit" class="btn main medium" value="Enregistrer" />
+      <input type="submit" class="btn main small" value="Enregistrer" />
     </div>
     <div class="titre">Caractéristiques de cette analyse <span class="small">(en fonction des boutons pressés ci-dessus)</span></div>
     <div>Cette analyse…</div>
@@ -457,7 +460,7 @@ class Analyse
   # analyse.
   def analyse_documents_panneau
 
-    debug "SPECS dans analyse_documents_panneau (prises dans data[:specs]) : #{data[:specs]}"
+    # debug "SPECS dans analyse_documents_panneau (prises dans data[:specs]) : #{data[:specs]}"
     # Pour conserver la liste des documents courants
 
     <<-HTML
@@ -474,7 +477,7 @@ class Analyse
     <ul id="current_documents">
       #{
        TYPES_DOCUMENTS.collect do |bit_doc, ddocument|
-      disp = ddocument[:existe] ? 'block' : ''
+      disp = ddocument[:existe] ? '' : 'none'
       "<li id=\"doc-#{bit_doc}-li\" style=\"display:#{disp}\">#{ddocument[:hname].titleize}</li>"
     end.join
       }

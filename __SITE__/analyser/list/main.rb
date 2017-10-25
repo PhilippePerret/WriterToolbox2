@@ -10,8 +10,7 @@ class Analyse
       <<-HTML
         <li class="analyse" id="analyse-#{adata[:id]}">
           <div class="fright buttons discret">
-            #{reader.analyste? || reader.admin? ? bouton_contribuer(adata) : ''}
-            #{bouton_lire(adata, reader)}
+            #{reader.analyste? || reader.admin? ? bouton_contribuer(adata) : ''}#{bouton_lire(adata, reader)}#{bouton_filmodico(adata)}
           </div>
           <div class="fright states tiny">
             #{analyse_states(adata)}
@@ -25,7 +24,7 @@ class Analyse
     # Filmodico
     def titre_linked adata
       titre = adata[:titre].force_encoding('utf-8')
-      simple_link("filmodico/voir/#{adata[:id]}", titre, 'nodeco')
+      simple_link("analyser/dashboard/#{adata[:id]}", titre, 'nodeco')
     end
 
     def bouton_contribuer adata
@@ -42,6 +41,11 @@ class Analyse
     def bouton_lire adata, reader
       reader.analyste? || adata[:specs][4] == '1' || reader.admin? || (return '')
       "<a href=\"analyse/lire/#{adata[:id]}\">voir</a>"
+    end
+
+    # Retourne le code du bouton pour voir le film dans le filmodico
+    def bouton_filmodico adata
+      simple_link("filmodico/voir/#{adata[:id]}", 'fiche')
     end
 
     def analyse_states adata
