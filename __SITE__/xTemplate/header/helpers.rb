@@ -58,6 +58,16 @@ class Site
     
   end
 
+  def button_signin # un formulaire, maintenant
+   <<-HTML
+    <form id="signin_link_form" class="none" method="POST" action="user/signin">
+      <input type="submit" class="link" value="s’identifier" />
+      <input type="checkbox" name="goback" id="cb_goback" />
+      <label for="cb_goback" class="tiny">puis revenir</label>
+      <input type="hidden" name="goback_route" value="#{site.full_route}" />
+    </form>
+   HTML
+  end
   def thisfolder
     @thisfolder ||= File.dirname(__FILE__)
   end

@@ -6,6 +6,16 @@
 =end
 
 check_for_operation
+# On regarde si l'user vient s'identifier pour rejoindre ensuite
+# une autre page (en ayant coché la case 'goback') avant de cliquer sur le
+# bouton pour aller s'identifier. Si c'est le cas, on mémorise le route
+# précédente dans la variable session
+if param(:goback)
+  site.session['route_after_login'] = param(:goback_route)
+  debug "La CB de retour est cochée, je retournerai à #{site.session['route_after_login']}"
+else
+  debug "La CB n'est pas cochée, pas de retour"
+end
 
 param(:user) || param(:user, {})
 %>
@@ -21,5 +31,4 @@ param(:user) || param(:user, {})
   end
 %>
 
-<%= right_margin %>
 <%= footer %>

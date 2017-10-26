@@ -10,14 +10,9 @@
     if user.identified?
       lien_signout(titre:'se déconnecter')
     else
+      signin_btn = site.uri.start_with?('user/signin') ? '' : button_signin
       <<-HTML
-      #{lien.signup(titre:'s’inscrire')}
-      <form id="signin_link_form" method="POST">
-        <input type="submit" class="link" value="s’identifier" />
-        <input type="checkbox" name="goback" id="cb_goback" />
-        <label for="cb_goback" class="tiny">puis revenir</label>
-        <input type="hidden" name="current_route" value="" />
-      </form>
+      #{lien.signup(titre:'s’inscrire')}#{signin_btn}
       HTML
     end
     %>

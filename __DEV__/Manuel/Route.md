@@ -53,7 +53,7 @@ redirect_to :last_route
 ```
 
 
-> Noter que cette dernière page sera vraiment la page avec tous ses paramètres.
+> Noter que cette dernière page sera vraiment la page avec tous ses paramètres. Elle est obtenue en appelant la méthode `site.uri` ou son alias `site.full_route`.
 
 ### Définition du message de redirection {#route_redirect_message}
 
