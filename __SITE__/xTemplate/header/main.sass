@@ -15,12 +15,28 @@ section#header
 
   // La barre des boutons
   div#top_buttons
-    position        : absolute
-    right           : 4.5em
-    a
-      font-size     : 13.7pt
-      margin-left   : 2em
-      font-variant  : small-caps
+    position            : absolute
+    right               : 4.5em
+    a, input[type="submit"].link
+      vertical-align    : top
+      font-size         : 13.7pt!important
+      font-variant      : small-caps
+      border            : 0
+      background-color  : transparent
+      letter-spacing    : 1px
+      color             : $darkTextColor
+    a, form
+      margin-left       : 1em
+
+    // Le formulaire qui contient le bouton "S'identifier" avec
+    // la case à cocher permettant de revenir sur la page courante
+    form#signin_link_form
+      display       : inline-block
+      width         : 120px
+      line-height   : .5em
+      text-align    : center
+      label
+        font-size   : 11pt
 
   // Le titre du site
   h1
@@ -40,7 +56,7 @@ section#header
         color             : #B34D00
     div.top_links
       line-height     : 0.3em
-      opacity         : .5
+      opacity         : .4
       &:hover
         opacity         : 1
       a
@@ -48,14 +64,14 @@ section#header
         font-size         : 0.5em
         margin            : 0 1.6em
 
-  h1.boa
-    a
-      display       : inline-block
-      color         : #7f869e
-      font-variant  : small-caps
-      border-style  : solid
-      border-color  : orange
-
+  // h1.boa
+  //   a
+  //     display       : inline-block
+  //     color         : #7f869e
+  //     // font-variant  : small-caps
+  //     border-style  : solid
+  //     border-color  : orange
+  //
   // Pour une page quelconque
   &.regular
     h1
@@ -85,12 +101,17 @@ section#header
           a
             font-size     : 0.7em
             margin        : 0 0.7em
+    // POUR LES BOUTONS USER EN FORMAT :small
     div#top_buttons
       margin-top        : 1px
       margin-left       : 0
       margin-right      : 2em
-      a
+      a, input.link
         font-size         : 11.2pt !important
+      form#signin_link_form
+        line-height     : .5em
+        label
+          font-size         : .6em !important
 
   // Pour la page d'accueil
   &.home

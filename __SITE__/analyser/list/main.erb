@@ -1,9 +1,28 @@
 <% 
 # Affichage de la liste des films analysés
+  
+  # Filtre défini
+  # Au minimum, ce sont les analyses courantes qu'il faut voir
+
+  filtre = param(:filtre) || Hash.new
+  filtre.key?(:which) || filtre.merge!(which: :current)
+
+  # Dans tous les cas, on met :which en symbol, pour faciliter
+  # la suite.
+
+  filtre[:which] = filtre[:which].to_sym
+
 %>
 <%= header(:small) %>
+
 <%= Analyse.main_title %>
-<h3>Analyses en cours</h3>
+
+<h3><%= 
+case filtre[:which]
+when :current then 'Analyses en cours'
+when :all     then 'Tous les analyses'
+end
+  %></h3>
 
 
 <div class="libelle_colonnes">
@@ -15,11 +34,6 @@
   <% 
       require_lib('analyse:listes')
       
-      # Filtre défini
-      # Au minimum, ce sont les analyses courantes qu'il faut voir
-
-      filtre = param(:filtre) || Hash.new
-      filtre.merge!(current: true)
       
       Analyse.all(filtre).each do |hanalyse| %>
 
@@ -35,7 +49,14 @@
 </p>
 <div class="right">
   <% if user.analyste? || user.admin? %>
-    <%= simple_link("analyser/list?filtre[all]=1", 'Voir toutes les analyses', 'small exergue') %>
+    <%= 
+      case filtre[:which]
+      when :current
+        simple_link("analyser/list?filtre[which]=all", 'Voir toutes les analyses', 'small exergue')
+      when :all
+        simple_link('analyser/list', 'Voir les analyses courantes', 'small exergue')
+      end
+    %>
   <% else %>
     <%= simple_link('analyser', 'Contribuer aux analyses', 'small exergue') %>
   <% end %>

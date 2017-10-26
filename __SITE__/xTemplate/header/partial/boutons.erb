@@ -6,8 +6,21 @@
 =end
 %>
 <div id="top_buttons">
-  <%= user.identified? ? lien_signout(titre:'se déconnecter') : lien.signin(titre:'s’identifier') %>
-  <%= user.identified? ? lien.profil(titre:'votre profil') : lien.signup(titre:'s’inscrire') %>
+  <%=
+    if user.identified?
+      lien_signout(titre:'se déconnecter')
+    else
+      <<-HTML
+      #{lien.signup(titre:'s’inscrire')}
+      <form id="signin_link_form" method="POST">
+        <input type="submit" class="link" value="s’identifier" />
+        <input type="checkbox" name="goback" id="cb_goback" />
+        <label for="cb_goback" class="tiny">puis revenir</label>
+        <input type="hidden" name="current_route" value="" />
+      </form>
+      HTML
+    end
+    %>
   <% if user.admin?  %>
     <a href="admin">administration</a>
   <% end  %>

@@ -71,7 +71,7 @@ class Analyse
 
   def new_file_form
     <<-HTML
-    <form id="new_file_form" action="" method="POST" class="small div-inline lab30pc w50pc" style="display:none">
+    <form id="new_file_form" action="" method="POST" class="small div-inline lab30pc w50pc cadresimple" style="display:none">
       <input type="hidden" name="op" value="add_file" />
       <!--
           Titre pour le fichier
@@ -195,7 +195,7 @@ class Analyse
 
   def new_tache_form
     <<-HTML
-    <form id="new_tache_form" method="POST" class="small div-inline w50pc lab40pc" style="display:none">
+    <form id="new_tache_form" method="POST" class="small div-inline w50pc lab40pc cadresimple" style="display:none">
       <input type="hidden" name="op" value="add_tache" />
       <!--
           Tache à exécuter
@@ -388,7 +388,7 @@ class Analyse
     end
 
     <<-HTML
-    <form id="analyse_specs_form" method="POST"> 
+    <form id="analyse_specs_form" class="nocadre" method="POST"> 
       <input type="hidden" name="op" value="save_specs" />
       #{analyse_specs_panneau}
       #{analyse_documents_panneau}

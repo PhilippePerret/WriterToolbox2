@@ -124,7 +124,5 @@ end #/Narration
 # simplement `narration/livre`
 #
 def livre
-  @livre ||= begin
-               Narration::Livre.new(site.route.objet_id || 1)
-             end
+  @livre ||= site.route.objet_id && Narration::Livre.new(site.route.objet_id)
 end

@@ -7,7 +7,8 @@
 %>
 <%= header(:small) %>
 
-<h2>La collection Narration</h2>
+<%= Narration.main_titre(subtitle: page.data[:titre]) %>
+
 <%= page.boutons_edition_if_admin %>
 <%= page.full_content %>
 

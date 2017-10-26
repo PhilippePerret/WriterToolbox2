@@ -5,12 +5,21 @@ class Analyse
 
     # Pour simplifier l'affichage du titre principal.
     def main_title options = nil
-      titre_et_title = site.titre_page(<<-HTML)
-      #{simple_link('analyser','Contribuer')}
-      aux
-      #{simple_link('analyse/home','analyses de films')}
-      <span class="tiny">[#{simple_link('aide?p=analyse%2Fcontribuer','→ aide','exergue')}]</span>
+      titre_contribuer = <<-HTML
+      #{simple_link('analyser','Création des analyses')}
       HTML
+      titre_et_title = site.titre_page(
+        titre_contribuer,
+        {
+          under_buttons: [
+            simple_link('analyser/list', 'en cours'),
+            simple_link('analyser/new', 'nouvelle'),
+            simple_link('analyser/list?filtre[which]=all', 'toutes'),
+            simple_link('analyser', 'contribuer'),
+            simple_link('aide?p=analyse%2Fcontribuer','aide')
+          ]
+        }
+      )
     end
 
     # Pour éjecter (plutôt violemment un user).
@@ -60,4 +69,3 @@ class Analyse
     end
   end #/<<self
 end #/Analyse
-

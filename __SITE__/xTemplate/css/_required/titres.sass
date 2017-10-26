@@ -11,7 +11,7 @@ h2
   padding       : 0
   color         : #4C4C4C
   // color         : $darkTextColor
-  margin-left   : -2em
+  margin-left   : -1.4em
   margin-bottom : 1em
   &.air
     margin-bottom  : 3em
@@ -22,6 +22,24 @@ h2
     margin-top    : -2em
   a
     text-decoration : none!important
+
+  // Les boutons sous le titre
+  div.under-buttons
+    text-align      : left
+    padding-left    : 16px
+    line-height     : .4em
+
+    // Pour le moment, je ne mets pas de changement d'opacité, parce que
+    // 1. Je n'aime pas trop l'effet
+    // 2. Je préfère qu'on les voie bien.
+    // opacity         : .5
+    // &:hover
+    //   opacity       : 1
+    a
+      font-size       : 0.35em !important
+      vertical-align  : top
+      font-variant    : small-caps
+      margin-right    : 1em
 
 // Premier titre dans une page
 h3

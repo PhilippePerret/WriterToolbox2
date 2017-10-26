@@ -1,17 +1,27 @@
 # encoding: UTF-8
 class Site
 
+  def user_footer_buttons
+    c = String.new
+    if user.identified?
+      c << '<a href="user/signout">se déconnecter</a>'
+      unless user.suscribed? || user.admin?
+        c << '<a href="user/suscribe">s’abonner</a>'
+      end
+    else
+      c << '<a href="user/signin">s’identifier</a>'
+      c << '<a href="user/signup">s’inscrire</a>'
+    end
+    return c
+  end
+
   def contact_link
     '<a href="site/contact">contact</a>'
   end
-  def signin_link
-    '<a href="user/signin">s’identifier</a>'
-  end
-  def signup_link
-    '<a href="user/signup">s’inscrire</a>'
-  end
-  def suscribe_link
-    '<a href="user/suscribe">s’abonner</a>'
+
+  def tool_list_link
+    site.route.objet != 'outils' || (return '')
+    '<a href="outils">outils</a>'
   end
 
 

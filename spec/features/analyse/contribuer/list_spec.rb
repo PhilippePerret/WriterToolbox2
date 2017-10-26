@@ -86,7 +86,7 @@ feature 'Liste des analyses en cours' do
       end
       success 'il trouve une liste complète et informée'
 
-      expect(page).to have_tag('a', with: {href: "analyser/list?filtre[all]=1"}, text: 'Voir toutes les analyses')
+      expect(page).to have_tag('a', with: {href: "analyser/list?filtre[which]=all"}, text: 'Voir toutes les analyses')
       success 'il trouve un lien pour voir toutes les analyses (même les analyses non en cours)'
 
     end
@@ -145,7 +145,7 @@ feature 'Liste des analyses en cours' do
       end
       success 'il trouve une liste complète sans bouton, sauf le bouton voir quand l’analyse est lisible'
 
-      expect(page).not_to have_tag('a', with: {href: "analyser/list?filtre[all]=1"}, text: 'Voir toutes les analyses')
+      expect(page).not_to have_tag('a', with: {href: "analyser/list?filtre[which]=all"}, text: 'Voir toutes les analyses')
       success 'il ne trouve pas de lien pour voir toutes les analyses'
 
     end

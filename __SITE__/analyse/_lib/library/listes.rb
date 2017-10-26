@@ -22,14 +22,16 @@ class Analyse
     #
     # @param {Hash} filtre
     #
-    #               :current    
-    #
-    #                   Si TRUE, seulement les analyses en cours.
-    #                   SAUF si :all et à '1'
-    #                   
-    #               :all
-    #
-    #                   Si '1', toutes les analyses, courantes ou pas
+    #               :which
+    #                   Déterminer les analyses à afficher. Les valeurs peuvent
+    #                   être :
+    #                   :current    Les analyses à en cours
+    #                   :all        Toutes les analyses
+    #                   TODO Plus tard, on pourra avoir aussi :
+    #                   :user       Les analyses auxquelles contribue l'user courant
+    #                   Mais il faut encore poursuivre la réflexion car comment voir
+    #                   par exemple les analyses courantes de l'user ou toutes ses
+    #                   analyses => Il faut un autre paramètre au filtre.
     #
     #               :not_analysed 
     #
@@ -51,9 +53,7 @@ class Analyse
       
       
       # S'il faut seulement les films en cours d'analyse
-      unless filtre[:all] == '1'
-        filtre[:current] && specs_pattern[5] = '1'
-      end
+      filtre[:which] == :current && specs_pattern[5] = '1'
 
       # Finalisation de la pattern pour :specs
       specs_pattern.gsub!(/_+$/,'')

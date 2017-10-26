@@ -26,13 +26,5 @@ class Aide
       formate(File.read(fullpath), deserb: true)
     end
 
-    # Le titre à donner à la page (et la balise HEAD/TITLE)
-    # Pour le moment, c'est juste "Aide", mais ensuite, on récupèrera le titre
-    # du fichier à afficher, en prenant le contenu de la première balise H
-    def titre_page
-      "Aide"
-    end
-
-
   end #/self
 end #/Aide

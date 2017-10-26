@@ -4,18 +4,27 @@ class Site
   include Singleton
 
   # Cf. Manuel > Vue > Titre.md
-  def titre_page titre = nil, classe = nil
+  def titre_page titre = nil, o = nil 
     if titre
-      # Pour la page en question
-      classe && classe = " class=\"#{classe}\""
-      @titre_page = titre.gsub(/<.*?>/,'')
-      "<h2#{classe}>#{titre}</h2>"
+      o ||= Hash.new
+      o[:id]    && o[:id]    = " id=\"#{o[:id]}\""
+      o[:class] && o[:class] = " class=\"#{o[:class]}\""
+      # Pour le TITRE de la page HTML
+      @titre_page = titre.gsub(/<.*?>/,'') + ( o[:subtitle] ? " - #{o[:subtitle]}" : '' )
+      # Texte renvoyé pour la page qui appelle
+      "<h2#{o[:id]}#{o[:class]}>#{titre}#{under_buttons_of_titre_page(o[:under_buttons])}</h2>"
     else
       # Pour la balise TITLE
+      # Note : l'espace est NORMALE
       " #{@titre_page}" || ''
     end
   end
 
+  def under_buttons_of_titre_page(arr_buttons)
+    arr_buttons != nil || (return '')
+    arr_buttons.is_a?(String) || arr_buttons = arr_buttons.join('')
+    "<div class=\"under-buttons\">#{arr_buttons}</div>"
+  end
 
   # Sortie de la page complète (envoi au navigateur)
   def output

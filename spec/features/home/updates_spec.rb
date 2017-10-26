@@ -24,7 +24,7 @@ feature "Présence des dernières actualités sur la page d'accueil" do
       3 => {id: 3, message: 'Une actualisation UAUS avec route', type: 'unan', route: 'unanunscript/home', options: '10000000', created_at: a_month_ago},
       6 => {id: 6, message: 'Une actualisation Narration',       type: 'narration', route: 'narration', options: '10000000', created_at: a_month_ago},
       7 => {id: 7, message: 'Autre actualisation Narration',     type: 'narration', route: 'narration', options: '10000000', created_at: a_month_ago},
-      8 => {id: 8, message: '3e actualisation Narration',        type: 'narration', route: 'narration/comment_page', options: '10000000', created_at: a_month_ago},
+      8 => {id: 8, message: '3e actualisation Narration',        type: 'narration', route: 'narration/state', options: '10000000', created_at: a_month_ago},
       4 => {id: 4, message: 'On ne doit pas voir celle-ci',      type: 'unan', route: 'unanunscript/home', options: '00000000', created_at: now - 12.jours},
       5 => {id: 5, message: 'On ne doit pas voir celle-là', type: 'forum', route: 'unanunscript/home', options: '00000000', created_at: now - 96.jours},
       10 => {id: 10, message: 'On ne doit pas voir celle-là (#10)', type: 'forum', route: 'unanunscript/home', options: '00000000', created_at: a_year_ago + 1.jour}

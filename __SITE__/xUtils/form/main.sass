@@ -1,9 +1,21 @@
 // Pour pouvoir hériter de ces classes, il faut requérir le
 // dossier du formulaire à l'aide de :
 // require_form_support
-form:not(.none)
+
+// Pour les formulaires, sauf ceux qui ne doivent jamais être touchés (.none)
+// ou ceux qui ne doivent pas avoir de cadre (:nocadre)
+form:not(.none, .nocadre, .cadresimple)
   border          : 1px solid $darkTextColor
+
+// Quand on veut un cadre simple, sans couleur de fond ni bord
+// arrondi
+form:not(.cadresimple)
   border-radius   : 0.4em
+
+form.cadresimple
+  border          : 1px solid #CCC
+
+form:not(.none)
   padding         : 2em 1em 1em 1em
   font-family     : inherit
   font-size       : inherit

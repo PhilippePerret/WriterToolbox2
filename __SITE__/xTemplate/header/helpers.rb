@@ -53,6 +53,10 @@ class Site
     "<a href=\"user/signout\" class=\"link_signout\">#{params[:titre]}</a>"
   end
 
+  def lien_signin params = nil
+    params ||= Hash.new
+    
+  end
 
   def thisfolder
     @thisfolder ||= File.dirname(__FILE__)
