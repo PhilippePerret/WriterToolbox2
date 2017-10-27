@@ -4,8 +4,26 @@
 #
 %>
 <%= header(:small) %>
-<h2 class="small">Administration collection Narration</h2>
+<%= 
 
-<%= partial("./#{param(:op)}/main.erb") %>
+  subtitle =
+    case param(:op)
+    when 'edit_data' then 'Éditeur de données de pages'
+    when 'edit_text' then 'Éditeur de texte de pages'
+    else nil
+    end
+  
+  Narration.main_titre(subtitle: subtitle) %>
+
+<% if param(:op) %>
+
+  <%= partial("#{param(:op)}") %>
+
+<% else %>
+
+  <p>Bienvenue dans l'administration de la collection Narration.</p>
+
+  <p><%= simple_link('admin/narration?op=edit_data', 'Éditeur de données de page') %></p>
+<% end %>
 
 <%= footer %>

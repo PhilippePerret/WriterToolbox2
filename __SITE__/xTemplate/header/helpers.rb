@@ -40,7 +40,7 @@ class Site
     c << '<img src="./img/phil-medaillon.png" id="medaillon_phil" />'
     c << "<div>Site conçu et animé par #{phil_linked} dévolu corps et âmes à l'élaboration des histoires sous toutes leurs formes.</div>"
 
-    "<section id=\"incipit\" class=\"light\">#{c}</section>"
+    "<section id=\"incipit\">#{c}</section>"
   end
 
   def logo
@@ -55,7 +55,7 @@ class Site
 
   def lien_signin params = nil
     params ||= Hash.new
-    
+
   end
 
   def button_signin # un formulaire, maintenant

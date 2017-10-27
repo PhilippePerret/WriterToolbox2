@@ -104,33 +104,3 @@ Dans la page contenant le formulaire, on trouve simplement :
   ...
 
 ```
-
-## Utilisation de partiels {#working_with_partials}
-
-On peut travailler avec des partiels placés à l'intérieur du dossier courant.
-
-Ces partiels s'appellent à l'aide de :
-
-```erb
-
-  <%= partial('path/rel/to/partiel/from/current/folder') %>
-
-```
-
-Par exemple, si on se trouve dans le dossier `./__SITE__/user/profil/`, on trouve dans ce dossier le fichier `elements/no-profil.erb`. On le charge à l'aide de :
-
-```erb
-
-  <%= partial('elements/no-profil') %>
-
-```
-
-> Noter que l'extension peut être omise, mais que ce partial doit toujours être un fichier `ERB`.
-
-Si ce dossier s'appelle `partial`, on peut même omettre le dossier et faire simplement :
-
-```erb
-
-  <%= partial('no-profil') %>
-
-```

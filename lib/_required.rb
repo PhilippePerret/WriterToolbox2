@@ -7,17 +7,21 @@ require 'json'
 # Charge tout le dossier +relpath+
 # Si +dont_check_if_exists+, on ne vérifie pas que le dossier existe. N'est
 # pas encore utilisé pour le moment.
-def require_folder relpath, dont_check_if_exists = false
-  Dir["./#{relpath}/**/*.rb"].each{|m| require m}
+#
+# Ne pas confondre cette méthode avec `require_folder` qui charge
+# beaucoup plus de choses dans un dossier.
+#
+def require_first_folder relpath, dont_check_if_exists = false
+  Dir["./#{relpath}/**/*.rb"].each { |m| require m }
 end
 
 # Pour pouvoir tout de suite enregistrer des messages de débug
 require './lib/utils/debug'
 
-require_folder 'lib/extensions'
-require_folder 'lib/required'
-require_folder 'lib/site'
-require_folder 'lib/user'
+require_first_folder 'lib/extensions'
+require_first_folder 'lib/required'
+require_first_folder 'lib/site'
+require_first_folder 'lib/user'
 
 # Le singleton du site
 def site

@@ -1,0 +1,91 @@
+<%
+require_form_support
+
+# S'il faut enregistrer les données
+if param(:operation) == 'save_data'
+
+  page.save
+
+end
+
+
+
+# debug "Données de la page: #{page.data.inspect}"
+#
+%>
+<form id="narration_edit_data_form" action="" method="POST">
+  <%= div_boutons_if_page %>
+  <input type="hidden" name="operation" id="" value="save_data" />
+
+  <div>
+    <span>
+
+      <%# --------- LIVRE de la page -----------  %>
+
+      <%= menu_livres(selected: page.livre_id) %>
+
+      <%# --------- TYPE de la page -----------  %>
+
+      <%= menu_type_page(selected: page.btype) %>
+
+      <%# --------- ID de la page -----------  %>
+
+      <input
+      id="page_id" type="text" name="page[id]" class="small"
+      value="<%= page.id %>" placeholder="ID"
+      />
+
+      <%# ----------- Un bouton pour éditer l'ID rentré -------------- %>
+
+      <input
+      type="button" class="small" style="font-variant:small-caps;"
+      onclick="window.location.href='admin/narration/'+DOM('page_id').value+'?op=edit_data';"
+      value="edit"
+      />
+
+    </span>
+  </div>
+
+
+  <div style="width:100%;">
+
+    <%# --------- TITRE de la page -----------  %>
+    <input
+    id="page_titre" type="text" name="page[titre]" class="long bigger"
+    value="<%= page.titre %>" placeholder="Titre" />
+
+  </div>
+
+  <div style="width:100%">
+
+    <%# --------- DESCRIPTION de la page -----------  %>
+
+    <textarea
+      name="page[description]" id="page_description"
+      class="long" placeholder="Description de la page"><%= page.description %></textarea>
+
+  </div>
+
+  <div style="width:100%">
+
+    <%# --------- OPTIONS de la page -----------  %>
+
+    <div>
+      <%= menu_niveau_developpement(selected: page.nivdev) %><%= menu_priorite(selected: page.priority) %>
+    </div>
+    <div>
+      <input type="checkbox" name="page[only_web]" id="page_only_web" <%= page.only_web? ? 'CHECKED' : '' %> />
+      <label for="page_only_web">Version en ligne seulement (pas papier)</label>
+    </div>
+    <div>
+      <input type="checkbox" name="page[create_file]" id="page_create_file" checked="CHECKED" />
+      <label for="page_create_file">Créer le fichier s’il n’existe pas.</label>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <a href="admin/narration?op=edit_data" class="btn fleft">Init new</a>
+    <input type="submit" class="main" value="<%= page.id ? 'Enregistrer' : 'Créer' %>" />
+
+  </div>
+</form>

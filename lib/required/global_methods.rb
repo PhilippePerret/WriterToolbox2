@@ -86,11 +86,18 @@ def debug ca
   Debug.debug ca
 end
 
+def require_folder folder, check_if_exist = false
+  return if check_if_exist && !File.exist?(folder)
+  site.load_ruby_folder(folder)
+  site.load_javascript_folder(folder)
+  site.load_css_folder(folder)
+
+end
 # Cf. Manuel > Librairies_et_modules.md
 def require_lib path
   objet, affixe = path.split(':')
   p = "./__SITE__/#{objet}/_lib/library/#{affixe}"
-  if File.exist?(p) && File.directory?(p) 
+  if File.exist?(p) && File.directory?(p)
     require_folder(p)
   elsif File.exist?("#{p}.rb")
     require p

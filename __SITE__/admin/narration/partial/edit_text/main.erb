@@ -1,0 +1,23 @@
+<% 
+# Éditeur de texte des pages de la collection Narration
+%>
+<% 
+
+=begin
+
+  Le principe de l'édition du texte d'une page de narration, c'est de
+  charger l'éditeur de page commun du site et de l'embedder dans 
+  cette page.
+
+=end
+%>
+
+<%= 
+  # ===== UTILISATION DU PAGE-EDITOR ====  
+
+  # Il a besoin de connaitre le path du fichier
+  param(:path, page.md_file)
+
+  # On requiert l'éditeur de page du site
+  require_folder './lib/utils/page_editor'
+  PEditor.editor %>

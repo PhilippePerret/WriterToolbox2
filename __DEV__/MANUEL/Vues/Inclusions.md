@@ -3,6 +3,8 @@
 * [Inclusion de fichiers quelconques](#inclusion_fichier_quelconque)
 * [Inclusion des exemples](#inclusion_exemples)
 
+Pour des informations sur les partiels de page, voir plutôt le fichier `partiels.md`.
+
 ## Inclusion de fichiers quelconques {#inclusion_fichier_quelconque}
 
 On peut inclure un fichier dans un autre fichier à l'aide de la balise `INCLUDE`.

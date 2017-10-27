@@ -35,10 +35,13 @@ class Site
     window.page_is_fixed = false;
     function toggle_fix_contents(){
       var o = DOM('contents');
+      var h = DOM('header');
       if (page_is_fixed){
+        h.style.display = '';
         o.style.position = ''; o.style.left = ''; o.style.top = '';
         window.scroll(0,window.windowTop);
       }else{
+        h.style.display = 'none';
         window.windowTop = window.scrollY;
         var top = "-"+window.scrollY+"px";
         o.style.position = 'fixed'; o.style.left = 0;

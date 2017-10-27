@@ -91,6 +91,7 @@ class Site
   # ---------------------------------------------------------------------
 
   # Charge un dossier de __SITE__
+  #
   # Le "charger" signifie qu'on va requérir tous les rubys contenus, qu'on
   # va charger les feuilles CSS et les fichiers Javascript.
   # On actualisera les fichiers SASS si nécessaire.
@@ -101,15 +102,13 @@ class Site
   #
   def load_folder relpath
     solid_path = relpath
-    File.exist?(solid_path) || begin
-      solid_path = "./__SITE__/#{relpath}"
-    end
+    File.exist?(solid_path) || solid_path = "./__SITE__/#{relpath}"
     is_not_template = !relpath.start_with?('xTemplate')
     File.exist?(solid_path) || return
     folder_load_ruby solid_path
     if is_not_template
-      folder_load_css relpath
-      folder_load_javascript solid_path
+      folder_load_and_transpile_css relpath
+      load_javascript_folder solid_path
     end
   end
 
@@ -126,8 +125,8 @@ class Site
     # Ce dossier est chargé dans le dossier principal (route.objet) ainsi que
     # dans le sous-dossier de la méthode s'il existe. Cela permet par exemple
     # de charger les librairies spécialisées des sous-dossiers d'administration
-    # Noter que les TESTS ne pourront pas passer par ici si l'objet de route 
-    # n'est pas défini, c'est la raison pour laquelle on ne peut pas faire 
+    # Noter que les TESTS ne pourront pas passer par ici si l'objet de route
+    # n'est pas défini, c'est la raison pour laquelle on ne peut pas faire
     # juste site.load_folder pour charger les _lib/_required.
     route.objet  && require_folder("./__SITE__/#{route.objet}/_lib/_required", true)
     route.method && require_folder("./__SITE__/#{route.objet}/#{route.method}/_lib/_required", true)
@@ -144,7 +143,7 @@ class Site
 
   # On charge les fichier SASS/CSS qui se trouve à la racinde de +relpath+
   # Note : on ne fait plus les fichiers `**/*.sass`
-  def folder_load_css relpath
+  def folder_load_and_transpile_css relpath
     require './lib/utils/sass_all'
 
     # Le relpath peut commencer par ./__SITE__/
@@ -162,7 +161,7 @@ class Site
     # si le fichier doit être actualisé et on l'actualisera si nécessaire.
     # Dans le cas contraire, on informera simplement la vue qu'elle doit
     # charger le .css relatif.
-    meth = offline? && configuration.watch_sass ? 'update_file_if_needed' : 'dest_file_of_src_file'
+    meth = sass_method_per_config
 
     # On boucle sur chaque dossier pour charger les CSS requis
     # Chaque feuille de styles trouvée est chargée dans la vue (i.e. ajoutée
@@ -172,8 +171,63 @@ class Site
       curpath = File.join(curpath, cfolder)
       # all_sass = Dir["#{curpath}/#{curpath == solid_path ? '**/*.sass' : '*.sass'}"]
       all_sass = Dir["#{curpath}/*.sass"]
-      !all_sass.empty? || next
       all_sass.each { |src| self.all_css << SassSite.send(meth, src) }
+    end
+  end
+
+  def sass_method_per_config
+    @sass_method_per_config ||= offline? && configuration.watch_sass ? 'update_file_if_needed' : 'dest_file_of_src_file'
+  end
+
+
+  def load_ruby_folder solid_path
+    Dir["#{solid_path}/_lib/_required/**/*.rb"].each { |m| require m }
+    Dir["#{solid_path}/**"].each do |path|
+      if File.directory?( path )
+        # debug "* Check Rubies du dossier #{path}"
+        ['partial','_lib'].include?(File.basename(path)) && next
+        # debug "*** Traitement (ruby) du dossier `#{path}`"
+        Dir["#{path}/**/*.rb"].each do |spath|
+          # debug "---> requis: #{spath}"
+          require spath
+        end
+      elsif File.extname(path) == '.rb'
+        # debug "---> requis: #{path}"
+        require path
+      end
+    end
+  end
+
+  def load_css_folder solid_path
+    meth = sass_method_per_config
+    Dir["#{solid_path}/**"].each do |path|
+      if File.directory?(path)
+        # debug "* Check CSS du dossier `#{path}`"
+        ['partial','_lib'].include?(File.basename(path)) && next
+        # debug "*** Traitement du dossier CSS `#{path}`"
+        Dir["#{path}/**/*.sass"].each do |spath|
+          # debug "---> requis: #{spath}"
+          self.all_css << SassSite.send(meth, spath)
+        end
+      elsif File.extname(path) == '.sass'
+        # debug "---> requis: #{path}"
+        self.all_css << SassSite.send(meth, path)
+      end
+    end
+  end
+  def load_javascript_folder solid_path
+    Dir["#{solid_path}/**"].each do |path|
+      if File.directory?(path)
+        debug "Check JS du dossier #{path}"
+        ['partial','_lib'].include?(File.basename(path)) && next
+        Dir["#{path}/**/*.js"].each do |spath|
+          # debug "---> requis: #{spath}"
+          all_javascripts << spath
+        end
+      elsif File.extname(path) == '.js'
+        # debug "---> requis: #{path}"
+        all_javascripts << path
+      end
     end
   end
 
@@ -190,12 +244,6 @@ class Site
     @all_javascripts ||= begin
       arr = []
       arr += Dir["./js/_required/**/*.js"]
-    end
-  end
-
-  def folder_load_javascript solid_path
-    Dir["#{solid_path}/**/*.js"].each do |path|
-      all_javascripts << path
     end
   end
 

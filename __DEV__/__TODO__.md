@@ -1,7 +1,14 @@
 * Développer le concept du "les mots sont des images (words are pictures)" et les utiliser à la place des images sur le site, pour le design.
 
 * [ANALYSES]
+  *
   * [BUG] Quand on enregistre le fichier pour la première fois, on doit le revoir tout de suite,
+    De toutes façons, on va peut-être plutôt utiliser l'éditeur général qu'on peut appeler par `require_folder './lib/utils/page_editor'\nPEditor.editor`
+    NOTE : le premier argument de `editor` doit permettre de définir les facilités qui seront offertes, par exemple pour pouvoir procéder à la collecte ou avoir des outils propres
+    aux pages de narration seulement, ou propres aux analyses, etc.
+    Faire aussi des listes pour choisir les mots, les pages, les films, les analyses,
+    en fait toutes les ressources du site qui vont produire les balises MOT[...],
+    PAGE[...], 
     alors que pour le moment on est obligé de faire "edit" pour le remettre dans le textarea
   * Regarder le problème au niveau des fichiers qui restent enregistrés dans files_analyses
   * Si l'user est analyste, ajouter les analyses auxquelles il contribue dans sa page de profil

@@ -33,8 +33,7 @@ class Narration
       c << '<div class="admin_edit_links">'
       c << "<a href=\"admin/narration/#{id}?op=edit_data\" target=\"_new\">data</a>"
       if type == :page
-        escaped_path = CGI.escape(md_file)
-        c << "<a href=\"admin/edit_text?path=#{escaped_path}\" target=\"_new\">text</a>"
+        c << "<a href=\"admin/narration/#{id}?op=edit_text\" target=\"_new\">text</a>"
       end
       c << '</div>'
       return c
